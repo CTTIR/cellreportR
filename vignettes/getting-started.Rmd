@@ -1,0 +1,83 @@
+---
+title: "Getting Started with cellreportR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with cellreportR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE, comment = "#>",
+  fig.width = 6, fig.height = 4
+)
+library(cellreportR)
+```
+
+cellreportR takes you from segmented single-cell microscopy data to a
+structured, publication-ready diagnostic report. This vignette walks
+through a full five-minute workflow using bundled synthetic data.
+
+## 1. Load example data
+
+The function `cr_example_experiment()` generates a realistic 96-well
+synthetic experiment with six treatment groups, four channels, and
+plate-edge / debris / contamination artefacts to exercise the QC
+pipeline.
+
+```{r example}
+exp <- cr_example_experiment(seed = 42, n_cells_per_well = 60)
+exp
+```
+
+## 2. Inspect the design
+
+```{r design}
+head(exp$design)
+summary(exp)
+```
+
+## 3. Apply quality control
+
+```{r qc}
+exp_qc <- exp |>
+  cr_qc_filter(min_area = 50, max_area = 5000, min_circularity = 0.2) |>
+  cr_qc_doublets(k = 2.5)
+cr_qc_summary(exp_qc)
+```
+
+## 4. Compute fold changes and run tests
+
+```{r analysis}
+res <- cr_test_all(exp_qc,
+                   channel = "marker_1",
+                   control_group = "Untreated",
+                   level = "replicate")
+attr(res, "summary")
+```
+
+## 5. Visualize
+
+```{r plots}
+cr_plot_intensity(exp_qc, "marker_1")
+cr_plot_effect_sizes(res)
+cr_plot_foldchange(res)
+```
+
+## 6. Logistic regression and ROC
+
+```{r logistic}
+logit <- cr_logistic(exp_qc,
+                     channel = "marker_1",
+                     treatment = "CompoundA_high",
+                     control = "Untreated")
+cr_plot_roc(logit)
+```
+
+## 7. Next steps
+
+- See `vignette("statistical-analysis")` for details on the choice
+  between cell-level and replicate-level tests.
+- See `vignette("dose-response")` for IC50/EC50 fitting.
+- Run `cr_run_app()` to explore your data interactively.

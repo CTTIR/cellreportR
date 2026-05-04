@@ -1,0 +1,55 @@
+Package: cellreportR
+Title: Cell Culture Microscopy Assay Analysis and Reporting
+Version: 0.1.0
+Authors@R: person("Raban", "Heller", email = "raban.heller@charite.de",
+    role = c("aut", "cre"), comment = c(ORCID = "0000-0001-8006-9742"))
+Description: Provides a complete pipeline for analyzing cell culture-based
+    laboratory assays evaluated by microscopy. Starting from segmented
+    single-cell data (e.g. from 'segmantR'), the package handles
+    experimental design specification, fluorescence intensity
+    quantification, quality control, normalization, hierarchical
+    statistical testing at cell and replicate level, effect size
+    estimation, logistic regression for discriminability analysis, and
+    generation of structured diagnostic reports. Includes an interactive
+    'shiny' application for guided analysis, result exploration, and
+    report export.
+License: MIT + file LICENSE
+URL: https://github.com/r-heller/cellreportR,
+    https://r-heller.github.io/cellreportR/
+BugReports: https://github.com/r-heller/cellreportR/issues
+Depends:
+    R (>= 4.1.0)
+Imports:
+    cli,
+    dplyr,
+    ggplot2,
+    pROC,
+    readr,
+    readxl,
+    rlang,
+    scales,
+    shiny,
+    stats,
+    tibble,
+    tidyr,
+    utils
+Suggests:
+    bslib,
+    covr,
+    DT,
+    flowCore,
+    knitr,
+    plotly,
+    rmarkdown,
+    shinytest2,
+    shinyWidgets,
+    sva,
+    testthat (>= 3.0.0),
+    withr,
+    writexl
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+Encoding: UTF-8
+Language: en-US
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3

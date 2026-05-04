@@ -1,0 +1,132 @@
+url: https://r-heller.github.io/cellreportR/
+
+template:
+  bootstrap: 5
+  bslib:
+    primary: "#7B2D8E"
+    bg: "#FFFFFF"
+    fg: "#2C2C2C"
+
+reference:
+  - title: "Import & Build"
+    contents:
+      - cr_read_cells
+      - cr_read_design
+      - cr_read_cellprofiler
+      - cr_read_qupath
+      - cr_read_segmantr
+      - cr_build_experiment
+      - cr_validate_experiment
+
+  - title: "Quality Control"
+    contents:
+      - cr_qc_filter
+      - cr_qc_doublets
+      - cr_qc_intensity
+      - cr_qc_manual
+      - cr_qc_summary
+
+  - title: "Normalization"
+    contents:
+      - cr_normalize
+      - cr_background_subtract
+      - cr_correct_batch
+
+  - title: "Quantification"
+    contents:
+      - cr_summarize_wells
+      - cr_fold_change
+      - cr_compute_metrics
+
+  - title: "Statistical Analysis"
+    contents:
+      - cr_test
+      - cr_test_all
+      - cr_effect_size
+      - cr_power_analysis
+
+  - title: "Discriminability"
+    contents:
+      - cr_logistic
+      - cr_roc
+      - cr_auc
+      - cr_confusion_matrix
+
+  - title: "Dose-Response"
+    contents:
+      - cr_dose_response
+      - cr_ic50
+
+  - title: "Visualization"
+    contents:
+      - cr_plot_plate
+      - cr_plot_intensity
+      - cr_plot_scatter
+      - cr_plot_histogram
+      - cr_plot_foldchange
+      - cr_plot_effect_sizes
+      - cr_plot_roc
+      - cr_plot_dose_response
+      - cr_plot_qc
+      - cr_plot_spatial
+      - cr_plot_comparison
+      - cr_plot_heatmap
+      - cr_plot_timeline
+
+  - title: "Reporting"
+    contents:
+      - cr_report
+      - cr_export_results
+      - cr_export_plots
+
+  - title: "Shiny App"
+    contents:
+      - cr_run_app
+
+  - title: "Example Data"
+    contents:
+      - cr_example_experiment
+      - cr_example_design
+      - cr_example_files
+
+  - title: "Utilities"
+    contents:
+      - cr_well_to_rowcol
+      - cr_rowcol_to_well
+      - cr_channels
+      - cr_n_cells
+      - cr_filter_cells
+      - cr_merge_experiments
+
+  - title: "S3 methods"
+    contents:
+      - print.cr_experiment
+      - summary.cr_experiment
+      - print.cr_result
+      - summary.cr_result
+      - print.cr_report
+      - summary.cr_report
+
+articles:
+  - title: "Getting Started"
+    contents:
+      - getting-started
+  - title: "Analysis Guides"
+    contents:
+      - statistical-analysis
+      - dose-response
+  - title: "Shiny App"
+    contents:
+      - shiny-app
+
+navbar:
+  structure:
+    left: [home, reference, articles, news]
+    right: [github]
+  components:
+    home:
+      icon: fa-home
+      href: index.html
+    github:
+      icon: fa-github
+      href: https://github.com/r-heller/cellreportR

@@ -1,0 +1,98 @@
+---
+title: "Statistical Analysis of Cell-Based Assays"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Statistical Analysis of Cell-Based Assays}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(cellreportR)
+```
+
+## Why hierarchical testing matters
+
+In a microscopy-based cell assay, each treatment condition is measured
+across several wells, and each well contains many individual cells.
+Cells are not independent: their fluorescence is correlated within a
+well (shared staining, focus, exposure). Treating every cell as an
+independent replicate inflates sample size and gives optimistic
+p-values.
+
+cellreportR supports two standard resolutions:
+
+- **Cell-level** tests treat each cell as a data point. Use these for
+  distributional comparisons (e.g. is there a subpopulation shift).
+- **Replicate-level** tests aggregate cells to one number per well,
+  then test wells. Use these for the primary inference about whether
+  a compound has an effect.
+
+A defensible workflow is to run both and report effect size with CI
+alongside p-values at the replicate level.
+
+## A worked example
+
+```{r workflow}
+exp <- cr_example_experiment(seed = 2, n_cells_per_well = 60)
+res <- cr_test(exp, "marker_1", "CompoundA_high", "Untreated",
+               test = "mann_whitney", level = "both")
+res$cell_level
+res$rep_level
+res$effect_sizes
+```
+
+Notice that the cell-level p-value is much smaller than the
+replicate-level p-value — a consequence of the inflated sample
+size.
+
+## Effect size interpretation
+
+cellreportR computes Cohen's d, Hedges' g, Cliff's delta and
+rank-biserial correlation. Conventional benchmarks:
+
+- |d| < 0.2 — negligible
+- 0.2 ≤ |d| < 0.5 — small
+- 0.5 ≤ |d| < 0.8 — medium
+- |d| ≥ 0.8 — large
+
+Cliff's delta benchmarks are 0.147 / 0.33 / 0.474.
+
+```{r effectsize}
+set.seed(1)
+cr_effect_size(rnorm(100, 1), rnorm(100, 0))
+```
+
+## ROC / AUC for discriminability
+
+When the question is "does this marker discriminate treated from
+control cells?", fit a univariate logistic regression:
+
+```{r roc}
+logit <- cr_logistic(exp, "marker_1", "CompoundA_high", "Untreated")
+cr_auc(logit)
+cr_plot_roc(logit)
+```
+
+## Multiple testing correction
+
+`cr_test_all()` applies `stats::p.adjust()` by default with the
+Benjamini-Hochberg method:
+
+```{r adjust}
+all_res <- cr_test_all(exp, "marker_1", "Untreated",
+                       level = "replicate")
+attr(all_res, "summary")
+```
+
+## Power considerations
+
+A quick hierarchical-aware power check:
+
+```{r power}
+cr_power_analysis(effect_size = 0.8,
+                  n_replicates = 4,
+                  n_cells_per_rep = 100,
+                  n_sim = 200)
+```

@@ -1,0 +1,107 @@
+---
+title: "`r params$title`"
+author: "`r params$author`"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    theme:
+      bootswatch: cerulean
+      primary: "#7B2D8E"
+params:
+  experiment: NULL
+  results: NULL
+  title: "cellreportR analysis report"
+  author: ""
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE, message = FALSE, warning = FALSE,
+  fig.width = 7, fig.height = 4.5, dpi = 100
+)
+experiment <- params$experiment
+results <- params$results
+```
+
+## Experimental setup
+
+```{r setup-table}
+spatial <- experiment$spatial_unit
+cat(sprintf(
+  "Cells: **%d** across **%d** %ss  \nChannels: **%s**  \nTreatments: %s\n",
+  nrow(experiment$cells),
+  length(unique(experiment$cells[[spatial]])),
+  spatial,
+  paste(experiment$channels$channel, collapse = ", "),
+  paste(unique(experiment$design$treatment), collapse = ", ")
+))
+```
+
+### Design preview
+
+```{r design}
+knitr::kable(utils::head(experiment$design, 20))
+```
+
+### Channel panel
+
+```{r channels}
+knitr::kable(experiment$channels)
+```
+
+## Quality control
+
+```{r qc}
+if (nrow(experiment$qc_log)) {
+  knitr::kable(experiment$qc_log)
+} else {
+  cat("_No QC steps applied._\n")
+}
+```
+
+```{r qc-plot}
+cellreportR::cr_plot_qc(experiment)
+```
+
+## Intensity overview
+
+```{r intensity-panels}
+for (ch in experiment$channels$channel) {
+  print(cellreportR::cr_plot_intensity(experiment, ch))
+}
+```
+
+## Results summary
+
+```{r summary}
+if (length(results)) {
+  summ <- attr(results, "summary")
+  if (!is.null(summ)) {
+    knitr::kable(summ, digits = 4)
+  }
+} else {
+  cat("_No statistical analyses included._\n")
+}
+```
+
+```{r effect-size-plot, eval = length(results) > 0}
+cellreportR::cr_plot_effect_sizes(results)
+```
+
+```{r foldchange-plot, eval = length(results) > 0}
+cellreportR::cr_plot_foldchange(results)
+```
+
+## Plate overview
+
+```{r plate}
+cellreportR::cr_plot_plate(experiment, experiment$channels$channel[1])
+```
+
+## Session info
+
+```{r session, results = "markup"}
+utils::sessionInfo()
+```

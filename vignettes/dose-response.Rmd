@@ -1,0 +1,64 @@
+---
+title: "Dose-Response Analysis"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Dose-Response Analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>",
+                      fig.width = 6, fig.height = 4)
+library(cellreportR)
+```
+
+cellreportR fits three standard dose-response models:
+
+- **4PL** (four-parameter log-logistic)
+- **3PL** (fixed lower asymptote at zero)
+- **Linear** (for convenience; fits `y ~ x`)
+
+## Setting up a dose-response experiment
+
+Any `cr_experiment` with a `dose` column in `design` is eligible.
+
+```{r setup-doses}
+exp <- cr_example_experiment(seed = 3, n_cells_per_well = 60)
+exp$design$dose <- dplyr::case_when(
+  exp$design$treatment == "Untreated"      ~ 0.1,
+  exp$design$treatment == "CompoundA_low"  ~ 50,
+  exp$design$treatment == "CompoundA_high" ~ 500,
+  exp$design$treatment == "PosControl"     ~ 1000,
+  TRUE ~ 10
+)
+```
+
+## Fitting
+
+```{r fit}
+fit <- cr_dose_response(exp,
+                        channel = "marker_1",
+                        model = "4pl",
+                        log_dose = TRUE)
+fit$model
+fit$params
+```
+
+## IC50 / EC50
+
+```{r ic50}
+cr_ic50(fit)
+```
+
+## Plotting
+
+```{r plot-dr}
+cr_plot_dose_response(fit)
+```
+
+## Troubleshooting
+
+If `nls()` fails to converge (for example when there are very few
+dose levels), cellreportR falls back to a linear model. Check
+`fit$model` after fitting.
