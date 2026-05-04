@@ -11,6 +11,7 @@ cellreportR fits three standard dose-response models:
 Any `cr_experiment` with a `dose` column in `design` is eligible.
 
 ``` r
+
 exp <- cr_example_experiment(seed = 3, n_cells_per_well = 60)
 exp$design$dose <- dplyr::case_when(
   exp$design$treatment == "Untreated"      ~ 0.1,
@@ -24,6 +25,7 @@ exp$design$dose <- dplyr::case_when(
 ## Fitting
 
 ``` r
+
 fit <- cr_dose_response(exp,
                         channel = "marker_1",
                         model = "4pl",
@@ -43,6 +45,7 @@ fit$params
 ## IC50 / EC50
 
 ``` r
+
 cr_ic50(fit)
 #> # A tibble: 1 × 5
 #>   parameter   estimate ci_low ci_high units
@@ -53,6 +56,7 @@ cr_ic50(fit)
 ## Plotting
 
 ``` r
+
 cr_plot_dose_response(fit)
 ```
 

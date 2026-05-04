@@ -13,6 +13,7 @@ groups, four channels, and plate-edge / debris / contamination artefacts
 to exercise the QC pipeline.
 
 ``` r
+
 exp <- cr_example_experiment(seed = 42, n_cells_per_well = 60)
 exp
 #> ── cr_experiment ───────────────────────────────────────────────────────────────
@@ -26,6 +27,7 @@ exp
 ## 2. Inspect the design
 
 ``` r
+
 head(exp$design)
 #> # A tibble: 6 × 7
 #>   well  treatment  dose dose_unit group   replicate timepoint
@@ -51,6 +53,7 @@ summary(exp)
 ## 3. Apply quality control
 
 ``` r
+
 exp_qc <- exp |>
   cr_qc_filter(min_area = 50, max_area = 5000, min_circularity = 0.2) |>
   cr_qc_doublets(k = 2.5)
@@ -66,6 +69,7 @@ cr_qc_summary(exp_qc)
 ## 4. Compute fold changes and run tests
 
 ``` r
+
 res <- cr_test_all(exp_qc,
                    channel = "marker_1",
                    control_group = "Untreated",
@@ -84,18 +88,21 @@ attr(res, "summary")
 ## 5. Visualize
 
 ``` r
+
 cr_plot_intensity(exp_qc, "marker_1")
 ```
 
 ![](getting-started_files/figure-html/plots-1.png)
 
 ``` r
+
 cr_plot_effect_sizes(res)
 ```
 
 ![](getting-started_files/figure-html/plots-2.png)
 
 ``` r
+
 cr_plot_foldchange(res)
 ```
 
@@ -104,6 +111,7 @@ cr_plot_foldchange(res)
 ## 6. Logistic regression and ROC
 
 ``` r
+
 logit <- cr_logistic(exp_qc,
                      channel = "marker_1",
                      treatment = "CompoundA_high",

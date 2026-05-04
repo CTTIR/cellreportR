@@ -23,14 +23,15 @@ alongside p-values at the replicate level.
 ## A worked example
 
 ``` r
+
 exp <- cr_example_experiment(seed = 2, n_cells_per_well = 60)
 res <- cr_test(exp, "marker_1", "CompoundA_high", "Untreated",
                test = "mann_whitney", level = "both")
 res$cell_level
 #> # A tibble: 1 × 8
-#>   level test         statistic   p_value   n_x   n_y median_x median_y
-#>   <chr> <chr>            <dbl>     <dbl> <int> <int>    <dbl>    <dbl>
-#> 1 cell  mann_whitney    904417 3.33e-303   969   941    4143.     553.
+#>   level test         statistic p_value   n_x   n_y median_x median_y
+#>   <chr> <chr>            <dbl>   <dbl> <int> <int>    <dbl>    <dbl>
+#> 1 cell  mann_whitney    904417       0   969   941    4143.     553.
 res$rep_level
 #> # A tibble: 1 × 8
 #>   level     test         statistic    p_value   n_x   n_y median_x median_y
@@ -62,6 +63,7 @@ rank-biserial correlation. Conventional benchmarks:
 Cliff’s delta benchmarks are 0.147 / 0.33 / 0.474.
 
 ``` r
+
 set.seed(1)
 cr_effect_size(rnorm(100, 1), rnorm(100, 0))
 #> # A tibble: 4 × 5
@@ -79,6 +81,7 @@ When the question is “does this marker discriminate treated from control
 cells?”, fit a univariate logistic regression:
 
 ``` r
+
 logit <- cr_logistic(exp, "marker_1", "CompoundA_high", "Untreated")
 cr_auc(logit)
 #> # A tibble: 1 × 4
@@ -97,6 +100,7 @@ applies [`stats::p.adjust()`](https://rdrr.io/r/stats/p.adjust.html) by
 default with the Benjamini-Hochberg method:
 
 ``` r
+
 all_res <- cr_test_all(exp, "marker_1", "Untreated",
                        level = "replicate")
 attr(all_res, "summary")
@@ -115,6 +119,7 @@ attr(all_res, "summary")
 A quick hierarchical-aware power check:
 
 ``` r
+
 cr_power_analysis(effect_size = 0.8,
                   n_replicates = 4,
                   n_cells_per_rep = 100,
