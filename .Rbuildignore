@@ -16,3 +16,4 @@
 ^\.Rhistory$
 ^.*\.tar\.gz$
 ^.*\.Rcheck$
+^_pkgdown\.yml$
