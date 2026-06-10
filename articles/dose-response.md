@@ -50,7 +50,7 @@ cr_ic50(fit)
 #> # A tibble: 1 × 5
 #>   parameter   estimate ci_low ci_high units
 #>   <chr>          <dbl>  <dbl>   <dbl> <chr>
-#> 1 IC50      788211529.     NA      NA uM
+#> 1 IC50      788129966.     NA      NA uM
 ```
 
 ## Plotting
