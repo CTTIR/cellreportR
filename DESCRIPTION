@@ -14,9 +14,9 @@ Description: Provides a complete pipeline for analyzing cell culture-based
     'shiny' application for guided analysis, result exploration, and
     report export.
 License: MIT + file LICENSE
-URL: https://github.com/r-heller/cellreportR,
-    https://r-heller.github.io/cellreportR/
-BugReports: https://github.com/r-heller/cellreportR/issues
+URL: https://github.com/cttir/cellreportR,
+    https://cttir.github.io/cellreportR/
+BugReports: https://github.com/cttir/cellreportR/issues
 Depends:
     R (>= 4.1.0)
 Imports:

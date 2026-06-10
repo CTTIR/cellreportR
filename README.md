@@ -1,9 +1,9 @@
 # cellreportR <img src="man/figures/logo.png" align="right" height="139" alt="cellreportR logo" />
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/r-heller/cellreportR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-heller/cellreportR/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/r-heller/cellreportR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/r-heller/cellreportR)
-[![pkgdown](https://github.com/r-heller/cellreportR/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/r-heller/cellreportR/actions/workflows/pkgdown.yaml)
+[![R-CMD-check](https://github.com/cttir/cellreportR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/cttir/cellreportR/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/cttir/cellreportR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/cttir/cellreportR)
+[![pkgdown](https://github.com/cttir/cellreportR/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/cttir/cellreportR/actions/workflows/pkgdown.yaml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-purple.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
@@ -42,7 +42,7 @@ Cell culture -> Treatment -> Staining -> Microscopy -> Segmentation
 
 ```r
 # install.packages("pak")
-pak::pak("r-heller/cellreportR")
+pak::pak("cttir/cellreportR")
 ```
 
 ## Quick example
@@ -73,10 +73,10 @@ fitting, interactive visualisation and report generation.
 
 ## Documentation
 
-- [Getting Started](https://r-heller.github.io/cellreportR/articles/getting-started.html)
-- [Statistical Analysis](https://r-heller.github.io/cellreportR/articles/statistical-analysis.html)
-- [Dose-Response](https://r-heller.github.io/cellreportR/articles/dose-response.html)
-- [Shiny App Guide](https://r-heller.github.io/cellreportR/articles/shiny-app.html)
+- [Getting Started](https://cttir.github.io/cellreportR/articles/getting-started.html)
+- [Statistical Analysis](https://cttir.github.io/cellreportR/articles/statistical-analysis.html)
+- [Dose-Response](https://cttir.github.io/cellreportR/articles/dose-response.html)
+- [Shiny App Guide](https://cttir.github.io/cellreportR/articles/shiny-app.html)
 
 ## Citation
 
@@ -85,3 +85,16 @@ If you use cellreportR in your research, please cite the package:
 ```r
 citation("cellreportR")
 ```
+
+## Use of LLM tools
+
+Portions of this package were prepared with assistance from large language model tooling for
+narrowly defined, non-authorial tasks: copyediting, prose smoothing, Markdown/LaTeX formatting,
+scaffolding of boilerplate files (CI configs, build scripts), code refactoring. The tools used were [Chat AI](https://kisski.gwdg.de/leistungen/2-02-llm-service/),
+the LLM service of KISSKI (GWDG), and a self-hosted **Mistral Small (24B, Apache-2.0)** run locally via
+[Ollama](https://ollama.com/) and the `ollamar` R package — local inference only, with no data sent to
+third parties for the self-hosted model.
+
+All scientific claims, methodological choices, analyses, interpretations, and conclusions are the
+author's own. No LLM-generated text was incorporated without review and revision, and every reference
+was verified against its DOI, arXiv ID, or ISBN.
