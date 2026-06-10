@@ -13,7 +13,7 @@ cr_plot_effect_sizes(results, method = "cohens_d")
 - results:
 
   A single `cr_result`, a list of `cr_result`s (from
-  [`cr_test_all()`](https://r-heller.github.io/cellreportR/reference/cr_test_all.md))
+  [`cr_test_all()`](https://cttir.github.io/cellreportR/reference/cr_test_all.md))
   or a precomputed tibble with columns `treatment`, `method`,
   `estimate`, `ci_low`, `ci_high`.
 

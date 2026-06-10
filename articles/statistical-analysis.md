@@ -95,7 +95,7 @@ cr_plot_roc(logit)
 
 ## Multiple testing correction
 
-[`cr_test_all()`](https://r-heller.github.io/cellreportR/reference/cr_test_all.md)
+[`cr_test_all()`](https://cttir.github.io/cellreportR/reference/cr_test_all.md)
 applies [`stats::p.adjust()`](https://rdrr.io/r/stats/p.adjust.html) by
 default with the Benjamini-Hochberg method:
 

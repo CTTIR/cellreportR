@@ -6,9 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Getting Started with cellreportR • cellreportR</title>
-<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Inter-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Getting Started with cellreportR">
 </head>
@@ -16,7 +18,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">cellreportR</a>
 
@@ -35,7 +37,7 @@
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/r-heller/cellreportR"><span class="fa fa-github"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/cttir/cellreportR"><span class="fa fa-github"></span></a></li>
       </ul>
 </div>
 
@@ -51,7 +53,7 @@
       <img src="../logo.svg" class="logo" alt=""><h1>Getting Started with cellreportR</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/r-heller/cellreportR/blob/main/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/cttir/cellreportR/blob/main/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
       <div class="d-none name"><code>getting-started.Rmd</code></div>
     </div>
 
@@ -60,9 +62,9 @@
 <p>cellreportR takes you from segmented single-cell microscopy data to a
 structured, publication-ready diagnostic report. This vignette walks
 through a full five-minute workflow using bundled synthetic data.</p>
-<div class="section level2">
-<h2 id="load-example-data">1. Load example data<a class="anchor" aria-label="anchor" href="#load-example-data"></a>
-</h2>
+<div class="section level3">
+<h3 id="load-example-data">1. Load example data<a class="anchor" aria-label="anchor" href="#load-example-data"></a>
+</h3>
 <p>The function <code><a href="../reference/cr_example_experiment.html">cr_example_experiment()</a></code> generates a
 realistic 96-well synthetic experiment with six treatment groups, four
 channels, and plate-edge / debris / contamination artefacts to exercise
@@ -77,9 +79,9 @@ the QC pipeline.</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> QC steps applied: <span style="color: #0000BB;">0</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Metadata fields: <span style="color: #00BB00;">project</span> and <span style="color: #00BB00;">sop</span></span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="inspect-the-design">2. Inspect the design<a class="anchor" aria-label="anchor" href="#inspect-the-design"></a>
-</h2>
+<div class="section level3">
+<h3 id="inspect-the-design">2. Inspect the design<a class="anchor" aria-label="anchor" href="#inspect-the-design"></a>
+</h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">exp</span><span class="op">$</span><span class="va">design</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 7</span></span></span>
@@ -102,9 +104,9 @@ the QC pipeline.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> PosControl           16     924</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Untreated            16     971</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="apply-quality-control">3. Apply quality control<a class="anchor" aria-label="anchor" href="#apply-quality-control"></a>
-</h2>
+<div class="section level3">
+<h3 id="apply-quality-control">3. Apply quality control<a class="anchor" aria-label="anchor" href="#apply-quality-control"></a>
+</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp_qc</span> <span class="op">&lt;-</span> <span class="va">exp</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/cr_qc_filter.html">cr_qc_filter</a></span><span class="op">(</span>min_area <span class="op">=</span> <span class="fl">50</span>, max_area <span class="op">=</span> <span class="fl">5000</span>, min_circularity <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -117,9 +119,9 @@ the QC pipeline.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> cr_qc_doubl… method=ar…         <span style="text-decoration: underline;">5</span>442        <span style="text-decoration: underline;">5</span>440             2          0.036<span style="text-decoration: underline;">8</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: timestamp &lt;dttm&gt;</span></span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="compute-fold-changes-and-run-tests">4. Compute fold changes and run tests<a class="anchor" aria-label="anchor" href="#compute-fold-changes-and-run-tests"></a>
-</h2>
+<div class="section level3">
+<h3 id="compute-fold-changes-and-run-tests">4. Compute fold changes and run tests<a class="anchor" aria-label="anchor" href="#compute-fold-changes-and-run-tests"></a>
+</h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cr_test_all.html">cr_test_all</a></span><span class="op">(</span><span class="va">exp_qc</span>,</span>
 <span>                   channel <span class="op">=</span> <span class="st">"marker_1"</span>,</span>
@@ -135,9 +137,9 @@ the QC pipeline.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> CompoundA_ScavX   0.354 0.030<span style="text-decoration: underline;">2</span>       0.055<span style="text-decoration: underline;">4</span> 0.030<span style="text-decoration: underline;">2</span>     weak          </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> CompoundA_ScavY   0.690 0.000<span style="text-decoration: underline;">050</span>9    0.504  0.000<span style="text-decoration: underline;">063</span>6  moderate</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="visualize">5. Visualize<a class="anchor" aria-label="anchor" href="#visualize"></a>
-</h2>
+<div class="section level3">
+<h3 id="visualize">5. Visualize<a class="anchor" aria-label="anchor" href="#visualize"></a>
+</h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cr_plot_intensity.html">cr_plot_intensity</a></span><span class="op">(</span><span class="va">exp_qc</span>, <span class="st">"marker_1"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="getting-started_files/figure-html/plots-1.png" class="r-plt" alt="" width="576"></p>
@@ -148,9 +150,9 @@ the QC pipeline.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cr_plot_foldchange.html">cr_plot_foldchange</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code></pre></div>
 <p><img src="getting-started_files/figure-html/plots-3.png" class="r-plt" alt="" width="576"></p>
 </div>
-<div class="section level2">
-<h2 id="logistic-regression-and-roc">6. Logistic regression and ROC<a class="anchor" aria-label="anchor" href="#logistic-regression-and-roc"></a>
-</h2>
+<div class="section level3">
+<h3 id="logistic-regression-and-roc">6. Logistic regression and ROC<a class="anchor" aria-label="anchor" href="#logistic-regression-and-roc"></a>
+</h3>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">logit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cr_logistic.html">cr_logistic</a></span><span class="op">(</span><span class="va">exp_qc</span>,</span>
 <span>                     channel <span class="op">=</span> <span class="st">"marker_1"</span>,</span>
@@ -159,9 +161,9 @@ the QC pipeline.</p>
 <span><span class="fu"><a href="../reference/cr_plot_roc.html">cr_plot_roc</a></span><span class="op">(</span><span class="va">logit</span><span class="op">)</span></span></code></pre></div>
 <p><img src="getting-started_files/figure-html/logistic-1.png" class="r-plt" alt="" width="576"></p>
 </div>
-<div class="section level2">
-<h2 id="next-steps">7. Next steps<a class="anchor" aria-label="anchor" href="#next-steps"></a>
-</h2>
+<div class="section level3">
+<h3 id="next-steps">7. Next steps<a class="anchor" aria-label="anchor" href="#next-steps"></a>
+</h3>
 <ul>
 <li>See <code><a href="../articles/statistical-analysis.html">vignette("statistical-analysis")</a></code> for details on the
 choice between cell-level and replicate-level tests.</li>
@@ -170,6 +172,23 @@ fitting.</li>
 <li>Run <code><a href="../reference/cr_run_app.html">cr_run_app()</a></code> to explore your data
 interactively.</li>
 </ul>
+</div>
+<div class="section level2">
+<h2 id="use-of-llm-tools">Use of LLM tools<a class="anchor" aria-label="anchor" href="#use-of-llm-tools"></a>
+</h2>
+<p>Portions of this package were prepared with assistance from large
+language model tooling for narrowly defined, non-authorial tasks:
+copyediting, prose smoothing, Markdown/LaTeX formatting, scaffolding of
+boilerplate files (CI configs, build scripts), code refactoring. The
+tools used were <a href="https://kisski.gwdg.de/leistungen/2-02-llm-service/" class="external-link">Chat AI</a>,
+the LLM service of KISSKI (GWDG), and a self-hosted <strong>Mistral
+Small (24B, Apache-2.0)</strong> run locally via <a href="https://ollama.com/" class="external-link">Ollama</a> and the <code>ollamar</code> R
+package — local inference only, with no data sent to third parties for
+the self-hosted model.</p>
+<p>All scientific claims, methodological choices, analyses,
+interpretations, and conclusions are the author’s own. No LLM-generated
+text was incorporated without review and revision, and every reference
+was verified against its DOI, arXiv ID, or ISBN.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

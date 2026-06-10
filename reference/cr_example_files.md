@@ -18,7 +18,7 @@ cr_example_files(dir = tempdir(), seed = 42)
 - seed:
 
   Seed passed to
-  [`cr_example_experiment()`](https://r-heller.github.io/cellreportR/reference/cr_example_experiment.md).
+  [`cr_example_experiment()`](https://cttir.github.io/cellreportR/reference/cr_example_experiment.md).
 
 ## Value
 

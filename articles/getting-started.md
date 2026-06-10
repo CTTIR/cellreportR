@@ -4,10 +4,10 @@ cellreportR takes you from segmented single-cell microscopy data to a
 structured, publication-ready diagnostic report. This vignette walks
 through a full five-minute workflow using bundled synthetic data.
 
-## 1. Load example data
+### 1. Load example data
 
 The function
-[`cr_example_experiment()`](https://r-heller.github.io/cellreportR/reference/cr_example_experiment.md)
+[`cr_example_experiment()`](https://cttir.github.io/cellreportR/reference/cr_example_experiment.md)
 generates a realistic 96-well synthetic experiment with six treatment
 groups, four channels, and plate-edge / debris / contamination artefacts
 to exercise the QC pipeline.
@@ -24,7 +24,7 @@ exp
 #> ℹ Metadata fields: project and sop
 ```
 
-## 2. Inspect the design
+### 2. Inspect the design
 
 ``` r
 
@@ -50,7 +50,7 @@ summary(exp)
 #> 6 Untreated            16     971
 ```
 
-## 3. Apply quality control
+### 3. Apply quality control
 
 ``` r
 
@@ -66,7 +66,7 @@ cr_qc_summary(exp_qc)
 #> # ℹ 1 more variable: timestamp <dttm>
 ```
 
-## 4. Compute fold changes and run tests
+### 4. Compute fold changes and run tests
 
 ``` r
 
@@ -85,7 +85,7 @@ attr(res, "summary")
 #> 5 CompoundA_ScavY   0.690 0.0000509    0.504  0.0000636  moderate
 ```
 
-## 5. Visualize
+### 5. Visualize
 
 ``` r
 
@@ -108,7 +108,7 @@ cr_plot_foldchange(res)
 
 ![](getting-started_files/figure-html/plots-3.png)
 
-## 6. Logistic regression and ROC
+### 6. Logistic regression and ROC
 
 ``` r
 
@@ -121,15 +121,33 @@ cr_plot_roc(logit)
 
 ![](getting-started_files/figure-html/logistic-1.png)
 
-## 7. Next steps
+### 7. Next steps
 
 - See
-  [`vignette("statistical-analysis")`](https://r-heller.github.io/cellreportR/articles/statistical-analysis.md)
+  [`vignette("statistical-analysis")`](https://cttir.github.io/cellreportR/articles/statistical-analysis.md)
   for details on the choice between cell-level and replicate-level
   tests.
 - See
-  [`vignette("dose-response")`](https://r-heller.github.io/cellreportR/articles/dose-response.md)
+  [`vignette("dose-response")`](https://cttir.github.io/cellreportR/articles/dose-response.md)
   for IC50/EC50 fitting.
 - Run
-  [`cr_run_app()`](https://r-heller.github.io/cellreportR/reference/cr_run_app.md)
+  [`cr_run_app()`](https://cttir.github.io/cellreportR/reference/cr_run_app.md)
   to explore your data interactively.
+
+## Use of LLM tools
+
+Portions of this package were prepared with assistance from large
+language model tooling for narrowly defined, non-authorial tasks:
+copyediting, prose smoothing, Markdown/LaTeX formatting, scaffolding of
+boilerplate files (CI configs, build scripts), code refactoring. The
+tools used were [Chat
+AI](https://kisski.gwdg.de/leistungen/2-02-llm-service/), the LLM
+service of KISSKI (GWDG), and a self-hosted **Mistral Small (24B,
+Apache-2.0)** run locally via [Ollama](https://ollama.com/) and the
+`ollamar` R package — local inference only, with no data sent to third
+parties for the self-hosted model.
+
+All scientific claims, methodological choices, analyses,
+interpretations, and conclusions are the author’s own. No LLM-generated
+text was incorporated without review and revision, and every reference
+was verified against its DOI, arXiv ID, or ISBN.

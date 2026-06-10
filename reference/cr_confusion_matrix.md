@@ -13,7 +13,7 @@ cr_confusion_matrix(result, threshold = 0.5)
 - result:
 
   A `cr_result` from
-  [`cr_logistic()`](https://r-heller.github.io/cellreportR/reference/cr_logistic.md).
+  [`cr_logistic()`](https://cttir.github.io/cellreportR/reference/cr_logistic.md).
 
 - threshold:
 

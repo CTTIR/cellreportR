@@ -28,10 +28,10 @@ cr_report(
 - results:
 
   List of `cr_result` objects produced by
-  [`cr_test()`](https://r-heller.github.io/cellreportR/reference/cr_test.md),
-  [`cr_test_all()`](https://r-heller.github.io/cellreportR/reference/cr_test_all.md)
+  [`cr_test()`](https://cttir.github.io/cellreportR/reference/cr_test.md),
+  [`cr_test_all()`](https://cttir.github.io/cellreportR/reference/cr_test_all.md)
   or
-  [`cr_logistic()`](https://r-heller.github.io/cellreportR/reference/cr_logistic.md).
+  [`cr_logistic()`](https://cttir.github.io/cellreportR/reference/cr_logistic.md).
 
 - template:
 

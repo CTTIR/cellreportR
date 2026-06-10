@@ -46,7 +46,7 @@ A modified `cr_experiment`.
 ## Details
 
 - `"background"` subtracts per-well background via
-  [`cr_background_subtract()`](https://r-heller.github.io/cellreportR/reference/cr_background_subtract.md)
+  [`cr_background_subtract()`](https://cttir.github.io/cellreportR/reference/cr_background_subtract.md)
   (percentile method, 5th percentile).
 
 - `"control"` divides each cell's intensity by the median intensity of

@@ -13,7 +13,7 @@ cr_roc(result)
 - result:
 
   A `cr_result` produced by
-  [`cr_logistic()`](https://r-heller.github.io/cellreportR/reference/cr_logistic.md).
+  [`cr_logistic()`](https://cttir.github.io/cellreportR/reference/cr_logistic.md).
 
 ## Value
 

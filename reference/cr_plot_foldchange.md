@@ -13,7 +13,7 @@ cr_plot_foldchange(result)
 - result:
 
   A `cr_result`, a list of `cr_result`s (from
-  [`cr_test_all()`](https://r-heller.github.io/cellreportR/reference/cr_test_all.md)),
+  [`cr_test_all()`](https://cttir.github.io/cellreportR/reference/cr_test_all.md)),
   or a precomputed data frame with columns `treatment`,
   `median_log2_fc`.
 

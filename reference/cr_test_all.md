@@ -1,7 +1,7 @@
 # Test all treatments against a control group
 
 Runs
-[`cr_test()`](https://r-heller.github.io/cellreportR/reference/cr_test.md)
+[`cr_test()`](https://cttir.github.io/cellreportR/reference/cr_test.md)
 pairwise for every treatment versus the control and adjusts p-values
 across comparisons.
 
@@ -35,7 +35,7 @@ cr_test_all(
 - tests:
 
   Tests to run (see
-  [`cr_test()`](https://r-heller.github.io/cellreportR/reference/cr_test.md)).
+  [`cr_test()`](https://cttir.github.io/cellreportR/reference/cr_test.md)).
   First one is used for the summary p-value.
 
 - p_adjust:

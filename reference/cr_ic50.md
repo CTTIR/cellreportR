@@ -13,7 +13,7 @@ cr_ic50(fit, level = 0.95)
 - fit:
 
   A `cr_dose_response` returned by
-  [`cr_dose_response()`](https://r-heller.github.io/cellreportR/reference/cr_dose_response.md).
+  [`cr_dose_response()`](https://cttir.github.io/cellreportR/reference/cr_dose_response.md).
 
 - level:
 

@@ -13,7 +13,7 @@ cr_auc(result, ci_method = c("delong", "bootstrap"), n_boot = 1000)
 - result:
 
   A `cr_result` from
-  [`cr_logistic()`](https://r-heller.github.io/cellreportR/reference/cr_logistic.md).
+  [`cr_logistic()`](https://cttir.github.io/cellreportR/reference/cr_logistic.md).
 
 - ci_method:
 

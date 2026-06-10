@@ -40,7 +40,7 @@ cr_test(
   One of `"mann_whitney"`, `"t_test"`, `"welch"`, `"wilcoxon_signed"`,
   `"kruskal"`, `"anova"`. For two-group tests, the first four are valid.
   `"kruskal"` and `"anova"` can be used only with
-  [`cr_test_all()`](https://r-heller.github.io/cellreportR/reference/cr_test_all.md)
+  [`cr_test_all()`](https://cttir.github.io/cellreportR/reference/cr_test_all.md)
   where additional groups are compared together.
 
 - level:

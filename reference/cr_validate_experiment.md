@@ -1,7 +1,7 @@
 # Validate a `cr_experiment`
 
 Performs structural checks on a `cr_experiment`. Called automatically by
-[`cr_build_experiment()`](https://r-heller.github.io/cellreportR/reference/cr_build_experiment.md)
+[`cr_build_experiment()`](https://cttir.github.io/cellreportR/reference/cr_build_experiment.md)
 but can also be used to verify that manual modifications have not broken
 the object.
 
