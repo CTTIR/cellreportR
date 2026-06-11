@@ -1,8 +1,8 @@
 <svg width="500" height="580" viewBox="0 0 500 580" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="bgcr" x1="0" y1="0" x2="0.1" y2="1">
-      <stop offset="0%" stop-color="#0e0e18"/>
-      <stop offset="100%" stop-color="#080810"/>
+      <stop offset="0%" stop-color="#3C3489"/>
+      <stop offset="100%" stop-color="#3C3489"/>
     </linearGradient>
     <linearGradient id="plategrad" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#1a1a2e"/>
@@ -26,7 +26,7 @@
 
     <!-- Plate corner notch (top-left, as on real plates) -->
     <path d="M 82,158 Q 82,148 92,148 L 82,148 Z"
-      fill="#0e0e18" opacity="0.8"/>
+      fill="#3C3489" opacity="0.8"/>
 
     <!-- Row labels A–H (left side) -->
     <text font-family="monospace" font-size="7" fill="#555575" text-anchor="middle" x="94" y="172">A</text>
@@ -266,11 +266,8 @@
 
   <!-- Hex border — deep purple matching well accent -->
   <polygon points="250,30 455,145 455,375 250,490 45,375 45,145"
-    fill="none" stroke="#4a1a8a" stroke-width="11" stroke-linejoin="round"/>
+    fill="none" stroke="#534AB7" stroke-width="11" stroke-linejoin="round"/>
   <polygon points="250,44 441,153 441,367 250,476 59,367 59,153"
     fill="none" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round" opacity="0.6"/>
-
-  <!-- Package name -->
-  <text font-family="monospace" font-weight="700" font-size="24"
-    fill="#b39ddb" text-anchor="middle" x="250" y="545" letter-spacing="1">cellreportR</text>
+  
 </svg>
