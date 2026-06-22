@@ -1,5 +1,20 @@
 # Interactive Analysis with the cellreportR Shiny App
 
+[![R-CMD-check](https://github.com/r-heller/cellreportR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-heller/cellreportR/actions/workflows/R-CMD-check.yaml)
+[![pkgdown](https://github.com/r-heller/cellreportR/actions/workflows/pkgdown.yaml/badge.svg)](https://r-heller.github.io/cellreportR/)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/cellreportR)](https://CRAN.R-project.org/package=cellreportR)
+[![Codecov test
+coverage](https://codecov.io/gh/r-heller/cellreportR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/r-heller/cellreportR?branch=main)
+[![CRAN
+downloads](https://cranlogs.r-pkg.org/badges/cellreportR)](https://cran.r-project.org/package=cellreportR)
+[![CRAN downloads
+total](https://cranlogs.r-pkg.org/badges/grand-total/cellreportR)](https://cran.r-project.org/package=cellreportR)
+[![License:
+MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+
 The bundled Shiny application exposes the full cellreportR pipeline
 through seven guided tabs. It is intended for laboratory personnel
 without an R background.

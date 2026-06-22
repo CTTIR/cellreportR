@@ -53,13 +53,18 @@ for guided analysis by laboratory personnel.
 
 Useful links:
 
-- <https://github.com/r-heller/cellreportR>
+- <https://github.com/cttir/cellreportR>
 
-- <https://r-heller.github.io/cellreportR/>
+- <https://cttir.github.io/cellreportR/>
 
-- Report bugs at <https://github.com/r-heller/cellreportR/issues>
+- Report bugs at <https://github.com/cttir/cellreportR/issues>
 
 ## Author
 
-**Maintainer**: Raban Heller <raban.heller@charite.de>
+**Maintainer**: R. Heller <raban.heller@charite.de>
 ([ORCID](https://orcid.org/0000-0001-8006-9742))
+
+Authors:
+
+- R. Heller <raban.heller@charite.de>
+  ([ORCID](https://orcid.org/0000-0001-8006-9742))
