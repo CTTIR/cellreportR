@@ -9,3 +9,8 @@ inst/doc/
 DROPHERE/
 *.Rcheck/
 *.tar.gz
+*.tmp
+*.log
+*~
+*.bak
+*.orig
