@@ -1,0 +1,17 @@
+comment: false
+
+coverage:
+  status:
+    project:
+      default:
+        target: 85%
+        threshold: 1%
+    patch:
+      default:
+        target: auto
+        threshold: 1%
+
+ignore:
+  - "inst/shiny/**/*"   # interactive Shiny application (not unit-testable)
+  - "tests/**/*"
+  - "_coverage/**/*"

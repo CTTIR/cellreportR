@@ -1,10 +1,14 @@
 # cellreportR <img src="man/figures/logo.png" align="right" height="139" alt="cellreportR logo" />
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/cttir/cellreportR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/cttir/cellreportR/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/cttir/cellreportR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/cttir/cellreportR)
-[![pkgdown](https://github.com/cttir/cellreportR/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/cttir/cellreportR/actions/workflows/pkgdown.yaml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-purple.svg)](https://opensource.org/licenses/MIT)
+[![R-CMD-check](https://github.com/r-heller/cellreportR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-heller/cellreportR/actions/workflows/R-CMD-check.yaml)
+[![pkgdown](https://github.com/r-heller/cellreportR/actions/workflows/pkgdown.yaml/badge.svg)](https://r-heller.github.io/cellreportR/)
+[![CRAN status](https://www.r-pkg.org/badges/version/cellreportR)](https://CRAN.R-project.org/package=cellreportR)
+[![Codecov test coverage](https://codecov.io/gh/r-heller/cellreportR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/r-heller/cellreportR?branch=main)
+[![CRAN downloads](https://cranlogs.r-pkg.org/badges/cellreportR)](https://cran.r-project.org/package=cellreportR)
+[![CRAN downloads total](https://cranlogs.r-pkg.org/badges/grand-total/cellreportR)](https://cran.r-project.org/package=cellreportR)
+[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 **cellreportR** is a complete analysis and reporting pipeline for

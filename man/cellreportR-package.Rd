@@ -39,14 +39,19 @@ A companion interactive \pkg{shiny} application is available via
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/r-heller/cellreportR}
-  \item \url{https://r-heller.github.io/cellreportR/}
-  \item Report bugs at \url{https://github.com/r-heller/cellreportR/issues}
+  \item \url{https://github.com/cttir/cellreportR}
+  \item \url{https://cttir.github.io/cellreportR/}
+  \item Report bugs at \url{https://github.com/cttir/cellreportR/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Raban Heller \email{raban.heller@charite.de} (\href{https://orcid.org/0000-0001-8006-9742}{ORCID})
+\strong{Maintainer}: R. Heller \email{raban.heller@charite.de} (\href{https://orcid.org/0000-0001-8006-9742}{ORCID})
+
+Authors:
+\itemize{
+  \item R. Heller \email{raban.heller@charite.de} (\href{https://orcid.org/0000-0001-8006-9742}{ORCID})
+}
 
 }
 \keyword{internal}
