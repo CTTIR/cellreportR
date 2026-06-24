@@ -1,11 +1,11 @@
 # Interactive Analysis with the cellreportR Shiny App
 
-[![R-CMD-check](https://github.com/r-heller/cellreportR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-heller/cellreportR/actions/workflows/R-CMD-check.yaml)
-[![pkgdown](https://github.com/r-heller/cellreportR/actions/workflows/pkgdown.yaml/badge.svg)](https://r-heller.github.io/cellreportR/)
+[![R-CMD-check](https://github.com/CTTIR/cellreportR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CTTIR/cellreportR/actions/workflows/R-CMD-check.yaml)
+[![pkgdown](https://github.com/CTTIR/cellreportR/actions/workflows/pkgdown.yaml/badge.svg)](https://cttir.github.io/cellreportR/)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/cellreportR)](https://CRAN.R-project.org/package=cellreportR)
 [![Codecov test
-coverage](https://codecov.io/gh/r-heller/cellreportR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/r-heller/cellreportR?branch=main)
+coverage](https://codecov.io/gh/CTTIR/cellreportR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/CTTIR/cellreportR?branch=main)
 [![CRAN
 downloads](https://cranlogs.r-pkg.org/badges/cellreportR)](https://cran.r-project.org/package=cellreportR)
 [![CRAN downloads
