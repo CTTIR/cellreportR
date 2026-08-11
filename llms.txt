@@ -1,5 +1,7 @@
 # cellreportR
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21889928.svg)](https://doi.org/10.5281/zenodo.21889928)
+
 **cellreportR** is a complete analysis and reporting pipeline for
 routine cell-culture laboratory diagnostics with microscopic evaluation.
 It picks up where segmentation leaves off: segmented single-cell data
