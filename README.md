@@ -19,7 +19,7 @@ evaluation. It picks up where segmentation leaves off: segmented
 single-cell data flows in, and structured statistical analyses,
 quality-controlled results, and publication- and audit-ready reports
 flow out.
-
+ 
 ## Pipeline
 
 ```
