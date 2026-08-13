@@ -17,7 +17,12 @@ r <- params$report
 s <- r$spec
 `%||%` <- function(a,b) if(is.null(a)) b else a
 pairs <- cellreportR:::.cr_pairs
-k <- function(x) if(nrow(x)) knitr::kable(x,format=NULL,escape=TRUE,col.names=c("",""))
+k <- function(x) {
+  if (nrow(x)) cat(knitr::kable(x, format=NULL, escape=TRUE,
+                                col.names=c("", ""), row.names=FALSE),
+                   sep="\n")
+  invisible(NULL)
+}
 show_text <- function(x) if(cellreportR:::.cr_present(x)) cat(paste(cellreportR:::.cr_markdown_escape(x),collapse="\n\n"),"\n")
 ```
 

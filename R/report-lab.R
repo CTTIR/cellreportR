@@ -174,5 +174,5 @@ print.cr_lab_report <- function(x,...) { cat("<cr_lab_report>\n  Report:",x$spec
 .cr_pairs <- function(x, labels=NULL) {
   keep<-vapply(x,.cr_present,logical(1)); x<-x[keep]; if(!length(x)) return(data.frame())
   nms<-names(x); if(!is.null(labels)) nms<-ifelse(nms%in%names(labels),labels[nms],nms)
-  data.frame(Field=gsub("_"," ",tools::toTitleCase(nms)),Value=vapply(x,.cr_display,character(1)),check.names=FALSE)
+  data.frame(Field=gsub("_"," ",tools::toTitleCase(nms)),Value=vapply(x,.cr_display,character(1)),check.names=FALSE,row.names=NULL)
 }
