@@ -12,6 +12,53 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
+## Laboratory-style reporting
+
+cellreportR can construct a versioned report specification containing report
+identity, laboratory metadata, subject/specimen identifiers, finalized results,
+selected QC summaries, user-supplied interpretation, limitations,
+authorization metadata, custom fields, and technical provenance. The same
+report object is rendered programmatically or configured through the bundled
+Shiny application.
+
+The reporting layer does not calculate results, supply decision limits, infer
+classifications, or invent interpretation. Those values and policies remain
+explicit caller inputs. Structured report data can be reviewed before
+rendering and exported with a deterministic hash and machine-readable audit
+record.
+
+```r
+spec <- cellreportR::cr_report_spec(
+  report = list(report_id = "EXAMPLE-001", version = "1.0", status = "DRAFT"),
+  laboratory = list(name = "Example Laboratory"),
+  specimen = list(specimen_id = "SPECIMEN-001"),
+  examination = list(name = "Example assay"),
+  result = list(value = 1.42, unit = "a.u.", classification = "HIGH"),
+  interpretation = list(text = "User-supplied interpretation."),
+  authorization = list(authorized_by = "Example Authorizer")
+)
+report <- cellreportR::cr_lab_report(spec = spec)
+```
+
+## Publication-ready visual design
+
+Package figures use one restrained, colour-vision-conscious visual system with
+redundant shapes or line types for categorical distinctions. Colour and
+grayscale modes, standard manuscript/report dimensions, vector PDF/SVG export,
+and high-resolution PNG/TIFF export are available without changing plotted
+data.
+
+```r
+estimates <- data.frame(
+  group = c("Reference", "Group A", "Group B"),
+  estimate = c(0.1, 0.8, 1.3),
+  conf_low = c(-0.2, 0.3, 0.7),
+  conf_high = c(0.4, 1.3, 1.9)
+)
+p <- cellreportR::cr_plot_estimates(estimates, reference = 0)
+cellreportR::cr_save_figure(p, tempfile(fileext = ".pdf"), size = "single")
+```
+
 `cellreportR` is an analysis and reporting pipeline for cell culture
 assays read out by microscopy. It picks up where segmentation leaves off:
 segmented single-cell exports flow in, and quality-controlled estimates,

@@ -265,9 +265,14 @@
                             min = 3, max = 30, step = 0.5),
         shiny::numericInput("plot_dpi", "DPI", value = 600,
                             min = 72, max = 1200, step = 50),
+        shiny::selectInput("pub_mode","Appearance",choices=c("Colour"="colour","Grayscale"="grayscale")),
+        shiny::selectInput("pub_size","Publication size",choices=c("Single column"="single","Double column"="double","Report"="report","Square"="square")),
+        shiny::selectInput("pub_format","Publication format",choices=c("PDF"="pdf","SVG"="svg","TIFF"="tiff","PNG"="png")),
         shiny::actionButton("btn_queue_plot", "Queue for report",
                             class = "btn-primary w-100"),
         shiny::downloadButton("dl_plot", "Download figure (png)",
+                              class = "w-100 mt-1"),
+        shiny::downloadButton("dl_pub_figure", "Publication figure",
                               class = "w-100 mt-1")
       ),
       shiny::plotOutput("plt_view", height = "520px")
@@ -316,6 +321,71 @@
           bslib::card_header("Queued figures"),
           DT::DTOutput("tbl_queued")
         )
+      )
+    )
+  )
+}
+
+.cr_panel_lab_report <- function() {
+  section <- function(title, ...) bslib::accordion_panel(title, ...)
+  bslib::nav_panel(
+    "Laboratory report",
+    bslib::layout_columns(
+      col_widths=c(7,5),
+      bslib::card(
+        bslib::card_header("Report data"),
+        bslib::accordion(
+          id="lab_sections", open=FALSE,
+          section("1. Report",
+            shiny::textInput("lab_title","Report title","Laboratory Report"),
+            shiny::textInput("lab_id","Report ID"),
+            shiny::textInput("lab_version","Version","1.0"),
+            shiny::selectInput("lab_status","Status",choices=c("DRAFT","REVIEWED","FINAL","AMENDED","CANCELLED")),
+            shiny::dateInput("lab_created","Created date",value=Sys.Date()),
+            shiny::textInput("lab_supersedes","Supersedes report"),
+            shiny::textAreaInput("lab_amendment","Amendment reason")),
+          section("2. Laboratory",
+            shiny::textInput("lab_name","Laboratory name"), shiny::textInput("lab_department","Department"),
+            shiny::textAreaInput("lab_address","Address"), shiny::textInput("lab_phone","Phone"), shiny::textInput("lab_email","Email"),
+            shiny::textAreaInput("lab_accreditation","Accreditation text"), shiny::textInput("lab_accreditation_id","Accreditation identifier"),
+            shiny::fileInput("lab_logo","Optional logo",accept=c(".png",".jpg",".jpeg"))),
+          section("3. Subject / case",
+            shiny::textInput("lab_subject_id","Subject ID"), shiny::textInput("lab_case_id","Case ID"), shiny::textInput("lab_order_id","Order ID"),
+            shiny::textInput("lab_subject_name","Name"), shiny::dateInput("lab_dob","Date of birth",value=NULL), shiny::textInput("lab_sex","Sex / category")),
+          section("4. Specimen",
+            shiny::textInput("lab_specimen_id","Specimen ID"), shiny::textInput("lab_specimen_type","Specimen type"),
+            shiny::textInput("lab_collection","Collection date/time"), shiny::textInput("lab_received","Received date/time"), shiny::textInput("lab_condition","Condition"), shiny::textAreaInput("lab_specimen_comment","Comment")),
+          section("5. Examination",
+            shiny::textInput("lab_exam_name","Examination name"), shiny::textInput("lab_short_name","Short name"), shiny::textAreaInput("lab_method","Method"), shiny::textAreaInput("lab_intended_use","Intended use / purpose"),
+            shiny::textInput("lab_assay_version","Assay version"), shiny::textInput("lab_pipeline_version","Pipeline version"), shiny::textInput("lab_qc_version","QC ruleset version"), shiny::textInput("lab_interpretation_version","Interpretation ruleset version"),
+            shiny::textInput("lab_instrument_id","Instrument ID"), shiny::textInput("lab_instrument_name","Instrument name"), shiny::textInput("lab_instrument_software","Instrument software")),
+          section("6. Result",
+            shiny::radioButtons("lab_colour_mode","Figure mode",choices=c("Colour"="colour","Grayscale"="grayscale"),inline=TRUE),
+            shiny::checkboxInput("lab_show_result_graphic","Show result graphic",value=FALSE),
+            shiny::helpText("For a result graphic, provide pipe-separated thresholds and labels below."),
+            shiny::textInput("lab_thresholds","Thresholds",placeholder="1 | 2"),
+            shiny::textInput("lab_threshold_labels","Range labels",placeholder="Lower | Intermediate | Upper"),
+            shiny::radioButtons("lab_result_source","Result source",choices=c("Manual"="manual","Existing analysis result"="analysis"),inline=TRUE),
+            shiny::selectInput("lab_analysis_value","Existing numeric result",choices=c("(none)"="")),
+            shiny::numericInput("lab_value","Measured value",value=NA), shiny::textInput("lab_display_value","Display value"), shiny::textInput("lab_unit","Unit"),
+            shiny::textInput("lab_classification","Classification"), shiny::textInput("lab_reference","Reference"), shiny::textInput("lab_decision_limit","Decision limit"), shiny::textInput("lab_qc_status","QC status"), shiny::textAreaInput("lab_result_comment","Comment")),
+          section("7. Interpretation",
+            shiny::textAreaInput("lab_interpretation_summary","Interpretation summary"), shiny::textAreaInput("lab_interpretation_text","Interpretation"), shiny::textAreaInput("lab_recommendation","Recommendation")),
+          section("8. Quality control",
+            shiny::actionButton("btn_lab_use_qc","Use current QC log",class="w-100"),
+            shiny::helpText("One row per line: criterion | observed | acceptance | status"), shiny::textAreaInput("lab_qc_rows","Reportable QC rows",rows=5)),
+          section("9. Limitations",
+            shiny::helpText("Enter one limitation per line."), shiny::textAreaInput("lab_limitations","Limitations",rows=5)),
+          section("10. Authorization",
+            shiny::textInput("lab_reviewed_by","Reviewed by"), shiny::textInput("lab_reviewer_role","Reviewer role"), shiny::textInput("lab_authorized_by","Authorized by"), shiny::textInput("lab_authorizer_role","Authorizer role"), shiny::textInput("lab_released_at","Release date/time"), shiny::textAreaInput("lab_electronic_release","Electronic release text")),
+          section("11. Additional fields",
+            shiny::helpText("One row per line: label | value. Labels must be unique."), shiny::textAreaInput("lab_custom_fields","Custom fields",rows=5))
+        )
+      ),
+      shiny::tagList(
+        bslib::card(bslib::card_header("Report readiness"),shiny::uiOutput("lab_validation"),shiny::actionButton("btn_lab_validate","Validate report",class="btn-primary w-100")),
+        bslib::card(bslib::card_header("Preview"),shiny::uiOutput("lab_preview"),shiny::plotOutput("lab_result_plot",height="150px")),
+        bslib::card(bslib::card_header("Export"),shiny::uiOutput("lab_exports"))
       )
     )
   )

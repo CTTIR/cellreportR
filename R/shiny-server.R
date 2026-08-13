@@ -21,6 +21,8 @@
     results = NULL,
     plots = list(),
     before = NULL,
+    report_spec = NULL,
+    lab_report = NULL,
     log = character(0)
   )
 }
@@ -69,11 +71,13 @@
 }
 
 
-.cr_app_server <- function(input, output, session, experiment = NULL) {
+.cr_app_server <- function(input, output, session, experiment = NULL,
+                           report_spec = NULL) {
   # `state` stays a local of the server function so that a test driving
   # it with shiny::testServer() can read the app's whole state directly.
   state <- .cr_app_state()
   ctx <- .cr_app_context(state)
+  state$report_spec <- report_spec %||% cr_report_spec()
   if (!is.null(experiment)) {
     ctx$set(experiment)
   }
@@ -88,8 +92,10 @@
   dose <- .cr_srv_dose(input, output, session, ctx)
   figure <- .cr_srv_figures(input, output, session, ctx)
   report <- .cr_srv_report(input, output, session, ctx)
+  lab_report <- .cr_srv_lab_report(input, output, session, ctx)
   .cr_srv_downloads(input, output, session, ctx, forest = forest,
-                    figure = figure, dose = dose, report = report)
+                    figure = figure, dose = dose, report = report,
+                    lab_report = lab_report)
 
   # The context is returned so that a wrapper of the exact shape
   # shiny::testServer() insists on -- (input, output, session) and

@@ -22,6 +22,8 @@
 #'   built and handed to the server through the app object, so no
 #'   global state is involved. When `NULL` (default) the app starts
 #'   empty and offers synthetic example data.
+#' @param report_spec Optional [cr_report_spec()] used to pre-populate the
+#'   laboratory-report workflow.
 #' @param max_upload_mb Numeric. Maximum upload size per request, in
 #'   megabytes. Segmented single-cell exports routinely exceed the
 #'   Shiny default of 5 MB; this argument raises the limit for the
@@ -49,6 +51,7 @@
 #' @family cellreportR-app
 #' @export
 cr_run_app <- function(experiment = NULL,
+                       report_spec = NULL,
                        max_upload_mb = 512,
                        launch_browser = interactive(),
                        ...) {
@@ -70,9 +73,10 @@ cr_run_app <- function(experiment = NULL,
   if (!is.null(experiment)) {
     cr_validate_experiment(experiment)
   }
+  if (!is.null(report_spec)) cr_validate_report_spec(report_spec, strict = FALSE)
   old <- options(shiny.maxRequestSize = max_upload_mb * 1024^2)
   on.exit(options(old), add = TRUE)
-  invisible(shiny::runApp(.cr_app(experiment),
+  invisible(shiny::runApp(.cr_app(experiment, report_spec),
                           launch.browser = launch_browser, ...))
 }
 
@@ -80,11 +84,12 @@ cr_run_app <- function(experiment = NULL,
 # Build (but do not run) the Shiny app object. Shared by cr_run_app(),
 # by the deployment shim in inst/shiny/cellreportR/app.R and by the
 # shinytest2 harness under tests/testthat/apps/cellreportR/.
-.cr_app <- function(experiment = NULL) {
+.cr_app <- function(experiment = NULL, report_spec = NULL) {
   shiny::shinyApp(
     ui = .cr_app_ui(),
     server = function(input, output, session) {
-      .cr_app_server(input, output, session, experiment = experiment)
+      .cr_app_server(input, output, session, experiment = experiment,
+                     report_spec = report_spec)
     }
   )
 }

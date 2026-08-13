@@ -114,11 +114,13 @@ cr_plot_roc <- function(result) {
   df <- .cr_roc_df(result)
   label_df <- unique(df[, c("name", "auc")])
   ggplot2::ggplot(df, ggplot2::aes(x = .data$fpr, y = .data$tpr,
-                                   colour = .data$name)) +
+                                   colour = .data$name,
+                                   linetype = .data$name)) +
     ggplot2::geom_abline(slope = 1, intercept = 0, colour = "grey60",
                          linetype = 2) +
     ggplot2::geom_path(linewidth = 1) +
-    cr_scale_group("colour", name = NULL) +
+    cr_scale_group(c("colour", "linetype"), name = NULL,
+                   guide_for = "all") +
     ggplot2::labs(x = "False Positive Rate",
                   y = "True Positive Rate",
                   colour = NULL,

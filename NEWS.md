@@ -1,3 +1,19 @@
+# cellreportR 0.2.0.9000
+
+* Added a domain-neutral laboratory reporting layer built around versioned
+  `cr_report_spec` and `cr_lab_report` objects, strict/non-strict validation,
+  concise QC tables, explicit classification helpers, JSON interchange,
+  deterministic structured-data hashes, audit provenance, and a separate
+  PDF/HTML template.
+* Added a laboratory-report workflow to the existing Shiny application. It
+  uses the programmatic report objects, supports pre-population, preview,
+  validation, and PDF/specification/audit downloads without logging sensitive
+  free-text field contents.
+* Extended the centralized figure design system with colour and grayscale
+  modes, stable line types and manual scales, plot-style objects, standard
+  figure dimensions, deterministic PDF/SVG/PNG/TIFF export, estimate and QC
+  plots, and centralized interval, percentage, and p-value formatting.
+
 # cellreportR 0.2.0
 
 Rescopes the package from a single-plate assay helper to a full screening

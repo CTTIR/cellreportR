@@ -8,7 +8,8 @@ cr_scale_group(
   aesthetics = c("colour", "fill", "shape"),
   name = NULL,
   guide_for = NULL,
-  drop = TRUE
+  drop = TRUE,
+  mode = c("colour", "grayscale")
 )
 }
 \arguments{
@@ -24,6 +25,8 @@ which is the one drawn on top.}
 
 \item{drop}{Passed to the underlying scales: drop unused factor levels
 (default \code{TRUE}).}
+
+\item{mode}{Colour or grayscale palette for colour/fill aesthetics.}
 }
 \value{
 A list of \code{ggplot2} scales.

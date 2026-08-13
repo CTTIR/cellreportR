@@ -50,6 +50,7 @@
 #' @param names Optional character vector of names to attach to the returned
 #'   colours, for use as the `values` argument of a manual scale. Must have
 #'   the same length as the result.
+#' @param mode `"colour"` or a monotonically separated `"grayscale"` palette.
 #' @return A character vector of hex colour strings, named when `names` is
 #'   supplied or when the whole qualitative palette is returned.
 #' @seealso [cr_shapes()], [cr_scale_group()], [cr_theme()]
@@ -62,8 +63,9 @@
 #' cr_palette(7, type = "diverging")
 cr_palette <- function(n = NULL,
                        type = c("qualitative", "sequential", "diverging"),
-                       names = NULL) {
+                       names = NULL, mode = c("colour", "grayscale")) {
   type <- match.arg(type)
+  mode <- match.arg(mode)
   if (!is.null(n)) {
     if (!is.numeric(n) || length(n) != 1L || is.na(n) || n < 1) {
       cli::cli_abort("{.arg n} must be a single positive number.")
@@ -71,7 +73,10 @@ cr_palette <- function(n = NULL,
     n <- as.integer(n)
   }
 
-  out <- switch(
+  out <- if (mode == "grayscale") {
+    grDevices::gray.colors(if (is.null(n)) if(type=="qualitative") 8L else 256L else n,
+                           start=0.15,end=0.8,gamma=2.2)
+  } else switch(
     type,
     qualitative = .cr_qualitative(n),
     sequential = scales::colour_ramp(
@@ -168,10 +173,11 @@ cr_shapes <- function(n = NULL, names = NULL) {
 #' muted subtitle and a bottom legend.
 #'
 #' @param base_size Base font size in points (default `11`).
-#' @param base_family Base font family. Default `""` (the device default),
-#'   which keeps figures reproducible across machines.
+#' @param base_family Base font family. Default generic `"sans"`.
 #' @param grid Draw the faint major grid (default `TRUE`).
 #' @param legend_position Passed to [ggplot2::theme()]. Default `"bottom"`.
+#' @param variant `"publication"` or a tighter `"report"` layout.
+#' @param mode Colour or grayscale mode. Typography is shared across modes.
 #' @return A `ggplot2` theme object, usable with `+` like any other theme.
 #' @seealso [cr_palette()], [cr_scale_group()]
 #' @family plot design
@@ -181,8 +187,12 @@ cr_shapes <- function(n = NULL, names = NULL) {
 #' ggplot2::ggplot(df, ggplot2::aes(g, y)) +
 #'   ggplot2::geom_boxplot() +
 #'   cr_theme()
-cr_theme <- function(base_size = 11, base_family = "", grid = TRUE,
-                     legend_position = "bottom") {
+cr_theme <- function(base_size = 11, base_family = "sans", grid = TRUE,
+                     legend_position = "bottom",
+                     variant = c("publication", "report"),
+                     mode = c("colour", "grayscale")) {
+  variant <- match.arg(variant); mode <- match.arg(mode)
+  if (variant == "report" && missing(base_size)) base_size <- 9
   ggplot2::theme_classic(base_size = base_size, base_family = base_family) +
     ggplot2::theme(
       strip.background = ggplot2::element_rect(fill = "grey92", colour = NA),
@@ -202,6 +212,10 @@ cr_theme <- function(base_size = 11, base_family = "", grid = TRUE,
         ggplot2::element_blank()
       },
       panel.grid.minor = ggplot2::element_blank()
+      ,plot.margin = ggplot2::margin(if(variant=="report") 4 else 6,
+                                     if(variant=="report") 5 else 7,
+                                     if(variant=="report") 4 else 6,
+                                     if(variant=="report") 5 else 7)
     )
 }
 
@@ -226,6 +240,7 @@ cr_theme <- function(base_size = 11, base_family = "", grid = TRUE,
 #'   which is the one drawn on top.
 #' @param drop Passed to the underlying scales: drop unused factor levels
 #'   (default `TRUE`).
+#' @param mode Colour or grayscale palette for colour/fill aesthetics.
 #' @return A list of `ggplot2` scales.
 #' @seealso [cr_palette()], [cr_shapes()], [cr_theme()]
 #' @family plot design
@@ -239,8 +254,9 @@ cr_theme <- function(base_size = 11, base_family = "", grid = TRUE,
 cr_scale_group <- function(aesthetics = c("colour", "fill", "shape"),
                            name = NULL,
                            guide_for = NULL,
-                           drop = TRUE) {
-  valid <- c("colour", "color", "fill", "shape")
+                           drop = TRUE, mode = c("colour", "grayscale")) {
+  mode <- match.arg(mode)
+  valid <- c("colour", "color", "fill", "shape", "linetype")
   bad <- setdiff(aesthetics, valid)
   if (length(bad)) {
     cli::cli_abort(c(
@@ -256,8 +272,10 @@ cr_scale_group <- function(aesthetics = c("colour", "fill", "shape"),
   lapply(aesthetics, function(a) {
     pal <- if (a == "shape") {
       function(n) cr_shapes(n)
+    } else if (a == "linetype") {
+      function(n) cr_linetypes(n)
     } else {
-      function(n) unname(cr_palette(n))
+      function(n) unname(cr_palette(n, mode=mode))
     }
     ggplot2::discrete_scale(
       aesthetics = a,

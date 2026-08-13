@@ -1,0 +1,89 @@
+---
+title: "`r params$report$spec$report$title`"
+output:
+  pdf_document:
+    toc: false
+  html_document:
+    toc: false
+params:
+  report: NULL
+geometry: margin=18mm
+fontsize: 10pt
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE,message=FALSE,warning=FALSE,fig.width=7,fig.height=1.6,dpi=120)
+r <- params$report
+s <- r$spec
+`%||%` <- function(a,b) if(is.null(a)) b else a
+pairs <- cellreportR:::.cr_pairs
+k <- function(x) if(nrow(x)) knitr::kable(x,format=NULL,escape=TRUE,col.names=c("",""))
+show_text <- function(x) if(cellreportR:::.cr_present(x)) cat(paste(cellreportR:::.cr_markdown_escape(x),collapse="\n\n"),"\n")
+```
+
+```{r header, results='asis'}
+if (cellreportR:::.cr_present(s$laboratory$logo) && file.exists(s$laboratory$logo)) knitr::include_graphics(s$laboratory$logo)
+k(pairs(list("Report ID"=s$report$report_id,"Version"=s$report$version,"Status"=s$report$status,"Created"=cellreportR:::.cr_iso(s$report$created_at),"Released"=cellreportR:::.cr_iso(s$report$released_at))))
+```
+
+```{r laboratory, results='asis'}
+lab <- pairs(s$laboratory[names(s$laboratory)!="logo"], s$field_labels)
+if(nrow(lab)){cat("## Laboratory\n\n");k(lab)}
+```
+
+```{r identities, results='asis'}
+for(nm in c("subject","specimen","examination")){tab<-pairs(s[[nm]],s$field_labels);if(nrow(tab)){cat("## ",tools::toTitleCase(nm),"\n\n",sep="");k(tab)}}
+```
+
+## Result
+
+```{r result, results='asis'}
+rr<-s$result
+display <- rr$display_value %||% if(cellreportR:::.cr_present(rr$value)) as.character(rr$value) else NULL
+if(cellreportR:::.cr_present(display)&&cellreportR:::.cr_present(rr$unit)) display<-paste(display,rr$unit)
+k(pairs(list("Classification"=rr$classification,"Measured value"=display,"Reference"=rr$reference,"Decision limit"=rr$decision_limit,"QC status"=rr$qc_status,"Comment"=rr$comment)))
+```
+
+```{r result-graphic, eval=!is.null(r$result_graphic)}
+print(r$result_graphic)
+```
+
+```{r interpretation, results='asis'}
+it<-s$interpretation
+if(any(vapply(it,cellreportR:::.cr_present,logical(1)))){cat("## Interpretation\n\n");if(cellreportR:::.cr_present(it$summary)) cat("**",cellreportR:::.cr_markdown_escape(it$summary),"**\n\n",sep="");show_text(it$text);if(cellreportR:::.cr_present(it$recommendation)){cat("\n**Recommendation**\n\n");show_text(it$recommendation)};if(cellreportR:::.cr_present(it$comment)){cat("\n**Comment**\n\n");show_text(it$comment)}}
+```
+
+```{r qc, results='asis'}
+if(nrow(r$qc)){cat("## Quality control summary\n\n");knitr::kable(r$qc[c("criterion","observed","acceptance","status")],escape=TRUE)}
+```
+
+```{r traceability, results='asis'}
+trace<-pairs(list("Assay version"=s$examination$assay_version,"Analysis pipeline version"=s$examination$analysis_pipeline_version,"QC ruleset version"=s$examination$qc_ruleset_version,"Interpretation ruleset version"=s$examination$interpretation_ruleset_version,"Instrument ID"=s$examination$instrument_id,"cellreportR version"=as.character(utils::packageVersion("cellreportR")),"Template"=paste(r$template_name,r$template_version)))
+if(nrow(trace)){cat("## Method and traceability\n\n");k(trace)}
+```
+
+```{r limitations, results='asis'}
+if(length(s$limitations)){cat("## Limitations\n\n");cat(paste0("- ",cellreportR:::.cr_markdown_escape(s$limitations),collapse="\n"),"\n")}
+```
+
+```{r custom, results='asis'}
+tab<-pairs(s$custom_fields);if(nrow(tab)){cat("## Additional fields\n\n");k(tab)}
+for(sec in s$custom_sections){tab<-pairs(sec$fields);if(nrow(tab)){cat("## ",sec$title,"\n\n",sep="");k(tab)}}
+```
+
+```{r authorization, results='asis'}
+tab<-pairs(s$authorization);if(nrow(tab)){cat("## Authorization and release\n\n");k(tab)}
+```
+
+```{r amendment, results='asis'}
+if(identical(s$report$status,"AMENDED")){cat("## Amendment\n\n");k(pairs(list("Supersedes report"=s$report$supersedes_report_id,"Reason"=s$report$amendment_reason)))}
+```
+
+```{r audit, results='asis'}
+if(isTRUE(r$include_audit_appendix)){a<-cellreportR::cr_report_provenance(r$experiment,r);cat("\\newpage\n\n## Audit appendix\n\n");k(pairs(list("Report data hash"=a$report$report_data_hash,"Schema"=paste(s$schema_name,s$schema_version),"Package version"=a$software$package_version,"R version"=a$software$r_version)))}
+```
+
+---
+
+Report ID: `r s$report$report_id %||% ""` · Version: `r s$report$version` · Status: `r s$report$status`  
+Generated with cellreportR `r as.character(utils::packageVersion("cellreportR"))` · Template: `r r$template_name` `r r$template_version`

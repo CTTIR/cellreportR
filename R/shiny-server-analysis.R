@@ -229,10 +229,11 @@
     )
   })
 
-  output$plt_view <- shiny::renderPlot(current_plot())
+  display_plot <- shiny::reactive({ p<-current_plot(); if(identical(input$pub_mode,"grayscale")) cr_plot_to_grayscale(p) else p })
+  output$plt_view <- shiny::renderPlot(display_plot())
 
   shiny::observeEvent(input$btn_queue_plot, {
-    p <- current_plot()
+    p <- display_plot()
     shiny::req(p)
     nm <- paste(input$plot_type %||% "figure", input$sel_channel %||% "",
                 sep = "_")
@@ -246,7 +247,7 @@
     .cr_dt(tibble::tibble(figure = names(state$plots) %||% character(0)))
   })
 
-  current_plot
+  display_plot
 }
 
 

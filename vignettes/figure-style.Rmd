@@ -1,0 +1,53 @@
+---
+title: "Publication-ready figures with cellreportR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Publication-ready figures with cellreportR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.width=6,fig.height=3.6)
+```
+
+cellreportR uses position first, then shape or line type, then colour. Colour is
+intentionally redundant for categorical distinctions. The restrained default
+palette is designed with common colour-vision deficiencies in mind, without a
+claim of formal accessibility certification.
+
+```{r scales}
+cellreportR::cr_palette()
+cellreportR::cr_shapes(4)
+cellreportR::cr_linetypes(4)
+cellreportR::cr_plot_style("grayscale")
+```
+
+```{r estimates}
+d <- data.frame(group=factor(c("Reference","Group A","Group B"),levels=c("Reference","Group A","Group B")),estimate=c(0.1,0.8,1.3),conf_low=c(-0.2,0.3,0.7),conf_high=c(0.4,1.3,1.9))
+cellreportR::cr_plot_estimates(d,reference=0,colour_mode="colour")
+cellreportR::cr_plot_estimates(d,reference=0,colour_mode="grayscale")
+```
+
+```{r result-position}
+cellreportR::cr_plot_result_position(1.42,c(1,2),c("Lower","Intermediate","Upper"),unit="a.u.",classification="HIGH",mode="grayscale")
+```
+
+```{r qc}
+qc <- cellreportR::cr_report_qc(c("Criterion A","Criterion B"),c("met","review"),c("Configured criteria","Configured criteria"),c("PASS","WARN"))
+cellreportR::cr_plot_qc_summary(qc)
+```
+
+Exports have explicit dimensions and a white background, independent of an
+interactive plotting pane.
+
+```{r export, eval=FALSE}
+cellreportR::cr_save_figure(p,"figure.pdf",size="single")
+cellreportR::cr_save_figure(p,"figure-wide.pdf",size="double")
+cellreportR::cr_save_figure(p,"figure.tiff",size="double",dpi=600)
+```
+
+The style layer does not filter, transform, reorder analytically meaningful
+values, or select results. Factor levels are respected; explicit ordering is
+available in estimate plots. More than the reliable number of colours, shapes,
+or line types produces a warning so callers can prefer facets or direct labels.

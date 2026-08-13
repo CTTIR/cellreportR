@@ -6,20 +6,25 @@
 \usage{
 cr_theme(
   base_size = 11,
-  base_family = "",
+  base_family = "sans",
   grid = TRUE,
-  legend_position = "bottom"
+  legend_position = "bottom",
+  variant = c("publication", "report"),
+  mode = c("colour", "grayscale")
 )
 }
 \arguments{
 \item{base_size}{Base font size in points (default \code{11}).}
 
-\item{base_family}{Base font family. Default \code{""} (the device default),
-which keeps figures reproducible across machines.}
+\item{base_family}{Base font family. Default generic \code{"sans"}.}
 
 \item{grid}{Draw the faint major grid (default \code{TRUE}).}
 
 \item{legend_position}{Passed to \code{\link[ggplot2:theme]{ggplot2::theme()}}. Default \code{"bottom"}.}
+
+\item{variant}{\code{"publication"} or a tighter \code{"report"} layout.}
+
+\item{mode}{Colour or grayscale mode. Typography is shared across modes.}
 }
 \value{
 A \code{ggplot2} theme object, usable with \code{+} like any other theme.

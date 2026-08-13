@@ -159,7 +159,8 @@
       .cr_panel_effects(),
       .cr_panel_dose(),
       .cr_panel_figures(),
-      .cr_panel_report()
+      .cr_panel_report(),
+      .cr_panel_lab_report()
     ),
     bslib::card(
       bslib::card_header("About"),

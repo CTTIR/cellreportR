@@ -117,7 +117,7 @@
     Code
       print(gate)
     Message
-
+      
       -- QC gate ---------------------------------------------------------------------
       Signal marker_1 vs "Untreated" of the same batch
       Rule: unit median must be greater than the control median
@@ -132,8 +132,8 @@
     Code
       print(design)
     Message
-
-      -- cr_design
+      
+      -- cr_design 
       * units: 96 (column well)
       * treatment: treatment with 6 levels
       * reference: "Untreated"
@@ -144,8 +144,8 @@
     Code
       print(ds)
     Message
-
-      -- cr_dataset
+      
+      -- cr_dataset 
       * cells: 960 x 10
       * source files: unknown
       * unit column: well
@@ -223,3 +223,4 @@
       * grammar tokens: none
       * markers: none
       * strict: TRUE
+

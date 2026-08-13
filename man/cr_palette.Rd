@@ -7,7 +7,8 @@
 cr_palette(
   n = NULL,
   type = c("qualitative", "sequential", "diverging"),
-  names = NULL
+  names = NULL,
+  mode = c("colour", "grayscale")
 )
 }
 \arguments{
@@ -24,6 +25,8 @@ meaningful zero, ramped blue-to-vermillion rather than blue-to-red-green).}
 \item{names}{Optional character vector of names to attach to the returned
 colours, for use as the \code{values} argument of a manual scale. Must have
 the same length as the result.}
+
+\item{mode}{\code{"colour"} or a monotonically separated \code{"grayscale"} palette.}
 }
 \value{
 A character vector of hex colour strings, named when \code{names} is

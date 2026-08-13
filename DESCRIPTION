@@ -1,6 +1,6 @@
 Package: cellreportR
 Title: Cell Culture Microscopy Assay Analysis and Reporting
-Version: 0.2.0
+Version: 0.2.0.9000
 Authors@R: c(
     person("Raban", "Heller",
            email = "raban.heller@charite.de",
@@ -37,8 +37,10 @@ Depends:
     R (>= 4.1.0)
 Imports:
     cli,
+    digest,
     dplyr,
     ggplot2,
+    jsonlite,
     pROC,
     readr,
     readxl,

@@ -3,7 +3,7 @@
 # returned, so a figure a user is looking at is the figure they get.
 
 .cr_srv_downloads <- function(input, output, session, ctx,
-                              forest, figure, dose, report) {
+                              forest, figure, dose, report, lab_report = NULL) {
   state <- ctx$state
 
   stamp <- function(ext) {
@@ -65,6 +65,11 @@
     content = function(file) save_png(figure(), file)
   )
 
+  output$dl_pub_figure <- shiny::downloadHandler(
+    filename=function() paste0("cellreportR_",input$plot_type %||% "figure",".",input$pub_format %||% "pdf"),
+    content=function(file) cr_save_figure(figure(),file,size=input$pub_size %||% "single",dpi=input$plot_dpi %||% 600)
+  )
+
   output$dl_results <- shiny::downloadHandler(
     filename = function() stamp("_results.csv"),
     content = function(file) {
@@ -111,6 +116,25 @@
                               format = input$rep_format %||% "html")
       file.copy(out, file, overwrite = TRUE)
     }
+  )
+
+  lab_filename <- function(suffix) {
+    spec <- state$report_spec %||% cr_report_spec()
+    id <- .cr_slug(spec$report$report_id %||% "report")[[1L]]
+    ver <- .cr_slug(spec$report$version %||% "1.0")[[1L]]
+    paste0(id, "_v", ver, suffix)
+  }
+  output$dl_lab_pdf <- shiny::downloadHandler(
+    filename=function() lab_filename(".pdf"),
+    content=function(file) cr_render_lab_report(lab_report(),file)
+  )
+  output$dl_lab_audit <- shiny::downloadHandler(
+    filename=function() lab_filename("_audit.json"),
+    content=function(file) cr_export_report_audit(lab_report(),file)
+  )
+  output$dl_lab_spec <- shiny::downloadHandler(
+    filename=function() lab_filename("_spec.json"),
+    content=function(file) cr_export_report_spec(state$report_spec,file)
   )
 
   invisible(NULL)

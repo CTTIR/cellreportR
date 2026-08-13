@@ -157,7 +157,37 @@ reference:
       - cr_palette
       - cr_shapes
       - cr_scale_group
+      - cr_scale_colour
+      - cr_scale_diverging
+      - cr_plot_style
+      - cr_linetypes
+      - cr_figure_size
+      - cr_plot_estimates
+      - cr_plot_qc_summary
+      - cr_plot_result_position
+      - cr_save_figure
       - cr_save_plot
+
+  - title: Laboratory reporting
+    desc: Versioned, configurable report data, validation, rendering and audit export.
+    contents:
+      - cr_report_spec
+      - cr_validate_report_spec
+      - cr_print_report_spec
+      - cr_classify_result
+      - cr_finalize_result
+      - cr_interpretation_lookup
+      - cr_report_qc
+      - cr_validate_report_qc
+      - cr_report_qc_from_log
+      - cr_lab_report
+      - cr_report_data
+      - cr_render_lab_report
+      - cr_report_hash
+      - cr_report_provenance
+      - cr_export_report_spec
+      - cr_import_report_spec
+      - cr_export_report_audit
 
   - title: Tables and reporting
     desc: >
@@ -235,6 +265,11 @@ articles:
   - title: Interactive front-end
     contents:
       - shiny-app
+
+  - title: Reporting and figures
+    contents:
+      - laboratory-reporting
+      - figure-style
 
 # navbar (with themakR's far-right dark/light `lightswitch`), footer, and home
 # sidebar are inherited from themakR via `template: package: themakR`. Do NOT

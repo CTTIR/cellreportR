@@ -6,6 +6,7 @@
 \usage{
 cr_run_app(
   experiment = NULL,
+  report_spec = NULL,
   max_upload_mb = 512,
   launch_browser = interactive(),
   ...
@@ -17,6 +18,9 @@ is validated with \code{\link[=cr_validate_experiment]{cr_validate_experiment()}
 built and handed to the server through the app object, so no
 global state is involved. When \code{NULL} (default) the app starts
 empty and offers synthetic example data.}
+
+\item{report_spec}{Optional \code{\link[=cr_report_spec]{cr_report_spec()}} used to pre-populate the
+laboratory-report workflow.}
 
 \item{max_upload_mb}{Numeric. Maximum upload size per request, in
 megabytes. Segmented single-cell exports routinely exceed the
