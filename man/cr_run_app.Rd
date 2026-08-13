@@ -4,28 +4,67 @@
 \alias{cr_run_app}
 \title{Launch the cellreportR Shiny application}
 \usage{
-cr_run_app(experiment = NULL, launch_browser = interactive(), ...)
+cr_run_app(
+  experiment = NULL,
+  max_upload_mb = 512,
+  launch_browser = interactive(),
+  ...
+)
 }
 \arguments{
-\item{experiment}{Optional \code{cr_experiment} to load on startup.}
+\item{experiment}{Optional \code{cr_experiment} to load on start-up. It
+is validated with \code{\link[=cr_validate_experiment]{cr_validate_experiment()}} before the app is
+built and handed to the server through the app object, so no
+global state is involved. When \code{NULL} (default) the app starts
+empty and offers synthetic example data.}
 
-\item{launch_browser}{Whether to open a browser window (default
-\code{TRUE} in interactive sessions).}
+\item{max_upload_mb}{Numeric. Maximum upload size per request, in
+megabytes. Segmented single-cell exports routinely exceed the
+Shiny default of 5 MB; this argument raises the limit for the
+duration of the running app and restores the previous value on
+exit. Default \code{512} MB.}
+
+\item{launch_browser}{Whether to open a browser window. Defaults to
+\code{TRUE} in interactive sessions.}
 
 \item{...}{Further arguments passed to \code{\link[shiny:runApp]{shiny::runApp()}}.}
 }
 \value{
-Invisible \code{NULL}. Launches a Shiny application.
+Invoked for its side effect of running the app. Returns
+whatever \code{\link[shiny:runApp]{shiny::runApp()}} returns, invisibly.
 }
 \description{
-Launches the interactive Shiny application bundled with the
-package. When \code{experiment} is \code{NULL}, the app loads synthetic
-example data so that all tabs are usable out of the box.
+Starts the interactive front-end bundled with the package. The app
+covers the whole analysis path in one place: point it at a
+directory of segmented exports (or upload the files), specify or
+edit the design, review quality control with a per-unit exclusion
+table, choose a normalisation, estimate effect sizes as a table
+plus forest plot, and export a report.
+}
+\details{
+The user interface, the server and every helper live inside the
+package namespace, so the app can be driven in-process by
+\code{\link[shiny:testServer]{shiny::testServer()}} as well as from a browser. The directory under
+\verb{inst/shiny/cellreportR/} holds the \verb{www/} assets and a thin \code{app.R}
+shim for deployment on a Shiny server.
+
+Requires the \code{shiny}, \code{bslib}, \code{DT} and \code{ggplot2} packages, all
+listed under \code{Suggests}. An informative error naming the missing
+package is raised when any of them is unavailable.
 }
 \examples{
-\donttest{
 if (interactive()) {
   cr_run_app()
 }
+
+# Start from an experiment that is already in the session:
+exp <- cr_example_experiment(seed = 1, n_cells_per_well = 10)
+if (interactive()) {
+  cr_run_app(exp)
 }
+
 }
+\seealso{
+\code{\link[=cr_build_experiment]{cr_build_experiment()}}, \code{\link[=cr_report]{cr_report()}}
+}
+\concept{cellreportR-app}

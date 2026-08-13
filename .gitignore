@@ -1,18 +1,32 @@
-_build.R
+# R
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
-.DS_Store
-docs/
-inst/doc/
-DROPHERE/
-*.Rcheck/
+*.Rproj
+_build.R
+
+# build artefacts
 *.tar.gz
+*.Rcheck/
+/doc/
+/Meta/
+inst/doc/
+docs/
+revdep/
+CRAN-SUBMISSION
+
+# OS
+.DS_Store
+Thumbs.db
+
+.vscode/
+.idea/
+.data/
+DROPHERE/
+_coverage/
 *.tmp
 *.log
 *~
 *.bak
 *.orig
-
-_coverage/

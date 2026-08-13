@@ -7,35 +7,26 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-<!-- badges: start -->
-[![R-CMD-check](https://github.com/CTTIR/cellreportR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CTTIR/cellreportR/actions/workflows/R-CMD-check.yaml)
-[![pkgdown](https://github.com/CTTIR/cellreportR/actions/workflows/pkgdown.yaml/badge.svg)](https://cttir.github.io/cellreportR/)
-[![CRAN status](https://www.r-pkg.org/badges/version/cellreportR)](https://CRAN.R-project.org/package=cellreportR)
-[![Codecov test coverage](https://codecov.io/gh/CTTIR/cellreportR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/CTTIR/cellreportR?branch=main)
-[![CRAN downloads](https://cranlogs.r-pkg.org/badges/cellreportR)](https://cran.r-project.org/package=cellreportR)
-[![CRAN downloads total](https://cranlogs.r-pkg.org/badges/grand-total/cellreportR)](https://cran.r-project.org/package=cellreportR)
-[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-<!-- badges: end -->
-
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE, comment = "#>",
-  fig.width = 6, fig.height = 4
+  fig.width = 6, fig.height = 4, fig.align = "center"
 )
+options(width = 84)
 library(cellreportR)
 ```
 
-cellreportR takes you from segmented single-cell microscopy data to a
-structured, publication-ready diagnostic report. This vignette walks
-through a full five-minute workflow using bundled synthetic data.
+cellreportR takes segmented single-cell microscopy data to a structured,
+auditable set of estimates. This vignette walks the short path on one plate
+using bundled synthetic data; `vignette("end-to-end")` walks the long one,
+from files on disk to a finished report.
 
 ## 1. Load example data
 
-The function `cr_example_experiment()` generates a realistic 96-well
-synthetic experiment with six treatment groups, four channels, and
-plate-edge / debris / contamination artefacts to exercise the QC
-pipeline.
+`cr_example_experiment()` simulates a 96-unit plate: six treatment levels,
+four channels, two plates and two pre-treatment intervals. Sub-threshold
+debris, a plate-edge effect and a pair of saturated units are built in, so the
+quality-control functions have something real to remove.
 
 ```{r example}
 exp <- cr_example_experiment(seed = 42, n_cells_per_well = 60)
@@ -46,7 +37,21 @@ exp
 
 ```{r design}
 head(exp$design)
-summary(exp)
+```
+
+The unit of replication is the well, not the cell. `cr_n_cells()` counts by
+any design column:
+
+```{r counts}
+cr_n_cells(exp, by = "treatment")
+```
+
+A batch here is the combination of two columns, which is what later
+standardization references:
+
+```{r batch}
+exp$batch_vars
+table(exp$design$plate, exp$design$interval)
 ```
 
 ## 3. Apply quality control
@@ -55,43 +60,70 @@ summary(exp)
 exp_qc <- exp |>
   cr_qc_filter(min_area = 50, max_area = 5000, min_circularity = 0.2) |>
   cr_qc_doublets(k = 2.5)
-cr_qc_summary(exp_qc)
+
+cr_qc_summary(exp_qc)[, c("step", "cells_before", "cells_after",
+                          "percent_removed")]
 ```
 
-## 4. Compute fold changes and run tests
+The QC log is append-only and travels with the object, so what was removed
+stays recoverable after the fact.
+
+## 4. Fold changes and tests
+
+`cr_test_all()` contrasts every treatment level against the control and
+attaches a summary table with the multiplicity adjustments alongside — never
+instead of — the unadjusted p-value.
 
 ```{r analysis}
 res <- cr_test_all(exp_qc,
-                   channel = "marker_1",
+                   channel       = "marker_1",
                    control_group = "Untreated",
-                   level = "replicate")
-attr(res, "summary")
+                   level         = "replicate")
+
+attr(res, "summary")[, c("treatment", "log2_fc", "p_value", "p_BH",
+                         "cohens_d", "interpretation")]
 ```
+
+`level = "replicate"` aggregates cells to one value per well before testing.
+That is the defensible default; `vignette("statistical-analysis")` shows what
+the cell-level alternative costs.
 
 ## 5. Visualize
 
 ```{r plots}
 cr_plot_intensity(exp_qc, "marker_1")
 cr_plot_effect_sizes(res)
-cr_plot_foldchange(res)
 ```
 
-## 6. Logistic regression and ROC
+```{r plate-map}
+cr_plot_plate(exp_qc, "marker_1", metric = "median")
+```
+
+## 6. Discriminability
+
+When the question is whether a marker separates treated from control cells
+rather than whether the group means differ, fit a univariate logistic
+regression and read the area under the ROC curve:
 
 ```{r logistic}
 logit <- cr_logistic(exp_qc,
-                     channel = "marker_1",
+                     channel   = "marker_1",
                      treatment = "CompoundA_high",
-                     control = "Untreated")
+                     control   = "Untreated")
+cr_auc(logit)
 cr_plot_roc(logit)
 ```
 
 ## 7. Next steps
 
-- See `vignette("statistical-analysis")` for details on the choice
-  between cell-level and replicate-level tests.
-- See `vignette("dose-response")` for IC50/EC50 fitting.
-- Run `cr_run_app()` to explore your data interactively.
+* `vignette("end-to-end")` — ingest, units, the quality-control gate,
+  per-batch standardization, effect sizes at two levels, sample size and the
+  report.
+* `vignette("statistical-analysis")` — cell-level versus replicate-level
+  inference.
+* `vignette("dose-response")` — fitting exposure-response curves.
+* `cr_run_app()` — the same pipeline in a browser; see
+  `vignette("shiny-app")`.
 
 # Use of LLM tools
 

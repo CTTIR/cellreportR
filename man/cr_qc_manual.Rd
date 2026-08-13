@@ -25,3 +25,18 @@ contaminated wells or cells with focus issues).
 exp <- cr_example_experiment(seed = 1, n_cells_per_well = 20)
 cr_qc_manual(exp, well = c("A01", "H12"))
 }
+\seealso{
+Other quality control:
+\code{\link[=cr_apply_gate]{cr_apply_gate()}},
+\code{\link[=cr_balance_cells]{cr_balance_cells()}},
+\code{\link[=cr_exclude_small]{cr_exclude_small()}},
+\code{\link[=cr_qc_doublets]{cr_qc_doublets()}},
+\code{\link[=cr_qc_filter]{cr_qc_filter()}},
+\code{\link[=cr_qc_gate]{cr_qc_gate()}},
+\code{\link[=cr_qc_gate_impact]{cr_qc_gate_impact()}},
+\code{\link[=cr_qc_intensity]{cr_qc_intensity()}},
+\code{\link[=cr_qc_report]{cr_qc_report()}},
+\code{\link[=cr_qc_summary]{cr_qc_summary()}},
+\code{\link[=print.cr_qc_gate]{print.cr_qc_gate()}}
+}
+\concept{quality control}

@@ -3,6 +3,7 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
+  workflow_dispatch:
 
 name: test-coverage
 
@@ -11,15 +12,46 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::covr
           needs: coverage
+
       - name: Test coverage
-        run: covr::codecov(quiet = FALSE)
+        run: |
+          cov <- covr::package_coverage(
+            quiet = FALSE,
+            clean = FALSE,
+            install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
+          )
+          covr::to_cobertura(cov)
         shell: Rscript {0}
+
+      - name: Upload coverage to Codecov
+        if: ${{ env.CODECOV_TOKEN != '' }}
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./cobertura.xml
+          fail_ci_if_error: false
+          disable_search: true
+          plugins: noop
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Coverage summary (no Codecov token)
+        if: ${{ env.CODECOV_TOKEN == '' }}
+        run: |
+          echo "::warning ::No CODECOV_TOKEN secret set on this repository."
+          echo "Coverage was computed locally but not uploaded to Codecov."
+          echo "Add CODECOV_TOKEN under Settings -> Secrets and variables -> Actions to enable upload."
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

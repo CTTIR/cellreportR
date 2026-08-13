@@ -2,27 +2,54 @@
 % Please edit documentation in R/quantify.R
 \name{cr_summarize_wells}
 \alias{cr_summarize_wells}
-\title{Summarize cell-level data to the well / slide level}
+\title{Summarize cell-level data to the analysis unit}
 \usage{
-cr_summarize_wells(experiment, channel, fun = stats::median)
+cr_summarize_wells(experiment, channel, fun = stats::median, unit = NULL)
 }
 \arguments{
 \item{experiment}{A \code{cr_experiment}.}
 
-\item{channel}{Channel name.}
+\item{channel}{Channel name (a column of \code{experiment$cells}).}
 
-\item{fun}{Aggregation function. Default \code{stats::median}.}
+\item{fun}{Aggregation function. Default \code{stats::median}. The
+function is called with \code{na.rm = TRUE} when it accepts that
+argument (directly or through \code{...}), and with the values only
+otherwise. It must return a single number.}
+
+\item{unit}{Optional name of the column that identifies the
+analysis unit. May be a column of \code{cells} or of \code{design}. If
+\code{NULL} (default) the experiment's \code{unit_var} slot is used when
+present, and the spatial unit otherwise.}
 }
 \value{
-A tibble with one row per spatial unit containing
-\code{well} (or \code{slide}), \code{n_cells}, the aggregated \code{value}, and
-the treatment columns from \code{design}.
+A tibble with one row per analysis unit containing the unit
+identifier, \code{n_cells}, the aggregated \code{value}, and the design
+columns. Design columns that are not constant within a unit are
+returned as \code{NA}.
 }
 \description{
-Aggregates the per-cell values for a channel to a single number
-per spatial unit.
+Aggregates the per-cell values of one channel to a single number
+per analysis unit. By default the analysis unit is the spatial unit
+of the experiment (\code{well} or \code{slide}), which is the unit of
+replication for most plate-based assays. Pass \code{unit} to aggregate to
+a merged analysis unit instead — for example when one physical unit
+was acquired as several files and the acquisitions were assigned a
+common identifier.
 }
 \examples{
 exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
 cr_summarize_wells(exp, channel = "marker_1")
+
+# aggregate with a different estimator
+cr_summarize_wells(exp, channel = "marker_1", fun = mean)
 }
+\seealso{
+\code{\link[=cr_compute_metrics]{cr_compute_metrics()}} for a richer per-unit summary and
+\code{\link[=cr_table_disposition]{cr_table_disposition()}} for unit and cell counts per arm.
+
+Other quantification:
+\code{\link[=cr_compute_metrics]{cr_compute_metrics()}},
+\code{\link[=cr_fold_change]{cr_fold_change()}},
+\code{\link[=cr_table_disposition]{cr_table_disposition()}}
+}
+\concept{quantification}

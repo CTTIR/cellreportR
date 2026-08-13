@@ -4,10 +4,13 @@
 \alias{cr_validate_experiment}
 \title{Validate a \code{cr_experiment}}
 \usage{
-cr_validate_experiment(x)
+cr_validate_experiment(x, call = rlang::caller_env())
 }
 \arguments{
 \item{x}{A \code{cr_experiment}.}
+
+\item{call}{The execution environment of the calling function. Used
+for error reporting; experts only.}
 }
 \value{
 \code{TRUE} invisibly on success. On failure an informative
@@ -18,7 +21,26 @@ Performs structural checks on a \code{cr_experiment}. Called
 automatically by \code{\link[=cr_build_experiment]{cr_build_experiment()}} but can also be used to
 verify that manual modifications have not broken the object.
 }
-\examples{
-exp <- cr_example_experiment(seed = 1, n_cells_per_well = 10)
-cr_validate_experiment(exp)
+\details{
+The optional \code{unit_var}, \code{batch_vars}, \code{provenance} and \code{set_aside}
+slots are checked only when they are present, so that objects built by
+earlier versions still validate.
 }
+\examples{
+cells <- tibble::tibble(
+  cell_id = c("c1", "c2"), well = c("A01", "A02"),
+  target_signal = c(10, 20)
+)
+design <- tibble::tibble(well = c("A01", "A02"),
+                         treatment = c("Vehicle", "CompoundA"))
+cr_validate_experiment(cr_build_experiment(cells, design))
+}
+\seealso{
+\code{\link[=cr_build_experiment]{cr_build_experiment()}}.
+
+Other constructors:
+\code{\link[=cr_build_experiment]{cr_build_experiment()}},
+\code{\link[=cr_dataset]{cr_dataset()}},
+\code{\link[=cr_design]{cr_design()}}
+}
+\concept{constructors}

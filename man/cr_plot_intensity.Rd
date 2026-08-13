@@ -25,7 +25,7 @@ cr_plot_intensity(
 \item{log_y}{Log-transform the y-axis (default \code{TRUE}).}
 }
 \value{
-A ggplot2 object.
+A \code{ggplot} object.
 }
 \description{
 Intensity distributions by group
@@ -34,3 +34,21 @@ Intensity distributions by group
 exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
 cr_plot_intensity(exp, channel = "marker_1")
 }
+\seealso{
+\code{\link[=cr_plot_screen]{cr_plot_screen()}} to overlay the unit of replication.
+
+Other visualisation:
+\code{\link[=cr_plot_comparison]{cr_plot_comparison()}},
+\code{\link[=cr_plot_dose_response]{cr_plot_dose_response()}},
+\code{\link[=cr_plot_effect_sizes]{cr_plot_effect_sizes()}},
+\code{\link[=cr_plot_foldchange]{cr_plot_foldchange()}},
+\code{\link[=cr_plot_heatmap]{cr_plot_heatmap()}},
+\code{\link[=cr_plot_histogram]{cr_plot_histogram()}},
+\code{\link[=cr_plot_plate]{cr_plot_plate()}},
+\code{\link[=cr_plot_qc]{cr_plot_qc()}},
+\code{\link[=cr_plot_roc]{cr_plot_roc()}},
+\code{\link[=cr_plot_scatter]{cr_plot_scatter()}},
+\code{\link[=cr_plot_spatial]{cr_plot_spatial()}},
+\code{\link[=cr_plot_timeline]{cr_plot_timeline()}}
+}
+\concept{visualisation}

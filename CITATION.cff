@@ -2,12 +2,26 @@ cff-version: 1.2.0
 message: If you use this software, please cite it as below.
 type: software
 title: 'cellreportR: Analysis and reporting for cell culture microscopy assays'
-version: 0.1.0
-date-released: '2026-08-11'
+version: 0.2.0
+date-released: '2026-08-13'
 doi: 10.5281/zenodo.21889928
 authors:
 - family-names: Heller
   given-names: Raban
   orcid: https://orcid.org/0000-0001-8006-9742
+- family-names: Schwindling
+  given-names: Leila
+- family-names: Büchner
+  given-names: Alexander
+- family-names: Lindenberger
+  given-names: Lucia
+- family-names: Müller
+  given-names: Steffen
+- family-names: Hannemann
+  given-names: Michael
+- family-names: Achatz
+  given-names: Gerhard
+- family-names: Rothmiller
+  given-names: Simone
 repository-code: https://github.com/CTTIR/cellreportR
 license: MIT

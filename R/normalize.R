@@ -20,8 +20,19 @@
 #' - `"robust_zscore"` uses the median and MAD.
 #' - `"quantile"` maps the per-well empirical distributions onto the
 #'   global quantile distribution.
+#'
+#' All five methods use a *single, pooled* reference for the whole
+#' experiment and overwrite the channel in place. When the reference
+#' has to be the control of each cell's own batch -- the usual
+#' situation once several plates, runs or acquisition days are
+#' involved -- use [cr_standardize_batch()] instead, which adds new
+#' columns rather than overwriting the measured signal.
+#'
 #' @return A modified `cr_experiment`.
 #' @export
+#' @family normalization functions
+#' @seealso [cr_standardize_batch()] for per-batch standardization,
+#'   [cr_background_subtract()], [cr_correct_batch()].
 #' @examples
 #' exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
 #' cr_normalize(exp, channel = "marker_1", method = "robust_zscore")
@@ -112,6 +123,8 @@ cr_normalize <- function(experiment,
 #'   `"empty_wells"`.
 #' @return A modified `cr_experiment`.
 #' @export
+#' @family normalization functions
+#' @seealso [cr_normalize()], [cr_standardize_batch()]
 #' @examples
 #' exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
 #' cr_background_subtract(exp, channel = "marker_1")
@@ -165,32 +178,49 @@ cr_background_subtract <- function(experiment,
 #' batch's median to the overall median. `"combat"` delegates to
 #' `sva::ComBat` when available.
 #'
+#' Batch correction removes a batch offset from the measured signal.
+#' It is *not* a substitute for [cr_standardize_batch()], which
+#' expresses every cell relative to the control cells of its own
+#' batch and leaves the measured signal untouched.
+#'
 #' @param experiment A `cr_experiment`.
-#' @param batch_var Name of the batch variable. Must exist in
-#'   `design`.
+#' @param batch_var Name of the batch variable, or a character vector
+#'   of several column names that jointly define a batch (they are
+#'   collapsed with [cr_batch_key()]). Columns are looked up in
+#'   `design` first and then in `cells`.
 #' @param channel Channel to correct.
 #' @param method `"median_center"` or `"combat"`.
 #' @return A modified `cr_experiment`.
 #' @export
+#' @family batch standardization functions
+#' @seealso [cr_batch_key()], [cr_standardize_batch()]
 #' @examples
 #' exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
 #' exp$design$batch <- rep(c("b1", "b2"), length.out = nrow(exp$design))
 #' cr_correct_batch(exp, batch_var = "batch", channel = "marker_1")
+#'
+#' # A batch defined by more than one column
+#' exp$design$plate <- rep(c("P1", "P2"), length.out = nrow(exp$design))
+#' cr_correct_batch(exp, batch_var = c("batch", "plate"),
+#'                  channel = "marker_1")
 cr_correct_batch <- function(experiment,
                              batch_var,
                              channel,
                              method = c("median_center", "combat")) {
   cr_validate_experiment(experiment)
   method <- match.arg(method)
-  if (!batch_var %in% names(experiment$design)) {
-    cli::cli_abort("`{batch_var}` not found in design.")
+  joined <- .cr_batch_table(experiment)
+  missing_batch <- setdiff(batch_var, names(joined))
+  if (length(missing_batch)) {
+    cli::cli_abort(
+      "Batch variables not found in design or cells: {.field {missing_batch}}."
+    )
   }
   if (!channel %in% names(experiment$cells)) {
     cli::cli_abort("Channel {.field {channel}} not found.")
   }
-  joined <- .cr_join_design(experiment)
   y <- joined[[channel]]
-  b <- joined[[batch_var]]
+  b <- cr_batch_key(joined, batch_var)
 
   if (method == "combat") {
     if (!requireNamespace("sva", quietly = TRUE)) {

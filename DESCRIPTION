@@ -1,22 +1,38 @@
 Package: cellreportR
 Title: Cell Culture Microscopy Assay Analysis and Reporting
-Version: 0.1.0
-Authors@R: person("R.", "Heller", email = "raban.heller@charite.de",
-    role = c("aut", "cre"), comment = c(ORCID = "0000-0001-8006-9742"))
-Description: Provides a complete pipeline for analyzing cell culture-based
-    laboratory assays evaluated by microscopy. Starting from segmented
-    single-cell data (e.g. from 'segmantR'), the package handles
-    experimental design specification, fluorescence intensity
-    quantification, quality control, normalization, hierarchical
-    statistical testing at cell and replicate level, effect size
-    estimation, logistic regression for discriminability analysis, and
-    generation of structured diagnostic reports. Includes an interactive
-    'shiny' application for guided analysis, result exploration, and
-    report export.
+Version: 0.2.0
+Authors@R: c(
+    person("Raban", "Heller",
+           email = "raban.heller@charite.de",
+           role = c("aut", "cre", "cph"),
+           comment = c(ORCID = "0000-0001-8006-9742")),
+    person("Leila", "Schwindling", role = "aut"),
+    person("Alexander", "Büchner", role = "aut"),
+    person("Lucia", "Lindenberger", role = "aut"),
+    person("Steffen", "Müller", role = "aut"),
+    person("Michael", "Hannemann", role = "aut"),
+    person("Gerhard", "Achatz", role = "aut"),
+    person("Simone", "Rothmiller", role = "aut"))
+Description: Analysis and reporting pipeline for cell culture assays read
+    out by microscopy, starting from segmented single-cell exports such as
+    those written by 'segmantR', 'CellProfiler' or 'QuPath'. Recovers the
+    experimental design from the directory tree and the file naming
+    convention, resolves acquisitions into the analysis unit of
+    replication, and standardizes every cell against the control
+    condition of its own batch. Applies threshold and biological quality
+    control gates, then estimates effect sizes with confidence intervals
+    at both unit and cell level so that the cost of treating cells as
+    replicates is visible rather than assumed. Sample sizes for a
+    follow-up study are solved from the confidence bound nearer the null
+    instead of the observed point estimate, after Cohen (1988,
+    ISBN:9780805802832). Figures, machine-readable tables and a generated
+    file of every quoted number are emitted from the same objects, and an
+    interactive 'shiny' application provides guided analysis and report
+    export.
 License: MIT + file LICENSE
-URL: https://github.com/cttir/cellreportR,
+URL: https://github.com/CTTIR/cellreportR,
     https://cttir.github.io/cellreportR/
-BugReports: https://github.com/cttir/cellreportR/issues
+BugReports: https://github.com/CTTIR/cellreportR/issues
 Depends:
     R (>= 4.1.0)
 Imports:
@@ -32,10 +48,10 @@ Imports:
     stats,
     tibble,
     tidyr,
+    tools,
     utils
 Suggests:
     bslib,
-    covr,
     DT,
     flowCore,
     knitr,
@@ -47,10 +63,11 @@ Suggests:
     testthat (>= 3.0.0),
     withr,
     writexl
-VignetteBuilder: knitr
+VignetteBuilder:
+    knitr
 Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
-Config/Needs/website: CTTIR/themakR
 Config/roxygen2/version: 8.0.0
+Config/Needs/website: CTTIR/themakR

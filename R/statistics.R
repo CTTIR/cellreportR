@@ -9,15 +9,13 @@
 #' @param treatment Name of the treatment group (matches
 #'   `design$treatment`).
 #' @param control Name of the control group.
-#' @param test One of `"mann_whitney"`, `"t_test"`, `"welch"`,
-#'   `"wilcoxon_signed"`, `"kruskal"`, `"anova"`. For two-group
-#'   tests, the first four are valid. `"kruskal"` and `"anova"` can
-#'   be used only with `cr_test_all()` where additional groups are
-#'   compared together.
-#' @param level `"cell"` (default) or `"replicate"`.
+#' @param test One of `"mann_whitney"`, `"t_test"` (pooled variance),
+#'   `"welch"` (unequal variance) or `"wilcoxon_signed"` (paired).
+#' @param level `"cell"` (default), `"replicate"` or `"both"`.
 #'
-#' @return A `cr_result` object.
-#' @export
+#' @return A `cr_result` object with the elements `comparison`,
+#'   `cell_level`, `rep_level`, `effect_sizes` and `fold_change`.
+#'
 #' @examples
 #' exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
 #' res <- cr_test(exp,
@@ -27,6 +25,11 @@
 #'                test = "mann_whitney",
 #'                level = "replicate")
 #' print(res)
+#'
+#' @seealso [cr_test_all()], [cr_effect_size()], [cr_effect_grid()].
+#' @family statistics
+#'
+#' @export
 cr_test <- function(experiment,
                     channel,
                     treatment,
@@ -92,18 +95,26 @@ cr_test <- function(experiment,
 #' Test all treatments against a control group
 #'
 #' Runs [cr_test()] pairwise for every treatment versus the control
-#' and adjusts p-values across comparisons.
+#' and adjusts the p-values across the whole family of comparisons.
+#' Both a Bonferroni and a Benjamini-Hochberg adjustment are reported
+#' next to the unadjusted p-value, never in place of it.
 #'
 #' @param experiment A `cr_experiment`.
 #' @param channel Channel name.
 #' @param control_group Control group.
-#' @param tests Tests to run (see [cr_test()]). First one is used
-#'   for the summary p-value.
-#' @param p_adjust P-value adjustment method (see [stats::p.adjust]).
-#' @param level `"cell"` or `"replicate"` or `"both"`.
-#' @return A list of `cr_result` objects plus an attribute
-#'   `summary` holding a single overview tibble.
-#' @export
+#' @param tests Test to run (see [cr_test()]). Only the first element
+#'   is used; the argument is a vector for backwards compatibility.
+#' @param p_adjust P-value adjustment method used for the `p_adj`
+#'   column (see [stats::p.adjust]). The dedicated `p_bonferroni` and
+#'   `p_BH` columns are always added as well.
+#' @param level `"cell"`, `"replicate"` or `"both"`.
+#'
+#' @return A named list of `cr_result` objects, one per treatment,
+#'   carrying the attributes `summary` (a tibble with `treatment`,
+#'   `log2_fc`, `p_value`, `cohens_d`, `p_adj`, `p_bonferroni`,
+#'   `p_BH` and `interpretation`), `control_group`, `channel` and
+#'   `level`.
+#'
 #' @examples
 #' \donttest{
 #' exp <- cr_example_experiment(seed = 1, n_cells_per_well = 20)
@@ -112,6 +123,11 @@ cr_test <- function(experiment,
 #'                        level = "replicate")
 #' attr(all_res, "summary")
 #' }
+#'
+#' @seealso [cr_test()], [cr_effect_grid()].
+#' @family statistics
+#'
+#' @export
 cr_test_all <- function(experiment,
                         channel,
                         control_group,
@@ -146,6 +162,9 @@ cr_test_all <- function(experiment,
     )
   }))
   summary_tbl$p_adj <- stats::p.adjust(summary_tbl$p_value, method = p_adjust)
+  summary_tbl$p_bonferroni <- stats::p.adjust(summary_tbl$p_value,
+                                              method = "bonferroni")
+  summary_tbl$p_BH <- stats::p.adjust(summary_tbl$p_value, method = "BH")
   summary_tbl$interpretation <- .cr_interpret(summary_tbl$p_adj,
                                               summary_tbl$cohens_d)
   attr(results, "summary") <- summary_tbl
@@ -153,92 +172,6 @@ cr_test_all <- function(experiment,
   attr(results, "channel") <- channel
   attr(results, "level") <- level
   results
-}
-
-#' Compute effect sizes between two samples
-#'
-#' @param x Numeric vector (treatment group).
-#' @param y Numeric vector (control / reference group).
-#' @param method Character vector of methods to compute. Allowed:
-#'   `"cohens_d"`, `"hedges_g"`, `"cliffs_delta"`,
-#'   `"rank_biserial"`, `"glass_delta"`.
-#' @param ci Confidence level for bootstrap CI (default 0.95). Set
-#'   `NULL` to skip.
-#' @param n_boot Number of bootstrap resamples used for the CI.
-#' @return A tibble with columns `method`, `estimate`,
-#'   `ci_low`, `ci_high`, `magnitude`.
-#' @export
-#' @examples
-#' set.seed(1)
-#' cr_effect_size(stats::rnorm(100, 1), stats::rnorm(100, 0))
-cr_effect_size <- function(x, y,
-                           method = c("cohens_d", "hedges_g",
-                                      "cliffs_delta", "rank_biserial"),
-                           ci = 0.95,
-                           n_boot = 200) {
-  method <- match.arg(method, several.ok = TRUE)
-  x <- stats::na.omit(x); y <- stats::na.omit(y)
-  out <- lapply(method, function(m) {
-    est <- .cr_effsize(x, y, m)
-    ci_vals <- c(NA_real_, NA_real_)
-    if (!is.null(ci) && length(x) > 2 && length(y) > 2) {
-      boots <- replicate(n_boot, {
-        .cr_effsize(sample(x, replace = TRUE),
-                    sample(y, replace = TRUE), m)
-      })
-      probs <- c((1 - ci) / 2, 1 - (1 - ci) / 2)
-      ci_vals <- as.numeric(stats::quantile(boots, probs, na.rm = TRUE))
-    }
-    tibble::tibble(method = m, estimate = est,
-                   ci_low = ci_vals[1], ci_high = ci_vals[2],
-                   magnitude = .cr_magnitude(est, m))
-  })
-  dplyr::bind_rows(out)
-}
-
-#' Post-hoc power for a hierarchical cell-based assay
-#'
-#' A Monte-Carlo approximation that accounts for the hierarchical
-#' structure (cells nested within replicates). Used mainly for
-#' reporting.
-#'
-#' @param effect_size Cohen's d.
-#' @param n_replicates Number of replicate units per group.
-#' @param n_cells_per_rep Cells per replicate.
-#' @param alpha Type I error rate.
-#' @param test Only `"t_test"` implemented.
-#' @param n_sim Number of simulations (default 500).
-#' @return A tibble with the computed power.
-#' @export
-#' @examples
-#' cr_power_analysis(effect_size = 0.8, n_replicates = 4,
-#'                   n_cells_per_rep = 100)
-cr_power_analysis <- function(effect_size,
-                              n_replicates,
-                              n_cells_per_rep,
-                              alpha = 0.05,
-                              test = "t_test",
-                              n_sim = 500) {
-  if (test != "t_test") {
-    cli::cli_abort("Only t_test is implemented at present.")
-  }
-  positives <- replicate(n_sim, {
-    x_means <- vapply(seq_len(n_replicates), function(i) {
-      mean(stats::rnorm(n_cells_per_rep, mean = effect_size))
-    }, numeric(1))
-    y_means <- vapply(seq_len(n_replicates), function(i) {
-      mean(stats::rnorm(n_cells_per_rep, mean = 0))
-    }, numeric(1))
-    tt <- suppressWarnings(stats::t.test(x_means, y_means))
-    tt$p.value < alpha
-  })
-  tibble::tibble(
-    effect_size = effect_size,
-    n_replicates = n_replicates,
-    n_cells_per_rep = n_cells_per_rep,
-    alpha = alpha,
-    power = mean(positives)
-  )
 }
 
 # Internal: run a two-sample test
@@ -268,69 +201,6 @@ cr_power_analysis <- function(effect_size,
   )
 }
 
-# Internal: one effect size
-.cr_effsize <- function(x, y, m) {
-  switch(
-    m,
-    cohens_d = {
-      s <- sqrt(((length(x) - 1) * stats::var(x) +
-                   (length(y) - 1) * stats::var(y)) /
-                  (length(x) + length(y) - 2))
-      if (s == 0) return(NA_real_)
-      (mean(x) - mean(y)) / s
-    },
-    hedges_g = {
-      s <- sqrt(((length(x) - 1) * stats::var(x) +
-                   (length(y) - 1) * stats::var(y)) /
-                  (length(x) + length(y) - 2))
-      if (s == 0) return(NA_real_)
-      d <- (mean(x) - mean(y)) / s
-      df <- length(x) + length(y) - 2
-      d * (1 - 3 / (4 * df - 1))
-    },
-    cliffs_delta = {
-      gt <- mean(outer(x, y, ">"))
-      lt <- mean(outer(x, y, "<"))
-      gt - lt
-    },
-    rank_biserial = {
-      ww <- suppressWarnings(stats::wilcox.test(x, y, exact = FALSE))
-      u <- ww$statistic
-      1 - 2 * u / (length(x) * length(y))
-    },
-    glass_delta = {
-      s <- stats::sd(y)
-      if (s == 0) return(NA_real_)
-      (mean(x) - mean(y)) / s
-    },
-    NA_real_
-  )
-}
-
-.cr_magnitude <- function(est, m) {
-  if (is.na(est)) return(NA_character_)
-  a <- abs(est)
-  if (m %in% c("cohens_d", "hedges_g", "glass_delta")) {
-    if (a < 0.2) return("negligible")
-    if (a < 0.5) return("small")
-    if (a < 0.8) return("medium")
-    return("large")
-  }
-  if (m == "cliffs_delta") {
-    if (a < 0.147) return("negligible")
-    if (a < 0.33) return("small")
-    if (a < 0.474) return("medium")
-    return("large")
-  }
-  if (m == "rank_biserial") {
-    if (a < 0.1) return("negligible")
-    if (a < 0.3) return("small")
-    if (a < 0.5) return("medium")
-    return("large")
-  }
-  NA_character_
-}
-
 .cr_interpret <- function(p, d) {
   out <- rep("no evidence", length(p))
   out[!is.na(p) & p < 0.05 & !is.na(d) & abs(d) >= 0.8] <- "strong"
@@ -338,3 +208,95 @@ cr_power_analysis <- function(effect_size,
   out[!is.na(p) & p < 0.05 & !is.na(d) & abs(d) < 0.5] <- "weak"
   out
 }
+
+# ---- shared helpers for the statistics module --------------------------
+
+# Internal: accept either a data frame or a cr_experiment. For an
+# experiment the design is joined onto the cells so that design columns
+# (treatment, plate, ...) are available as ordinary columns.
+.cr_stat_data <- function(data, arg = "data", call = rlang::caller_env()) {
+  if (inherits(data, "cr_experiment")) {
+    return(tibble::as_tibble(.cr_join_design(data)))
+  }
+  if (!is.data.frame(data)) {
+    cli::cli_abort(
+      c("{.arg {arg}} must be a data frame or a {.cls cr_experiment}.",
+        "x" = "Got {.cls {class(data)[[1L]]}} instead."),
+      call = call
+    )
+  }
+  tibble::as_tibble(data)
+}
+
+# Internal: assert that columns exist, naming the offenders.
+.cr_require_cols <- function(data, cols, arg = "data",
+                             call = rlang::caller_env()) {
+  cols <- cols[!vapply(cols, is.null, logical(1))]
+  cols <- unique(unlist(cols, use.names = FALSE))
+  missing <- setdiff(cols, names(data))
+  if (length(missing)) {
+    cli::cli_abort(
+      c("{.arg {arg}} is missing the column{?s} {.field {missing}}.",
+        "i" = "Available columns: {.field {names(data)}}."),
+      call = call
+    )
+  }
+  invisible(cols)
+}
+
+# Internal: the reference arm has to exist before any contrast is built.
+.cr_check_reference <- function(g, reference_level, group_var,
+                                call = rlang::caller_env()) {
+  if (length(reference_level) != 1L || is.na(reference_level)) {
+    cli::cli_abort("{.arg reference_level} must be a single level.",
+                   call = call)
+  }
+  present <- if (is.factor(g)) levels(g) else unique(as.character(g))
+  if (!as.character(reference_level) %in% as.character(present)) {
+    cli::cli_abort(
+      c("Level {.val {reference_level}} is not present in {.field {group_var}}.",
+        "i" = "Levels found: {.val {present}}."),
+      call = call
+    )
+  }
+  invisible(reference_level)
+}
+
+# Internal: split row indices by one or more grouping columns, keeping
+# the original column types (and factor levels) in the key tibble.
+.cr_stat_groups <- function(data, by) {
+  if (is.null(by) || !length(by)) {
+    return(list(list(idx = seq_len(nrow(data)), key = tibble::tibble())))
+  }
+  keys <- lapply(by, function(b) as.character(data[[b]]))
+  flat <- do.call(paste, c(keys, list(sep = "\r")))
+  idx <- split(seq_len(nrow(data)), factor(flat, levels = unique(flat)))
+  lapply(unname(idx), function(i) {
+    list(idx = i, key = data[i[1L], by, drop = FALSE])
+  })
+}
+
+# Internal: comparison levels present in a grouping column, excluding
+# the reference level and preserving factor level order where given.
+.cr_comparison_levels <- function(g, reference_level, comparison_levels) {
+  if (!is.null(comparison_levels)) return(comparison_levels)
+  lv <- if (is.factor(g)) levels(g) else unique(as.character(g))
+  setdiff(lv, reference_level)
+}
+
+# Internal: a single numeric scalar in a range.
+.cr_check_prob <- function(x, arg = rlang::caller_arg(x),
+                           lower = 0, upper = 1,
+                           call = rlang::caller_env()) {
+  if (!is.numeric(x) || length(x) != 1L || is.na(x) ||
+      x <= lower || x >= upper) {
+    cli::cli_abort(
+      c("{.arg {arg}} must be a single number between {lower} and {upper}.",
+        "x" = "Got {.val {x}}."),
+      call = call
+    )
+  }
+  invisible(x)
+}
+
+# Version 0.1.0

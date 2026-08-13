@@ -20,20 +20,27 @@ cr_test_all(
 
 \item{control_group}{Control group.}
 
-\item{tests}{Tests to run (see \code{\link[=cr_test]{cr_test()}}). First one is used
-for the summary p-value.}
+\item{tests}{Test to run (see \code{\link[=cr_test]{cr_test()}}). Only the first element
+is used; the argument is a vector for backwards compatibility.}
 
-\item{p_adjust}{P-value adjustment method (see \link[stats:p.adjust]{stats::p.adjust}).}
+\item{p_adjust}{P-value adjustment method used for the \code{p_adj}
+column (see \link[stats:p.adjust]{stats::p.adjust}). The dedicated \code{p_bonferroni} and
+\code{p_BH} columns are always added as well.}
 
-\item{level}{\code{"cell"} or \code{"replicate"} or \code{"both"}.}
+\item{level}{\code{"cell"}, \code{"replicate"} or \code{"both"}.}
 }
 \value{
-A list of \code{cr_result} objects plus an attribute
-\code{summary} holding a single overview tibble.
+A named list of \code{cr_result} objects, one per treatment,
+carrying the attributes \code{summary} (a tibble with \code{treatment},
+\code{log2_fc}, \code{p_value}, \code{cohens_d}, \code{p_adj}, \code{p_bonferroni},
+\code{p_BH} and \code{interpretation}), \code{control_group}, \code{channel} and
+\code{level}.
 }
 \description{
 Runs \code{\link[=cr_test]{cr_test()}} pairwise for every treatment versus the control
-and adjusts p-values across comparisons.
+and adjusts the p-values across the whole family of comparisons.
+Both a Bonferroni and a Benjamini-Hochberg adjustment are reported
+next to the unadjusted p-value, never in place of it.
 }
 \examples{
 \donttest{
@@ -43,4 +50,12 @@ all_res <- cr_test_all(exp, channel = "marker_1",
                        level = "replicate")
 attr(all_res, "summary")
 }
+
 }
+\seealso{
+\code{\link[=cr_test]{cr_test()}}, \code{\link[=cr_effect_grid]{cr_effect_grid()}}.
+
+Other statistics:
+\code{\link[=cr_test]{cr_test()}}
+}
+\concept{statistics}

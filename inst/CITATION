@@ -1,0 +1,28 @@
+citHeader("To cite cellreportR in publications, use:")
+
+## `meta` is supplied by R when reading the CITATION (the package DESCRIPTION);
+## fall back to the installed description so citation() also works standalone.
+## Avoid packageVersion(), which errors while the package is not yet installed
+## (e.g. during R CMD check --as-cran incoming-feasibility).
+if (!exists("meta") || is.null(meta)) meta <- packageDescription("cellreportR")
+vers <- meta[["Version"]]
+if (is.null(vers) || is.na(vers)) vers <- "unknown"
+
+bibentry(
+  bibtype = "Manual",
+  title   = "cellreportR: Cell Culture Microscopy Assay Analysis and Reporting",
+  author  = c(
+    person("Raban", "Heller",
+           comment = c(ORCID = "0000-0001-8006-9742")),
+    person("Leila", "Schwindling"),
+    person("Alexander", "Büchner"),
+    person("Lucia", "Lindenberger"),
+    person("Steffen", "Müller"),
+    person("Michael", "Hannemann"),
+    person("Gerhard", "Achatz"),
+    person("Simone", "Rothmiller")
+  ),
+  year    = "2026",
+  note    = sprintf("R package version %s", vers),
+  url     = "https://github.com/CTTIR/cellreportR"
+)

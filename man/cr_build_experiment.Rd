@@ -6,24 +6,31 @@
 \usage{
 cr_build_experiment(
   cells,
-  design,
+  design = NULL,
   channels = NULL,
   plate_info = list(),
-  metadata = list()
+  metadata = list(),
+  unit_var = NULL,
+  batch_vars = NULL,
+  provenance = NULL,
+  set_aside = NULL,
+  call = rlang::caller_env()
 )
 }
 \arguments{
-\item{cells}{A data frame / tibble of per-cell measurements. Must
-contain a \code{cell_id} column and a spatial unit column (either
-\code{well} or \code{slide}).}
+\item{cells}{A data frame / tibble of per-cell measurements, or a
+\code{\link[=cr_dataset]{cr_dataset()}}. Must contain a \code{cell_id} column and a spatial unit
+column (\code{well}, \code{slide}, \code{well_id} or \code{unit}, or the column named by
+\code{unit_var}).}
 
 \item{design}{A data frame / tibble that maps each spatial unit to
-treatment information. Must contain the spatial unit column and
-a \code{treatment} column. Recommended columns: \code{dose}, \code{dose_unit},
-\code{replicate}, \code{group}, \code{timepoint}.}
+treatment information, or a \code{\link[=cr_design]{cr_design()}} object. Must contain the
+spatial unit column and a \code{treatment} column. Recommended columns:
+\code{dose}, \code{dose_unit}, \code{replicate}, \code{group}, \code{timepoint}. May be
+\code{NULL} when \code{cells} is a \code{cr_dataset} carrying a design.}
 
-\item{channels}{Optional tibble describing fluorescence channels.
-Columns: \code{channel} (required), \code{role}, \code{antibody}, \code{fluorophore}.
+\item{channels}{Optional tibble describing marker channels.
+Columns: \code{channel} (required), \code{role}, \code{target}, \code{fluorophore}.
 If \code{NULL}, channels are auto-detected from numeric columns in
 \code{cells} that are not recognised as morphology fields.}
 
@@ -31,6 +38,19 @@ If \code{NULL}, channels are auto-detected from numeric columns in
 = "96", \code{microscope}, \code{date}, \code{operator}).}
 
 \item{metadata}{Optional list with arbitrary user metadata.}
+
+\item{unit_var}{Optional name of the analysis unit column.}
+
+\item{batch_vars}{Optional character vector of columns that together
+define a batch.}
+
+\item{provenance}{Optional per-file provenance table.}
+
+\item{set_aside}{Optional data frame or list of arms split out of the
+analysis pool.}
+
+\item{call}{The execution environment of the calling function. Used
+for error reporting; experts only.}
 }
 \value{
 A \code{cr_experiment} object (an S3 list).
@@ -41,7 +61,37 @@ Assembles a validated \code{cr_experiment} from its components. A
 per-cell measurements, experimental design, channel metadata, plate
 information, a QC log and arbitrary user metadata.
 }
-\examples{
-exp <- cr_example_experiment(seed = 1, n_cells_per_well = 20)
-print(exp)
+\details{
+Three optional slots describe structure that a single design table
+cannot: \code{unit_var} names the analysis unit when it is neither \code{well}
+nor \code{slide} (a unit assembled from several files, for instance),
+\code{batch_vars} names the \emph{combination} of columns that defines a batch,
+and \code{provenance} keeps the per-file record that lets any cell be
+traced back to its acquisition. \code{set_aside} holds arms that were split
+out of the analysis pool, such as a specificity control, so that they
+travel with the experiment instead of being lost.
 }
+\examples{
+cells <- tibble::tibble(
+  cell_id = sprintf("c\%03d", 1:6),
+  well = rep(c("A01", "A02"), each = 3),
+  area = c(120, 130, 125, 118, 122, 131),
+  target_signal = c(10, 12, 11, 30, 33, 29)
+)
+design <- tibble::tibble(
+  well = c("A01", "A02"),
+  treatment = c("Vehicle", "CompoundA"),
+  plate = "Plate_1"
+)
+exp <- cr_build_experiment(cells, design, batch_vars = "plate")
+exp
+}
+\seealso{
+\code{\link[=cr_validate_experiment]{cr_validate_experiment()}}, \code{\link[=cr_dataset]{cr_dataset()}}, \code{\link[=cr_design]{cr_design()}}.
+
+Other constructors:
+\code{\link[=cr_dataset]{cr_dataset()}},
+\code{\link[=cr_design]{cr_design()}},
+\code{\link[=cr_validate_experiment]{cr_validate_experiment()}}
+}
+\concept{constructors}

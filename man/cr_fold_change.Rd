@@ -8,30 +8,68 @@ cr_fold_change(
   experiment,
   channel,
   control_group,
-  method = c("median", "mean")
+  method = c("median", "mean"),
+  eps = 0,
+  unit = NULL
 )
 }
 \arguments{
 \item{experiment}{A \code{cr_experiment}.}
 
-\item{channel}{Channel name.}
+\item{channel}{Channel name (a column of \code{experiment$cells}).}
 
 \item{control_group}{Value in \code{design$treatment} that defines the
 reference.}
 
-\item{method}{\code{"median"} (default) or \code{"mean"} — the estimator
-used to aggregate within a replicate before taking log2 ratios.}
+\item{method}{\code{"median"} (default) or \code{"mean"} — the estimator used
+to aggregate within a unit before taking log2 ratios.}
+
+\item{eps}{Additive offset applied to numerator and denominator
+before the ratio is taken, i.e. \code{log2((value + eps) / (ref + eps))}.
+The default \code{0} keeps the historical behavior, which floors the
+numerator at a small positive value instead. An additive offset is
+the better choice for counts and for signals that legitimately
+reach zero, because flooring turns every zero into the same
+arbitrary large negative fold change.}
+
+\item{unit}{Optional name of the column that identifies the
+analysis unit. May be a column of \code{cells} or of \code{design}. If
+\code{NULL} (default) the experiment's \code{unit_var} slot is used when
+present, and the spatial unit otherwise.}
 }
 \value{
-A list with components \code{cell} (tibble, one row per cell
-with \code{log2_fc}), \code{well} (one row per spatial unit) and \code{summary}
-(per treatment, median FC and 95 percent CI across replicates).
+A list with components \code{cell} (tibble, one row per cell with
+\code{log2_fc}), \code{well} (one row per analysis unit) and \code{summary} (per
+treatment: number of units, median, mean and SD of the unit-level
+log2 fold change).
 }
 \description{
-Returns log2 fold changes at the cell and replicate levels
-(relative to the reference control).
+Returns log2 fold changes at the cell and unit levels, relative to
+one pooled reference computed from the control group.
+}
+\details{
+The reference is pooled across the whole experiment. When controls
+differ systematically between plates, runs or acquisition days,
+standardize each cell against the control of its own batch instead —
+a pooled reference silently mixes those batches together.
 }
 \examples{
 exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
-cr_fold_change(exp, channel = "marker_1", control_group = "Untreated")
+fc <- cr_fold_change(exp, channel = "marker_1",
+                     control_group = "Untreated")
+fc$summary
+
+# additive offset instead of a floor
+fc2 <- cr_fold_change(exp, channel = "marker_1",
+                      control_group = "Untreated", eps = 1)
+fc2$summary
 }
+\seealso{
+\code{\link[=cr_summarize_wells]{cr_summarize_wells()}}.
+
+Other quantification:
+\code{\link[=cr_compute_metrics]{cr_compute_metrics()}},
+\code{\link[=cr_summarize_wells]{cr_summarize_wells()}},
+\code{\link[=cr_table_disposition]{cr_table_disposition()}}
+}
+\concept{quantification}

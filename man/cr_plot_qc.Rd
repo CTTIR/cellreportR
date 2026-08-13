@@ -12,7 +12,7 @@ cr_plot_qc(experiment, channel = NULL)
 \item{channel}{Channel name used for the intensity panel.}
 }
 \value{
-A ggplot2 object (facetted).
+A \code{ggplot} object (facetted).
 }
 \description{
 Combines cell count per well, area distributions and intensity
@@ -22,3 +22,21 @@ distributions into a single multi-panel figure.
 exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
 cr_plot_qc(exp, channel = "marker_1")
 }
+\seealso{
+\code{\link[=cr_plot_qc_gate]{cr_plot_qc_gate()}} for the gate against each unit's own control.
+
+Other visualisation:
+\code{\link[=cr_plot_comparison]{cr_plot_comparison()}},
+\code{\link[=cr_plot_dose_response]{cr_plot_dose_response()}},
+\code{\link[=cr_plot_effect_sizes]{cr_plot_effect_sizes()}},
+\code{\link[=cr_plot_foldchange]{cr_plot_foldchange()}},
+\code{\link[=cr_plot_heatmap]{cr_plot_heatmap()}},
+\code{\link[=cr_plot_histogram]{cr_plot_histogram()}},
+\code{\link[=cr_plot_intensity]{cr_plot_intensity()}},
+\code{\link[=cr_plot_plate]{cr_plot_plate()}},
+\code{\link[=cr_plot_roc]{cr_plot_roc()}},
+\code{\link[=cr_plot_scatter]{cr_plot_scatter()}},
+\code{\link[=cr_plot_spatial]{cr_plot_spatial()}},
+\code{\link[=cr_plot_timeline]{cr_plot_timeline()}}
+}
+\concept{visualisation}

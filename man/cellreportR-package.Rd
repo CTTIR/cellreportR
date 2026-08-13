@@ -39,18 +39,25 @@ A companion interactive \pkg{shiny} application is available via
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/cttir/cellreportR}
+  \item \url{https://github.com/CTTIR/cellreportR}
   \item \url{https://cttir.github.io/cellreportR/}
-  \item Report bugs at \url{https://github.com/cttir/cellreportR/issues}
+  \item Report bugs at \url{https://github.com/CTTIR/cellreportR/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: R. Heller \email{raban.heller@charite.de} (\href{https://orcid.org/0000-0001-8006-9742}{ORCID})
+\strong{Maintainer}: Raban Heller \email{raban.heller@charite.de} (\href{https://orcid.org/0000-0001-8006-9742}{ORCID}) [copyright holder]
 
 Authors:
 \itemize{
-  \item R. Heller \email{raban.heller@charite.de} (\href{https://orcid.org/0000-0001-8006-9742}{ORCID})
+  \item Raban Heller \email{raban.heller@charite.de} (\href{https://orcid.org/0000-0001-8006-9742}{ORCID}) [copyright holder]
+  \item Leila Schwindling
+  \item Alexander Büchner
+  \item Lucia Lindenberger
+  \item Steffen Müller
+  \item Michael Hannemann
+  \item Gerhard Achatz
+  \item Simone Rothmiller
 }
 
 }

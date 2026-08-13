@@ -10,7 +10,9 @@ cr_qc_summary(experiment)
 \item{experiment}{A \code{cr_experiment}.}
 }
 \value{
-A tibble with one row per QC step.
+A tibble with one row per QC step: \code{step}, \code{parameters},
+\code{cells_before}, \code{cells_after}, \code{cells_removed},
+\code{percent_removed} and \code{timestamp}.
 }
 \description{
 Summarise QC steps applied to an experiment
@@ -20,3 +22,20 @@ exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
 exp <- cr_qc_filter(exp, min_area = 50)
 cr_qc_summary(exp)
 }
+\seealso{
+\code{\link[=cr_qc_report]{cr_qc_report()}} for a per-unit rather than per-step view.
+
+Other quality control:
+\code{\link[=cr_apply_gate]{cr_apply_gate()}},
+\code{\link[=cr_balance_cells]{cr_balance_cells()}},
+\code{\link[=cr_exclude_small]{cr_exclude_small()}},
+\code{\link[=cr_qc_doublets]{cr_qc_doublets()}},
+\code{\link[=cr_qc_filter]{cr_qc_filter()}},
+\code{\link[=cr_qc_gate]{cr_qc_gate()}},
+\code{\link[=cr_qc_gate_impact]{cr_qc_gate_impact()}},
+\code{\link[=cr_qc_intensity]{cr_qc_intensity()}},
+\code{\link[=cr_qc_manual]{cr_qc_manual()}},
+\code{\link[=cr_qc_report]{cr_qc_report()}},
+\code{\link[=print.cr_qc_gate]{print.cr_qc_gate()}}
+}
+\concept{quality control}

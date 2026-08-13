@@ -23,16 +23,14 @@ cr_test(
 
 \item{control}{Name of the control group.}
 
-\item{test}{One of \code{"mann_whitney"}, \code{"t_test"}, \code{"welch"},
-\code{"wilcoxon_signed"}, \code{"kruskal"}, \code{"anova"}. For two-group
-tests, the first four are valid. \code{"kruskal"} and \code{"anova"} can
-be used only with \code{cr_test_all()} where additional groups are
-compared together.}
+\item{test}{One of \code{"mann_whitney"}, \code{"t_test"} (pooled variance),
+\code{"welch"} (unequal variance) or \code{"wilcoxon_signed"} (paired).}
 
-\item{level}{\code{"cell"} (default) or \code{"replicate"}.}
+\item{level}{\code{"cell"} (default), \code{"replicate"} or \code{"both"}.}
 }
 \value{
-A \code{cr_result} object.
+A \code{cr_result} object with the elements \code{comparison},
+\code{cell_level}, \code{rep_level}, \code{effect_sizes} and \code{fold_change}.
 }
 \description{
 Runs a parametric or non-parametric two-sample test comparing
@@ -48,4 +46,12 @@ res <- cr_test(exp,
                test = "mann_whitney",
                level = "replicate")
 print(res)
+
 }
+\seealso{
+\code{\link[=cr_test_all]{cr_test_all()}}, \code{\link[=cr_effect_size]{cr_effect_size()}}, \code{\link[=cr_effect_grid]{cr_effect_grid()}}.
+
+Other statistics:
+\code{\link[=cr_test_all]{cr_test_all()}}
+}
+\concept{statistics}

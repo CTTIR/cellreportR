@@ -2,27 +2,44 @@
 % Please edit documentation in R/quantify.R
 \name{cr_compute_metrics}
 \alias{cr_compute_metrics}
-\title{Compute per-well summary metrics}
+\title{Compute per-unit summary metrics}
 \usage{
-cr_compute_metrics(experiment, channel, positive_threshold = NULL)
+cr_compute_metrics(experiment, channel, positive_threshold = NULL, unit = NULL)
 }
 \arguments{
 \item{experiment}{A \code{cr_experiment}.}
 
-\item{channel}{Channel name.}
+\item{channel}{Channel name (a column of \code{experiment$cells}).}
 
-\item{positive_threshold}{Optional numeric threshold. Cells above
-it are considered "positive".}
+\item{positive_threshold}{Optional numeric threshold. Cells above it
+are counted as "positive"; without it \code{pct_positive} is \code{NA}.}
+
+\item{unit}{Optional name of the column that identifies the
+analysis unit. May be a column of \code{cells} or of \code{design}. If
+\code{NULL} (default) the experiment's \code{unit_var} slot is used when
+present, and the spatial unit otherwise.}
 }
 \value{
-A tibble with one row per spatial unit.
+A tibble with one row per analysis unit and the design
+columns appended.
 }
 \description{
-Returns a rich set of per-well summary statistics for a single
-channel: mean, median, SD, MAD, CV, cell count and percent
-positive above a threshold. Useful as input for QC dashboards.
+Returns a rich set of per-unit summary statistics for a single
+channel: mean, median, SD, MAD, CV, cell count and percent positive
+above a threshold. Useful as input for QC dashboards and as the
+between-unit variability input of a screen.
 }
 \examples{
 exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
 cr_compute_metrics(exp, channel = "marker_1")
+cr_compute_metrics(exp, channel = "marker_1", positive_threshold = 800)
 }
+\seealso{
+\code{\link[=cr_summarize_wells]{cr_summarize_wells()}}, \code{\link[=cr_table_disposition]{cr_table_disposition()}}.
+
+Other quantification:
+\code{\link[=cr_fold_change]{cr_fold_change()}},
+\code{\link[=cr_summarize_wells]{cr_summarize_wells()}},
+\code{\link[=cr_table_disposition]{cr_table_disposition()}}
+}
+\concept{quantification}

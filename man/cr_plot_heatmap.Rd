@@ -19,10 +19,12 @@ cr_plot_heatmap(
 \item{group_by}{Design column defining rows. Default
 \code{"treatment"}.}
 
-\item{scale}{One of \code{"none"}, \code{"row"}, \code{"column"}.}
+\item{scale}{One of \code{"none"}, \code{"row"}, \code{"column"}. Scaling centres the
+values, so the fill switches from the sequential to the diverging
+palette.}
 }
 \value{
-A ggplot2 object.
+A \code{ggplot} object.
 }
 \description{
 Heatmap of channel medians across groups
@@ -31,3 +33,19 @@ Heatmap of channel medians across groups
 exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
 cr_plot_heatmap(exp, c("DAPI", "marker_1", "marker_2"))
 }
+\seealso{
+Other visualisation:
+\code{\link[=cr_plot_comparison]{cr_plot_comparison()}},
+\code{\link[=cr_plot_dose_response]{cr_plot_dose_response()}},
+\code{\link[=cr_plot_effect_sizes]{cr_plot_effect_sizes()}},
+\code{\link[=cr_plot_foldchange]{cr_plot_foldchange()}},
+\code{\link[=cr_plot_histogram]{cr_plot_histogram()}},
+\code{\link[=cr_plot_intensity]{cr_plot_intensity()}},
+\code{\link[=cr_plot_plate]{cr_plot_plate()}},
+\code{\link[=cr_plot_qc]{cr_plot_qc()}},
+\code{\link[=cr_plot_roc]{cr_plot_roc()}},
+\code{\link[=cr_plot_scatter]{cr_plot_scatter()}},
+\code{\link[=cr_plot_spatial]{cr_plot_spatial()}},
+\code{\link[=cr_plot_timeline]{cr_plot_timeline()}}
+}
+\concept{visualisation}

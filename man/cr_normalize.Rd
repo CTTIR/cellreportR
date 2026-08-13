@@ -43,8 +43,23 @@ of cells assigned to \code{control_group}, then takes the log2 ratio.
 \item \code{"quantile"} maps the per-well empirical distributions onto the
 global quantile distribution.
 }
+
+All five methods use a \emph{single, pooled} reference for the whole
+experiment and overwrite the channel in place. When the reference
+has to be the control of each cell's own batch -- the usual
+situation once several plates, runs or acquisition days are
+involved -- use \code{\link[=cr_standardize_batch]{cr_standardize_batch()}} instead, which adds new
+columns rather than overwriting the measured signal.
 }
 \examples{
 exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
 cr_normalize(exp, channel = "marker_1", method = "robust_zscore")
 }
+\seealso{
+\code{\link[=cr_standardize_batch]{cr_standardize_batch()}} for per-batch standardization,
+\code{\link[=cr_background_subtract]{cr_background_subtract()}}, \code{\link[=cr_correct_batch]{cr_correct_batch()}}.
+
+Other normalization functions:
+\code{\link[=cr_background_subtract]{cr_background_subtract()}}
+}
+\concept{normalization functions}

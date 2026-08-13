@@ -2,50 +2,119 @@
 % Please edit documentation in R/report.R
 \name{cr_report}
 \alias{cr_report}
-\title{Generate a structured analysis report}
+\title{Assemble a structured analysis report}
 \usage{
 cr_report(
   experiment,
-  results,
-  template = NULL,
-  output_dir = tempdir(),
-  format = c("html", "pdf"),
+  results = NULL,
+  qc = NULL,
+  effects = NULL,
+  sizes = NULL,
+  tables = NULL,
+  plots = NULL,
   title = "cellreportR analysis report",
-  author = ""
+  author = "",
+  metadata = list(),
+  render = NULL,
+  template = NULL,
+  output_dir = NULL,
+  format = c("html", "pdf")
 )
 }
 \arguments{
 \item{experiment}{A \code{cr_experiment}.}
 
-\item{results}{List of \code{cr_result} objects produced by
-\code{\link[=cr_test]{cr_test()}}, \code{\link[=cr_test_all]{cr_test_all()}} or \code{\link[=cr_logistic]{cr_logistic()}}.}
+\item{results}{Optional \code{cr_result}, list of \code{cr_result} objects (as
+returned by \code{\link[=cr_test_all]{cr_test_all()}}), or a data frame of results.}
 
-\item{template}{Path to an R Markdown template. If \code{NULL}, the
-bundled template is used.}
+\item{qc}{Optional quality-control record: a data frame, or a list
+holding one (for example a gate object with a \code{units} element). If
+\code{NULL}, the experiment's QC log is used.}
 
-\item{output_dir}{Output directory (default \code{tempdir()}).}
+\item{effects}{Optional data frame of effect sizes — one row per
+contrast, typically with estimate and confidence-bound columns.}
 
-\item{format}{One of \code{"html"} or \code{"pdf"}.}
+\item{sizes}{Optional data frame of sample-size calculations, one
+row per contrast.}
+
+\item{tables}{Optional named list of supplementary tables (data
+frames). A \code{disposition} table is added automatically when the
+list does not already contain one.}
+
+\item{plots}{Optional named list of ggplot2 objects.}
 
 \item{title}{Report title.}
 
 \item{author}{Author name for the report header.}
+
+\item{metadata}{Optional named list of arbitrary metadata.}
+
+\item{render}{Whether to render the report to a file. The default
+\code{NULL} renders when \code{template} or \code{output_dir} is supplied — that
+is, when the caller has said where the document should go — and
+otherwise returns the assembled object. Pass \code{TRUE} or \code{FALSE} to
+be explicit.}
+
+\item{template}{Path to an R Markdown template. If \code{NULL}, the
+bundled template is used.}
+
+\item{output_dir}{Output directory for the rendered document.}
+
+\item{format}{One of \code{"html"} or \code{"pdf"}.}
 }
 \value{
-Path to the rendered report (invisibly).
+A \code{cr_report} object, an S3 list with the slots
+\describe{
+\item{\code{experiment}}{The \code{cr_experiment} the report describes.}
+\item{\code{results}}{Named list of \code{cr_result} objects.}
+\item{\code{summary}}{One-row-per-contrast overview tibble.}
+\item{\code{qc}}{Quality-control tibble.}
+\item{\code{effects}}{Effect-size tibble, or \code{NULL}.}
+\item{\code{sizes}}{Sample-size tibble, or \code{NULL}.}
+\item{\code{tables}}{Named list of supplementary tibbles.}
+\item{\code{plots}}{Named list of ggplot2 objects.}
+\item{\code{metadata}}{User metadata.}
+\item{\code{params}}{Title, author, package version, creation time.}
+}
+When rendering was requested, the path to the rendered document is
+returned invisibly instead, carrying the assembled object in its
+\code{report} attribute.
 }
 \description{
-Renders an R Markdown report template bundled with the package.
-The report includes experimental setup, QC log, normalization
-notes, a comparison summary, per-comparison detail plots, optional
-dose-response fits, and a session info appendix.
+Collects everything a write-up needs into one \code{cr_report} object:
+the experiment, the statistical results, the quality-control record,
+the effect-size grid, the sample-size table, any supplementary
+tables and any plots. Assembling first and formatting later is what
+keeps a number in the text tied to the object it came from — tables,
+generated macros and the rendered document are then all derived from
+the same assembly rather than transcribed from each other.
 }
 \examples{
-\dontrun{
-# Requires a working pandoc installation.
-exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
-res <- cr_test_all(exp, "marker_1", "Untreated", level = "replicate")
-out <- cr_report(exp, res)
-out
+exp <- cr_example_experiment(seed = 1, n_cells_per_well = 20)
+rep <- cr_report(exp, title = "Marker 1 overview")
+rep
+
+# supply an effect grid and the sample sizes derived from it
+eff <- data.frame(
+  group = c("CompoundA_low", "CompoundA_high"),
+  estimate = c(0.31, 1.42),
+  ci_low = c(-0.10, 0.55),
+  ci_high = c(0.72, 2.29)
+)
+rep2 <- cr_report(exp, effects = eff, title = "Marker 1 screen")
+rep2$summary
 }
+\seealso{
+\code{\link[=cr_render_report]{cr_render_report()}} to render an assembled report,
+\code{\link[=cr_tables]{cr_tables()}} to extract its tables and \code{\link[=cr_macros]{cr_macros()}} to emit its
+numbers.
+
+Other reporting:
+\code{\link[=cr_export_plots]{cr_export_plots()}},
+\code{\link[=cr_export_results]{cr_export_results()}},
+\code{\link[=cr_export_tables]{cr_export_tables()}},
+\code{\link[=cr_render_report]{cr_render_report()}},
+\code{\link[=cr_table_qc]{cr_table_qc()}},
+\code{\link[=cr_tables]{cr_tables()}}
 }
+\concept{reporting}

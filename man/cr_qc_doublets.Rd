@@ -4,28 +4,52 @@
 \alias{cr_qc_doublets}
 \title{Flag or remove doublets}
 \usage{
-cr_qc_doublets(experiment, channel = NULL, threshold_method = "area", k = 2.5)
+cr_qc_doublets(
+  experiment,
+  channel = NULL,
+  threshold_method = c("area", "channel"),
+  k = 2.5
+)
 }
 \arguments{
 \item{experiment}{A \code{cr_experiment}.}
 
-\item{channel}{Unused in the default method but kept for API
-symmetry; future implementations may use DNA content.}
+\item{channel}{Name of the channel column used when
+\code{threshold_method = "channel"} (for example a nuclear stain whose
+integrated intensity scales with DNA content). Ignored for
+\code{threshold_method = "area"}.}
 
-\item{threshold_method}{Currently only \code{"area"} is supported.}
+\item{threshold_method}{\code{"area"} (default) thresholds the
+segmentation area; \code{"channel"} thresholds \code{channel}.}
 
-\item{k}{Multiplicative threshold: cells with area > \code{k * median}
-are removed. Default \code{2.5}.}
+\item{k}{Multiplicative threshold: cells whose value exceeds
+\code{k * median} are removed. Default \code{2.5}.}
 }
 \value{
 A modified \code{cr_experiment}.
 }
 \description{
-Flags cells whose area is far above the population median, which
-in microscopy typically indicates segmented doublets. The cells
-are removed and recorded in the QC log.
+Flags cells whose size or DNA content is far above the population
+median, which in microscopy typically indicates segmented
+doublets. The cells are removed and recorded in the QC log.
 }
 \examples{
 exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
 cr_qc_doublets(exp, threshold_method = "area")
+cr_qc_doublets(exp, channel = "DAPI", threshold_method = "channel")
 }
+\seealso{
+Other quality control:
+\code{\link[=cr_apply_gate]{cr_apply_gate()}},
+\code{\link[=cr_balance_cells]{cr_balance_cells()}},
+\code{\link[=cr_exclude_small]{cr_exclude_small()}},
+\code{\link[=cr_qc_filter]{cr_qc_filter()}},
+\code{\link[=cr_qc_gate]{cr_qc_gate()}},
+\code{\link[=cr_qc_gate_impact]{cr_qc_gate_impact()}},
+\code{\link[=cr_qc_intensity]{cr_qc_intensity()}},
+\code{\link[=cr_qc_manual]{cr_qc_manual()}},
+\code{\link[=cr_qc_report]{cr_qc_report()}},
+\code{\link[=cr_qc_summary]{cr_qc_summary()}},
+\code{\link[=print.cr_qc_gate]{print.cr_qc_gate()}}
+}
+\concept{quality control}

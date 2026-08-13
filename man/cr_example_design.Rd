@@ -7,18 +7,43 @@
 cr_example_design(plate_format = 96, n_wells_per_replicate = 4)
 }
 \arguments{
-\item{plate_format}{96 or 384.}
+\item{plate_format}{Either \code{96} or \code{384}.}
 
-\item{n_wells_per_replicate}{Number of wells per replicate per
-treatment group.}
+\item{n_wells_per_replicate}{Number of units per replicate per
+treatment level.}
 }
 \value{
-A tibble of design columns: \code{well}, \code{treatment}, \code{dose},
-\code{dose_unit}, \code{replicate}, \code{group}, \code{timepoint}.
+A tibble with one row per unit and the columns \code{well},
+\code{treatment}, \code{dose}, \code{dose_unit}, \code{group}, \code{replicate}, \code{plate},
+\code{interval} and \code{timepoint}.
 }
 \description{
-Generate an example experimental design
+Builds the unit-level design table used by
+\code{\link[=cr_example_experiment]{cr_example_experiment()}}. Six treatment levels are crossed with two
+plates and two pre-treatment intervals, so that a batch is the
+\emph{combination} of plate and interval rather than a single column and
+every batch still contains untreated units to standardise against.
+}
+\details{
+Treatment names are deliberately abstract. \code{Untreated} is the vehicle
+level, \code{PosControl} a positive control, and \code{CompoundA} appears at a
+low and a high exposure level so that a dose axis exists;
+\code{CompoundB} and \code{CompoundC} are further compounds at the low exposure
+level. The four distinct values of \code{dose} are the four exposure
+levels of the demonstration assay.
 }
 \examples{
-cr_example_design(96)
+design <- cr_example_design(96)
+table(design$treatment, design$interval)
 }
+\seealso{
+\code{\link[=cr_example_experiment]{cr_example_experiment()}}, \code{\link[=cr_example_screen]{cr_example_screen()}}.
+
+Other example data:
+\code{\link[=cr_example_experiment]{cr_example_experiment()}},
+\code{\link[=cr_example_exports]{cr_example_exports()}},
+\code{\link[=cr_example_files]{cr_example_files()}},
+\code{\link[=cr_example_path]{cr_example_path()}},
+\code{\link[=cr_example_screen]{cr_example_screen()}}
+}
+\concept{example data}

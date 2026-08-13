@@ -1,0 +1,9 @@
+well_id,compound,experiment,plate,interval,dose,dose_unit,treatment,group,arm,replicate
+CompoundA_Exp_1_Plate_1_A01,CompoundA,Exp_1,Plate_1,15min,0,uM,Vehicle,control,screen,1
+CompoundA_Exp_1_Plate_1_D01,CompoundA,Exp_1,Plate_1,15min,250,uM,Dose_250,treated,screen,1
+CompoundA_Exp_1_Plate_2_E02,CompoundA,Exp_1,Plate_2,60min,0,uM,Vehicle,control,screen,2
+CompoundA_Exp_1_Plate_2_H02,CompoundA,Exp_1,Plate_2,60min,250,uM,Dose_250,treated,screen,2
+CompoundA_Exp_1_Plate_2_H03,CompoundA,Exp_1,Plate_2,60min,250,uM,Dose_250,treated,screen,3
+CompoundB_Exp_1_Plate_1_A01,CompoundB,Exp_1,Plate_1,15min,0,uM,Vehicle,control,screen,1
+CompoundB_Exp_1_Plate_1_D01,CompoundB,Exp_1,Plate_1,15min,250,uM,Dose_250,treated,screen,1
+CompoundB_Exp_1_omitted_B01,CompoundB,Exp_1,Plate_1,15min,250,uM,Dose_250,treated,reagent omitted,1

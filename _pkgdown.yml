@@ -5,57 +5,135 @@ template:
 
 development:
   mode: auto
+includes:
+  in_header: |
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+
+home:
+  title: cellreportR
+  description: >
+    End-to-end analysis and reporting pipeline for cell culture assays
+    read out by microscopy.
+
 reference:
-  - title: "Import & Build"
+  - title: Ingest
+    desc: >
+      Read segmented single-cell exports and recover the experimental
+      design from the directory tree and the file naming convention.
     contents:
       - cr_read_cells
       - cr_read_design
+      - cr_read_export
+      - cr_read_exports
       - cr_read_cellprofiler
       - cr_read_qupath
       - cr_read_segmantr
+      - cr_column_map
+      - cr_path_spec
+      - cr_parse_paths
+      - cr_filename_grammar
+      - cr_marker_rules
+      - cr_extract_markers
+
+  - title: Experiment object
+    desc: >
+      Build, validate and inspect the container that carries cells,
+      design, channels, batch keys and provenance.
+    contents:
       - cr_build_experiment
       - cr_validate_experiment
+      - cr_dataset
+      - cr_design
+      - cr_batch_key
+      - cr_channels
+      - cr_n_cells
+      - cr_filter_cells
+      - cr_merge_experiments
 
-  - title: "Quality Control"
+  - title: Units and balancing
+    desc: >
+      Resolve acquisitions into the analysis unit of replication, then
+      equalise the cell contribution of each unit.
+    contents:
+      - cr_merge_rules
+      - cr_assign_units
+      - cr_unit_map
+      - cr_centroid_overlap
+      - cr_exclude_small
+      - cr_balance_cells
+
+  - title: Quality control
+    desc: >
+      Threshold filters, the biological gate against each unit's own
+      control, and the leverage of what the gate removed.
     contents:
       - cr_qc_filter
       - cr_qc_doublets
       - cr_qc_intensity
       - cr_qc_manual
       - cr_qc_summary
+      - cr_qc_gate
+      - cr_qc_gate_impact
+      - cr_apply_gate
+      - cr_qc_report
 
-  - title: "Normalization"
+  - title: Normalization and batch standardization
+    desc: >
+      Rescale each cell against the control condition of its own batch.
     contents:
       - cr_normalize
       - cr_background_subtract
       - cr_correct_batch
+      - cr_batch_reference
+      - cr_standardize_batch
 
-  - title: "Quantification"
+  - title: Quantification
+    desc: Collapse cells to units and derive per-unit quantities.
     contents:
       - cr_summarize_wells
       - cr_fold_change
       - cr_compute_metrics
 
-  - title: "Statistical Analysis"
+  - title: Effect sizes and testing
+    desc: >
+      Estimate effects with confidence intervals at unit and at cell
+      level, and quantify the distance between the two.
     contents:
       - cr_test
       - cr_test_all
       - cr_effect_size
+      - cr_effect_grid
+      - cr_compare_levels
+      - cr_blocked_effect
+      - cr_unit_variability
+
+  - title: Sample size
+    desc: >
+      Solve the design for the observed estimate and for the confidence
+      bound nearer the null.
+    contents:
+      - cr_conservative_effect
+      - cr_power
+      - cr_power_grid
       - cr_power_analysis
 
-  - title: "Discriminability"
+  - title: Discriminability
+    desc: Logistic models, ROC curves and classification summaries.
     contents:
       - cr_logistic
       - cr_roc
       - cr_auc
       - cr_confusion_matrix
 
-  - title: "Dose-Response"
+  - title: Dose-response
+    desc: Concentration-response curve fitting and potency estimates.
     contents:
       - cr_dose_response
       - cr_ic50
 
-  - title: "Visualization"
+  - title: Visualization
+    desc: Publication figures and the shared plot design contract.
     contents:
       - cr_plot_plate
       - cr_plot_intensity
@@ -63,40 +141,72 @@ reference:
       - cr_plot_histogram
       - cr_plot_foldchange
       - cr_plot_effect_sizes
+      - cr_plot_forest
+      - cr_plot_screen
+      - cr_plot_sample_size
+      - cr_plot_specificity
+      - cr_plot_qc
+      - cr_plot_qc_gate
       - cr_plot_roc
       - cr_plot_dose_response
-      - cr_plot_qc
       - cr_plot_spatial
       - cr_plot_comparison
       - cr_plot_heatmap
       - cr_plot_timeline
+      - cr_theme
+      - cr_palette
+      - cr_shapes
+      - cr_scale_group
+      - cr_save_plot
 
-  - title: "Reporting"
+  - title: Tables and reporting
+    desc: >
+      Emit every reported count and table from the analysis objects
+      rather than by hand.
     contents:
-      - cr_report
+      - cr_tables
+      - cr_table_disposition
+      - cr_table_qc
+      - cr_export_tables
       - cr_export_results
       - cr_export_plots
+      - cr_report
+      - cr_render_report
 
-  - title: "Shiny App"
+  - title: Generated numbers
+    desc: >
+      Write every quoted number and computed enumeration into a single
+      generated include file.
     contents:
-      - cr_run_app
+      - cr_macros
+      - cr_macros_from
+      - cr_macro_name
+      - cr_format_number
+      - cr_enumerate
 
-  - title: "Example Data"
+  - title: Example data
+    desc: Synthetic inputs that exercise the whole pipeline.
     contents:
+      - cr_example_screen
       - cr_example_experiment
       - cr_example_design
+      - cr_example_exports
       - cr_example_files
+      - cr_example_path
 
-  - title: "Utilities"
+  - title: Plate utilities
+    desc: Coordinate helpers for plate layouts.
     contents:
       - cr_well_to_rowcol
       - cr_rowcol_to_well
-      - cr_channels
-      - cr_n_cells
-      - cr_filter_cells
-      - cr_merge_experiments
 
-  - title: "S3 methods"
+  - title: Interactive front-end
+    desc: Guided analysis, exploration and report export in the browser.
+    contents:
+      - cr_run_app
+
+  - title: Methods
+    desc: Print and summarise the objects the pipeline returns.
     contents:
       - print.cr_experiment
       - summary.cr_experiment
@@ -104,27 +214,29 @@ reference:
       - summary.cr_result
       - print.cr_report
       - summary.cr_report
+      - print.cr_qc_gate
+
+  - title: Package
+    contents:
+      - cellreportR-package
 
 articles:
-  - title: "Getting Started"
+  - title: Getting started
+    navbar: ~
     contents:
       - getting-started
-  - title: "Analysis Guides"
+      - end-to-end
+
+  - title: Analysis guides
     contents:
       - statistical-analysis
       - dose-response
-  - title: "Shiny App"
+
+  - title: Interactive front-end
     contents:
       - shiny-app
 
-navbar:
-  structure:
-    left: [home, reference, articles, news]
-    right: [github]
-  components:
-    home:
-      icon: fa-home
-      href: index.html
-    github:
-      icon: fa-github
-      href: https://github.com/cttir/cellreportR
+# navbar (with themakR's far-right dark/light `lightswitch`), footer, and home
+# sidebar are inherited from themakR via `template: package: themakR`. Do NOT
+# re-declare `navbar:` here -- overriding its structure drops the `lightswitch`
+# component and disables the dark/light toggle.

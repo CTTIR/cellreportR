@@ -38,3 +38,10 @@ every cell in that well. Negative values are clipped to zero.
 exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
 cr_background_subtract(exp, channel = "marker_1")
 }
+\seealso{
+\code{\link[=cr_normalize]{cr_normalize()}}, \code{\link[=cr_standardize_batch]{cr_standardize_batch()}}
+
+Other normalization functions:
+\code{\link[=cr_normalize]{cr_normalize()}}
+}
+\concept{normalization functions}

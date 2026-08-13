@@ -18,7 +18,7 @@ cr_plot_plate(
 \item{metric}{One of \code{"median"}, \code{"mean"}, \code{"cv"}, \code{"n_cells"}.}
 }
 \value{
-A ggplot2 object.
+A \code{ggplot} object.
 }
 \description{
 Draws a plate-layout heatmap for a 96 or 384-well plate, showing
@@ -28,3 +28,21 @@ a summary metric (median intensity, cell count, etc.) per well.
 exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
 cr_plot_plate(exp, channel = "marker_1", metric = "median")
 }
+\seealso{
+\code{\link[=cr_theme]{cr_theme()}}, \code{\link[=cr_palette]{cr_palette()}}
+
+Other visualisation:
+\code{\link[=cr_plot_comparison]{cr_plot_comparison()}},
+\code{\link[=cr_plot_dose_response]{cr_plot_dose_response()}},
+\code{\link[=cr_plot_effect_sizes]{cr_plot_effect_sizes()}},
+\code{\link[=cr_plot_foldchange]{cr_plot_foldchange()}},
+\code{\link[=cr_plot_heatmap]{cr_plot_heatmap()}},
+\code{\link[=cr_plot_histogram]{cr_plot_histogram()}},
+\code{\link[=cr_plot_intensity]{cr_plot_intensity()}},
+\code{\link[=cr_plot_qc]{cr_plot_qc()}},
+\code{\link[=cr_plot_roc]{cr_plot_roc()}},
+\code{\link[=cr_plot_scatter]{cr_plot_scatter()}},
+\code{\link[=cr_plot_spatial]{cr_plot_spatial()}},
+\code{\link[=cr_plot_timeline]{cr_plot_timeline()}}
+}
+\concept{visualisation}

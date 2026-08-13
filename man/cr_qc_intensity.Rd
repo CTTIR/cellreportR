@@ -25,3 +25,21 @@ interval \verb{[min_intensity, max_intensity]}.
 exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
 cr_qc_intensity(exp, channel = "DAPI", min_intensity = 50)
 }
+\seealso{
+\code{\link[=cr_qc_gate]{cr_qc_gate()}} for a gate against each unit's own
+in-batch control rather than an absolute bound.
+
+Other quality control:
+\code{\link[=cr_apply_gate]{cr_apply_gate()}},
+\code{\link[=cr_balance_cells]{cr_balance_cells()}},
+\code{\link[=cr_exclude_small]{cr_exclude_small()}},
+\code{\link[=cr_qc_doublets]{cr_qc_doublets()}},
+\code{\link[=cr_qc_filter]{cr_qc_filter()}},
+\code{\link[=cr_qc_gate]{cr_qc_gate()}},
+\code{\link[=cr_qc_gate_impact]{cr_qc_gate_impact()}},
+\code{\link[=cr_qc_manual]{cr_qc_manual()}},
+\code{\link[=cr_qc_report]{cr_qc_report()}},
+\code{\link[=cr_qc_summary]{cr_qc_summary()}},
+\code{\link[=print.cr_qc_gate]{print.cr_qc_gate()}}
+}
+\concept{quality control}

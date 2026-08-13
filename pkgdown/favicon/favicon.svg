@@ -1,0 +1,276 @@
+<svg width="500" height="580" viewBox="0 0 500 580" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgcr" x1="0" y1="0" x2="0.1" y2="1">
+      <stop offset="0%" stop-color="#0e0e18"/>
+      <stop offset="100%" stop-color="#080810"/>
+    </linearGradient>
+    <linearGradient id="plategrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#12122a"/>
+    </linearGradient>
+    <clipPath id="hexcr">
+      <polygon points="250,30 455,145 455,375 250,490 45,375 45,145"/>
+    </clipPath>
+  </defs>
+
+  <polygon points="250,30 455,145 455,375 250,490 45,375 45,145" fill="url(#bgcr)"/>
+
+  <g clip-path="url(#hexcr)">
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- 96-WELL PLATE — 8 rows × 12 cols                      -->
+    <!-- Plate frame                                           -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <rect x="82" y="148" width="336" height="178" rx="10"
+      fill="url(#plategrad)" stroke="#3a3a5c" stroke-width="1.5" opacity="0.95"/>
+
+    <!-- Plate corner notch (top-left, as on real plates) -->
+    <path d="M 82,158 Q 82,148 92,148 L 82,148 Z"
+      fill="#0e0e18" opacity="0.8"/>
+
+    <!-- Row labels A–H (left side) -->
+    <text font-family="monospace" font-size="7" fill="#555575" text-anchor="middle" x="94" y="172">A</text>
+    <text font-family="monospace" font-size="7" fill="#555575" text-anchor="middle" x="94" y="192">B</text>
+    <text font-family="monospace" font-size="7" fill="#555575" text-anchor="middle" x="94" y="212">C</text>
+    <text font-family="monospace" font-size="7" fill="#555575" text-anchor="middle" x="94" y="232">D</text>
+    <text font-family="monospace" font-size="7" fill="#555575" text-anchor="middle" x="94" y="252">E</text>
+    <text font-family="monospace" font-size="7" fill="#555575" text-anchor="middle" x="94" y="272">F</text>
+    <text font-family="monospace" font-size="7" fill="#555575" text-anchor="middle" x="94" y="292">G</text>
+    <text font-family="monospace" font-size="7" fill="#555575" text-anchor="middle" x="94" y="312">H</text>
+
+    <!-- Col labels 1–12 (top) -->
+    <text font-family="monospace" font-size="6.5" fill="#555575" text-anchor="middle" x="112" y="160">1</text>
+    <text font-family="monospace" font-size="6.5" fill="#555575" text-anchor="middle" x="138" y="160">2</text>
+    <text font-family="monospace" font-size="6.5" fill="#555575" text-anchor="middle" x="164" y="160">3</text>
+    <text font-family="monospace" font-size="6.5" fill="#555575" text-anchor="middle" x="190" y="160">4</text>
+    <text font-family="monospace" font-size="6.5" fill="#555575" text-anchor="middle" x="216" y="160">5</text>
+    <text font-family="monospace" font-size="6.5" fill="#555575" text-anchor="middle" x="242" y="160">6</text>
+    <text font-family="monospace" font-size="6.5" fill="#555575" text-anchor="middle" x="268" y="160">7</text>
+    <text font-family="monospace" font-size="6.5" fill="#555575" text-anchor="middle" x="294" y="160">8</text>
+    <text font-family="monospace" font-size="6.5" fill="#555575" text-anchor="middle" x="320" y="160">9</text>
+    <text font-family="monospace" font-size="6.5" fill="#555575" text-anchor="middle" x="346" y="160">10</text>
+    <text font-family="monospace" font-size="6.5" fill="#555575" text-anchor="middle" x="372" y="160">11</text>
+    <text font-family="monospace" font-size="6.5" fill="#555575" text-anchor="middle" x="398" y="160">12</text>
+
+    <!-- Well grid — 8 rows × 12 cols
+         Origin: col1 x=112, row A y=170; step=26px
+         Default wells: dim gray circles
+         Highlighted wells: bright accent colours
+         Colour key:
+           dim   = #2a2a4a (empty/baseline)
+           treat1= #7C3AED purple  (treatment A)
+           treat2= #00BFA5 teal    (treatment B)
+           ctrl  = #EF5350 red     (positive control)
+           blank = #1a1a2e         (blank/empty)
+    -->
+
+    <!-- Helper macro — all wells as circles, r=8 -->
+    <!-- ROW A (y=170) -->
+    <circle cx="112" cy="170" r="8" fill="#EF5350" opacity="0.9"/>  <!-- ctrl+ -->
+    <circle cx="138" cy="170" r="8" fill="#EF5350" opacity="0.9"/>
+    <circle cx="164" cy="170" r="8" fill="#7C3AED" opacity="0.88"/>
+    <circle cx="190" cy="170" r="8" fill="#7C3AED" opacity="0.88"/>
+    <circle cx="216" cy="170" r="8" fill="#7C3AED" opacity="0.85"/>
+    <circle cx="242" cy="170" r="8" fill="#7C3AED" opacity="0.85"/>
+    <circle cx="268" cy="170" r="8" fill="#00BFA5" opacity="0.85"/>
+    <circle cx="294" cy="170" r="8" fill="#00BFA5" opacity="0.85"/>
+    <circle cx="320" cy="170" r="8" fill="#00BFA5" opacity="0.82"/>
+    <circle cx="346" cy="170" r="8" fill="#00BFA5" opacity="0.82"/>
+    <circle cx="372" cy="170" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="398" cy="170" r="8" fill="#2a2a4a" opacity="0.9"/>
+
+    <!-- ROW B (y=196) -->
+    <circle cx="112" cy="196" r="8" fill="#EF5350" opacity="0.88"/>
+    <circle cx="138" cy="196" r="8" fill="#EF5350" opacity="0.88"/>
+    <circle cx="164" cy="196" r="8" fill="#7C3AED" opacity="0.85"/>
+    <circle cx="190" cy="196" r="8" fill="#7C3AED" opacity="0.85"/>
+    <circle cx="216" cy="196" r="8" fill="#7C3AED" opacity="0.82"/>
+    <circle cx="242" cy="196" r="8" fill="#7C3AED" opacity="0.82"/>
+    <circle cx="268" cy="196" r="8" fill="#00BFA5" opacity="0.82"/>
+    <circle cx="294" cy="196" r="8" fill="#00BFA5" opacity="0.82"/>
+    <circle cx="320" cy="196" r="8" fill="#00BFA5" opacity="0.8"/>
+    <circle cx="346" cy="196" r="8" fill="#00BFA5" opacity="0.8"/>
+    <circle cx="372" cy="196" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="398" cy="196" r="8" fill="#2a2a4a" opacity="0.9"/>
+
+    <!-- ROW C (y=222) -->
+    <circle cx="112" cy="222" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="138" cy="222" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="164" cy="222" r="8" fill="#7C3AED" opacity="0.8"/>
+    <circle cx="190" cy="222" r="8" fill="#7C3AED" opacity="0.82"/>
+    <circle cx="216" cy="222" r="8" fill="#7C3AED" opacity="0.78"/>
+    <circle cx="242" cy="222" r="8" fill="#7C3AED" opacity="0.78"/>
+    <circle cx="268" cy="222" r="8" fill="#00BFA5" opacity="0.78"/>
+    <circle cx="294" cy="222" r="8" fill="#00BFA5" opacity="0.78"/>
+    <circle cx="320" cy="222" r="8" fill="#00BFA5" opacity="0.75"/>
+    <circle cx="346" cy="222" r="8" fill="#00BFA5" opacity="0.75"/>
+    <circle cx="372" cy="222" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="398" cy="222" r="8" fill="#2a2a4a" opacity="0.9"/>
+
+    <!-- ROW D (y=248) -->
+    <circle cx="112" cy="248" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="138" cy="248" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="164" cy="248" r="8" fill="#7C3AED" opacity="0.8"/>
+    <circle cx="190" cy="248" r="8" fill="#7C3AED" opacity="0.8"/>
+    <circle cx="216" cy="248" r="8" fill="#7C3AED" opacity="0.75"/>
+    <circle cx="242" cy="248" r="8" fill="#7C3AED" opacity="0.75"/>
+    <circle cx="268" cy="248" r="8" fill="#00BFA5" opacity="0.75"/>
+    <circle cx="294" cy="248" r="8" fill="#00BFA5" opacity="0.75"/>
+    <circle cx="320" cy="248" r="8" fill="#00BFA5" opacity="0.72"/>
+    <circle cx="346" cy="248" r="8" fill="#00BFA5" opacity="0.72"/>
+    <circle cx="372" cy="248" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="398" cy="248" r="8" fill="#2a2a4a" opacity="0.9"/>
+
+    <!-- ROW E (y=274) -->
+    <circle cx="112" cy="274" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="138" cy="274" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="164" cy="274" r="8" fill="#7C3AED" opacity="0.75"/>
+    <circle cx="190" cy="274" r="8" fill="#7C3AED" opacity="0.75"/>
+    <circle cx="216" cy="274" r="8" fill="#7C3AED" opacity="0.7"/>
+    <circle cx="242" cy="274" r="8" fill="#7C3AED" opacity="0.7"/>
+    <circle cx="268" cy="274" r="8" fill="#00BFA5" opacity="0.7"/>
+    <circle cx="294" cy="274" r="8" fill="#00BFA5" opacity="0.7"/>
+    <circle cx="320" cy="274" r="8" fill="#00BFA5" opacity="0.68"/>
+    <circle cx="346" cy="274" r="8" fill="#00BFA5" opacity="0.68"/>
+    <circle cx="372" cy="274" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="398" cy="274" r="8" fill="#2a2a4a" opacity="0.9"/>
+
+    <!-- ROW F (y=300) -->
+    <circle cx="112" cy="300" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="138" cy="300" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="164" cy="300" r="8" fill="#7C3AED" opacity="0.68"/>
+    <circle cx="190" cy="300" r="8" fill="#7C3AED" opacity="0.68"/>
+    <circle cx="216" cy="300" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="242" cy="300" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="268" cy="300" r="8" fill="#00BFA5" opacity="0.65"/>
+    <circle cx="294" cy="300" r="8" fill="#00BFA5" opacity="0.65"/>
+    <circle cx="320" cy="300" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="346" cy="300" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="372" cy="300" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="398" cy="300" r="8" fill="#2a2a4a" opacity="0.9"/>
+
+    <!-- ROW G (y=326) -->
+    <circle cx="112" cy="326" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="138" cy="326" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="164" cy="326" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="190" cy="326" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="216" cy="326" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="242" cy="326" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="268" cy="326" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="294" cy="326" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="320" cy="326" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="346" cy="326" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="372" cy="326" r="8" fill="#2a2a4a" opacity="0.9"/>
+    <circle cx="398" cy="326" r="8" fill="#2a2a4a" opacity="0.9"/>
+
+    <!-- ROW H (y=316) — blank controls -->
+    <!-- (collapsed into G for space — keeping 7 visible rows for cleaner look) -->
+
+    <!-- Pipeline arrow — plate to chart -->
+    <line x1="250" y1="334" x2="250" y2="348"
+      stroke="#00BFA5" stroke-width="2" opacity="0.6"/>
+    <polygon points="244,347 250,355 256,347" fill="#00BFA5" opacity="0.6"/>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- BAR CHART — analysis output                           -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- Chart frame -->
+    <rect x="90" y="358" width="224" height="90" rx="4"
+      fill="#0d0d1a" stroke="#2a2a4a" stroke-width="1" opacity="0.9"/>
+
+    <!-- Axes -->
+    <line x1="108" y1="362" x2="108" y2="440" stroke="#3a3a5c" stroke-width="1" opacity="0.8"/>
+    <line x1="108" y1="440" x2="306" y2="440" stroke="#3a3a5c" stroke-width="1" opacity="0.8"/>
+
+    <!-- Tick marks y-axis -->
+    <line x1="105" y1="420" x2="108" y2="420" stroke="#3a3a5c" stroke-width="0.8" opacity="0.6"/>
+    <line x1="105" y1="400" x2="108" y2="400" stroke="#3a3a5c" stroke-width="0.8" opacity="0.6"/>
+    <line x1="105" y1="380" x2="108" y2="380" stroke="#3a3a5c" stroke-width="0.8" opacity="0.6"/>
+    <line x1="105" y1="362" x2="108" y2="362" stroke="#3a3a5c" stroke-width="0.8" opacity="0.6"/>
+
+    <!-- Bar group 1: ctrl (red) -->
+    <rect x="118" y="396" width="14" height="44" rx="2" fill="#EF5350" opacity="0.85"/>
+    <!-- Bar group 2: treat A rep1 (purple) -->
+    <rect x="140" y="408" width="14" height="32" rx="2" fill="#7C3AED" opacity="0.85"/>
+    <!-- Bar group 2: treat A rep2 -->
+    <rect x="156" y="412" width="14" height="28" rx="2" fill="#7C3AED" opacity="0.7"/>
+    <!-- Bar group 3: treat B rep1 (teal) -->
+    <rect x="178" y="418" width="14" height="22" rx="2" fill="#00BFA5" opacity="0.85"/>
+    <!-- Bar group 3: treat B rep2 -->
+    <rect x="194" y="422" width="14" height="18" rx="2" fill="#00BFA5" opacity="0.7"/>
+    <!-- Bar group 4: blank (dim) -->
+    <rect x="216" y="432" width="14" height="8"  rx="2" fill="#3a3a5c" opacity="0.7"/>
+    <rect x="232" y="434" width="14" height="6"  rx="2" fill="#3a3a5c" opacity="0.6"/>
+    <!-- Error bars -->
+    <line x1="125" y1="390" x2="125" y2="402" stroke="#ffffff" stroke-width="1" opacity="0.5"/>
+    <line x1="122" y1="390" x2="128" y2="390" stroke="#ffffff" stroke-width="1" opacity="0.5"/>
+    <line x1="147" y1="403" x2="147" y2="414" stroke="#ffffff" stroke-width="1" opacity="0.45"/>
+    <line x1="144" y1="403" x2="150" y2="403" stroke="#ffffff" stroke-width="1" opacity="0.45"/>
+    <line x1="185" y1="413" x2="185" y2="424" stroke="#ffffff" stroke-width="1" opacity="0.45"/>
+    <line x1="182" y1="413" x2="188" y2="413" stroke="#ffffff" stroke-width="1" opacity="0.45"/>
+
+    <!-- Significance brackets -->
+    <line x1="125" y1="386" x2="185" y2="386" stroke="#ffffff" stroke-width="0.8" opacity="0.4"/>
+    <line x1="125" y1="386" x2="125" y2="390" stroke="#ffffff" stroke-width="0.8" opacity="0.4"/>
+    <line x1="185" y1="386" x2="185" y2="390" stroke="#ffffff" stroke-width="0.8" opacity="0.4"/>
+    <text font-family="monospace" font-size="7" fill="#ffffff" text-anchor="middle" x="155" y="384" opacity="0.55">***</text>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- REPORT / PAPER ICON — right side                      -->
+    <!-- Clean document with lines and a chart thumbnail       -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <rect x="326" y="358" width="88" height="112" rx="5"
+      fill="#0f0f22" stroke="#3a3a5c" stroke-width="1.2" opacity="0.95"/>
+
+    <!-- Dog-ear fold top-right -->
+    <polygon points="390,358 414,358 414,382 390,358"
+      fill="#1a1a2e" stroke="#3a3a5c" stroke-width="0.8" opacity="0.85"/>
+    <line x1="390" y1="358" x2="414" y2="382" stroke="#3a3a5c" stroke-width="0.8" opacity="0.6"/>
+
+    <!-- Title bar -->
+    <rect x="334" y="366" width="52" height="5" rx="1.5" fill="#7C3AED" opacity="0.7"/>
+    <!-- Subtitle -->
+    <rect x="334" y="375" width="38" height="3" rx="1" fill="#3a3a5c" opacity="0.8"/>
+    <!-- Author line -->
+    <rect x="334" y="381" width="46" height="3" rx="1" fill="#3a3a5c" opacity="0.6"/>
+
+    <!-- Divider -->
+    <line x1="330" y1="388" x2="408" y2="388" stroke="#2a2a4a" stroke-width="0.8" opacity="0.7"/>
+
+    <!-- Mini bar chart in report -->
+    <rect x="334" y="398" width="6"  height="18" rx="1" fill="#EF5350" opacity="0.75"/>
+    <rect x="342" y="404" width="6"  height="12" rx="1" fill="#7C3AED" opacity="0.75"/>
+    <rect x="350" y="408" width="6"  height="8"  rx="1" fill="#00BFA5" opacity="0.75"/>
+    <rect x="358" y="412" width="6"  height="4"  rx="1" fill="#3a3a5c" opacity="0.7"/>
+    <line x1="334" y1="416" x2="368" y2="416" stroke="#2a2a4a" stroke-width="0.7" opacity="0.6"/>
+
+    <!-- Text lines in report body -->
+    <rect x="334" y="422" width="74" height="2.5" rx="1" fill="#2a2a4a" opacity="0.7"/>
+    <rect x="334" y="428" width="68" height="2.5" rx="1" fill="#2a2a4a" opacity="0.6"/>
+    <rect x="334" y="434" width="72" height="2.5" rx="1" fill="#2a2a4a" opacity="0.6"/>
+    <rect x="334" y="440" width="55" height="2.5" rx="1" fill="#2a2a4a" opacity="0.5"/>
+
+    <!-- p-value label in report -->
+    <text font-family="monospace" font-size="6.5" fill="#00BFA5" opacity="0.6" x="334" y="454">p = 0.003</text>
+    <text font-family="monospace" font-size="6" fill="#7C3AED" opacity="0.5" x="334" y="463">n = 96 wells</text>
+
+    <!-- Legend -->
+    <circle cx="98"  cy="453" r="4" fill="#EF5350" opacity="0.85"/>
+    <text font-family="monospace" font-size="6.5" fill="#888899" x="105" y="456">ctrl+</text>
+    <circle cx="138" cy="453" r="4" fill="#7C3AED" opacity="0.85"/>
+    <text font-family="monospace" font-size="6.5" fill="#888899" x="145" y="456">treat A</text>
+    <circle cx="188" cy="453" r="4" fill="#00BFA5" opacity="0.85"/>
+    <text font-family="monospace" font-size="6.5" fill="#888899" x="195" y="456">treat B</text>
+
+  </g>
+
+  <!-- Hex border — deep purple matching well accent -->
+  <polygon points="250,30 455,145 455,375 250,490 45,375 45,145"
+    fill="none" stroke="#4a1a8a" stroke-width="11" stroke-linejoin="round"/>
+  <polygon points="250,44 441,153 441,367 250,476 59,367 59,153"
+    fill="none" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round" opacity="0.6"/>
+
+  <!-- Package name -->
+  <text font-family="monospace" font-weight="700" font-size="24"
+    fill="#b39ddb" text-anchor="middle" x="250" y="545" letter-spacing="1">cellreportR</text>
+</svg>

@@ -11,24 +11,84 @@ cr_example_experiment(
 )
 }
 \arguments{
-\item{seed}{Random seed.}
+\item{seed}{Random seed. \code{NULL} uses the current RNG state.}
 
-\item{n_cells_per_well}{Mean number of cells per well (Poisson).}
+\item{n_cells_per_well}{Mean number of cells per unit (Poisson, with
+a floor of ten).}
 
-\item{n_wells_per_replicate}{Number of wells per replicate.}
+\item{n_wells_per_replicate}{Number of units per replicate.}
 }
 \value{
-A \code{cr_experiment}.
+A \code{cr_experiment} whose \code{cells} table holds one row per cell
+(\code{cell_id}, \code{well}, \code{x}, \code{y}, \code{area}, \code{circularity}, \code{DAPI},
+\code{marker_1}, \code{marker_2}, \code{marker_3}) and whose \code{design} table holds
+one row per unit, as described in \code{\link[=cr_example_design]{cr_example_design()}}.
 }
 \description{
-Creates a realistic synthetic cell-culture microscopy data set for
-demonstration and testing. The simulated experiment has six
-treatment groups, four replicates per group and 96 wells in total.
-Four fluorescence channels are generated: a nuclear stain (\code{DAPI}),
-a damage marker (\code{marker_1}), a viability marker (\code{marker_2}) and a
-secondary readout (\code{marker_3}).
+Simulates a compact demonstration experiment: one 96-unit plate
+format, six treatment levels, four exposure levels, two plates and
+two pre-treatment intervals. It is small enough that every example
+in the package can build a fresh copy in well under a second, and
+structured enough that the batch, quality-control and effect-size
+functions all have something to work on.
 }
+\details{
+Use \code{\link[=cr_example_screen]{cr_example_screen()}} instead when a multi-compound screen with
+per-batch controls, merged analysis units and a specificity arm is
+needed.
+}
+\section{Generating model}{
+
+Values are drawn independently per cell from log-normal
+distributions, so that the marker channels are right-skewed the way
+measured intensities are:
+
+\describe{
+\item{unit intercept}{Each unit draws \eqn{u \sim N(0, 0.15^2)},
+added to the log mean of every channel in that unit. This is what
+makes the unit, and not the cell, the honest replicate.}
+\item{target signal}{\code{marker_1} is
+\eqn{\mathrm{LogNormal}(\log 500 + u + e \log 2,\ 0.5^2)}, where
+\eqn{e} is the treatment effect in log2 units: \code{0} untreated,
+\code{1.0} and \code{3.0} for the low and high exposure level of
+\code{CompoundA}, \code{3.3} for the positive control, \code{0.4} for
+\code{CompoundB} and \code{0.7} for \code{CompoundC}.}
+\item{further channels}{\code{marker_2} moves against the target signal
+at \eqn{-0.4e}, \code{marker_3} weakly with it at \eqn{0.3e}.}
+\item{nuclear stain}{\code{DAPI} is
+\eqn{\mathrm{LogNormal}(\log 500 + u,\ 0.3^2)} and carries no
+treatment effect.}
+\item{morphology}{Nuclear \code{area} is
+\eqn{\mathrm{LogNormal}(\log 400,\ 0.25^2)} and \code{circularity} is
+\eqn{\mathrm{Beta}(5, 2)}.}
+\item{plate position}{Units on the outer rows and columns get a
+fixed \code{+0.07} log bump on every channel, an edge effect for the
+plate map to show.}
+\item{debris}{Five per cent of the cells of each unit are shrunk to
+a twentieth of their area and a tenth of their nuclear signal, so
+that the quality-control filters have something to remove.}
+\item{artefacts}{Two named units are multiplied up on \code{marker_1}
+and down on \code{area}, a saturated pair for the outlier screens.}
+}
+
+The random number generator state of the caller is restored on exit,
+so calling this function does not disturb a seeded analysis.
+}
+
 \examples{
 exp <- cr_example_experiment(seed = 1, n_cells_per_well = 20)
-print(exp)
+exp
+head(exp$design, 3)
 }
+\seealso{
+\code{\link[=cr_example_design]{cr_example_design()}}, \code{\link[=cr_example_screen]{cr_example_screen()}},
+\code{\link[=cr_example_files]{cr_example_files()}}.
+
+Other example data:
+\code{\link[=cr_example_design]{cr_example_design()}},
+\code{\link[=cr_example_exports]{cr_example_exports()}},
+\code{\link[=cr_example_files]{cr_example_files()}},
+\code{\link[=cr_example_path]{cr_example_path()}},
+\code{\link[=cr_example_screen]{cr_example_screen()}}
+}
+\concept{example data}

@@ -14,8 +14,10 @@ cr_correct_batch(
 \arguments{
 \item{experiment}{A \code{cr_experiment}.}
 
-\item{batch_var}{Name of the batch variable. Must exist in
-\code{design}.}
+\item{batch_var}{Name of the batch variable, or a character vector
+of several column names that jointly define a batch (they are
+collapsed with \code{\link[=cr_batch_key]{cr_batch_key()}}). Columns are looked up in
+\code{design} first and then in \code{cells}.}
 
 \item{channel}{Channel to correct.}
 
@@ -29,8 +31,28 @@ Applies a simple batch correction. \code{"median_center"} shifts each
 batch's median to the overall median. \code{"combat"} delegates to
 \code{sva::ComBat} when available.
 }
+\details{
+Batch correction removes a batch offset from the measured signal.
+It is \emph{not} a substitute for \code{\link[=cr_standardize_batch]{cr_standardize_batch()}}, which
+expresses every cell relative to the control cells of its own
+batch and leaves the measured signal untouched.
+}
 \examples{
 exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
 exp$design$batch <- rep(c("b1", "b2"), length.out = nrow(exp$design))
 cr_correct_batch(exp, batch_var = "batch", channel = "marker_1")
+
+# A batch defined by more than one column
+exp$design$plate <- rep(c("P1", "P2"), length.out = nrow(exp$design))
+cr_correct_batch(exp, batch_var = c("batch", "plate"),
+                 channel = "marker_1")
 }
+\seealso{
+\code{\link[=cr_batch_key]{cr_batch_key()}}, \code{\link[=cr_standardize_batch]{cr_standardize_batch()}}
+
+Other batch standardization functions:
+\code{\link[=cr_batch_key]{cr_batch_key()}},
+\code{\link[=cr_batch_reference]{cr_batch_reference()}},
+\code{\link[=cr_standardize_batch]{cr_standardize_batch()}}
+}
+\concept{batch standardization functions}

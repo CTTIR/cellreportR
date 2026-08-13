@@ -37,7 +37,7 @@ test_that("cr_read_qupath normalises column names", {
 test_that("cr_read_segmantr reads RDS", {
   dir <- withr::local_tempdir()
   exp <- cr_example_experiment(seed = 1, n_cells_per_well = 5)
-  rds <- file.path(dir, "sm.rds")
+  rds <- file.path(dir, "cells.rds")
   saveRDS(exp$cells, rds)
   cells <- cr_read_segmantr(rds)
   expect_s3_class(cells, "tbl_df")

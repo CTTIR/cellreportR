@@ -1,5 +1,235 @@
-.navbar { background-color: #7B2D8E !important; }
-.navbar a, .navbar-brand { color: white !important; }
-.card { box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); border-radius: 8px; }
-.btn-primary { background-color: #7B2D8E; border-color: #7B2D8E; }
-.btn-primary:hover { background-color: #9B59B6; border-color: #9B59B6; }
+/* cellreportR shiny app - brand layer on top of the bslib theme.
+   Loaded by .cr_app_ui() through the "cr_www" resource path. */
+
+:root {
+  --cr-fg: #2c2c2c;
+  --cr-bg: #fdfcfe;
+  --cr-line: #e2dde6;
+  --cr-mute: #6b6b6b;
+  --cr-card: #ffffff;
+  --cr-cap: #f5f0f7;
+  --cr-accent: #7b2d8e;
+}
+
+body {
+  background: var(--cr-bg);
+  color: var(--cr-fg);
+}
+
+/* ---- brand bar ---------------------------------------------------- */
+
+.cr-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 1rem;
+  background: var(--cr-card);
+  border-bottom: 1px solid var(--cr-line);
+}
+
+.cr-brand img.cr-logo {
+  height: 40px;
+  width: auto;
+}
+
+.cr-brand .cr-title {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  font-size: 1.05rem;
+}
+
+.cr-brand .cr-sub {
+  color: var(--cr-mute);
+  font-size: 0.85rem;
+  margin-left: 0.4rem;
+}
+
+/* ---- surfaces ----------------------------------------------------- */
+
+.bslib-sidebar-layout > .sidebar {
+  background: var(--cr-card);
+  border-right: 1px solid var(--cr-line);
+}
+
+.card {
+  border: 1px solid var(--cr-line);
+  box-shadow: none;
+}
+
+.card-header {
+  background: var(--cr-cap);
+  border-bottom: 1px solid var(--cr-line);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+hr {
+  border-top: 1px solid var(--cr-line);
+}
+
+/* ---- controls ----------------------------------------------------- */
+
+.btn {
+  border-radius: 0.25rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.btn-primary {
+  background: var(--cr-accent);
+  border-color: var(--cr-accent);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: #622471;
+  border-color: #622471;
+  color: #ffffff;
+}
+
+.shiny-download-link {
+  background: var(--cr-card);
+  color: var(--cr-fg);
+  border: 1px solid var(--cr-fg);
+}
+
+.shiny-download-link:hover {
+  background: var(--cr-fg);
+  color: var(--cr-card);
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  border-color: var(--cr-accent);
+  box-shadow: 0 0 0 0.15rem rgba(123, 45, 142, 0.18);
+}
+
+.nav-tabs .nav-link {
+  color: var(--cr-mute);
+}
+
+.nav-tabs .nav-link:hover {
+  color: var(--cr-fg);
+}
+
+.nav-tabs .nav-link.active {
+  color: var(--cr-fg);
+  border-bottom-color: var(--cr-accent);
+}
+
+/* ---- content ------------------------------------------------------ */
+
+pre,
+code {
+  background: var(--cr-card);
+  border: 1px solid var(--cr-line);
+  color: var(--cr-fg);
+}
+
+table.dataTable thead th {
+  border-bottom: 1px solid var(--cr-fg) !important;
+}
+
+table.dataTable tbody tr:hover {
+  background: var(--cr-cap) !important;
+}
+
+.alert-secondary {
+  background: var(--cr-cap);
+  border-color: var(--cr-line);
+  color: var(--cr-fg);
+}
+
+.cr-about {
+  max-width: 780px;
+  padding: 1rem 0.25rem;
+}
+
+.cr-about h2 {
+  letter-spacing: 0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.cr-about h3 {
+  margin-top: 1.4rem;
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.cr-about blockquote {
+  border-left: 3px solid var(--cr-accent);
+  padding-left: 0.8rem;
+  margin: 0.5rem 0;
+}
+
+/* ---- dark mode (bslib sets data-bs-theme on <html>) ---------------- */
+
+[data-bs-theme="dark"] {
+  --cr-fg: #e6e1e9;
+  --cr-bg: #1e1b21;
+  --cr-line: #3a3440;
+  --cr-mute: #9e96a6;
+  --cr-card: #282430;
+  --cr-cap: #201d26;
+  --cr-accent: #c49ad4;
+}
+
+[data-bs-theme="dark"] body {
+  background: var(--cr-bg);
+  color: var(--cr-fg);
+}
+
+[data-bs-theme="dark"] .cr-brand,
+[data-bs-theme="dark"] .bslib-sidebar-layout > .sidebar,
+[data-bs-theme="dark"] .card {
+  background: var(--cr-card);
+  border-color: var(--cr-line);
+}
+
+[data-bs-theme="dark"] .card-header {
+  background: var(--cr-cap);
+  border-bottom-color: var(--cr-line);
+}
+
+[data-bs-theme="dark"] .btn-primary {
+  background: var(--cr-accent);
+  border-color: var(--cr-accent);
+  color: #1e1b21;
+}
+
+[data-bs-theme="dark"] .btn-primary:hover {
+  background: #d9b6e6;
+  border-color: #d9b6e6;
+  color: #1e1b21;
+}
+
+[data-bs-theme="dark"] .shiny-download-link {
+  background: transparent;
+  color: var(--cr-fg);
+  border: 1px solid var(--cr-fg);
+}
+
+[data-bs-theme="dark"] .shiny-download-link:hover {
+  background: var(--cr-fg);
+  color: #1e1b21;
+}
+
+[data-bs-theme="dark"] pre,
+[data-bs-theme="dark"] code {
+  background: var(--cr-cap);
+  color: var(--cr-fg);
+  border-color: var(--cr-line);
+}
+
+[data-bs-theme="dark"] table.dataTable {
+  color: var(--cr-fg) !important;
+}
+
+[data-bs-theme="dark"] table.dataTable tbody tr {
+  background: var(--cr-card) !important;
+}
+
+[data-bs-theme="dark"] table.dataTable tbody tr:hover {
+  background: #332e3c !important;
+}
