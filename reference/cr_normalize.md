@@ -59,6 +59,24 @@ A modified `cr_experiment`.
 - `"quantile"` maps the per-well empirical distributions onto the global
   quantile distribution.
 
+All five methods use a *single, pooled* reference for the whole
+experiment and overwrite the channel in place. When the reference has to
+be the control of each cell's own batch – the usual situation once
+several plates, runs or acquisition days are involved – use
+[`cr_standardize_batch()`](https://cttir.github.io/cellreportR/reference/cr_standardize_batch.md)
+instead, which adds new columns rather than overwriting the measured
+signal.
+
+## See also
+
+[`cr_standardize_batch()`](https://cttir.github.io/cellreportR/reference/cr_standardize_batch.md)
+for per-batch standardization,
+[`cr_background_subtract()`](https://cttir.github.io/cellreportR/reference/cr_background_subtract.md),
+[`cr_correct_batch()`](https://cttir.github.io/cellreportR/reference/cr_correct_batch.md).
+
+Other normalization functions:
+[`cr_background_subtract()`](https://cttir.github.io/cellreportR/reference/cr_background_subtract.md)
+
 ## Examples
 
 ``` r

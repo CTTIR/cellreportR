@@ -32,12 +32,12 @@ cr_n_cells(exp)
 #> [1] 1068
 cr_n_cells(exp, by = "treatment")
 #> # A tibble: 6 × 2
-#>   treatment       n_cells
-#>   <chr>             <int>
-#> 1 CompoundA_ScavX     182
-#> 2 CompoundA_ScavY     173
-#> 3 CompoundA_high      169
-#> 4 CompoundA_low       181
-#> 5 PosControl          175
-#> 6 Untreated           188
+#>   treatment      n_cells
+#>   <chr>            <int>
+#> 1 CompoundA_high     169
+#> 2 CompoundA_low      181
+#> 3 CompoundB          182
+#> 4 CompoundC          173
+#> 5 PosControl         175
+#> 6 Untreated          188
 ```

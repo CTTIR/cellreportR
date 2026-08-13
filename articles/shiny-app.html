@@ -6,6 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Interactive Analysis with the cellreportR Shiny App • cellreportR</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <!-- katex math --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script><script src="../katex-auto.js"></script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
@@ -13,7 +18,8 @@
 <link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Interactive Analysis with the cellreportR Shiny App">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<meta property="og:title" content="Interactive Analysis with the cellreportR Shiny App">
 <meta name="theme-color" content="#1565c0">
 </head>
 <body>
@@ -24,7 +30,7 @@
 
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo">cellreportR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,14 +38,31 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="nav-link" href="../index.html"><span class="fa fa-home"></span></a></li>
-<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="active nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
-<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
-      </ul>
+      <ul class="navbar-nav me-auto"></ul>
 <ul class="navbar-nav">
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/cttir/cellreportR"><span class="fa fa-github"></span></a></li>
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
+</form></li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="active nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started with cellreportR</a></li>
+    <li><a class="dropdown-item" href="../articles/end-to-end.html">End to End: From Segmented Exports to a Finished Report</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/index.html">More articles...</a></li>
+  </ul>
+</li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/CTTIR/cellreportR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
+<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
+  </ul>
+</li>
       </ul>
 </div>
 
@@ -55,59 +78,194 @@
       <img src="../logo.svg" class="logo" alt=""><h1>Interactive Analysis with the cellreportR Shiny App</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/cttir/cellreportR/blob/main/vignettes/shiny-app.Rmd" class="external-link"><code>vignettes/shiny-app.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/CTTIR/cellreportR/blob/main/vignettes/shiny-app.Rmd" class="external-link"><code>vignettes/shiny-app.Rmd</code></a></small>
       <div class="d-none name"><code>shiny-app.Rmd</code></div>
     </div>
 
     
     
-<!-- badges: start -->
-<p><a href="https://github.com/CTTIR/cellreportR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/CTTIR/cellreportR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://cttir.github.io/cellreportR/"><img src="https://github.com/CTTIR/cellreportR/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a> <a href="https://CRAN.R-project.org/package=cellreportR" class="external-link"><img src="https://www.r-pkg.org/badges/version/cellreportR" alt="CRAN status"></a> <a href="https://app.codecov.io/gh/CTTIR/cellreportR?branch=main" class="external-link"><img src="https://codecov.io/gh/CTTIR/cellreportR/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://cran.r-project.org/package=cellreportR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/cellreportR" alt="CRAN downloads"></a> <a href="https://cran.r-project.org/package=cellreportR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/cellreportR" alt="CRAN downloads total"></a> <a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="License: MIT"></a> <a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a> <!-- badges: end --></p>
-<p>The bundled Shiny application exposes the full cellreportR pipeline
-through seven guided tabs. It is intended for laboratory personnel
-without an R background.</p>
+<p>The bundled application walks the same pipeline as the package
+functions — read segmented exports, specify the design, apply quality
+control at cell and unit level, standardize, estimate effect sizes with
+confidence intervals at both levels, export a report — in a browser
+rather than in a script. It is meant for laboratory personnel without an
+R background, and for anyone who wants to look at a data set before
+writing the script.</p>
+<p>Every analytical step in the app delegates to an exported
+<code>cr_*</code> function, so the app and a scripted analysis produce
+the same numbers.</p>
 <div class="section level2">
 <h2 id="launching">Launching<a class="anchor" aria-label="anchor" href="#launching"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/cttir/cellreportR" class="external-link">cellreportR</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/cr_run_app.html">cr_run_app</a></span><span class="op">(</span><span class="op">)</span>                             <span class="co"># example data</span></span>
-<span><span class="fu"><a href="../reference/cr_run_app.html">cr_run_app</a></span><span class="op">(</span>experiment <span class="op">=</span> <span class="va">my_cr_exp</span><span class="op">)</span>       <span class="co"># your own experiment</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/CTTIR/cellreportR" class="external-link">cellreportR</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/cr_run_app.html">cr_run_app</a></span><span class="op">(</span><span class="op">)</span>                      <span class="co"># starts empty; example data is one click away</span></span>
+<span><span class="fu"><a href="../reference/cr_run_app.html">cr_run_app</a></span><span class="op">(</span>experiment <span class="op">=</span> <span class="va">my_exp</span><span class="op">)</span>   <span class="co"># start from an experiment already in session</span></span></code></pre></div>
+<p><code><a href="../reference/cr_run_app.html">cr_run_app()</a></code> needs <code>shiny</code>,
+<code>bslib</code>, <code>DT</code> and <code>ggplot2</code>, all of
+which are listed under <code>Suggests</code>; a missing one raises an
+error naming it. The upload limit is raised to 512 MB for the duration
+of the session, because segmented single-cell exports routinely exceed
+the Shiny default of 5 MB, and the previous value is restored on
+exit.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/args.html" class="external-link">args</a></span><span class="op">(</span><span class="va">cr_run_app</span><span class="op">)</span></span>
+<span><span class="co">#&gt; function (experiment = NULL, max_upload_mb = 512, launch_browser = interactive(), </span></span>
+<span><span class="co">#&gt;     ...) </span></span>
+<span><span class="co">#&gt; NULL</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="tab-overview">Tab overview<a class="anchor" aria-label="anchor" href="#tab-overview"></a>
+<h2 id="layout">Layout<a class="anchor" aria-label="anchor" href="#layout"></a>
 </h2>
+<p>The page has four fixed regions:</p>
+<ul>
+<li>a <strong>sidebar</strong>, always visible, holding the three things
+every tab depends on — where the data comes from, which marker channel
+the analysis targets, and which level of the design is the control;</li>
+<li>a <strong>status card</strong> with a running log of what the app
+has done, so an analysis can be reconstructed afterwards;</li>
+<li>the <strong>tab strip</strong>, in analysis order;</li>
+<li>an <strong>About</strong> card.</li>
+</ul>
+<div class="section level3">
+<h3 id="the-sidebar">The sidebar<a class="anchor" aria-label="anchor" href="#the-sidebar"></a>
+</h3>
 <ol style="list-style-type: decimal">
 <li>
-<strong>Import &amp; Design</strong> — upload cell and design files,
-or load the example data.</li>
+<strong>Data source</strong> — upload one or more segmented exports,
+or type the path of a directory and let the app read it with a file
+pattern and an optional recursive scan. <code>Load example data</code>
+fills the app with a synthetic multi-compound screen
+(<code><a href="../reference/cr_example_screen.html">cr_example_screen()</a></code>) when there is nothing to hand.</li>
 <li>
-<strong>Quality Control</strong> — set morphology thresholds and
-remove doublets.</li>
+<strong>Design</strong> — upload a design table (<code>.csv</code>,
+<code>.tsv</code> or <code>.xlsx</code>), or build one in the Design
+tab.</li>
 <li>
-<strong>Normalization</strong> — background subtraction,
-control-reference or Z-score.</li>
-<li>
-<strong>Statistical Analysis</strong> — parametric and
-non-parametric tests at cell or replicate level, with effect sizes and
-adjusted p-values.</li>
-<li>
-<strong>Dose-Response</strong> — fit 4PL / 3PL / linear models and
-read off IC50.</li>
-<li>
-<strong>Visualization</strong> — interactive gallery covering all 13
-plot types.</li>
-<li>
-<strong>Report &amp; Export</strong> — generate HTML or PDF reports,
-export tables and figures.</li>
+<strong>Analysis target</strong> — the marker channel and the
+control level. Every tab downstream reads these two selectors, so
+changing the control level here changes what every later tab compares
+against.</li>
 </ol>
+<p>The whole experiment can be downloaded as an <code>.rds</code> from
+the sidebar at any point, which is the bridge from the app back to a
+script.</p>
+</div>
+<div class="section level3">
+<h3 id="the-tabs">The tabs<a class="anchor" aria-label="anchor" href="#the-tabs"></a>
+</h3>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>Tab</th>
+<th>What it does</th>
+<th>Backed by</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><strong>Data</strong></td>
+<td>Cell table, the files that were read, detected channels</td>
+<td>
+<code><a href="../reference/cr_read_cells.html">cr_read_cells()</a></code>, <code><a href="../reference/cr_read_exports.html">cr_read_exports()</a></code>
+</td>
+</tr>
+<tr class="even">
+<td><strong>Design</strong></td>
+<td>Derive one design row per unit, assign treatment levels, build the
+experiment</td>
+<td><code><a href="../reference/cr_build_experiment.html">cr_build_experiment()</a></code></td>
+</tr>
+<tr class="odd">
+<td><strong>Quality control</strong></td>
+<td>Cell filters, doublet removal, and the per-unit gate against each
+unit’s own control</td>
+<td>
+<code><a href="../reference/cr_qc_filter.html">cr_qc_filter()</a></code>, <code><a href="../reference/cr_qc_doublets.html">cr_qc_doublets()</a></code>,
+<code><a href="../reference/cr_qc_gate.html">cr_qc_gate()</a></code>, <code><a href="../reference/cr_apply_gate.html">cr_apply_gate()</a></code>
+</td>
+</tr>
+<tr class="even">
+<td><strong>Normalisation</strong></td>
+<td>Robust z-score, z-score, control ratio, background subtraction or
+quantile, optionally within a batch variable</td>
+<td>
+<code><a href="../reference/cr_normalize.html">cr_normalize()</a></code>, <code><a href="../reference/cr_correct_batch.html">cr_correct_batch()</a></code>
+</td>
+</tr>
+<tr class="odd">
+<td><strong>Effect sizes</strong></td>
+<td>Forest plot and effect table at unit or cell level</td>
+<td>
+<code><a href="../reference/cr_effect_grid.html">cr_effect_grid()</a></code>, <code><a href="../reference/cr_plot_forest.html">cr_plot_forest()</a></code>
+</td>
+</tr>
+<tr class="even">
+<td><strong>Dose-response</strong></td>
+<td>4PL / 3PL / linear fit with the fitted parameters</td>
+<td>
+<code><a href="../reference/cr_dose_response.html">cr_dose_response()</a></code>, <code><a href="../reference/cr_ic50.html">cr_ic50()</a></code>
+</td>
+</tr>
+<tr class="odd">
+<td><strong>Figures</strong></td>
+<td>Plate map, intensity by treatment, histogram, QC dashboard, spatial
+map</td>
+<td>
+<code><a href="../reference/cr_plot_plate.html">cr_plot_plate()</a></code> and friends</td>
+</tr>
+<tr class="even">
+<td><strong>Report</strong></td>
+<td>Pairwise comparisons, queued figures, and the exported report</td>
+<td>
+<code><a href="../reference/cr_report.html">cr_report()</a></code>, <code><a href="../reference/cr_render_report.html">cr_render_report()</a></code>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The Quality control tab is the one worth spending time in. Its
+sub-panels are the exclusion table, the disputed verdicts (units whose
+verdict depends on whether the control’s median or mean is used as the
+threshold), the gate figure, the area distribution and the QC log. Rows
+selected in the exclusion table are dropped together with the units that
+fail the gate, which is the interactive form of the reviewed exclusion
+list shown in <code><a href="../articles/end-to-end.html">vignette("end-to-end")</a></code>.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="cross-tab-state">Cross-tab state<a class="anchor" aria-label="anchor" href="#cross-tab-state"></a>
 </h2>
-<p>The Shiny app keeps a single <code>cr_experiment</code> in
-<code>reactiveValues()</code>. QC filtering, normalization and analysis
-all mutate this object so that downstream tabs react automatically.</p>
+<p>The app keeps everything it knows in one
+<code><a href="https://rdrr.io/pkg/shiny/man/reactiveValues.html" class="external-link">shiny::reactiveValues()</a></code> store: the cells, the design, the
+assembled experiment, the state it was imported in, the gate, the effect
+grid, the results and the queued figures. Quality control, normalisation
+and analysis replace the experiment in that store, so every downstream
+tab reacts without any tab reaching into another.</p>
+<p>Two consequences worth knowing:</p>
+<ul>
+<li>
+<strong>Reset is real.</strong> <code>Reset to imported state</code>
+in the Quality control and Normalisation tabs restores the experiment as
+it was imported, not the previous step.</li>
+<li>
+<strong>Figures are queued, not saved.</strong>
+<code>Queue for report</code> adds the current figure to the report
+assembly; the Report tab exports the queue.</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="deployment">Deployment<a class="anchor" aria-label="anchor" href="#deployment"></a>
+</h2>
+<p>The user interface, the server and every helper live inside the
+package namespace, so the app can be driven in-process by
+<code><a href="https://rdrr.io/pkg/shiny/man/testServer.html" class="external-link">shiny::testServer()</a></code> as well as from a browser.
+<code>inst/shiny/cellreportR/</code> holds only the <code>www/</code>
+assets and a thin <code>app.R</code> shim for deployment on a Shiny
+server.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -116,7 +274,7 @@ all mutate this object so that downstream tabs react automatically.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by R. Heller.</p>
+  <p>Developed by Raban Heller, Leila Schwindling, Alexander Büchner, Lucia Lindenberger, Steffen Müller, Michael Hannemann, Gerhard Achatz, Simone Rothmiller.</p>
 </div>
 
 <div class="pkgdown-footer-center themakr-footer-suite">

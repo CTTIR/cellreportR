@@ -1,6 +1,11 @@
 # Generate an example experimental design
 
-Generate an example experimental design
+Builds the unit-level design table used by
+[`cr_example_experiment()`](https://cttir.github.io/cellreportR/reference/cr_example_experiment.md).
+Six treatment levels are crossed with two plates and two pre-treatment
+intervals, so that a batch is the *combination* of plate and interval
+rather than a single column and every batch still contains untreated
+units to standardise against.
 
 ## Usage
 
@@ -12,33 +17,50 @@ cr_example_design(plate_format = 96, n_wells_per_replicate = 4)
 
 - plate_format:
 
-  96 or 384.
+  Either `96` or `384`.
 
 - n_wells_per_replicate:
 
-  Number of wells per replicate per treatment group.
+  Number of units per replicate per treatment level.
 
 ## Value
 
-A tibble of design columns: `well`, `treatment`, `dose`, `dose_unit`,
-`replicate`, `group`, `timepoint`.
+A tibble with one row per unit and the columns `well`, `treatment`,
+`dose`, `dose_unit`, `group`, `replicate`, `plate`, `interval` and
+`timepoint`.
+
+## Details
+
+Treatment names are deliberately abstract. `Untreated` is the vehicle
+level, `PosControl` a positive control, and `CompoundA` appears at a low
+and a high exposure level so that a dose axis exists; `CompoundB` and
+`CompoundC` are further compounds at the low exposure level. The four
+distinct values of `dose` are the four exposure levels of the
+demonstration assay.
+
+## See also
+
+[`cr_example_experiment()`](https://cttir.github.io/cellreportR/reference/cr_example_experiment.md),
+[`cr_example_screen()`](https://cttir.github.io/cellreportR/reference/cr_example_screen.md).
+
+Other example data:
+[`cr_example_experiment()`](https://cttir.github.io/cellreportR/reference/cr_example_experiment.md),
+[`cr_example_exports()`](https://cttir.github.io/cellreportR/reference/cr_example_exports.md),
+[`cr_example_files()`](https://cttir.github.io/cellreportR/reference/cr_example_files.md),
+[`cr_example_path()`](https://cttir.github.io/cellreportR/reference/cr_example_path.md),
+[`cr_example_screen()`](https://cttir.github.io/cellreportR/reference/cr_example_screen.md)
 
 ## Examples
 
 ``` r
-cr_example_design(96)
-#> # A tibble: 96 × 7
-#>    well  treatment  dose dose_unit group   replicate timepoint
-#>    <chr> <chr>     <dbl> <chr>     <chr>       <int>     <dbl>
-#>  1 A01   Untreated     0 uM        control         1        24
-#>  2 B01   Untreated     0 uM        control         1        24
-#>  3 C01   Untreated     0 uM        control         1        24
-#>  4 D01   Untreated     0 uM        control         1        24
-#>  5 E01   Untreated     0 uM        control         2        24
-#>  6 F01   Untreated     0 uM        control         2        24
-#>  7 G01   Untreated     0 uM        control         2        24
-#>  8 H01   Untreated     0 uM        control         2        24
-#>  9 A02   Untreated     0 uM        control         3        24
-#> 10 B02   Untreated     0 uM        control         3        24
-#> # ℹ 86 more rows
+design <- cr_example_design(96)
+table(design$treatment, design$interval)
+#>                 
+#>                  15min 60min
+#>   CompoundA_high     8     8
+#>   CompoundA_low      8     8
+#>   CompoundB          8     8
+#>   CompoundC          8     8
+#>   PosControl         8     8
+#>   Untreated          8     8
 ```

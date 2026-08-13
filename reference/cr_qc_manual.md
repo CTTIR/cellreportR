@@ -28,6 +28,21 @@ cr_qc_manual(experiment, well = NULL, cell_ids = NULL)
 
 A modified `cr_experiment`.
 
+## See also
+
+Other quality control:
+[`cr_apply_gate()`](https://cttir.github.io/cellreportR/reference/cr_apply_gate.md),
+[`cr_balance_cells()`](https://cttir.github.io/cellreportR/reference/cr_balance_cells.md),
+[`cr_exclude_small()`](https://cttir.github.io/cellreportR/reference/cr_exclude_small.md),
+[`cr_qc_doublets()`](https://cttir.github.io/cellreportR/reference/cr_qc_doublets.md),
+[`cr_qc_filter()`](https://cttir.github.io/cellreportR/reference/cr_qc_filter.md),
+[`cr_qc_gate()`](https://cttir.github.io/cellreportR/reference/cr_qc_gate.md),
+[`cr_qc_gate_impact()`](https://cttir.github.io/cellreportR/reference/cr_qc_gate_impact.md),
+[`cr_qc_intensity()`](https://cttir.github.io/cellreportR/reference/cr_qc_intensity.md),
+[`cr_qc_report()`](https://cttir.github.io/cellreportR/reference/cr_qc_report.md),
+[`cr_qc_summary()`](https://cttir.github.io/cellreportR/reference/cr_qc_summary.md),
+[`print.cr_qc_gate()`](https://cttir.github.io/cellreportR/reference/print.cr_qc_gate.md)
+
 ## Examples
 
 ``` r

@@ -6,6 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Getting Started with cellreportR • cellreportR</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <!-- katex math --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script><script src="../katex-auto.js"></script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
@@ -13,7 +18,8 @@
 <link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Getting Started with cellreportR">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<meta property="og:title" content="Getting Started with cellreportR">
 <meta name="theme-color" content="#1565c0">
 </head>
 <body>
@@ -24,7 +30,7 @@
 
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo">cellreportR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,14 +38,31 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="nav-link" href="../index.html"><span class="fa fa-home"></span></a></li>
-<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="active nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
-<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
-      </ul>
+      <ul class="navbar-nav me-auto"></ul>
 <ul class="navbar-nav">
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/cttir/cellreportR"><span class="fa fa-github"></span></a></li>
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
+</form></li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="active nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started with cellreportR</a></li>
+    <li><a class="dropdown-item" href="../articles/end-to-end.html">End to End: From Segmented Exports to a Finished Report</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/index.html">More articles...</a></li>
+  </ul>
+</li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/CTTIR/cellreportR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
+<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
+  </ul>
+</li>
       </ul>
 </div>
 
@@ -55,28 +78,29 @@
       <img src="../logo.svg" class="logo" alt=""><h1>Getting Started with cellreportR</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/cttir/cellreportR/blob/main/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/CTTIR/cellreportR/blob/main/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
       <div class="d-none name"><code>getting-started.Rmd</code></div>
     </div>
 
     
     
-<!-- badges: start -->
-<p><a href="https://github.com/CTTIR/cellreportR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/CTTIR/cellreportR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://cttir.github.io/cellreportR/"><img src="https://github.com/CTTIR/cellreportR/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a> <a href="https://CRAN.R-project.org/package=cellreportR" class="external-link"><img src="https://www.r-pkg.org/badges/version/cellreportR" alt="CRAN status"></a> <a href="https://app.codecov.io/gh/CTTIR/cellreportR?branch=main" class="external-link"><img src="https://codecov.io/gh/CTTIR/cellreportR/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://cran.r-project.org/package=cellreportR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/cellreportR" alt="CRAN downloads"></a> <a href="https://cran.r-project.org/package=cellreportR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/cellreportR" alt="CRAN downloads total"></a> <a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="License: MIT"></a> <a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a> <!-- badges: end --></p>
-<p>cellreportR takes you from segmented single-cell microscopy data to a
-structured, publication-ready diagnostic report. This vignette walks
-through a full five-minute workflow using bundled synthetic data.</p>
+<p>cellreportR takes segmented single-cell microscopy data to a
+structured, auditable set of estimates. This vignette walks the short
+path on one plate using bundled synthetic data;
+<code><a href="../articles/end-to-end.html">vignette("end-to-end")</a></code> walks the long one, from files on
+disk to a finished report.</p>
 <div class="section level3">
 <h3 id="load-example-data">1. Load example data<a class="anchor" aria-label="anchor" href="#load-example-data"></a>
 </h3>
-<p>The function <code><a href="../reference/cr_example_experiment.html">cr_example_experiment()</a></code> generates a
-realistic 96-well synthetic experiment with six treatment groups, four
-channels, and plate-edge / debris / contamination artefacts to exercise
-the QC pipeline.</p>
+<p><code><a href="../reference/cr_example_experiment.html">cr_example_experiment()</a></code> simulates a 96-unit plate: six
+treatment levels, four channels, two plates and two pre-treatment
+intervals. Sub-threshold debris, a plate-edge effect and a pair of
+saturated units are built in, so the quality-control functions have
+something real to remove.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cr_example_experiment.html">cr_example_experiment</a></span><span class="op">(</span>seed <span class="op">=</span> <span class="fl">42</span>, n_cells_per_well <span class="op">=</span> <span class="fl">60</span><span class="op">)</span></span>
 <span><span class="va">exp</span></span>
-<span><span class="co">#&gt; ── cr_experiment ───────────────────────────────────────────────────────────────</span></span>
+<span><span class="co">#&gt; ── cr_experiment ───────────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Cells: <span style="color: #0000BB;">5757</span> across <span style="color: #0000BB;">96</span> wells</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Channels: <span style="color: #0000BB;">"DAPI"</span>, <span style="color: #0000BB;">"marker_1"</span>, <span style="color: #0000BB;">"marker_2"</span>, and <span style="color: #0000BB;">"marker_3"</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Design: <span style="color: #0000BB;">6</span> treatment groups</span></span>
@@ -88,93 +112,133 @@ the QC pipeline.</p>
 </h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">exp</span><span class="op">$</span><span class="va">design</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 7</span></span></span>
-<span><span class="co">#&gt;   well  treatment  dose dose_unit group   replicate timepoint</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> A01   Untreated     0 uM        control         1        24</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> B01   Untreated     0 uM        control         1        24</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> C01   Untreated     0 uM        control         1        24</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> D01   Untreated     0 uM        control         1        24</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> E01   Untreated     0 uM        control         2        24</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> F01   Untreated     0 uM        control         2        24</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">exp</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
-<span><span class="co">#&gt;   treatment       n_wells n_cells</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> CompoundA_ScavX      16     946</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> CompoundA_ScavY      16     970</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> CompoundA_high       16     962</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> CompoundA_low        16     984</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> PosControl           16     924</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Untreated            16     971</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 9</span></span></span>
+<span><span class="co">#&gt;   well  treatment  dose dose_unit group   replicate plate   interval timepoint</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> A01   Untreated     0 uM        control         1 Plate_1 15min           24</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> B01   Untreated     0 uM        control         1 Plate_1 15min           24</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> C01   Untreated     0 uM        control         1 Plate_2 15min           24</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> D01   Untreated     0 uM        control         1 Plate_2 15min           24</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> E01   Untreated     0 uM        control         2 Plate_1 15min           24</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> F01   Untreated     0 uM        control         2 Plate_1 15min           24</span></span></code></pre></div>
+<p>The unit of replication is the well, not the cell.
+<code><a href="../reference/cr_n_cells.html">cr_n_cells()</a></code> counts by any design column:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cr_n_cells.html">cr_n_cells</a></span><span class="op">(</span><span class="va">exp</span>, by <span class="op">=</span> <span class="st">"treatment"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 2</span></span></span>
+<span><span class="co">#&gt;   treatment      n_cells</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> CompoundA_high     962</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> CompoundA_low      984</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> CompoundB          946</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> CompoundC          970</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> PosControl         924</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Untreated          971</span></span></code></pre></div>
+<p>A batch here is the combination of two columns, which is what later
+standardization references:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">exp</span><span class="op">$</span><span class="va">batch_vars</span></span>
+<span><span class="co">#&gt; [1] "plate"    "interval"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">exp</span><span class="op">$</span><span class="va">design</span><span class="op">$</span><span class="va">plate</span>, <span class="va">exp</span><span class="op">$</span><span class="va">design</span><span class="op">$</span><span class="va">interval</span><span class="op">)</span></span>
+<span><span class="co">#&gt;          </span></span>
+<span><span class="co">#&gt;           15min 60min</span></span>
+<span><span class="co">#&gt;   Plate_1    24    24</span></span>
+<span><span class="co">#&gt;   Plate_2    24    24</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="apply-quality-control">3. Apply quality control<a class="anchor" aria-label="anchor" href="#apply-quality-control"></a>
 </h3>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp_qc</span> <span class="op">&lt;-</span> <span class="va">exp</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/cr_qc_filter.html">cr_qc_filter</a></span><span class="op">(</span>min_area <span class="op">=</span> <span class="fl">50</span>, max_area <span class="op">=</span> <span class="fl">5000</span>, min_circularity <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/cr_qc_doublets.html">cr_qc_doublets</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/cr_qc_summary.html">cr_qc_summary</a></span><span class="op">(</span><span class="va">exp_qc</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 7</span></span></span>
-<span><span class="co">#&gt;   step         parameters cells_before cells_after cells_removed percent_removed</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> cr_qc_filter min_area=…         <span style="text-decoration: underline;">5</span>757        <span style="text-decoration: underline;">5</span>442           315          5.47  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> cr_qc_doubl… method=ar…         <span style="text-decoration: underline;">5</span>442        <span style="text-decoration: underline;">5</span>440             2          0.036<span style="text-decoration: underline;">8</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: timestamp &lt;dttm&gt;</span></span></span></code></pre></div>
+<span></span>
+<span><span class="fu"><a href="../reference/cr_qc_summary.html">cr_qc_summary</a></span><span class="op">(</span><span class="va">exp_qc</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"step"</span>, <span class="st">"cells_before"</span>, <span class="st">"cells_after"</span>,</span>
+<span>                          <span class="st">"percent_removed"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 4</span></span></span>
+<span><span class="co">#&gt;   step           cells_before cells_after percent_removed</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> cr_qc_filter           <span style="text-decoration: underline;">5</span>757        <span style="text-decoration: underline;">5</span>442          5.47  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> cr_qc_doublets         <span style="text-decoration: underline;">5</span>442        <span style="text-decoration: underline;">5</span>440          0.036<span style="text-decoration: underline;">8</span></span></span></code></pre></div>
+<p>The QC log is append-only and travels with the object, so what was
+removed stays recoverable after the fact.</p>
 </div>
 <div class="section level3">
-<h3 id="compute-fold-changes-and-run-tests">4. Compute fold changes and run tests<a class="anchor" aria-label="anchor" href="#compute-fold-changes-and-run-tests"></a>
+<h3 id="fold-changes-and-tests">4. Fold changes and tests<a class="anchor" aria-label="anchor" href="#fold-changes-and-tests"></a>
 </h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<p><code><a href="../reference/cr_test_all.html">cr_test_all()</a></code> contrasts every treatment level against
+the control and attaches a summary table with the multiplicity
+adjustments alongside — never instead of — the unadjusted p-value.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cr_test_all.html">cr_test_all</a></span><span class="op">(</span><span class="va">exp_qc</span>,</span>
-<span>                   channel <span class="op">=</span> <span class="st">"marker_1"</span>,</span>
+<span>                   channel       <span class="op">=</span> <span class="st">"marker_1"</span>,</span>
 <span>                   control_group <span class="op">=</span> <span class="st">"Untreated"</span>,</span>
-<span>                   level <span class="op">=</span> <span class="st">"replicate"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">res</span>, <span class="st">"summary"</span><span class="op">)</span></span>
+<span>                   level         <span class="op">=</span> <span class="st">"replicate"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">res</span>, <span class="st">"summary"</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"treatment"</span>, <span class="st">"log2_fc"</span>, <span class="st">"p_value"</span>, <span class="st">"p_BH"</span>,</span>
+<span>                         <span class="st">"cohens_d"</span>, <span class="st">"interpretation"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 6</span></span></span>
-<span><span class="co">#&gt;   treatment       log2_fc    p_value cohens_d      p_adj interpretation</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> PosControl        3.21  0.000<span style="text-decoration: underline;">001</span>54   2.26   0.000<span style="text-decoration: underline;">003</span>86 strong        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> CompoundA_low     0.963 0.000<span style="text-decoration: underline;">036</span>8    0.765  0.000<span style="text-decoration: underline;">061</span>3  moderate      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> CompoundA_high    2.84  0.000<span style="text-decoration: underline;">001</span>54   1.98   0.000<span style="text-decoration: underline;">003</span>86 strong        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> CompoundA_ScavX   0.354 0.030<span style="text-decoration: underline;">2</span>       0.055<span style="text-decoration: underline;">4</span> 0.030<span style="text-decoration: underline;">2</span>     weak          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> CompoundA_ScavY   0.690 0.000<span style="text-decoration: underline;">050</span>9    0.504  0.000<span style="text-decoration: underline;">063</span>6  moderate</span></span></code></pre></div>
+<span><span class="co">#&gt;   treatment      log2_fc    p_value       p_BH cohens_d interpretation</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> PosControl       3.21  0.000<span style="text-decoration: underline;">001</span>54 0.000<span style="text-decoration: underline;">003</span>86   2.26   strong        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> CompoundA_low    0.963 0.000<span style="text-decoration: underline;">036</span>8  0.000<span style="text-decoration: underline;">061</span>3    0.765  moderate      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> CompoundA_high   2.84  0.000<span style="text-decoration: underline;">001</span>54 0.000<span style="text-decoration: underline;">003</span>86   1.98   strong        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> CompoundB        0.354 0.030<span style="text-decoration: underline;">2</span>     0.030<span style="text-decoration: underline;">2</span>       0.055<span style="text-decoration: underline;">4</span> weak          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> CompoundC        0.690 0.000<span style="text-decoration: underline;">050</span>9  0.000<span style="text-decoration: underline;">063</span>6    0.504  moderate</span></span></code></pre></div>
+<p><code>level = "replicate"</code> aggregates cells to one value per
+well before testing. That is the defensible default;
+<code><a href="../articles/statistical-analysis.html">vignette("statistical-analysis")</a></code> shows what the cell-level
+alternative costs.</p>
 </div>
 <div class="section level3">
 <h3 id="visualize">5. Visualize<a class="anchor" aria-label="anchor" href="#visualize"></a>
 </h3>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/cr_plot_intensity.html">cr_plot_intensity</a></span><span class="op">(</span><span class="va">exp_qc</span>, <span class="st">"marker_1"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="getting-started_files/figure-html/plots-1.png" class="r-plt" alt="" width="576"></p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/cr_plot_effect_sizes.html">cr_plot_effect_sizes</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code></pre></div>
-<p><img src="getting-started_files/figure-html/plots-2.png" class="r-plt" alt="" width="576"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/cr_plot_foldchange.html">cr_plot_foldchange</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code></pre></div>
-<p><img src="getting-started_files/figure-html/plots-3.png" class="r-plt" alt="" width="576"></p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cr_plot_intensity.html">cr_plot_intensity</a></span><span class="op">(</span><span class="va">exp_qc</span>, <span class="st">"marker_1"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="getting-started_files/figure-html/plots-1.png" class="r-plt" alt="" width="576" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cr_plot_effect_sizes.html">cr_plot_effect_sizes</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code></pre></div>
+<p><img src="getting-started_files/figure-html/plots-2.png" class="r-plt" alt="" width="576" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cr_plot_plate.html">cr_plot_plate</a></span><span class="op">(</span><span class="va">exp_qc</span>, <span class="st">"marker_1"</span>, metric <span class="op">=</span> <span class="st">"median"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="getting-started_files/figure-html/plate-map-1.png" class="r-plt" alt="" width="576" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
-<h3 id="logistic-regression-and-roc">6. Logistic regression and ROC<a class="anchor" aria-label="anchor" href="#logistic-regression-and-roc"></a>
+<h3 id="discriminability">6. Discriminability<a class="anchor" aria-label="anchor" href="#discriminability"></a>
 </h3>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<p>When the question is whether a marker separates treated from control
+cells rather than whether the group means differ, fit a univariate
+logistic regression and read the area under the ROC curve:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">logit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cr_logistic.html">cr_logistic</a></span><span class="op">(</span><span class="va">exp_qc</span>,</span>
-<span>                     channel <span class="op">=</span> <span class="st">"marker_1"</span>,</span>
+<span>                     channel   <span class="op">=</span> <span class="st">"marker_1"</span>,</span>
 <span>                     treatment <span class="op">=</span> <span class="st">"CompoundA_high"</span>,</span>
-<span>                     control <span class="op">=</span> <span class="st">"Untreated"</span><span class="op">)</span></span>
+<span>                     control   <span class="op">=</span> <span class="st">"Untreated"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/cr_auc.html">cr_auc</a></span><span class="op">(</span><span class="va">logit</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>
+<span><span class="co">#&gt;     auc ci_low ci_high method</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 0.982  0.977   0.988 delong</span></span>
 <span><span class="fu"><a href="../reference/cr_plot_roc.html">cr_plot_roc</a></span><span class="op">(</span><span class="va">logit</span><span class="op">)</span></span></code></pre></div>
-<p><img src="getting-started_files/figure-html/logistic-1.png" class="r-plt" alt="" width="576"></p>
+<p><img src="getting-started_files/figure-html/logistic-1.png" class="r-plt" alt="" width="576" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="next-steps">7. Next steps<a class="anchor" aria-label="anchor" href="#next-steps"></a>
 </h3>
 <ul>
-<li>See <code><a href="../articles/statistical-analysis.html">vignette("statistical-analysis")</a></code> for details on the
-choice between cell-level and replicate-level tests.</li>
-<li>See <code><a href="../articles/dose-response.html">vignette("dose-response")</a></code> for IC50/EC50
-fitting.</li>
-<li>Run <code><a href="../reference/cr_run_app.html">cr_run_app()</a></code> to explore your data
-interactively.</li>
+<li>
+<code><a href="../articles/end-to-end.html">vignette("end-to-end")</a></code> — ingest, units, the
+quality-control gate, per-batch standardization, effect sizes at two
+levels, sample size and the report.</li>
+<li>
+<code><a href="../articles/statistical-analysis.html">vignette("statistical-analysis")</a></code> — cell-level versus
+replicate-level inference.</li>
+<li>
+<code><a href="../articles/dose-response.html">vignette("dose-response")</a></code> — fitting exposure-response
+curves.</li>
+<li>
+<code><a href="../reference/cr_run_app.html">cr_run_app()</a></code> — the same pipeline in a browser; see
+<code><a href="../articles/shiny-app.html">vignette("shiny-app")</a></code>.</li>
 </ul>
 </div>
 <div class="section level2">
@@ -201,7 +265,7 @@ was verified against its DOI, arXiv ID, or ISBN.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by R. Heller.</p>
+  <p>Developed by Raban Heller, Leila Schwindling, Alexander Büchner, Lucia Lindenberger, Steffen Müller, Michael Hannemann, Gerhard Achatz, Simone Rothmiller.</p>
 </div>
 
 <div class="pkgdown-footer-center themakr-footer-suite">

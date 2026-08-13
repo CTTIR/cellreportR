@@ -5,7 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Cell Culture Microscopy Assay Analysis and Reporting • cellreportR</title>
+<title>cellreportR • cellreportR</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" sizes="any" href="favicon.ico">
+<link rel="manifest" href="site.webmanifest">
 <!-- katex math --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script><script src="katex-auto.js"></script><script src="lightswitch.js"></script><script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
@@ -13,9 +18,12 @@
 <link href="deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Cell Culture Microscopy Assay Analysis and Reporting">
-<meta name="description" content="Provides a complete pipeline for analyzing cell culture-based laboratory assays evaluated by microscopy. Starting from segmented single-cell data (e.g. from segmantR), the package handles experimental design specification, fluorescence intensity quantification, quality control, normalization, hierarchical statistical testing at cell and replicate level, effect size estimation, logistic regression for discriminability analysis, and generation of structured diagnostic reports. Includes an interactive shiny application for guided analysis, result exploration, and report export.">
-<meta property="og:description" content="Provides a complete pipeline for analyzing cell culture-based laboratory assays evaluated by microscopy. Starting from segmented single-cell data (e.g. from segmantR), the package handles experimental design specification, fluorescence intensity quantification, quality control, normalization, hierarchical statistical testing at cell and replicate level, effect size estimation, logistic regression for discriminability analysis, and generation of structured diagnostic reports. Includes an interactive shiny application for guided analysis, result exploration, and report export.">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
+<meta property="og:title" content="cellreportR">
+<meta name="description" content="End-to-end analysis and reporting pipeline for cell culture assays read out by microscopy.
+">
+<meta property="og:description" content="End-to-end analysis and reporting pipeline for cell culture assays read out by microscopy.
+">
 <meta property="og:image" content="https://cttir.github.io/cellreportR/logo.svg">
 <meta name="theme-color" content="#1565c0">
 </head>
@@ -27,7 +35,7 @@
 
     <a class="navbar-brand me-2" href="index.html"><img src="logo.svg" alt="" class="themakr-navbar-logo">cellreportR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,14 +43,31 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto">
-<li class="active nav-item"><a class="nav-link" href="index.html"><span class="fa fa-home"></span></a></li>
-<li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
-<li class="nav-item"><a class="nav-link" href="articles/index.html">Articles</a></li>
-<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
-      </ul>
+      <ul class="navbar-nav me-auto"></ul>
 <ul class="navbar-nav">
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/cttir/cellreportR"><span class="fa fa-github"></span></a></li>
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
+</form></li>
+<li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="articles/getting-started.html">Getting Started with cellreportR</a></li>
+    <li><a class="dropdown-item" href="articles/end-to-end.html">End to End: From Segmented Exports to a Finished Report</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="articles/index.html">More articles...</a></li>
+  </ul>
+</li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/CTTIR/cellreportR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
+<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
+  </ul>
+</li>
       </ul>
 </div>
 
@@ -58,44 +83,98 @@
 <p><a href="https://doi.org/10.5281/zenodo.21889928" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.21889928.svg" alt="DOI"></a></p>
 <!-- badges: start -->
 
-<p><strong>cellreportR</strong> is a complete analysis and reporting pipeline for routine cell-culture laboratory diagnostics with microscopic evaluation. It picks up where segmentation leaves off: segmented single-cell data flows in, and structured statistical analyses, quality-controlled results, and publication- and audit-ready reports flow out.</p>
+<p><code>cellreportR</code> is an analysis and reporting pipeline for cell culture assays read out by microscopy. It picks up where segmentation leaves off: segmented single-cell exports flow in, and quality-controlled estimates, publication figures, machine-readable tables and a generated file of every quoted number flow out.</p>
+<p>The organising idea is the <strong>unit of replication</strong>. Cells are not replicates. <code>cellreportR</code> resolves acquisitions into units, standardizes every cell against the control condition of its <em>own</em> batch, and reports each effect at both unit and cell level so the cost of pooling is visible rather than assumed.</p>
 <div class="section level2">
 <h2 id="pipeline">Pipeline<a class="anchor" aria-label="anchor" href="#pipeline"></a>
 </h2>
 <pre><code>Cell culture -&gt; Treatment -&gt; Staining -&gt; Microscopy -&gt; Segmentation
-                                                    (segmantR / CellProfiler / QuPath)
-                                                             |
-                                                             v
-                                                +---------------------+
-                                                |     cellreportR     |
-                                                |                     |
-                                                |  Design &amp; QC        |
-                                                |  Normalization      |
-                                                |  Hierarchical tests |
-                                                |  Effect sizes + ROC |
-                                                |  Dose-response      |
-                                                |  Visualization      |
-                                                |  Report generation  |
-                                                |  Shiny dashboard    |
-                                                +---------------------+
-                                                             |
-                                                             v
-                                                Structured diagnostic report</code></pre>
+                                       (segmantR / CellProfiler / QuPath)
+                                                    |
+                                                    v
+                                   +----------------------------------+
+                                   |           cellreportR            |
+                                   |                                  |
+                                   |  Ingest + design from paths      |
+                                   |  Units, exclusion, balancing     |
+                                   |  Per-batch standardization       |
+                                   |  Quality-control gate            |
+                                   |  Effect sizes: unit vs cell      |
+                                   |  Sample size from the CI bound   |
+                                   |  Figures / tables / macros       |
+                                   |  Interactive front-end           |
+                                   +----------------------------------+
+                                                    |
+                                                    v
+                                Report + tables + generated numbers</code></pre>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
+<p><code>cellreportR</code> is <strong>pure R</strong> — it compiles nothing — so it installs the same way on <strong>Windows, macOS, and Linux</strong>. The only hard prerequisite is <strong>R &gt;= 4.1.0</strong>.</p>
+<p>Install the development version from GitHub:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
-<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"cttir/cellreportR"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"CTTIR/cellreportR"</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="platform-notes">Platform notes<a class="anchor" aria-label="anchor" href="#platform-notes"></a>
+</h3>
+<ul>
+<li>
+<strong>Windows</strong> — no <em>Rtools</em> required: the package itself compiles nothing, and its dependencies install as pre-built binaries from CRAN.</li>
+<li>
+<strong>macOS</strong> — nothing beyond R; no XQuartz needed.</li>
+<li>
+<strong>Linux</strong> — several dependencies (<code>dplyr</code>, <code>readr</code>, <code>tidyr</code>, <code>ggplot2</code>) contain C++ and build from source unless you use a binary repository such as the <a href="https://packagemanager.posit.co" class="external-link">Posit Public Package Manager</a> or <a href="https://eddelbuettel.github.io/r2u/" class="external-link">r2u</a>, which avoids needing a compiler. Otherwise install a build toolchain (for example <code>build-essential</code> on Debian/Ubuntu).</li>
+</ul>
+<p>Installing the package pulls in its required imports automatically. Optional features need a few extra packages:</p>
+<table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr>
+<th>Feature</th>
+<th>Needs</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Interactive front-end (<code><a href="reference/cr_run_app.html">cr_run_app()</a></code>)</td>
+<td>
+<code>bslib</code>, <code>DT</code>
+</td>
+</tr>
+<tr>
+<td>Rendered reports (<code><a href="reference/cr_report.html">cr_report()</a></code>, <code><a href="reference/cr_render_report.html">cr_render_report()</a></code>)</td>
+<td>
+<code>rmarkdown</code>, <code>knitr</code>, and a working pandoc</td>
+</tr>
+<tr>
+<td>Excel export (<code><a href="reference/cr_export_tables.html">cr_export_tables()</a></code>, <code><a href="reference/cr_export_results.html">cr_export_results()</a></code>)</td>
+<td><code>writexl</code></td>
+</tr>
+<tr>
+<td>Reading <code>.fcs</code> inputs</td>
+<td>
+<code>flowCore</code> (Bioconductor)</td>
+</tr>
+<tr>
+<td>Batch correction via empirical Bayes</td>
+<td>
+<code>sva</code> (Bioconductor)</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div class="section level2">
-<h2 id="quick-example">Quick example<a class="anchor" aria-label="anchor" href="#quick-example"></a>
+<h2 id="quick-start">Quick start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/cttir/cellreportR" class="external-link">cellreportR</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/CTTIR/cellreportR" class="external-link">cellreportR</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">exp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_example_experiment.html">cr_example_experiment</a></span><span class="op">(</span>seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">exp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_qc_filter.html">cr_qc_filter</a></span><span class="op">(</span><span class="va">exp</span>, min_area <span class="op">=</span> <span class="fl">50</span>, max_area <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_test_all.html">cr_test_all</a></span><span class="op">(</span><span class="va">exp</span>,</span>
@@ -106,11 +185,232 @@
 <span><span class="fu"><a href="reference/cr_plot_effect_sizes.html">cr_plot_effect_sizes</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="screening-workflow">Screening workflow<a class="anchor" aria-label="anchor" href="#screening-workflow"></a>
+</h2>
+<p>The screening path is the reason the package exists. Each stage is an exported function, so the analysis is inspectable at every step rather than being one opaque call.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># 1. Ingest: design facts live in the tree and the file name, not the file</span></span>
+<span><span class="va">cells</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_read_exports.html">cr_read_exports</a></span><span class="op">(</span></span>
+<span>  root       <span class="op">=</span> <span class="st">"data/exports"</span>,</span>
+<span>  column_map <span class="op">=</span> <span class="fu"><a href="reference/cr_column_map.html">cr_column_map</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  spec       <span class="op">=</span> <span class="fu"><a href="reference/cr_path_spec.html">cr_path_spec</a></span><span class="op">(</span>levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"run"</span>, <span class="st">"compound"</span>, <span class="st">"experiment"</span>, <span class="st">"plate"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 2. Units: some files merge into one unit, some deliberately do not</span></span>
+<span><span class="va">cells</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_assign_units.html">cr_assign_units</a></span><span class="op">(</span></span>
+<span>  <span class="va">cells</span>,</span>
+<span>  key_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"compound"</span>, <span class="st">"experiment"</span>, <span class="st">"plate"</span>, <span class="st">"interval"</span>, <span class="st">"concentration"</span><span class="op">)</span>,</span>
+<span>  rules    <span class="op">=</span> <span class="fu"><a href="reference/cr_merge_rules.html">cr_merge_rules</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_dataset.html">cr_dataset</a></span><span class="op">(</span><span class="va">cells</span>, unit_var <span class="op">=</span> <span class="st">"well_id"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 3. Exclusion first, then balancing -- the order changes the threshold</span></span>
+<span><span class="va">ds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_exclude_small.html">cr_exclude_small</a></span><span class="op">(</span><span class="va">ds</span>, var <span class="op">=</span> <span class="st">"area"</span>, probs <span class="op">=</span> <span class="fl">0.10</span><span class="op">)</span></span>
+<span><span class="va">ds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_balance_cells.html">cr_balance_cells</a></span><span class="op">(</span><span class="va">ds</span>, n_max <span class="op">=</span> <span class="fl">10000</span>, seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 4. Standardize against the control condition of each cell's own batch</span></span>
+<span><span class="va">ds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_standardize_batch.html">cr_standardize_batch</a></span><span class="op">(</span></span>
+<span>  <span class="va">ds</span>,</span>
+<span>  channel       <span class="op">=</span> <span class="st">"target"</span>,</span>
+<span>  control_level <span class="op">=</span> <span class="st">"vehicle"</span>,</span>
+<span>  batch_vars    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"compound"</span>, <span class="st">"run"</span>, <span class="st">"plate"</span>, <span class="st">"experiment"</span>, <span class="st">"interval"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 5. Biological gate, plus the leverage of what it removed</span></span>
+<span><span class="va">gate</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_qc_gate.html">cr_qc_gate</a></span><span class="op">(</span><span class="va">ds</span>, channel <span class="op">=</span> <span class="st">"target"</span>, control_level <span class="op">=</span> <span class="st">"vehicle"</span>,</span>
+<span>                   batch_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"compound"</span>, <span class="st">"run"</span>, <span class="st">"plate"</span>, <span class="st">"experiment"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/cr_qc_gate_impact.html">cr_qc_gate_impact</a></span><span class="op">(</span><span class="va">ds</span>, <span class="va">gate</span>, channel <span class="op">=</span> <span class="st">"target"</span><span class="op">)</span></span>
+<span><span class="va">ds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_apply_gate.html">cr_apply_gate</a></span><span class="op">(</span><span class="va">ds</span>, <span class="va">gate</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 6. Effects at the unit level, then the same grid at cell level</span></span>
+<span><span class="va">units</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_summarize_wells.html">cr_summarize_wells</a></span><span class="op">(</span><span class="va">ds</span>, channel <span class="op">=</span> <span class="st">"target"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">eff_unit</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_effect_grid.html">cr_effect_grid</a></span><span class="op">(</span><span class="va">units</span>, value <span class="op">=</span> <span class="st">"log2_fc"</span>, group_var <span class="op">=</span> <span class="st">"treatment"</span>,</span>
+<span>                           reference_level <span class="op">=</span> <span class="st">"reference"</span>, by <span class="op">=</span> <span class="st">"compound"</span><span class="op">)</span></span>
+<span><span class="va">eff_cell</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_effect_grid.html">cr_effect_grid</a></span><span class="op">(</span><span class="va">ds</span><span class="op">$</span><span class="va">cells</span>, value <span class="op">=</span> <span class="st">"log2_fc"</span>, group_var <span class="op">=</span> <span class="st">"treatment"</span>,</span>
+<span>                           reference_level <span class="op">=</span> <span class="st">"reference"</span>, by <span class="op">=</span> <span class="st">"compound"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/cr_compare_levels.html">cr_compare_levels</a></span><span class="op">(</span><span class="va">eff_unit</span>, <span class="va">eff_cell</span><span class="op">)</span>   <span class="co"># cell intervals are narrower, not better</span></span>
+<span></span>
+<span><span class="co"># 7. Sample size from the bound nearer the null, not the point estimate</span></span>
+<span><span class="fu"><a href="reference/cr_power_grid.html">cr_power_grid</a></span><span class="op">(</span><span class="va">eff_unit</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 8. Figures, tables, and every quoted number in one generated file</span></span>
+<span><span class="fu"><a href="reference/cr_plot_screen.html">cr_plot_screen</a></span><span class="op">(</span><span class="va">ds</span><span class="op">$</span><span class="va">cells</span>, units <span class="op">=</span> <span class="va">units</span>, facet_by <span class="op">=</span> <span class="st">"interval"</span>, seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/cr_export_tables.html">cr_export_tables</a></span><span class="op">(</span><span class="fu"><a href="reference/cr_tables.html">cr_tables</a></span><span class="op">(</span><span class="va">ds</span>, <span class="va">eff_unit</span><span class="op">)</span>, <span class="st">"out/tables.xlsx"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/cr_macros.html">cr_macros</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>n_units <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">units</span><span class="op">)</span><span class="op">)</span>, <span class="st">"out/generated-numbers.tex"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="interactive-analysis">Interactive analysis<a class="anchor" aria-label="anchor" href="#interactive-analysis"></a>
 </h2>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/cr_run_app.html">cr_run_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>The Shiny app provides a guided seven-tab workflow covering data import, QC, normalization, statistical analysis, dose-response fitting, interactive visualisation and report generation.</p>
+<p>The application provides a guided workflow covering import, quality control, normalization, statistical analysis, dose-response fitting, interactive visualisation and report export.</p>
+</div>
+<div class="section level2">
+<h2 id="output-structure">Output structure<a class="anchor" aria-label="anchor" href="#output-structure"></a>
+</h2>
+<p><code><a href="reference/cr_dataset.html">cr_dataset()</a></code> and <code><a href="reference/cr_build_experiment.html">cr_build_experiment()</a></code> return a list of class <code>cr_experiment</code>:</p>
+<table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr>
+<th>Slot</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>cells</code></td>
+<td>One row per segmented object, with provenance (<code>source_file</code>, <code>source_path</code>) and any derived columns added by later stages</td>
+</tr>
+<tr>
+<td><code>design</code></td>
+<td>One row per spatial unit, carrying the treatment factors recovered from the design table or from the path grammar</td>
+</tr>
+<tr>
+<td><code>channels</code></td>
+<td>Character vector of measurement channels detected or declared</td>
+</tr>
+<tr>
+<td><code>plate_info</code></td>
+<td>Plate geometry and layout metadata</td>
+</tr>
+<tr>
+<td><code>qc_log</code></td>
+<td>Append-only record of every filter, exclusion and gate applied, with the realised thresholds</td>
+</tr>
+<tr>
+<td><code>metadata</code></td>
+<td>Free-form list of user-supplied experiment metadata</td>
+</tr>
+<tr>
+<td><code>spatial_unit</code></td>
+<td>Name of the column identifying the physical acquisition location</td>
+</tr>
+<tr>
+<td><code>unit_var</code></td>
+<td>Name of the column identifying the analysis unit of replication</td>
+</tr>
+<tr>
+<td><code>batch_vars</code></td>
+<td>Character vector of design columns whose combination defines a batch</td>
+</tr>
+<tr>
+<td><code>provenance</code></td>
+<td>One row per source file, with cell counts and the unit it was assigned to</td>
+</tr>
+<tr>
+<td><code>set_aside</code></td>
+<td>Control arms split out of the sample pool and retained separately</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level2">
+<h2 id="function-reference">Function reference<a class="anchor" aria-label="anchor" href="#function-reference"></a>
+</h2>
+<table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr>
+<th>Stage</th>
+<th>Functions</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Ingest</td>
+<td>
+<code><a href="reference/cr_read_export.html">cr_read_export()</a></code>, <code><a href="reference/cr_read_exports.html">cr_read_exports()</a></code>, <code><a href="reference/cr_read_cells.html">cr_read_cells()</a></code>, <code><a href="reference/cr_read_design.html">cr_read_design()</a></code>, <code><a href="reference/cr_read_cellprofiler.html">cr_read_cellprofiler()</a></code>, <code><a href="reference/cr_read_qupath.html">cr_read_qupath()</a></code>, <code><a href="reference/cr_read_segmantr.html">cr_read_segmantr()</a></code>, <code><a href="reference/cr_column_map.html">cr_column_map()</a></code>, <code><a href="reference/cr_path_spec.html">cr_path_spec()</a></code>, <code><a href="reference/cr_parse_paths.html">cr_parse_paths()</a></code>, <code><a href="reference/cr_filename_grammar.html">cr_filename_grammar()</a></code>, <code><a href="reference/cr_marker_rules.html">cr_marker_rules()</a></code>, <code><a href="reference/cr_extract_markers.html">cr_extract_markers()</a></code>
+</td>
+</tr>
+<tr>
+<td>Experiment object</td>
+<td>
+<code><a href="reference/cr_dataset.html">cr_dataset()</a></code>, <code><a href="reference/cr_build_experiment.html">cr_build_experiment()</a></code>, <code><a href="reference/cr_validate_experiment.html">cr_validate_experiment()</a></code>, <code><a href="reference/cr_design.html">cr_design()</a></code>, <code><a href="reference/cr_batch_key.html">cr_batch_key()</a></code>, <code><a href="reference/cr_channels.html">cr_channels()</a></code>, <code><a href="reference/cr_n_cells.html">cr_n_cells()</a></code>, <code><a href="reference/cr_filter_cells.html">cr_filter_cells()</a></code>, <code><a href="reference/cr_merge_experiments.html">cr_merge_experiments()</a></code>
+</td>
+</tr>
+<tr>
+<td>Units and balancing</td>
+<td>
+<code><a href="reference/cr_merge_rules.html">cr_merge_rules()</a></code>, <code><a href="reference/cr_assign_units.html">cr_assign_units()</a></code>, <code><a href="reference/cr_unit_map.html">cr_unit_map()</a></code>, <code><a href="reference/cr_centroid_overlap.html">cr_centroid_overlap()</a></code>, <code><a href="reference/cr_exclude_small.html">cr_exclude_small()</a></code>, <code><a href="reference/cr_balance_cells.html">cr_balance_cells()</a></code>
+</td>
+</tr>
+<tr>
+<td>Quality control</td>
+<td>
+<code><a href="reference/cr_qc_filter.html">cr_qc_filter()</a></code>, <code><a href="reference/cr_qc_doublets.html">cr_qc_doublets()</a></code>, <code><a href="reference/cr_qc_intensity.html">cr_qc_intensity()</a></code>, <code><a href="reference/cr_qc_manual.html">cr_qc_manual()</a></code>, <code><a href="reference/cr_qc_summary.html">cr_qc_summary()</a></code>, <code><a href="reference/cr_qc_gate.html">cr_qc_gate()</a></code>, <code><a href="reference/cr_qc_gate_impact.html">cr_qc_gate_impact()</a></code>, <code><a href="reference/cr_apply_gate.html">cr_apply_gate()</a></code>, <code><a href="reference/cr_qc_report.html">cr_qc_report()</a></code>
+</td>
+</tr>
+<tr>
+<td>Standardization</td>
+<td>
+<code><a href="reference/cr_normalize.html">cr_normalize()</a></code>, <code><a href="reference/cr_background_subtract.html">cr_background_subtract()</a></code>, <code><a href="reference/cr_correct_batch.html">cr_correct_batch()</a></code>, <code><a href="reference/cr_batch_reference.html">cr_batch_reference()</a></code>, <code><a href="reference/cr_standardize_batch.html">cr_standardize_batch()</a></code>
+</td>
+</tr>
+<tr>
+<td>Quantification</td>
+<td>
+<code><a href="reference/cr_summarize_wells.html">cr_summarize_wells()</a></code>, <code><a href="reference/cr_fold_change.html">cr_fold_change()</a></code>, <code><a href="reference/cr_compute_metrics.html">cr_compute_metrics()</a></code>
+</td>
+</tr>
+<tr>
+<td>Effect sizes</td>
+<td>
+<code><a href="reference/cr_effect_grid.html">cr_effect_grid()</a></code>, <code><a href="reference/cr_compare_levels.html">cr_compare_levels()</a></code>, <code><a href="reference/cr_blocked_effect.html">cr_blocked_effect()</a></code>, <code><a href="reference/cr_unit_variability.html">cr_unit_variability()</a></code>, <code><a href="reference/cr_effect_size.html">cr_effect_size()</a></code>, <code><a href="reference/cr_test.html">cr_test()</a></code>, <code><a href="reference/cr_test_all.html">cr_test_all()</a></code>
+</td>
+</tr>
+<tr>
+<td>Sample size</td>
+<td>
+<code><a href="reference/cr_conservative_effect.html">cr_conservative_effect()</a></code>, <code><a href="reference/cr_power.html">cr_power()</a></code>, <code><a href="reference/cr_power_grid.html">cr_power_grid()</a></code>, <code><a href="reference/cr_power_analysis.html">cr_power_analysis()</a></code>
+</td>
+</tr>
+<tr>
+<td>Discriminability</td>
+<td>
+<code><a href="reference/cr_logistic.html">cr_logistic()</a></code>, <code><a href="reference/cr_roc.html">cr_roc()</a></code>, <code><a href="reference/cr_auc.html">cr_auc()</a></code>, <code><a href="reference/cr_confusion_matrix.html">cr_confusion_matrix()</a></code>
+</td>
+</tr>
+<tr>
+<td>Dose-response</td>
+<td>
+<code><a href="reference/cr_dose_response.html">cr_dose_response()</a></code>, <code><a href="reference/cr_ic50.html">cr_ic50()</a></code>
+</td>
+</tr>
+<tr>
+<td>Visualization</td>
+<td>eighteen <code>cr_plot_*()</code> functions, plus <code><a href="reference/cr_theme.html">cr_theme()</a></code>, <code><a href="reference/cr_palette.html">cr_palette()</a></code>, <code><a href="reference/cr_shapes.html">cr_shapes()</a></code>, <code><a href="reference/cr_scale_group.html">cr_scale_group()</a></code>, <code><a href="reference/cr_save_plot.html">cr_save_plot()</a></code>
+</td>
+</tr>
+<tr>
+<td>Tables and reporting</td>
+<td>
+<code><a href="reference/cr_tables.html">cr_tables()</a></code>, <code><a href="reference/cr_table_disposition.html">cr_table_disposition()</a></code>, <code><a href="reference/cr_table_qc.html">cr_table_qc()</a></code>, <code><a href="reference/cr_export_tables.html">cr_export_tables()</a></code>, <code><a href="reference/cr_export_results.html">cr_export_results()</a></code>, <code><a href="reference/cr_export_plots.html">cr_export_plots()</a></code>, <code><a href="reference/cr_report.html">cr_report()</a></code>, <code><a href="reference/cr_render_report.html">cr_render_report()</a></code>
+</td>
+</tr>
+<tr>
+<td>Generated numbers</td>
+<td>
+<code><a href="reference/cr_macros.html">cr_macros()</a></code>, <code><a href="reference/cr_macros_from.html">cr_macros_from()</a></code>, <code><a href="reference/cr_macro_name.html">cr_macro_name()</a></code>, <code><a href="reference/cr_format_number.html">cr_format_number()</a></code>, <code><a href="reference/cr_enumerate.html">cr_enumerate()</a></code>
+</td>
+</tr>
+<tr>
+<td>Example data</td>
+<td>
+<code><a href="reference/cr_example_experiment.html">cr_example_experiment()</a></code>, <code><a href="reference/cr_example_design.html">cr_example_design()</a></code>, <code><a href="reference/cr_example_files.html">cr_example_files()</a></code>
+</td>
+</tr>
+<tr>
+<td>Interactive</td>
+<td><code><a href="reference/cr_run_app.html">cr_run_app()</a></code></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section level2">
 <h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
@@ -119,14 +419,28 @@
 <li><a href="https://cttir.github.io/cellreportR/articles/getting-started.html">Getting Started</a></li>
 <li><a href="https://cttir.github.io/cellreportR/articles/statistical-analysis.html">Statistical Analysis</a></li>
 <li><a href="https://cttir.github.io/cellreportR/articles/dose-response.html">Dose-Response</a></li>
-<li><a href="https://cttir.github.io/cellreportR/articles/shiny-app.html">Shiny App Guide</a></li>
+<li><a href="https://cttir.github.io/cellreportR/articles/shiny-app.html">Interactive Front-End</a></li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
-<p>If you use cellreportR in your research, please cite the package:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<p>If you use <code>cellreportR</code> in academic work, please cite the package:</p>
+<blockquote>
+<p>Heller R, Schwindling L, Büchner A, Lindenberger L, Müller S, Hannemann M, Achatz G, Rothmiller S (2026). <em>cellreportR: Cell Culture Microscopy Assay Analysis and Reporting</em>. R package version 0.2.0, <a href="https://github.com/CTTIR/cellreportR" class="external-link uri">https://github.com/CTTIR/cellreportR</a>.</p>
+</blockquote>
+<p>BibTeX:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="va">@Manual</span>{<span class="ot">cellreportR</span>,</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="dt">title</span>  = {cellreportR: Cell Culture Microscopy Assay Analysis and Reporting},</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="dt">author</span> = {Raban Heller and Leila Schwindling and Alexander B<span class="ch">\"</span>uchner and</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>            Lucia Lindenberger and Steffen M<span class="ch">\"</span>uller and Michael Hannemann and</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>            Gerhard Achatz and Simone Rothmiller},</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="dt">year</span>   = {2026},</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="dt">note</span>   = {R package version 0.2.0},</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="dt">url</span>    = {https://github.com/CTTIR/cellreportR},</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>}</span></code></pre></div>
+<p>You can always retrieve the up-to-date entry directly from R:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"cellreportR"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -135,12 +449,17 @@
 <p>Portions of this package were prepared with assistance from large language model tooling for narrowly defined, non-authorial tasks: copyediting, prose smoothing, Markdown/LaTeX formatting, scaffolding of boilerplate files (CI configs, build scripts), code refactoring. The tools used were <a href="https://kisski.gwdg.de/leistungen/2-02-llm-service/" class="external-link">Chat AI</a>, the LLM service of KISSKI (GWDG), and a self-hosted <strong>Mistral Small (24B, Apache-2.0)</strong> run locally via <a href="https://ollama.com/" class="external-link">Ollama</a> and the <code>ollamar</code> R package — local inference only, with no data sent to third parties for the self-hosted model.</p>
 <p>All scientific claims, methodological choices, analyses, interpretations, and conclusions are the author’s own. No LLM-generated text was incorporated without review and revision, and every reference was verified against its DOI, arXiv ID, or ISBN.</p>
 </div>
+<div class="section level2">
+<h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
+</h2>
+<p>MIT (c) 2026 R. Heller.</p>
+</div>
 </div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/cttir/cellreportR/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/cttir/cellreportR/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/CTTIR/cellreportR/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/CTTIR/cellreportR/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -163,7 +482,14 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>R. Heller <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-8006-9742" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
+<li>Raban Heller <br><small class="roles"> Author, maintainer, copyright holder </small> <a href="https://orcid.org/0000-0001-8006-9742" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
+<li>Leila Schwindling <br><small class="roles"> Author </small>   </li>
+<li>Alexander Büchner <br><small class="roles"> Author </small>   </li>
+<li>Lucia Lindenberger <br><small class="roles"> Author </small>   </li>
+<li>Steffen Müller <br><small class="roles"> Author </small>   </li>
+<li>Michael Hannemann <br><small class="roles"> Author </small>   </li>
+<li>Gerhard Achatz <br><small class="roles"> Author </small>   </li>
+<li>Simone Rothmiller <br><small class="roles"> Author </small>   </li>
 </ul>
 </div>
 
@@ -179,7 +505,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by R. Heller.</p>
+  <p>Developed by Raban Heller, Leila Schwindling, Alexander Büchner, Lucia Lindenberger, Steffen Müller, Michael Hannemann, Gerhard Achatz, Simone Rothmiller.</p>
 </div>
 
 <div class="pkgdown-footer-center themakr-footer-suite">

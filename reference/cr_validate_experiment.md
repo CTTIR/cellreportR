@@ -8,7 +8,7 @@ the object.
 ## Usage
 
 ``` r
-cr_validate_experiment(x)
+cr_validate_experiment(x, call = rlang::caller_env())
 ```
 
 ## Arguments
@@ -17,13 +17,38 @@ cr_validate_experiment(x)
 
   A `cr_experiment`.
 
+- call:
+
+  The execution environment of the calling function. Used for error
+  reporting; experts only.
+
 ## Value
 
 `TRUE` invisibly on success. On failure an informative error is raised.
 
+## Details
+
+The optional `unit_var`, `batch_vars`, `provenance` and `set_aside`
+slots are checked only when they are present, so that objects built by
+earlier versions still validate.
+
+## See also
+
+[`cr_build_experiment()`](https://cttir.github.io/cellreportR/reference/cr_build_experiment.md).
+
+Other constructors:
+[`cr_build_experiment()`](https://cttir.github.io/cellreportR/reference/cr_build_experiment.md),
+[`cr_dataset()`](https://cttir.github.io/cellreportR/reference/cr_dataset.md),
+[`cr_design()`](https://cttir.github.io/cellreportR/reference/cr_design.md)
+
 ## Examples
 
 ``` r
-exp <- cr_example_experiment(seed = 1, n_cells_per_well = 10)
-cr_validate_experiment(exp)
+cells <- tibble::tibble(
+  cell_id = c("c1", "c2"), well = c("A01", "A02"),
+  target_signal = c(10, 20)
+)
+design <- tibble::tibble(well = c("A01", "A02"),
+                         treatment = c("Vehicle", "CompoundA"))
+cr_validate_experiment(cr_build_experiment(cells, design))
 ```

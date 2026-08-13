@@ -1,8 +1,8 @@
 # Read segmented cell data from file
 
-Reads per-cell measurements from CSV, TSV, RDS or FCS formats. The
-format is auto-detected from the file extension unless `format` is given
-explicitly.
+Reads per-cell measurements from CSV, TSV, Excel, RDS or FCS formats.
+The format is auto-detected from the file extension unless `format` is
+given explicitly.
 
 ## Usage
 
@@ -18,27 +18,49 @@ cr_read_cells(path, format = NULL)
 
 - format:
 
-  Optional format string: one of `"csv"`, `"tsv"`, `"rds"`, `"fcs"`. If
-  `NULL`, inferred from file extension.
+  Optional format string: one of `"csv"`, `"tsv"`, `"xlsx"`, `"rds"`,
+  `"fcs"`. If `NULL`, inferred from file extension.
 
 ## Value
 
 A tibble of cell measurements.
 
+## See also
+
+[`cr_read_export()`](https://cttir.github.io/cellreportR/reference/cr_read_export.md)
+and
+[`cr_read_exports()`](https://cttir.github.io/cellreportR/reference/cr_read_exports.md)
+for exports that carry design information in their path and file name.
+
+Other import:
+[`cr_assign_units()`](https://cttir.github.io/cellreportR/reference/cr_assign_units.md),
+[`cr_centroid_overlap()`](https://cttir.github.io/cellreportR/reference/cr_centroid_overlap.md),
+[`cr_column_map()`](https://cttir.github.io/cellreportR/reference/cr_column_map.md),
+[`cr_extract_markers()`](https://cttir.github.io/cellreportR/reference/cr_extract_markers.md),
+[`cr_filename_grammar()`](https://cttir.github.io/cellreportR/reference/cr_filename_grammar.md),
+[`cr_marker_rules()`](https://cttir.github.io/cellreportR/reference/cr_marker_rules.md),
+[`cr_merge_rules()`](https://cttir.github.io/cellreportR/reference/cr_merge_rules.md),
+[`cr_parse_paths()`](https://cttir.github.io/cellreportR/reference/cr_parse_paths.md),
+[`cr_path_spec()`](https://cttir.github.io/cellreportR/reference/cr_path_spec.md),
+[`cr_read_cellprofiler()`](https://cttir.github.io/cellreportR/reference/cr_read_cellprofiler.md),
+[`cr_read_design()`](https://cttir.github.io/cellreportR/reference/cr_read_design.md),
+[`cr_read_export()`](https://cttir.github.io/cellreportR/reference/cr_read_export.md),
+[`cr_read_exports()`](https://cttir.github.io/cellreportR/reference/cr_read_exports.md),
+[`cr_read_qupath()`](https://cttir.github.io/cellreportR/reference/cr_read_qupath.md),
+[`cr_read_segmantr()`](https://cttir.github.io/cellreportR/reference/cr_read_segmantr.md),
+[`cr_unit_map()`](https://cttir.github.io/cellreportR/reference/cr_unit_map.md)
+
 ## Examples
 
 ``` r
-d <- tempfile("cr_cells_"); dir.create(d)
-files <- cr_example_files(d)
-cells <- cr_read_cells(file.path(d, "cells.csv"))
-head(cells)
-#> # A tibble: 6 × 10
-#>   cell_id well      x     y  area circularity  DAPI marker_1 marker_2 marker_3
-#>   <chr>   <chr> <dbl> <dbl> <dbl>       <dbl> <dbl>    <dbl>    <dbl>    <dbl>
-#> 1 c000001 A01   1283. 1133.  99.1       0.518  521.     951.     831.     203.
-#> 2 c000002 A01   1038. 1699.  76.4       0.770  587.    2563.     643.     221.
-#> 3 c000003 A01   1473.  379.  53.5       0.934  750.    1283.     897.     441.
-#> 4 c000004 A01    269.  543.  80.9       0.856  396.    2469.     874.     489.
-#> 5 c000005 A01   1314. 1656.  66.0       0.886  728.    1116.     715.     487.
-#> 6 c000006 A01   1410. 1386. 119.        0.802  545.    1377.     494.     170.
+f <- tempfile(fileext = ".csv")
+utils::write.csv(
+  data.frame(cell_id = "c1", well = "A01", target_signal = 12),
+  f, row.names = FALSE
+)
+cr_read_cells(f)
+#> # A tibble: 1 × 3
+#>   cell_id well  target_signal
+#>   <chr>   <chr>         <dbl>
+#> 1 c1      A01              12
 ```

@@ -28,7 +28,23 @@ cr_plot_timeline(experiment, timepoint_var, channel, group_by = "treatment")
 
 ## Value
 
-A ggplot2 object.
+A `ggplot` object.
+
+## See also
+
+Other visualisation:
+[`cr_plot_comparison()`](https://cttir.github.io/cellreportR/reference/cr_plot_comparison.md),
+[`cr_plot_dose_response()`](https://cttir.github.io/cellreportR/reference/cr_plot_dose_response.md),
+[`cr_plot_effect_sizes()`](https://cttir.github.io/cellreportR/reference/cr_plot_effect_sizes.md),
+[`cr_plot_foldchange()`](https://cttir.github.io/cellreportR/reference/cr_plot_foldchange.md),
+[`cr_plot_heatmap()`](https://cttir.github.io/cellreportR/reference/cr_plot_heatmap.md),
+[`cr_plot_histogram()`](https://cttir.github.io/cellreportR/reference/cr_plot_histogram.md),
+[`cr_plot_intensity()`](https://cttir.github.io/cellreportR/reference/cr_plot_intensity.md),
+[`cr_plot_plate()`](https://cttir.github.io/cellreportR/reference/cr_plot_plate.md),
+[`cr_plot_qc()`](https://cttir.github.io/cellreportR/reference/cr_plot_qc.md),
+[`cr_plot_roc()`](https://cttir.github.io/cellreportR/reference/cr_plot_roc.md),
+[`cr_plot_scatter()`](https://cttir.github.io/cellreportR/reference/cr_plot_scatter.md),
+[`cr_plot_spatial()`](https://cttir.github.io/cellreportR/reference/cr_plot_spatial.md)
 
 ## Examples
 

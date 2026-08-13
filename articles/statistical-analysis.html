@@ -6,6 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Statistical Analysis of Cell-Based Assays • cellreportR</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <!-- katex math --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script><script src="../katex-auto.js"></script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
@@ -13,7 +18,8 @@
 <link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Statistical Analysis of Cell-Based Assays">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<meta property="og:title" content="Statistical Analysis of Cell-Based Assays">
 <meta name="theme-color" content="#1565c0">
 </head>
 <body>
@@ -24,7 +30,7 @@
 
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo">cellreportR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,14 +38,31 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="nav-link" href="../index.html"><span class="fa fa-home"></span></a></li>
-<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="active nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
-<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
-      </ul>
+      <ul class="navbar-nav me-auto"></ul>
 <ul class="navbar-nav">
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/cttir/cellreportR"><span class="fa fa-github"></span></a></li>
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
+</form></li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="active nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started with cellreportR</a></li>
+    <li><a class="dropdown-item" href="../articles/end-to-end.html">End to End: From Segmented Exports to a Finished Report</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/index.html">More articles...</a></li>
+  </ul>
+</li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/CTTIR/cellreportR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
+<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
+  </ul>
+</li>
       </ul>
 </div>
 
@@ -55,44 +78,49 @@
       <img src="../logo.svg" class="logo" alt=""><h1>Statistical Analysis of Cell-Based Assays</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/cttir/cellreportR/blob/main/vignettes/statistical-analysis.Rmd" class="external-link"><code>vignettes/statistical-analysis.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/CTTIR/cellreportR/blob/main/vignettes/statistical-analysis.Rmd" class="external-link"><code>vignettes/statistical-analysis.Rmd</code></a></small>
       <div class="d-none name"><code>statistical-analysis.Rmd</code></div>
     </div>
 
     
     
-<!-- badges: start -->
-<p><a href="https://github.com/CTTIR/cellreportR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/CTTIR/cellreportR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://cttir.github.io/cellreportR/"><img src="https://github.com/CTTIR/cellreportR/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a> <a href="https://CRAN.R-project.org/package=cellreportR" class="external-link"><img src="https://www.r-pkg.org/badges/version/cellreportR" alt="CRAN status"></a> <a href="https://app.codecov.io/gh/CTTIR/cellreportR?branch=main" class="external-link"><img src="https://codecov.io/gh/CTTIR/cellreportR/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://cran.r-project.org/package=cellreportR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/cellreportR" alt="CRAN downloads"></a> <a href="https://cran.r-project.org/package=cellreportR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/cellreportR" alt="CRAN downloads total"></a> <a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="License: MIT"></a> <a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a> <!-- badges: end --></p>
 <div class="section level2">
-<h2 id="why-hierarchical-testing-matters">Why hierarchical testing matters<a class="anchor" aria-label="anchor" href="#why-hierarchical-testing-matters"></a>
+<h2 id="why-the-level-of-aggregation-matters">Why the level of aggregation matters<a class="anchor" aria-label="anchor" href="#why-the-level-of-aggregation-matters"></a>
 </h2>
-<p>In a microscopy-based cell assay, each treatment condition is
-measured across several wells, and each well contains many individual
-cells. Cells are not independent: their fluorescence is correlated
-within a well (shared staining, focus, exposure). Treating every cell as
-an independent replicate inflates sample size and gives optimistic
-p-values.</p>
-<p>cellreportR supports two standard resolutions:</p>
+<p>In a microscopy-based cell assay each treatment condition is measured
+across several wells, and each well holds many cells. Cells within a
+well are not independent: they share staining, focus and exposure.
+Treating every cell as an independent replicate inflates the sample size
+and, with it, the confidence of the answer.</p>
+<p>cellreportR supports both resolutions and asks you to say which one
+you mean:</p>
 <ul>
 <li>
 <strong>Cell-level</strong> tests treat each cell as a data point.
-Use these for distributional comparisons (e.g. is there a subpopulation
-shift).</li>
+Use them for distributional questions — is there a subpopulation shift,
+does a marker separate two conditions.</li>
 <li>
 <strong>Replicate-level</strong> tests aggregate cells to one number
-per well, then test wells. Use these for the primary inference about
+per well and test wells. Use them for the primary inference about
 whether a compound has an effect.</li>
 </ul>
-<p>A defensible workflow is to run both and report effect size with CI
-alongside p-values at the replicate level.</p>
+<p>Run both, report the effect size with its interval at the replicate
+level, and let the difference between the two be visible rather than
+assumed.</p>
 </div>
 <div class="section level2">
 <h2 id="a-worked-example">A worked example<a class="anchor" aria-label="anchor" href="#a-worked-example"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cr_example_experiment.html">cr_example_experiment</a></span><span class="op">(</span>seed <span class="op">=</span> <span class="fl">2</span>, n_cells_per_well <span class="op">=</span> <span class="fl">60</span><span class="op">)</span></span>
-<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cr_test.html">cr_test</a></span><span class="op">(</span><span class="va">exp</span>, <span class="st">"marker_1"</span>, <span class="st">"CompoundA_high"</span>, <span class="st">"Untreated"</span>,</span>
-<span>               test <span class="op">=</span> <span class="st">"mann_whitney"</span>, level <span class="op">=</span> <span class="st">"both"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cr_test.html">cr_test</a></span><span class="op">(</span><span class="va">exp</span>,</span>
+<span>               channel   <span class="op">=</span> <span class="st">"marker_1"</span>,</span>
+<span>               treatment <span class="op">=</span> <span class="st">"CompoundA_high"</span>,</span>
+<span>               control   <span class="op">=</span> <span class="st">"Untreated"</span>,</span>
+<span>               test      <span class="op">=</span> <span class="st">"mann_whitney"</span>,</span>
+<span>               level     <span class="op">=</span> <span class="st">"both"</span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">res</span><span class="op">$</span><span class="va">cell_level</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 8</span></span></span>
 <span><span class="co">#&gt;   level test         statistic p_value   n_x   n_y median_x median_y</span></span>
@@ -102,47 +130,102 @@ alongside p-values at the replicate level.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 8</span></span></span>
 <span><span class="co">#&gt;   level     test         statistic    p_value   n_x   n_y median_x median_y</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> replicate mann_whitney       256 0.000<span style="text-decoration: underline;">001</span>54    16    16    <span style="text-decoration: underline;">4</span>175.     550.</span></span>
-<span><span class="va">res</span><span class="op">$</span><span class="va">effect_sizes</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> replicate mann_whitney       256 0.000<span style="text-decoration: underline;">001</span>54    16    16    <span style="text-decoration: underline;">4</span>175.     550.</span></span></code></pre></div>
+<p>Same data, same contrast. The cell-level test is run on nearly two
+thousand observations and the replicate-level test on thirty-two, and
+the p-values differ by orders of magnitude. The extra cells did not add
+independent information; they only made the arithmetic behave as though
+they had.</p>
+<p><code><a href="../reference/cr_test.html">cr_test()</a></code> also returns effect sizes, computed on the
+cells:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">res</span><span class="op">$</span><span class="va">effect_sizes</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 5</span></span></span>
 <span><span class="co">#&gt;   method        estimate ci_low ci_high magnitude</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> cohens_d         2.22   2.12    2.35  large    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> hedges_g         2.22   2.13    2.34  large    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> cliffs_delta     0.984  0.977   0.989 large    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> rank_biserial   -<span style="color: #BB0000;">0.984</span> -<span style="color: #BB0000;">0.990</span>  -<span style="color: #BB0000;">0.978</span> large</span></span></code></pre></div>
-<p>Notice that the cell-level p-value is much smaller than the
-replicate-level p-value — a consequence of the inflated sample size.</p>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> cohens_d         2.22   2.10    2.33  large    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> hedges_g         2.22   2.10    2.33  large    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> cliffs_delta     0.984  0.976   0.989 large    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> rank_biserial    0.984  0.976   0.989 large</span></span></code></pre></div>
+<p>Those intervals are cell-level intervals whatever <code>level</code>
+was asked for, so they are narrow for exactly the reason the cell-level
+p-value is small. For an interval that respects the unit of replication,
+use <code><a href="../reference/cr_effect_grid.html">cr_effect_grid()</a></code> with <code>unit</code> set —
+<code><a href="../articles/end-to-end.html">vignette("end-to-end")</a></code> puts the two side by side and
+measures the gap.</p>
 </div>
 <div class="section level2">
 <h2 id="effect-size-interpretation">Effect size interpretation<a class="anchor" aria-label="anchor" href="#effect-size-interpretation"></a>
 </h2>
-<p>cellreportR computes Cohen’s d, Hedges’ g, Cliff’s delta and
-rank-biserial correlation. Conventional benchmarks:</p>
-<ul>
-<li>|d| &lt; 0.2 — negligible</li>
-<li>0.2 ≤ |d| &lt; 0.5 — small</li>
-<li>0.5 ≤ |d| &lt; 0.8 — medium</li>
-<li>|d| ≥ 0.8 — large</li>
-</ul>
-<p>Cliff’s delta benchmarks are 0.147 / 0.33 / 0.474.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<p><code><a href="../reference/cr_effect_size.html">cr_effect_size()</a></code> computes Cohen’s <em>d</em>, Hedges’
+<em>g</em>, Cliff’s delta, rank-biserial correlation and Glass’s delta,
+each with a confidence interval. The verbal magnitude attached to an
+estimate uses the conventional benchmarks:</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>Magnitude</th>
+<th>Cohen’s <em>d</em>, Hedges’ <em>g</em>, Glass’s delta</th>
+<th>Cliff’s delta, rank-biserial</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>negligible</td>
+<td>|est| &lt; 0.2</td>
+<td>|est| &lt; 0.147</td>
+</tr>
+<tr class="even">
+<td>small</td>
+<td>0.2 – 0.5</td>
+<td>0.147 – 0.33</td>
+</tr>
+<tr class="odd">
+<td>medium</td>
+<td>0.5 – 0.8</td>
+<td>0.33 – 0.474</td>
+</tr>
+<tr class="even">
+<td>large</td>
+<td>≥ 0.8</td>
+<td>≥ 0.474</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/cr_effect_size.html">cr_effect_size</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 5</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 5</span></span></span>
 <span><span class="co">#&gt;   method        estimate ci_low ci_high magnitude</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> cohens_d         1.23   0.959   1.62  large    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> hedges_g         1.23   0.892   1.61  large    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> cliffs_delta     0.616  0.474   0.731 large    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> rank_biserial   -<span style="color: #BB0000;">0.616</span> -<span style="color: #BB0000;">0.730</span>  -<span style="color: #BB0000;">0.490</span> large</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> cohens_d         1.23   0.930   1.54  large    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> hedges_g         1.23   0.927   1.53  large    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> cliffs_delta     0.616  0.481   0.723 large    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> rank_biserial    0.616  0.481   0.723 large    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> glass_delta      1.20   0.872   1.52  large</span></span></code></pre></div>
+<p>Bootstrap intervals are available where the analytic ones do not
+apply:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/cr_effect_size.html">cr_effect_size</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">0.8</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">0</span><span class="op">)</span>,</span>
+<span>               method <span class="op">=</span> <span class="st">"cliffs_delta"</span>,</span>
+<span>               ci_method <span class="op">=</span> <span class="st">"bootstrap"</span>, n_boot <span class="op">=</span> <span class="fl">200</span>, seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
+<span><span class="co">#&gt;   method       estimate ci_low ci_high magnitude</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> cliffs_delta    0.495  0.356   0.649 large</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="roc-auc-for-discriminability">ROC / AUC for discriminability<a class="anchor" aria-label="anchor" href="#roc-auc-for-discriminability"></a>
+<h2 id="roc-and-auc-for-discriminability">ROC and AUC for discriminability<a class="anchor" aria-label="anchor" href="#roc-and-auc-for-discriminability"></a>
 </h2>
-<p>When the question is “does this marker discriminate treated from
-control cells?”, fit a univariate logistic regression:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<p>“Does this marker tell a treated cell from a control cell?” is a
+different question from “did the group means move”, and it has a
+different answer. Fit a univariate logistic regression and read the area
+under the curve:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">logit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cr_logistic.html">cr_logistic</a></span><span class="op">(</span><span class="va">exp</span>, <span class="st">"marker_1"</span>, <span class="st">"CompoundA_high"</span>, <span class="st">"Untreated"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/cr_auc.html">cr_auc</a></span><span class="op">(</span><span class="va">logit</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>
@@ -150,39 +233,82 @@ control cells?”, fit a univariate logistic regression:</p>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 0.992  0.989   0.995 delong</span></span>
 <span><span class="fu"><a href="../reference/cr_plot_roc.html">cr_plot_roc</a></span><span class="op">(</span><span class="va">logit</span><span class="op">)</span></span></code></pre></div>
-<p><img src="statistical-analysis_files/figure-html/roc-1.png" class="r-plt" alt="" width="700"></p>
+<p><img src="statistical-analysis_files/figure-html/roc-1.png" class="r-plt" alt="" width="576" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cr_confusion_matrix.html">cr_confusion_matrix</a></span><span class="op">(</span><span class="va">logit</span>, threshold <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 10</span></span></span>
+<span><span class="co">#&gt;   threshold sensitivity specificity   ppv   npv accuracy    tp    tn    fp    fn</span></span>
+<span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0.5       0.951       0.967 0.967 0.951    0.959   922   910    31    47</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="multiple-testing-correction">Multiple testing correction<a class="anchor" aria-label="anchor" href="#multiple-testing-correction"></a>
+<h2 id="multiple-testing">Multiple testing<a class="anchor" aria-label="anchor" href="#multiple-testing"></a>
 </h2>
-<p><code><a href="../reference/cr_test_all.html">cr_test_all()</a></code> applies <code><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">stats::p.adjust()</a></code> by
-default with the Benjamini-Hochberg method:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">all_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cr_test_all.html">cr_test_all</a></span><span class="op">(</span><span class="va">exp</span>, <span class="st">"marker_1"</span>, <span class="st">"Untreated"</span>,</span>
-<span>                       level <span class="op">=</span> <span class="st">"replicate"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">all_res</span>, <span class="st">"summary"</span><span class="op">)</span></span>
+<p><code><a href="../reference/cr_test_all.html">cr_test_all()</a></code> runs every treatment level against the
+control and reports the adjustments <strong>alongside</strong> the
+unadjusted p-value, never in place of it:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">all_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cr_test_all.html">cr_test_all</a></span><span class="op">(</span><span class="va">exp</span>, <span class="st">"marker_1"</span>, <span class="st">"Untreated"</span>, level <span class="op">=</span> <span class="st">"replicate"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">all_res</span>, <span class="st">"summary"</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"treatment"</span>, <span class="st">"log2_fc"</span>, <span class="st">"p_value"</span>,</span>
+<span>                             <span class="st">"p_bonferroni"</span>, <span class="st">"p_BH"</span>, <span class="st">"interpretation"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 6</span></span></span>
-<span><span class="co">#&gt;   treatment       log2_fc    p_value cohens_d      p_adj interpretation</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> PosControl        3.10  0.000<span style="text-decoration: underline;">001</span>54    2.23  0.000<span style="text-decoration: underline;">003</span>86 strong        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> CompoundA_low     0.916 0.000<span style="text-decoration: underline;">031</span>2     0.831 0.000<span style="text-decoration: underline;">052</span>0  strong        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> CompoundA_high    2.92  0.000<span style="text-decoration: underline;">001</span>54    2.22  0.000<span style="text-decoration: underline;">003</span>86 strong        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> CompoundA_ScavX   0.314 0.109         0.135 0.109      no evidence   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> CompoundA_ScavY   0.578 0.000<span style="text-decoration: underline;">043</span>3     0.538 0.000<span style="text-decoration: underline;">054</span>1  moderate</span></span></code></pre></div>
+<span><span class="co">#&gt;   treatment      log2_fc    p_value p_bonferroni       p_BH interpretation</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> PosControl       3.10  0.000<span style="text-decoration: underline;">001</span>54   0.000<span style="text-decoration: underline;">007</span>72 0.000<span style="text-decoration: underline;">003</span>86 strong        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> CompoundA_low    0.916 0.000<span style="text-decoration: underline;">031</span>2    0.000<span style="text-decoration: underline;">156</span>   0.000<span style="text-decoration: underline;">052</span>0  strong        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> CompoundA_high   2.92  0.000<span style="text-decoration: underline;">001</span>54   0.000<span style="text-decoration: underline;">007</span>72 0.000<span style="text-decoration: underline;">003</span>86 strong        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> CompoundB        0.314 0.109        0.546      0.109      no evidence   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> CompoundC        0.578 0.000<span style="text-decoration: underline;">043</span>3    0.000<span style="text-decoration: underline;">216</span>   0.000<span style="text-decoration: underline;">054</span>1  moderate</span></span></code></pre></div>
+<p>The <code>interpretation</code> column combines the adjusted p-value
+with the effect size: a contrast is <code>"weak"</code>,
+<code>"moderate"</code> or <code>"strong"</code> only when
+<code>p_adj &lt; 0.05</code>, and <code>"no evidence"</code>
+otherwise.</p>
 </div>
 <div class="section level2">
-<h2 id="power-considerations">Power considerations<a class="anchor" aria-label="anchor" href="#power-considerations"></a>
+<h2 id="power-and-sample-size">Power and sample size<a class="anchor" aria-label="anchor" href="#power-and-sample-size"></a>
 </h2>
-<p>A quick hierarchical-aware power check:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/cr_power_analysis.html">cr_power_analysis</a></span><span class="op">(</span>effect_size <span class="op">=</span> <span class="fl">0.8</span>,</span>
-<span>                  n_replicates <span class="op">=</span> <span class="fl">4</span>,</span>
-<span>                  n_cells_per_rep <span class="op">=</span> <span class="fl">100</span>,</span>
-<span>                  n_sim <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
+<p><code><a href="../reference/cr_power_analysis.html">cr_power_analysis()</a></code> simulates the two-sample t-test that
+a replicate-level analysis actually runs: <code>n_replicates</code>
+replicate means per arm, each the average of
+<code>n_cells_per_rep</code> draws, tested against each other.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cr_power_analysis.html">cr_power_analysis</a></span><span class="op">(</span>effect_size     <span class="op">=</span> <span class="fl">0.3</span>,</span>
+<span>                  n_replicates    <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>                  n_cells_per_rep <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>                  n_sim           <span class="op">=</span> <span class="fl">200</span>,</span>
+<span>                  seed            <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
 <span><span class="co">#&gt;   effect_size n_replicates n_cells_per_rep alpha power</span></span>
 <span><span class="co">#&gt;         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         0.8            4             100  0.05     1</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         0.3            4              20  0.05 0.355</span></span></code></pre></div>
+<p>Read the number for what the simulation models. The only source of
+spread between replicate means here is the averaging itself, so power
+rises steeply with <code>n_cells_per_rep</code>. Real units also differ
+from one another for reasons that more cells cannot average away —
+staining, focus, seeding density — and that component is not in this
+model. The figure is therefore an <strong>upper bound</strong>: a design
+that fails here will certainly fail in the laboratory, and one that
+passes here may still not.</p>
+<p>For sizing a follow-up study from effects you have actually observed
+rather than from an assumed one, use <code><a href="../reference/cr_power_grid.html">cr_power_grid()</a></code>, which
+solves from the confidence bound nearer the null and so inherits the
+between-unit variability of the data it was given — see
+<code><a href="../articles/end-to-end.html">vignette("end-to-end")</a></code>.</p>
+</div>
+<div class="section level2">
+<h2 id="where-this-fits">Where this fits<a class="anchor" aria-label="anchor" href="#where-this-fits"></a>
+</h2>
+<ul>
+<li>
+<code><a href="../articles/getting-started.html">vignette("getting-started")</a></code> — the short path on one
+plate.</li>
+<li>
+<code><a href="../articles/end-to-end.html">vignette("end-to-end")</a></code> — the same choice of level made
+across a whole screen, with <code><a href="../reference/cr_effect_grid.html">cr_effect_grid()</a></code> and
+<code><a href="../reference/cr_compare_levels.html">cr_compare_levels()</a></code> quantifying the gap between the
+two.</li>
+</ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -191,7 +317,7 @@ default with the Benjamini-Hochberg method:</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by R. Heller.</p>
+  <p>Developed by Raban Heller, Leila Schwindling, Alexander Büchner, Lucia Lindenberger, Steffen Müller, Michael Hannemann, Gerhard Achatz, Simone Rothmiller.</p>
 </div>
 
 <div class="pkgdown-footer-center themakr-footer-suite">

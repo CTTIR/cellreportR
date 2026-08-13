@@ -44,6 +44,14 @@ cr_background_subtract(
 
 A modified `cr_experiment`.
 
+## See also
+
+[`cr_normalize()`](https://cttir.github.io/cellreportR/reference/cr_normalize.md),
+[`cr_standardize_batch()`](https://cttir.github.io/cellreportR/reference/cr_standardize_batch.md)
+
+Other normalization functions:
+[`cr_normalize()`](https://cttir.github.io/cellreportR/reference/cr_normalize.md)
+
 ## Examples
 
 ``` r

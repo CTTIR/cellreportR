@@ -1,8 +1,8 @@
-# Read CellProfiler output
+# Read a CellProfiler object export
 
 Imports a CellProfiler CSV export and renames the columns to the
 cellreportR convention (`well`, `x`, `y`, `area`, `circularity`, one
-column per channel).
+column per marker channel).
 
 ## Usage
 
@@ -20,20 +20,44 @@ cr_read_cellprofiler(path)
 
 A tibble with standardised column names.
 
+## See also
+
+Other import:
+[`cr_assign_units()`](https://cttir.github.io/cellreportR/reference/cr_assign_units.md),
+[`cr_centroid_overlap()`](https://cttir.github.io/cellreportR/reference/cr_centroid_overlap.md),
+[`cr_column_map()`](https://cttir.github.io/cellreportR/reference/cr_column_map.md),
+[`cr_extract_markers()`](https://cttir.github.io/cellreportR/reference/cr_extract_markers.md),
+[`cr_filename_grammar()`](https://cttir.github.io/cellreportR/reference/cr_filename_grammar.md),
+[`cr_marker_rules()`](https://cttir.github.io/cellreportR/reference/cr_marker_rules.md),
+[`cr_merge_rules()`](https://cttir.github.io/cellreportR/reference/cr_merge_rules.md),
+[`cr_parse_paths()`](https://cttir.github.io/cellreportR/reference/cr_parse_paths.md),
+[`cr_path_spec()`](https://cttir.github.io/cellreportR/reference/cr_path_spec.md),
+[`cr_read_cells()`](https://cttir.github.io/cellreportR/reference/cr_read_cells.md),
+[`cr_read_design()`](https://cttir.github.io/cellreportR/reference/cr_read_design.md),
+[`cr_read_export()`](https://cttir.github.io/cellreportR/reference/cr_read_export.md),
+[`cr_read_exports()`](https://cttir.github.io/cellreportR/reference/cr_read_exports.md),
+[`cr_read_qupath()`](https://cttir.github.io/cellreportR/reference/cr_read_qupath.md),
+[`cr_read_segmantr()`](https://cttir.github.io/cellreportR/reference/cr_read_segmantr.md),
+[`cr_unit_map()`](https://cttir.github.io/cellreportR/reference/cr_unit_map.md)
+
 ## Examples
 
 ``` r
-d <- tempfile("cr_cp_"); dir.create(d)
-files <- cr_example_files(d)
-cp <- cr_read_cellprofiler(file.path(d, "cells_cellprofiler.csv"))
-head(cp)
-#> # A tibble: 6 × 10
-#>   cell_id well      x     y  area circularity  DAPI marker_1 marker_2 marker_3
-#>   <chr>   <chr> <dbl> <dbl> <dbl>       <dbl> <dbl>    <dbl>    <dbl>    <dbl>
-#> 1 c000001 A01   1283. 1133.  99.1       0.518  521.     951.     831.     203.
-#> 2 c000002 A01   1038. 1699.  76.4       0.770  587.    2563.     643.     221.
-#> 3 c000003 A01   1473.  379.  53.5       0.934  750.    1283.     897.     441.
-#> 4 c000004 A01    269.  543.  80.9       0.856  396.    2469.     874.     489.
-#> 5 c000005 A01   1314. 1656.  66.0       0.886  728.    1116.     715.     487.
-#> 6 c000006 A01   1410. 1386. 119.        0.802  545.    1377.     494.     170.
+f <- tempfile(fileext = ".csv")
+utils::write.csv(
+  data.frame(
+    Metadata_Well = c("A01", "A01"),
+    Location_Center_X = c(10, 20),
+    Location_Center_Y = c(15, 25),
+    AreaShape_Area = c(120, 130),
+    Intensity_MeanIntensity_marker_1 = c(0.4, 0.6)
+  ),
+  f, row.names = FALSE
+)
+cr_read_cellprofiler(f)
+#> # A tibble: 2 × 6
+#>   cell_id well      x     y  area marker_1
+#>   <chr>   <chr> <dbl> <dbl> <dbl>    <dbl>
+#> 1 c000001 A01      10    15   120      0.4
+#> 2 c000002 A01      20    25   130      0.6
 ```

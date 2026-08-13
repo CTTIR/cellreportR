@@ -37,19 +37,26 @@ cr_test(
 
 - test:
 
-  One of `"mann_whitney"`, `"t_test"`, `"welch"`, `"wilcoxon_signed"`,
-  `"kruskal"`, `"anova"`. For two-group tests, the first four are valid.
-  `"kruskal"` and `"anova"` can be used only with
-  [`cr_test_all()`](https://cttir.github.io/cellreportR/reference/cr_test_all.md)
-  where additional groups are compared together.
+  One of `"mann_whitney"`, `"t_test"` (pooled variance), `"welch"`
+  (unequal variance) or `"wilcoxon_signed"` (paired).
 
 - level:
 
-  `"cell"` (default) or `"replicate"`.
+  `"cell"` (default), `"replicate"` or `"both"`.
 
 ## Value
 
-A `cr_result` object.
+A `cr_result` object with the elements `comparison`, `cell_level`,
+`rep_level`, `effect_sizes` and `fold_change`.
+
+## See also
+
+[`cr_test_all()`](https://cttir.github.io/cellreportR/reference/cr_test_all.md),
+[`cr_effect_size()`](https://cttir.github.io/cellreportR/reference/cr_effect_size.md),
+[`cr_effect_grid()`](https://cttir.github.io/cellreportR/reference/cr_effect_grid.md).
+
+Other statistics:
+[`cr_test_all()`](https://cttir.github.io/cellreportR/reference/cr_test_all.md)
 
 ## Examples
 
