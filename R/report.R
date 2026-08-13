@@ -33,7 +33,7 @@
 #' @param template Path to an R Markdown template. If `NULL`, the
 #'   bundled template is used.
 #' @param output_dir Output directory for the rendered document.
-#' @param format One of `"html"` or `"pdf"`.
+#' @param format One of `"html"`, `"pdf"` or `"docx"`.
 #'
 #' @return A `cr_report` object, an S3 list with the slots
 #'   \describe{
@@ -83,7 +83,7 @@ cr_report <- function(experiment,
                       render = NULL,
                       template = NULL,
                       output_dir = NULL,
-                      format = c("html", "pdf")) {
+                      format = c("html", "pdf", "docx")) {
   cr_validate_experiment(experiment)
   format <- match.arg(format)
   if (is.null(render)) {
@@ -153,7 +153,7 @@ cr_report <- function(experiment,
 #' @param report A `cr_report` from [cr_report()]. A `cr_experiment` is
 #'   also accepted and is assembled into a report first.
 #' @param output_dir Output directory (default `tempdir()`).
-#' @param format One of `"html"` or `"pdf"`.
+#' @param format One of `"html"`, `"pdf"` or `"docx"`.
 #' @param template Path to an R Markdown template. If `NULL`, the
 #'   bundled template is used.
 #' @param title,author Override the report title and author. `NULL`
@@ -176,7 +176,7 @@ cr_report <- function(experiment,
 #' }
 cr_render_report <- function(report,
                              output_dir = tempdir(),
-                             format = c("html", "pdf"),
+                             format = c("html", "pdf", "docx"),
                              template = NULL,
                              title = NULL,
                              author = NULL,
@@ -227,7 +227,8 @@ cr_render_report <- function(report,
     input = work_rmd,
     output_format = switch(format,
                            html = "html_document",
-                           pdf = "pdf_document"),
+                           pdf = "pdf_document",
+                           docx = "word_document"),
     output_dir = output_dir,
     params = params,
     envir = new.env(parent = globalenv()),

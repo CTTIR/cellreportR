@@ -225,6 +225,14 @@ test_that("cr_render_report rejects anything that is not a report", {
   expect_error(cr_render_report(42), "must be a")
 })
 
+test_that("report formats include HTML, PDF and Word", {
+  exp <- cr_example_experiment(seed = 1, n_cells_per_well = 4)
+  expect_identical(cr_report(exp, format = "html")$params$format, "html")
+  expect_identical(cr_report(exp, format = "pdf")$params$format, "pdf")
+  expect_identical(cr_report(exp, format = "docx")$params$format, "docx")
+  expect_error(cr_report(exp, format = "odt"), "arg")
+})
+
 test_that("cr_render_report errors on a template that does not exist", {
   exp <- cr_example_experiment(seed = 1, n_cells_per_well = 8)
   rep <- cr_report(exp, render = FALSE)

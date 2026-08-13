@@ -7,7 +7,7 @@
 cr_render_report(
   report,
   output_dir = tempdir(),
-  format = c("html", "pdf"),
+  format = c("html", "pdf", "docx"),
   template = NULL,
   title = NULL,
   author = NULL,
@@ -20,7 +20,7 @@ also accepted and is assembled into a report first.}
 
 \item{output_dir}{Output directory (default \code{tempdir()}).}
 
-\item{format}{One of \code{"html"} or \code{"pdf"}.}
+\item{format}{One of \code{"html"}, \code{"pdf"} or \code{"docx"}.}
 
 \item{template}{Path to an R Markdown template. If \code{NULL}, the
 bundled template is used.}

@@ -973,3 +973,20 @@ test_that("the report downloads as a rendered document", {
     expect_gt(file.size(f), 0)
   })
 })
+
+test_that("the report downloads as a Word document", {
+  skip_on_cran()
+  skip_if_no_app()
+  skip_if_not_installed("rmarkdown")
+  skip_if_not_installed("knitr")
+  skip_if_not(rmarkdown::pandoc_available(), "pandoc is not available")
+  exp <- cr_test_experiment()
+  shiny::testServer(cr_test_app(exp), {
+    session$setInputs(sel_channel = "marker_1", sel_control = "Untreated",
+                      rep_title = "Marker 1 overview", rep_author = "tester",
+                      rep_format = "docx", btn_tests = 1)
+    f <- suppressMessages(output$dl_report)
+    expect_match(basename(f), "_report\\.docx$")
+    expect_gt(file.size(f), 0)
+  })
+})

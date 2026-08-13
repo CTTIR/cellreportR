@@ -464,6 +464,9 @@ but not executed here, because it needs a working pandoc and writes a file:
 
 ```{r render, eval = FALSE}
 cr_render_report(report, output_dir = out, format = "html")
+# The same assembled report can also be exported as PDF or Word:
+cr_render_report(report, output_dir = out, format = "pdf")
+cr_render_report(report, output_dir = out, format = "docx")
 ```
 
 ## What was decided, and where it is recorded

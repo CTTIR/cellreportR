@@ -286,7 +286,11 @@
                          value = "cellreportR analysis report"),
         shiny::textInput("rep_author", "Author", value = ""),
         shiny::selectInput("rep_format", "Format",
-                           choices = c("html", "pdf")),
+                           choices = c(
+                             "HTML (.html)" = "html",
+                             "PDF (.pdf)" = "pdf",
+                             "Word (.docx)" = "docx"
+                           )),
         shiny::actionButton("btn_tests", "Run pairwise comparisons",
                             class = "w-100"),
         shiny::helpText(

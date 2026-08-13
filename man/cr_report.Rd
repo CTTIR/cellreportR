@@ -18,7 +18,7 @@ cr_report(
   render = NULL,
   template = NULL,
   output_dir = NULL,
-  format = c("html", "pdf")
+  format = c("html", "pdf", "docx")
 )
 }
 \arguments{
@@ -60,7 +60,7 @@ bundled template is used.}
 
 \item{output_dir}{Output directory for the rendered document.}
 
-\item{format}{One of \code{"html"} or \code{"pdf"}.}
+\item{format}{One of \code{"html"}, \code{"pdf"} or \code{"docx"}.}
 }
 \value{
 A \code{cr_report} object, an S3 list with the slots
