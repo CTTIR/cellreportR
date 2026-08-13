@@ -27,6 +27,15 @@ explicit caller inputs. Structured report data can be reviewed before
 rendering and exported with a deterministic hash and machine-readable audit
 record.
 
+PDF reports use a package-owned A4 KOMA-Script template with a controlled
+first-page identity block, repeating page identity, `Page X of Y` footers,
+compact metadata, a prominent result panel, deliberate pagination, and a
+kept-together authorization block. `cr_report_style()` controls colour or
+intentional grayscale output, density, locale-aware date display, optional
+branding, signature lines, and an optional draft watermark. Reusable
+organization settings can be stored in `cr_report_profile()` without mixing
+branding policy with analytical configuration.
+
 ```r
 spec <- cellreportR::cr_report_spec(
   report = list(report_id = "EXAMPLE-001", version = "1.0", status = "DRAFT"),
@@ -38,6 +47,7 @@ spec <- cellreportR::cr_report_spec(
   authorization = list(authorized_by = "Example Authorizer")
 )
 report <- cellreportR::cr_lab_report(spec = spec)
+cellreportR::cr_render_lab_report(report, tempfile(fileext = ".pdf"))
 ```
 
 ## Publication-ready visual design
@@ -127,7 +137,8 @@ Optional features need a few extra packages:
 | Feature | Needs |
 |---|---|
 | Interactive front-end (`cr_run_app()`) | `bslib`, `DT` |
-| Rendered reports (`cr_report()`, `cr_render_report()`) | `rmarkdown`, `knitr`, and a working pandoc |
+| Rendered research reports (`cr_report()`, `cr_render_report()`) | `rmarkdown`, `knitr`, and a working pandoc |
+| Laboratory PDF reports (`cr_render_lab_report()`) | the above plus XeLaTeX and the standard TeX Live packages checked by render preflight |
 | Excel export (`cr_export_tables()`, `cr_export_results()`) | `writexl` |
 | Reading `.fcs` inputs | `flowCore` (Bioconductor) |
 | Batch correction via empirical Bayes | `sva` (Bioconductor) |

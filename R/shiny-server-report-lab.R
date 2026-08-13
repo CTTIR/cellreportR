@@ -8,7 +8,7 @@
 
 .cr_spec_from_inputs <- function(input, analysis_value=NULL) {
   if(!is.null(input$lab_logo)) {
-    ext<-tolower(tools::file_ext(input$lab_logo$name[[1L]] %||% "")); if(!ext%in%c("png","jpg","jpeg")) cli::cli_abort("Logo must be a PNG or JPEG file.")
+    ext<-tolower(tools::file_ext(input$lab_logo$name[[1L]] %||% "")); if(!ext%in%c("png","jpg","jpeg","pdf")) cli::cli_abort("Logo must be a PNG, JPEG, or PDF file.")
     if(!is.null(input$lab_logo$size)&&is.finite(input$lab_logo$size[[1L]])&&input$lab_logo$size[[1L]]>5*1024^2) cli::cli_abort("Logo must not exceed 5 MB.")
   }
   value <- if(identical(input$lab_result_source,"analysis") && !is.null(analysis_value)) analysis_value else input$lab_value
@@ -39,6 +39,15 @@
     mapping<-list(lab_title=s$report$title,lab_id=s$report$report_id,lab_version=s$report$version,lab_status=s$report$status,lab_name=s$laboratory$name,lab_department=s$laboratory$department,lab_address=s$laboratory$address,lab_subject_id=s$subject$subject_id,lab_case_id=s$subject$case_id,lab_order_id=s$subject$order_id,lab_specimen_id=s$specimen$specimen_id,lab_specimen_type=s$specimen$specimen_type,lab_exam_name=s$examination$name,lab_short_name=s$examination$short_name,lab_method=s$examination$method,lab_value=s$result$value,lab_display_value=s$result$display_value,lab_unit=s$result$unit,lab_classification=s$result$classification,lab_reference=s$result$reference,lab_qc_status=s$result$qc_status,lab_interpretation_summary=s$interpretation$summary,lab_interpretation_text=s$interpretation$text,lab_recommendation=s$interpretation$recommendation,lab_reviewed_by=s$authorization$reviewed_by,lab_authorized_by=s$authorization$authorized_by,lab_limitations=paste(s$limitations,collapse="\n"),lab_custom_fields=paste(paste(names(s$custom_fields),unlist(s$custom_fields),sep=" | "),collapse="\n"))
     for(id in names(mapping)) if(!is.null(mapping[[id]])) shiny::updateTextInput(session,id,value=as.character(mapping[[id]])[1L])
     shiny::updateSelectInput(session,"lab_status",selected=s$report$status)
+    if(inherits(state$report_profile,"cr_report_profile")) {
+      sty<-state$report_profile$style
+      shiny::updateRadioButtons(session,"lab_colour_mode",selected=sty$mode)
+      shiny::updateSelectInput(session,"lab_density",selected=sty$density)
+      shiny::updateTextInput(session,"lab_primary_colour",value=sty$primary_colour)
+      shiny::updateCheckboxInput(session,"lab_include_audit",value=sty$include_audit_appendix)
+      shiny::updateCheckboxInput(session,"lab_signature_lines",value=sty$show_signature_lines)
+      shiny::updateCheckboxInput(session,"lab_draft_watermark",value=sty$draft_watermark)
+    }
   },once=TRUE)
   analysis_value<-shiny::reactive({ if(!identical(input$lab_result_source,"analysis")||!nzchar(input$lab_analysis_value %||% "")||!is.data.frame(state$effects)) return(NULL); vals<-state$effects[[input$lab_analysis_value]]; vals<-vals[is.finite(vals)]; if(length(vals)) vals[[1L]] else NULL })
   current_spec<-shiny::reactive(.cr_spec_from_inputs(input,analysis_value()))
@@ -48,14 +57,64 @@
     txt<-if(nrow(q)) paste(apply(q[c("criterion","observed","acceptance","status")],1,paste,collapse=" | "),collapse="\n") else ""
     shiny::updateTextAreaInput(session,"lab_qc_rows",value=txt);ctx$log("Report QC summary updated from the current QC log.")
   })
-  current_style<-shiny::reactive(cr_plot_style(mode=input$lab_colour_mode %||% "colour",variant="report"))
-  current_report<-shiny::reactive({ s<-current_spec(); suppressWarnings(cr_lab_report(state$experiment,s,current_qc(),result_graphic=isTRUE(input$lab_show_result_graphic),strict=TRUE,style=current_style())) })
+  current_style<-shiny::reactive({
+    base<-if(inherits(state$report_profile,"cr_report_profile")) state$report_profile$style else cr_report_style()
+    cr_report_style(
+      paper=input$lab_paper %||% base$paper,
+      mode=input$lab_colour_mode %||% base$mode,
+      density=input$lab_density %||% base$density,locale=base$locale,
+      logo=if(!is.null(input$lab_logo)) input$lab_logo$datapath[[1L]] else base$logo,
+      primary_colour=input$lab_primary_colour %||% base$primary_colour,
+      secondary_colour=base$secondary_colour,date_format=base$date_format,
+      date_time_format=base$date_time_format,labels=base$labels,
+      footer_text=base$footer_text,
+      include_audit_appendix=isTRUE(input$lab_include_audit),
+      show_signature_lines=isTRUE(input$lab_signature_lines),
+      draft_watermark=isTRUE(input$lab_draft_watermark))
+  })
+  current_report<-shiny::reactive({ s<-current_spec(); suppressWarnings(cr_lab_report(state$experiment,s,current_qc(),result_graphic=isTRUE(input$lab_show_result_graphic),include_audit_appendix=isTRUE(input$lab_include_audit),strict=TRUE,style=current_style())) })
   shiny::observeEvent(input$btn_lab_validate,{
-    s<-tryCatch(current_spec(),error=function(e) ctx$fail(e,"Report validation")); if(is.null(s)) return(); state$report_spec<-s; state$lab_report<-tryCatch(suppressWarnings(cr_lab_report(state$experiment,s,current_qc(),strict=FALSE)),error=function(e) NULL); ctx$log("Report validated.")
+    s<-tryCatch(current_spec(),error=function(e) ctx$fail(e,"Report validation")); if(is.null(s)) return(); state$report_spec<-s; state$lab_report<-tryCatch(suppressWarnings(cr_lab_report(state$experiment,s,current_qc(),result_graphic=isTRUE(input$lab_show_result_graphic),include_audit_appendix=isTRUE(input$lab_include_audit),strict=FALSE,style=current_style())),error=function(e) NULL); ctx$log("Report validated.")
   })
   output$lab_validation<-shiny::renderUI({ issues<-tryCatch(cr_validate_report_spec(current_spec(),strict=TRUE,return_issues=TRUE),error=function(e) data.frame(severity="ERROR",field="input",message=conditionMessage(e))); if(!nrow(issues)) return(shiny::div(class="alert alert-success",shiny::strong("PASS "),"Report is structurally ready.")); shiny::tags$ul(lapply(seq_len(nrow(issues)),function(i) shiny::tags$li(shiny::strong(paste(issues$severity[i],issues$field[i])),paste("-",issues$message[i])))) })
   output$lab_exports<-shiny::renderUI({ issues<-tryCatch(cr_validate_report_spec(current_spec(),strict=TRUE,return_issues=TRUE),error=function(e) data.frame(severity="ERROR")); if(any(issues$severity=="ERROR")) return(shiny::div(class="alert alert-secondary","Resolve ERROR items before export.")); shiny::tagList(shiny::downloadButton("dl_lab_pdf","PDF report",class="btn-primary w-100"),shiny::downloadButton("dl_lab_audit","Audit JSON",class="w-100 mt-1"),shiny::downloadButton("dl_lab_spec","Specification JSON",class="w-100 mt-1")) })
-  output$lab_preview<-shiny::renderUI({ s<-tryCatch(current_spec(),error=function(e) NULL); if(is.null(s)) return(shiny::div(class="alert alert-danger","Preview unavailable: invalid input.")); shiny::tagList(shiny::h4(s$report$title),shiny::p(shiny::strong("Report: "),s$report$report_id %||% "(unset)"," | v",s$report$version," | ",s$report$status),shiny::h3(s$result$classification %||% s$result$display_value %||% s$result$value %||% "Result not supplied"),if(.cr_present(s$interpretation$summary)) shiny::p(s$interpretation$summary)) })
+  output$lab_preview<-shiny::renderUI({ rep<-tryCatch(suppressWarnings(cr_lab_report(state$experiment,current_spec(),current_qc(),result_graphic=FALSE,strict=FALSE,style=current_style())),error=function(e) NULL); if(is.null(rep)) return(shiny::div(class="alert alert-danger","Preview unavailable: invalid input.")); .cr_report_preview_ui(cr_report_display_data(rep)) })
   output$lab_result_plot<-shiny::renderPlot({ s<-current_spec(); shiny::req(isTRUE(input$lab_show_result_graphic)); p<-.cr_plot_from_spec(s,current_style()); shiny::req(p); p })
   function(){ out<-current_report(); state$report_spec<-out$spec; out }
+}
+
+.cr_report_preview_ui <- function(d) {
+  first_value <- function(rows,key) { x<-rows$value[rows$key==key]; if(length(x)) x[[1L]] else "" }
+  row_text <- function(rows) {
+    if (!nrow(rows)) return(shiny::span(class="text-muted","Not supplied"))
+    shiny::tags$dl(class="row small mb-0",
+      lapply(seq_len(nrow(rows)),function(i) shiny::tagList(
+        shiny::tags$dt(class="col-5",rows$label[[i]]),
+        shiny::tags$dd(class="col-7",rows$value[[i]]))))
+  }
+  accent <- if (identical(d$style$mode,"grayscale")) "#3E3E3E" else d$style$primary_colour
+  shiny::div(class="bg-white text-dark p-3 border rounded",
+    shiny::div(class="d-flex justify-content-between align-items-start",
+      shiny::div(shiny::strong(d$report$laboratory_name),
+                 shiny::div(class="small text-muted",d$report$department)),
+      shiny::div(class="text-end",shiny::tags$small(style=paste0("color:",accent),d$labels[["document_type"]]),
+                 shiny::h5(class="mb-0",d$report$title),shiny::strong(style=paste0("color:",accent),d$report$status))),
+    shiny::hr(style=paste0("border-color:",accent,";opacity:1")),
+    shiny::div(class="small d-flex justify-content-between",
+      shiny::span("Report ",shiny::strong(d$report$id)," | v",d$report$version),
+      shiny::span(d$report$created)),
+    shiny::hr(),shiny::strong(d$labels[["subject_specimen"]]),
+    bslib::layout_columns(col_widths=c(6,6),row_text(d$subject),row_text(d$specimen)),
+    shiny::hr(),shiny::strong(d$labels[["examination"]]),row_text(d$examination),
+    shiny::div(class="mt-3 p-3 border-top border-bottom",
+      style=paste0("border-color:",accent,"!important"),
+      shiny::tags$small(class="text-uppercase",d$labels[["result"]]),
+      shiny::h3(style=paste0("color:",accent),first_value(d$result,"classification")),
+      shiny::h5(first_value(d$result,"measured_value")),
+      row_text(d$result[!d$result$key%in%c("classification","measured_value"),,drop=FALSE])),
+    if(.cr_present(d$interpretation$summary)) shiny::p(class="mt-3 mb-1",shiny::strong(d$interpretation$summary)),
+    if(.cr_present(d$interpretation$text)) shiny::p(class="small",d$interpretation$text),
+    shiny::hr(),shiny::div(class="small text-muted d-flex justify-content-between",
+      shiny::span("Report ",d$report$id," | v",d$report$version," | ",d$report$status),
+      shiny::span("Page X of Y")))
 }

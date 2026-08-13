@@ -12,7 +12,7 @@ test_that("laboratory report data is inspectable and assembly is side-effect saf
   exp<-cr_example_experiment(seed=42,n_cells_per_well=2); before<-serialize(exp,NULL)
   r<-cr_lab_report(exp,.example_lab_spec(),cr_report_qc("Run acceptance","met","configured criteria","PASS"))
   expect_s3_class(r,"cr_lab_report"); expect_identical(serialize(exp,NULL),before)
-  dat<-cr_report_data(r); expect_equal(dat$template_version,"1.0"); expect_equal(dat$spec$result$value,1.42)
+  dat<-cr_report_data(r); expect_equal(dat$template_version,"2.0"); expect_equal(dat$spec$result$value,1.42)
 })
 
 test_that("structured report hashes are stable and sensitive to data", {
@@ -25,7 +25,7 @@ test_that("provenance is concise and versioned", {
   exp<-cr_example_experiment(seed=42,n_cells_per_well=2); r<-cr_lab_report(exp,.example_lab_spec())
   p<-cr_report_provenance(exp,r)
   expect_equal(p$schema_version,"1.0"); expect_equal(p$software$package,"cellreportR")
-  expect_equal(p$report$template_version,"1.0"); expect_equal(p$experiment$n_cells,nrow(exp$cells))
+  expect_equal(p$report$template_version,"2.0"); expect_equal(p$experiment$n_cells,nrow(exp$cells))
   expect_null(p$experiment$cells)
 })
 

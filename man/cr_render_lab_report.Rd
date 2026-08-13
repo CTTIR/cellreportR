@@ -10,7 +10,8 @@ cr_render_lab_report(
   template = NULL,
   quiet = TRUE,
   audit_file = NULL,
-  overwrite = FALSE
+  overwrite = FALSE,
+  keep_tex = FALSE
 )
 }
 \arguments{
@@ -26,6 +27,9 @@ cr_render_lab_report(
 
 \item{overwrite}{Replace an existing output file. Defaults to \code{FALSE}, so
 released or draft reports are never silently replaced.}
+
+\item{keep_tex}{Keep the generated \code{.tex} file beside a PDF for layout
+diagnostics. Defaults to \code{FALSE}.}
 }
 \description{
 Render a concise laboratory report

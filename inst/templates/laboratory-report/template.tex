@@ -1,0 +1,188 @@
+% Package-owned controlled laboratory-report template, version 2.0.
+\documentclass[10pt,a4paper,headsepline=0.35pt,footsepline=0.35pt]{scrartcl}
+
+\usepackage[left=19mm,right=19mm,top=20mm,bottom=19mm,headheight=10mm,headsep=4mm,footskip=10mm]{geometry}
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\setmainfont{TeX Gyre Heros}
+\setsansfont{TeX Gyre Heros}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{needspace}
+\usepackage{lastpage}
+\usepackage{scrlayer-scrpage}
+\usepackage{draftwatermark}
+\usepackage[unicode,hidelinks]{hyperref}
+
+\newcommand{\crPrimaryHex}{315A70}
+\newcommand{\crSecondaryHex}{65747C}
+\newcommand{\crReportTitle}{Laboratory Report}
+\newcommand{\crDocumentType}{LABORATORY REPORT}
+\newcommand{\crReportID}{}
+\newcommand{\crReportVersion}{}
+\newcommand{\crReportStatus}{}
+\newcommand{\crReportCreated}{}
+\newcommand{\crLaboratoryName}{}
+\newcommand{\crLaboratoryDepartment}{}
+\newcommand{\crLaboratoryContact}{}
+\newcommand{\crLabelReportID}{Report ID}
+\newcommand{\crLabelVersion}{Version}
+\newcommand{\crLabelStatus}{Status}
+\newcommand{\crLabelCreated}{Created}
+\newcommand{\crLabelPage}{Page}
+\newcommand{\crLabelOf}{of}
+\newcommand{\crLabelReviewedBy}{Reviewed by}
+\newcommand{\crLabelAuthorizedBy}{Authorized by}
+\newcommand{\crFooterText}{}
+\newcommand{\crPDFCreator}{cellreportR}
+\newcommand{\crLogoPath}{}
+\newcommand{\crAmendmentText}{}
+\newif\ifcrhaslogo
+\newif\ifcrcompact
+\newif\ifcrwatermark
+\newif\ifcramended
+
+$for(header-includes)$
+$header-includes$
+$endfor$
+
+\definecolor{crPrimary}{HTML}{\crPrimaryHex}
+\definecolor{crSecondary}{HTML}{\crSecondaryHex}
+\definecolor{crText}{HTML}{24292D}
+\definecolor{crMuted}{HTML}{5D666C}
+\definecolor{crRule}{HTML}{AEB7BC}
+\definecolor{crPanel}{HTML}{F2F5F6}
+\definecolor{crPass}{HTML}{2F6663}
+\definecolor{crWarn}{HTML}{8A5B00}
+\definecolor{crFail}{HTML}{8A352F}
+
+\hypersetup{
+  pdftitle={\crReportTitle},
+  pdfauthor={\crLaboratoryName},
+  pdfsubject={Laboratory report \crReportID},
+  pdfcreator={\crPDFCreator},
+  colorlinks=false
+}
+\urlstyle{same}
+
+\ifcrcompact
+  \AtBeginDocument{\fontsize{9.4}{11.3}\selectfont\renewcommand{\arraystretch}{1.04}}
+\else
+  \AtBeginDocument{\fontsize{10}{12}\selectfont\renewcommand{\arraystretch}{1.10}}
+\fi
+\ifcrwatermark
+  \SetWatermarkText{DRAFT}
+  \SetWatermarkScale{2.9}
+  \SetWatermarkColor[gray]{0.92}
+  \SetWatermarkAngle{45}
+\else
+  \SetWatermarkText{}
+\fi
+
+\setkomafont{pagehead}{\normalfont\footnotesize}
+\setkomafont{pagefoot}{\normalfont\scriptsize\color{crMuted}}
+\setkomafont{headsepline}{\color{crRule}}
+\setkomafont{footsepline}{\color{crRule}}
+\clearpairofpagestyles
+\ihead{\textbf{\crLaboratoryName}}
+\chead{\crReportTitle}
+\ohead{\parbox[t]{0.30\textwidth}{\raggedleft\crReportID\enspace|\enspace v\crReportVersion}}
+\ifoot{\parbox[t]{0.70\textwidth}{\raggedright\crLabelReportID\ \crReportID\enspace|\enspace v\crReportVersion\enspace|\enspace\textbf{\crReportStatus}}}
+\ofoot{\crLabelPage\ \thepage\ \crLabelOf\ \pageref*{LastPage}}
+\pagestyle{scrheadings}
+\newpairofpagestyles{crfirst}{
+  \clearpairofpagestyles
+  \ifoot{\parbox[t]{0.70\textwidth}{\raggedright\crLabelReportID\ \crReportID\enspace|\enspace v\crReportVersion\enspace|\enspace\textbf{\crReportStatus}}}
+  \ofoot{\crLabelPage\ \thepage\ \crLabelOf\ \pageref*{LastPage}}
+}
+
+\newcommand{\crFirstPageHeader}{%
+  \noindent
+  \begin{minipage}[t]{0.63\textwidth}
+    \ifcrhaslogo
+      \begin{minipage}[t]{28mm}\vspace{0pt}\includegraphics[width=28mm,height=15mm,keepaspectratio]{\crLogoPath}\end{minipage}\hspace{3mm}%
+      \begin{minipage}[t]{\dimexpr\linewidth-31mm\relax}\vspace{0pt}
+    \fi
+    {\large\bfseries\color{crText}\crLaboratoryName\par}
+    \ifx\crLaboratoryDepartment\empty\else{\small\color{crMuted}\crLaboratoryDepartment\par}\fi
+    \ifx\crLaboratoryContact\empty\else{\scriptsize\color{crMuted}\crLaboratoryContact\par}\fi
+    \ifcrhaslogo\end{minipage}\fi
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.34\textwidth}\raggedleft
+    {\scriptsize\bfseries\color{crPrimary}\crDocumentType\par}
+    \vspace{1.3mm}
+    {\Large\bfseries\color{crText}\crReportTitle\par}
+    \vspace{1.2mm}
+    {\large\bfseries\color{crPrimary}\crReportStatus\par}
+  \end{minipage}
+  \par\vspace{3mm}
+  {\color{crPrimary}\rule{\linewidth}{1.0pt}}\par\vspace{1.8mm}
+  \noindent\begin{minipage}[t]{0.49\linewidth}
+    \crIdentityRow{\crLabelReportID}{\textbf{\crReportID}}
+    \crIdentityRow{\crLabelStatus}{\textbf{\crReportStatus}}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.47\linewidth}
+    \crIdentityRow{\crLabelVersion}{\crReportVersion}
+    \crIdentityRow{\crLabelCreated}{\crReportCreated}
+  \end{minipage}
+  \ifcramended\par\vspace{1mm}{\small\bfseries\color{crFail}\crAmendmentText\par}\fi
+  \vspace{1.5mm}{\color{crRule}\rule{\linewidth}{0.45pt}}\par
+}
+\newcommand{\crIdentityRow}[2]{\noindent\parbox[t]{0.34\linewidth}{\bfseries\color{crMuted}#1}\hfill\parbox[t]{0.62\linewidth}{\raggedright #2}\par}
+
+\newcommand{\crSection}[1]{%
+  \Needspace{4\baselineskip}%
+  \par\vspace{2.2mm}%
+  {\large\bfseries\color{crText}#1\par}%
+  \vspace{0.4mm}{\color{crPrimary}\rule{\linewidth}{0.55pt}}\par\vspace{1.0mm}%
+}
+\newcommand{\crSubsection}[1]{\par{\small\bfseries\color{crPrimary}#1\par}\vspace{0.7mm}}
+\newcommand{\crPlainText}[1]{\par\noindent #1\par}
+\newcommand{\crInterpretationSummary}[1]{\par\noindent\textbf{#1}\par\vspace{0.7mm}}
+\newcommand{\crTechnical}[1]{{\ttfamily\small\raggedright\allowbreak #1}}
+
+\newenvironment{crresult}{%
+  \Needspace{11\baselineskip}%
+  \par\noindent\begin{minipage}{\linewidth}%
+  {\color{crPrimary}\rule{\linewidth}{1.15pt}}\par\vspace{2.3mm}%
+}{\par\vspace{1.8mm}{\color{crRule}\rule{\linewidth}{0.45pt}}\end{minipage}\par}
+\newcommand{\crResultClassification}[1]{{\fontsize{17}{19}\selectfont\bfseries\color{crPrimary}#1\par}}
+\newcommand{\crResultValue}[1]{\vspace{0.4mm}{\fontsize{13}{15}\selectfont\bfseries\color{crText}#1\par}\vspace{1.4mm}}
+\newenvironment{crlimitations}{\begin{itemize}[leftmargin=5mm,itemsep=0.6mm,topsep=0.3mm]}{\end{itemize}}
+\newenvironment{crauthorization}{\begin{minipage}{\linewidth}}{\end{minipage}\par}
+\newcommand{\crSignatureLines}{%
+  \vspace{7mm}\noindent\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}p{0.44\linewidth}p{0.44\linewidth}@{}}
+    \rule{0.44\linewidth}{0.35pt} & \rule{0.44\linewidth}{0.35pt}\\[-0.5mm]
+    \scriptsize\crLabelReviewedBy & \scriptsize\crLabelAuthorizedBy
+  \end{tabular*}
+}
+\newcommand{\crReleaseStatement}[1]{\par\vspace{2.5mm}{\footnotesize\color{crMuted}#1\par}}
+\newcommand{\crBeginSecondPage}{\ifnum\value{page}=1\relax\clearpage\fi}
+\newcommand{\crAppendixHeading}[2]{%
+  \pdfbookmark[1]{#2}{audit-appendix}%
+  {\large\bfseries\color{crPrimary}#1\par}\vspace{1mm}
+  {\LARGE\bfseries\color{crText}#2\par}\vspace{2mm}
+  {\color{crPrimary}\rule{\linewidth}{0.8pt}}\par\vspace{3mm}
+}
+
+\newcommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setlength{\parindent}{0pt}
+\raggedbottom
+\widowpenalty=7000
+\clubpenalty=7000
+\displaywidowpenalty=7000
+\emergencystretch=2em
+
+\begin{document}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\parfillskip}{0pt plus 1fil}
+$body$
+\end{document}

@@ -7,34 +7,47 @@
 #' @param result_graphic Optional precomputed plot, or `TRUE` to build one from result thresholds when possible.
 #' @param include_audit_appendix Include a compact audit appendix in the rendered document.
 #' @param strict Apply strict specification validation.
-#' @param style A [cr_plot_style()] used by embedded report figures.
+#' @param style A [cr_report_style()] shared by the document and its embedded
+#'   report figures. Legacy `cr_plot_style` objects are converted.
+#' @param profile Optional [cr_report_profile()] containing laboratory defaults,
+#'   labels, required fields, and organization-wide visual settings.
 #' @export
 cr_lab_report <- function(experiment=NULL, spec=cr_report_spec(), qc=NULL,
-                          result_graphic=FALSE, include_audit_appendix=FALSE,
-                          strict=TRUE, style=cr_plot_style(variant="report")) {
+                          result_graphic=FALSE, include_audit_appendix=NULL,
+                          strict=TRUE, style=NULL, profile=NULL) {
+  spec <- .cr_apply_report_profile(spec, profile)
+  style <- if (is.null(style) && inherits(profile, "cr_report_profile")) {
+    profile$style
+  } else {
+    .cr_as_report_style(style)
+  }
   cr_validate_report_spec(spec, strict=strict)
   if (!is.null(experiment)) cr_validate_experiment(experiment)
   if (is.null(qc)) qc <- if (!is.null(experiment)) cr_report_qc_from_log(experiment) else cr_report_qc()
   cr_validate_report_qc(qc)
   plot <- if (inherits(result_graphic,"ggplot")) result_graphic else NULL
   if (isTRUE(result_graphic)) plot <- .cr_plot_from_spec(spec, style)
+  if (is.null(include_audit_appendix)) {
+    include_audit_appendix <- style$include_audit_appendix
+  }
   obj <- list(spec=spec, qc=tibble::as_tibble(qc), experiment=experiment,
     result_graphic=plot, include_audit_appendix=isTRUE(include_audit_appendix),
     style=style,
-    template_name="laboratory-report", template_version="1.0",
+    template_name="laboratory-report", template_version="2.0",
     events=.cr_report_event("report_assembled","INFO","report"))
   class(obj) <- c("cr_lab_report","list"); obj
 }
 
-.cr_plot_from_spec <- function(spec, style=cr_plot_style(variant="report")) {
+.cr_plot_from_spec <- function(spec, style=cr_report_style()) {
   r <- spec$result
   if (!is.numeric(r$value) || length(r$value)!=1L || !is.finite(r$value)) return(NULL)
   bounds <- r$thresholds %||% NULL
   if (is.null(bounds) || !is.numeric(bounds) || !length(bounds)) return(NULL)
+  plot_style <- cr_plot_style(mode=style$mode, variant="report", base_size=8)
   cr_plot_result_position(r$value, bounds, labels=r$threshold_labels %||% NULL,
                           unit=r$unit %||% NULL,
                           classification=r$classification %||% NULL,
-                          mode=style$mode, style=style)
+                          mode=style$mode, style=plot_style)
 }
 
 #' Inspect the exact structured values entering a laboratory report
@@ -77,7 +90,7 @@ cr_report_provenance <- function(experiment=NULL, report_spec, output_file=NULL,
     exp_summary <- list(n_source_files=if(is.data.frame(experiment$provenance)) nrow(experiment$provenance) else NA_integer_, n_cells=nrow(experiment$cells), n_units=length(unique(experiment$cells[[experiment$spatial_unit]])), unit_var=experiment$unit_var %||% experiment$spatial_unit, spatial_unit=experiment$spatial_unit, batch_vars=experiment$batch_vars %||% character(), qc_steps=if(nrow(experiment$qc_log)) as.character(experiment$qc_log$step) else character(), provenance_hash=if(!is.null(experiment$provenance)) cr_report_hash(experiment$provenance) else NA_character_, design_hash=cr_report_hash(experiment$design))
   }
   list(schema="cellreportR-report-audit", schema_version="1.0",
-    report=list(report_id=spec$report$report_id %||% NA_character_, version=spec$report$version %||% NA_character_, status=spec$report$status %||% NA_character_, created_at=.cr_iso(spec$report$created_at), template_name=report$template_name, template_version=report$template_version, report_data_hash=cr_report_hash(report)),
+    report=list(report_id=spec$report$report_id %||% NA_character_, version=spec$report$version %||% NA_character_, status=spec$report$status %||% NA_character_, created_at=.cr_iso(spec$report$created_at), template_name=report$template_name, template_version=report$template_version, report_data_hash=cr_report_hash(report), output_file_name=if(!is.null(output_file)) basename(output_file) else NA_character_),
     software=list(package="cellreportR", package_version=as.character(utils::packageVersion("cellreportR")), r_version=R.version.string, platform=R.version$platform),
     versions=list(analysis_pipeline=spec$examination$analysis_pipeline_version %||% NA_character_, qc_ruleset=spec$examination$qc_ruleset_version %||% NA_character_, interpretation_ruleset=spec$examination$interpretation_ruleset_version %||% NA_character_),
     result_source=spec$result$source %||% NA_character_, classification_source=spec$result$classification_source %||% NA_character_, experiment=exp_summary, qc=as.data.frame(report$qc), analysis_metadata=analysis_metadata, output_file_hash=if(!is.null(output_file)&&file.exists(output_file)) digest::digest(file=output_file,algo="sha256") else NA_character_, events=rbind(spec$events, report$events))
@@ -150,19 +163,73 @@ cr_plot_result_position <- function(value,thresholds,labels=NULL,xlim=NULL,
 #' @param audit_file Optional JSON audit path written after rendering.
 #' @param overwrite Replace an existing output file. Defaults to `FALSE`, so
 #'   released or draft reports are never silently replaced.
+#' @param keep_tex Keep the generated `.tex` file beside a PDF for layout
+#'   diagnostics. Defaults to `FALSE`.
 #' @export
-cr_render_lab_report <- function(report,output_file,template=NULL,quiet=TRUE,audit_file=NULL,overwrite=FALSE) {
+cr_render_lab_report <- function(report,output_file,template=NULL,quiet=TRUE,
+                                 audit_file=NULL,overwrite=FALSE,
+                                 keep_tex=FALSE) {
   if(!inherits(report,"cr_lab_report")) cli::cli_abort("{.arg report} must be a {.cls cr_lab_report}.")
   cr_validate_report_spec(report$spec,strict=TRUE); cr_validate_report_qc(report$qc)
   .cr_check_path(output_file); ext<-tolower(tools::file_ext(output_file)); if(!ext%in%c("pdf","html")) cli::cli_abort("Laboratory reports support explicit {.val pdf} or {.val html} output files.")
   if(file.exists(output_file)&&!isTRUE(overwrite)) cli::cli_abort("Output already exists: {.path {output_file}}. Set {.arg overwrite = TRUE} explicitly to replace it.")
   if(!requireNamespace("rmarkdown",quietly=TRUE)||!requireNamespace("knitr",quietly=TRUE)) cli::cli_abort("Rendering requires {.pkg rmarkdown} and {.pkg knitr}.")
-  if(!rmarkdown::pandoc_available()) cli::cli_abort("Pandoc is required to render laboratory reports.")
-  if(is.null(template)) template<-system.file("rmd","laboratory-report.Rmd",package="cellreportR"); if(!nzchar(template)||!file.exists(template)) cli::cli_abort("Laboratory report template not found: {.path {template}}")
-  dir.create(dirname(output_file),recursive=TRUE,showWarnings=FALSE); work<-tempfile("cr_lab_report_",fileext=".Rmd",tmpdir=dirname(output_file)); on.exit(unlink(work),add=TRUE); file.copy(template,work,overwrite=TRUE)
-  rendered <- rmarkdown::render(work,output_format=if(ext=="pdf") "pdf_document" else "html_document",output_file=basename(output_file),output_dir=dirname(output_file),params=list(report=report),envir=new.env(parent=globalenv()),quiet=quiet)
-  if(!identical(normalizePath(rendered,mustWork=FALSE),normalizePath(output_file,mustWork=FALSE))) file.copy(rendered,output_file,overwrite=TRUE)
+  if (ext == "pdf" && (is.null(template) || identical(template,"laboratory"))) {
+    .cr_render_lab_pdf(report,output_file,quiet=quiet,keep_tex=keep_tex)
+  } else {
+    if(is.null(template)) template<-system.file("rmd","laboratory-report.Rmd",package="cellreportR")
+    if(!nzchar(template)||!file.exists(template)) cli::cli_abort("Laboratory report template not found: {.path {template}}")
+    dir.create(dirname(output_file),recursive=TRUE,showWarnings=FALSE)
+    work<-tempfile("cr_lab_report_",fileext=".Rmd",tmpdir=dirname(output_file))
+    on.exit(unlink(work),add=TRUE); file.copy(template,work,overwrite=TRUE)
+    rendered <- rmarkdown::render(work,
+      output_format=if(ext=="pdf") "pdf_document" else "html_document",
+      output_file=basename(output_file),output_dir=dirname(output_file),
+      params=list(report=report),envir=new.env(parent=globalenv()),quiet=quiet)
+    if(!identical(normalizePath(rendered,mustWork=FALSE),normalizePath(output_file,mustWork=FALSE))) file.copy(rendered,output_file,overwrite=TRUE)
+  }
   if(!is.null(audit_file)) cr_export_report_audit(report,audit_file,output_file)
+  invisible(output_file)
+}
+
+.cr_render_lab_pdf <- function(report,output_file,quiet=TRUE,keep_tex=FALSE) {
+  display <- cr_report_display_data(report)
+  rmd <- system.file("rmd","laboratory-report-pdf.Rmd",package="cellreportR")
+  latex <- system.file("templates","laboratory-report","template.tex",
+                       package="cellreportR")
+  if (!nzchar(rmd) || !file.exists(rmd)) cli::cli_abort("Laboratory PDF source template not found.")
+  .cr_lab_pdf_preflight(report,output_file,latex,display$report$logo)
+  out_dir <- dirname(output_file)
+  work <- tempfile("cr_lab_report_",tmpdir=out_dir)
+  dir.create(work)
+  on.exit(unlink(work,recursive=TRUE),add=TRUE)
+  work_rmd <- file.path(work,"laboratory-report.Rmd")
+  file.copy(rmd,work_rmd,overwrite=TRUE)
+  header <- file.path(work,"laboratory-report-header.tex")
+  writeLines(.cr_report_latex_header(display),header,useBytes=TRUE)
+  graphic <- NULL
+  if (!is.null(report$result_graphic)) {
+    graphic <- if (isTRUE(keep_tex)) {
+      file.path(out_dir,paste0(tools::file_path_sans_ext(basename(output_file)),
+                               "_result-position.pdf"))
+    } else file.path(work,"result-position.pdf")
+    ggplot2::ggsave(graphic,plot=report$result_graphic,width=160,height=24,
+                    units="mm",device=grDevices::cairo_pdf,bg="white")
+  }
+  output_format <- rmarkdown::pdf_document(
+    template=latex,latex_engine="xelatex",toc=FALSE,keep_tex=keep_tex,
+    includes=rmarkdown::includes(in_header=header)
+  )
+  rendered <- rmarkdown::render(
+    input=work_rmd,output_format=output_format,
+    output_file=basename(output_file),output_dir=out_dir,
+    params=list(display=display,result_graphic_path=graphic),
+    envir=new.env(parent=globalenv()),quiet=quiet,clean=!isTRUE(keep_tex)
+  )
+  if(!identical(normalizePath(rendered,mustWork=FALSE),
+                normalizePath(output_file,mustWork=FALSE))) {
+    file.copy(rendered,output_file,overwrite=TRUE)
+  }
   invisible(output_file)
 }
 

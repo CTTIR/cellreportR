@@ -9,6 +9,17 @@
   uses the programmatic report objects, supports pre-population, preview,
   validation, and PDF/specification/audit downloads without logging sensitive
   free-text field contents.
+* Replaced the laboratory PDF's default document styling with a package-owned
+  A4 KOMA-Script template (template version 2.0). It provides controlled first-
+  and later-page identity, `Page X of Y` footers, a page-one result hierarchy,
+  compact metadata and QC tables, deliberate page flow, an intact release
+  block, human-readable dates, Unicode-safe XeLaTeX output, and a separate-by-
+  default audit appendix.
+* Added `cr_report_style()`, `cr_report_profile()`, and
+  `cr_report_display_data()` so branding, colour/grayscale output, density,
+  display labels, locale, and organization-wide defaults are shared by the
+  programmatic and Shiny workflows without changing the report schema or any
+  analytical value.
 * Extended the centralized figure design system with colour and grayscale
   modes, stable line types and manual scales, plot-style objects, standard
   figure dimensions, deterministic PDF/SVG/PNG/TIFF export, estimate and QC

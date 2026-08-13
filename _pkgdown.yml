@@ -182,6 +182,9 @@ reference:
       - cr_report_qc_from_log
       - cr_lab_report
       - cr_report_data
+      - cr_report_display_data
+      - cr_report_style
+      - cr_report_profile
       - cr_render_lab_report
       - cr_report_hash
       - cr_report_provenance

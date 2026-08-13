@@ -32,3 +32,35 @@ test_that("custom and QC text editors reject malformed rows", {
   expect_error(cellreportR:::.cr_key_values("A | 1\nA | 2"),"unique")
   expect_error(cellreportR:::.cr_qc_text("criterion | observed | status"),"four")
 })
+
+test_that("report appearance uses the shared style object", {
+  skip_if_no_app()
+  profile <- cr_report_profile(
+    laboratory=list(name="Configured Example Laboratory"),
+    style=cr_report_style(mode="grayscale",density="compact",locale="de",
+                          footer_text="Synthetic profile statement.",
+                          include_audit_appendix=TRUE,
+                          show_signature_lines=TRUE))
+  shiny::testServer(cr_test_app(report_profile=profile), {
+    session$setInputs(
+      lab_paper="A4",lab_colour_mode="grayscale",lab_density="compact",
+      lab_primary_colour="#315A70",lab_include_audit=TRUE,
+      lab_signature_lines=TRUE,lab_draft_watermark=FALSE,
+      lab_title="Laboratory Report",lab_id="EXAMPLE-STYLE-001",
+      lab_version="1.0",lab_status="DRAFT",lab_created=as.Date("2026-08-13"),
+      lab_result_source="manual",lab_value=1.42,
+      lab_classification="HIGH",lab_qc_status="PASS",
+      lab_show_result_graphic=FALSE,btn_lab_validate=1)
+    session$flushReact()
+    expect_s3_class(state$lab_report$style,"cr_report_style")
+    expect_equal(state$lab_report$style$mode,"grayscale")
+    expect_equal(state$lab_report$style$density,"compact")
+    expect_equal(state$lab_report$style$locale,"de")
+    expect_equal(state$lab_report$style$footer_text,
+                 "Synthetic profile statement.")
+    expect_true(state$lab_report$style$include_audit_appendix)
+    expect_true(state$lab_report$style$show_signature_lines)
+    expect_equal(state$report_profile$laboratory$name,
+                 "Configured Example Laboratory")
+  })
+})

@@ -46,6 +46,9 @@ is performed. All scientific content is supplied by the caller.
 }
 \seealso{
 Other laboratory reporting:
+\code{\link[=cr_report_display_data]{cr_report_display_data()}},
+\code{\link[=cr_report_profile]{cr_report_profile()}},
+\code{\link[=cr_report_style]{cr_report_style()}},
 \code{\link[=cr_validate_report_spec]{cr_validate_report_spec()}}
 }
 \concept{laboratory reporting}

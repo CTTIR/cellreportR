@@ -1,0 +1,19 @@
+---
+output: pdf_document
+params:
+  display: NULL
+  result_graphic_path: NULL
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE,message=FALSE,warning=FALSE,results="asis")
+```
+
+```{r document, results='asis'}
+cat("```{=latex}\n")
+cat(cellreportR:::.cr_report_latex_body(
+  params$display,
+  result_graphic_path=params$result_graphic_path
+))
+cat("\n```\n")
+```

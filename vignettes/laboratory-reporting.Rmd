@@ -30,9 +30,44 @@ spec <- cellreportR::cr_report_spec(
   authorization=list(reviewed_by="Example Reviewer",authorized_by="Example Authorizer")
 )
 qc <- cellreportR::cr_report_qc("Run acceptance","met","Configured criteria","PASS")
-report <- cellreportR::cr_lab_report(exp,spec,qc)
+style <- cellreportR::cr_report_style(
+  paper="A4",mode="colour",density="standard",locale="en"
+)
+report <- cellreportR::cr_lab_report(exp,spec,qc,style=style)
 cellreportR::cr_report_data(report)$spec$result
 ```
+
+The human-facing PDF uses laboratory-report template 2.0. The package-owned
+KOMA-Script layout places report identity, subject/specimen summary, the
+examination, the primary result, and its interpretation on the first page for
+normal content. Quality control, traceability, limitations, additional
+information, and authorization form the second-page release record. Every page
+shows report ID, version, status, and `Page X of Y`; the machine-readable report
+schema remains independently versioned at 1.0.
+
+`cr_report_display_data()` exposes the exact human labels and formatted values
+used for rendering while keeping stored ISO datetimes unchanged. A reusable
+profile can supply laboratory branding and policy once:
+
+```{r profile}
+profile <- cellreportR::cr_report_profile(
+  laboratory=list(name="Example Laboratory",department="Analytical Services"),
+  style=cellreportR::cr_report_style(
+    mode="grayscale",locale="de",show_signature_lines=FALSE
+  ),
+  labels=c(specimen_id="Sample ID")
+)
+profile$style
+```
+
+Colour and grayscale are intentional document modes rather than post-render
+conversions. In either mode, classification and QC states remain explicit text.
+PDF rendering requires Pandoc and XeLaTeX; `cr_render_lab_report()` checks the
+engine, standard TeX components, logo, template, and output location before
+rendering. The technical appendix is excluded by default because audit JSON is
+the preferred machine-readable companion; opt in with
+`cr_report_style(include_audit_appendix=TRUE)` when a visible appendix is
+needed.
 
 `cr_validate_report_spec()` reports `ERROR`, `WARNING`, and `INFO`-compatible
 issues. Laboratories can add dotted paths through `required_fields` without

@@ -22,6 +22,7 @@
     plots = list(),
     before = NULL,
     report_spec = NULL,
+    report_profile = NULL,
     lab_report = NULL,
     log = character(0)
   )
@@ -72,12 +73,13 @@
 
 
 .cr_app_server <- function(input, output, session, experiment = NULL,
-                           report_spec = NULL) {
+                           report_spec = NULL, report_profile = NULL) {
   # `state` stays a local of the server function so that a test driving
   # it with shiny::testServer() can read the app's whole state directly.
   state <- .cr_app_state()
   ctx <- .cr_app_context(state)
-  state$report_spec <- report_spec %||% cr_report_spec()
+  state$report_profile <- report_profile
+  state$report_spec <- .cr_apply_report_profile(report_spec %||% cr_report_spec(), report_profile)
   if (!is.null(experiment)) {
     ctx$set(experiment)
   }

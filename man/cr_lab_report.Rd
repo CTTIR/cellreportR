@@ -9,9 +9,10 @@ cr_lab_report(
   spec = cr_report_spec(),
   qc = NULL,
   result_graphic = FALSE,
-  include_audit_appendix = FALSE,
+  include_audit_appendix = NULL,
   strict = TRUE,
-  style = cr_plot_style(variant = "report")
+  style = NULL,
+  profile = NULL
 )
 }
 \arguments{
@@ -27,7 +28,11 @@ cr_lab_report(
 
 \item{strict}{Apply strict specification validation.}
 
-\item{style}{A \code{\link[=cr_plot_style]{cr_plot_style()}} used by embedded report figures.}
+\item{style}{A \code{\link[=cr_report_style]{cr_report_style()}} shared by the document and its embedded
+report figures. Legacy \code{cr_plot_style} objects are converted.}
+
+\item{profile}{Optional \code{\link[=cr_report_profile]{cr_report_profile()}} containing laboratory defaults,
+labels, required fields, and organization-wide visual settings.}
 }
 \description{
 Assemble a laboratory report without recalculating analytical values

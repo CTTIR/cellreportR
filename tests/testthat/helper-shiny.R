@@ -7,13 +7,16 @@
 # shape testServer() insists on. The wrapper binds the returned context
 # and its reactive store into its own frame, which is what makes `ctx`
 # and `state` readable from the test expression.
-cr_test_app <- function(experiment = NULL, report_spec = NULL) {
+cr_test_app <- function(experiment = NULL, report_spec = NULL,
+                        report_profile = NULL) {
   force(experiment)
   force(report_spec)
+  force(report_profile)
   function(input, output, session) {
     ctx <- cellreportR:::.cr_app_server(input, output, session,
                                         experiment = experiment,
-                                        report_spec = report_spec)
+                                        report_spec = report_spec,
+                                        report_profile = report_profile)
     state <- ctx$state
     invisible(list(ctx = ctx, state = state))
   }

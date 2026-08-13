@@ -7,6 +7,7 @@
 cr_run_app(
   experiment = NULL,
   report_spec = NULL,
+  report_profile = NULL,
   max_upload_mb = 512,
   launch_browser = interactive(),
   ...
@@ -21,6 +22,9 @@ empty and offers synthetic example data.}
 
 \item{report_spec}{Optional \code{\link[=cr_report_spec]{cr_report_spec()}} used to pre-populate the
 laboratory-report workflow.}
+
+\item{report_profile}{Optional \code{\link[=cr_report_profile]{cr_report_profile()}} providing reusable
+laboratory metadata, labels, required fields, and visual style.}
 
 \item{max_upload_mb}{Numeric. Maximum upload size per request, in
 megabytes. Segmented single-cell exports routinely exceed the
