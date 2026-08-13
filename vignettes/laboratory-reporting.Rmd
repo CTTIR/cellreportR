@@ -45,6 +45,44 @@ information, and authorization form the second-page release record. Every page
 shows report ID, version, status, and `Page X of Y`; the machine-readable report
 schema remains independently versioned at 1.0.
 
+## Report design and document control
+
+The first page uses one configurable report title, a laboratory/logo area, and
+a dedicated document-identity strip. Later pages repeat the laboratory, report
+ID, version, and status in a compact header. The footer repeats report identity
+and page count, with an optional laboratory-controlled statement supplied by a
+report profile. `DRAFT`, `FINAL`, `AMENDED`, and other stored statuses use one
+shared status component in the header, identity strip, and footer. Amendment
+metadata is placed beside document identity rather than hidden in the audit
+record.
+
+Administrative fields use aligned key-value grids. The result has the strongest
+typographic hierarchy, while the compact position indicator is explanatory and
+uses position, an outlined marker, threshold lines, and labels in addition to
+colour. Colour and intentionally monochrome output share the same display data
+and visual tokens. The authorization block remains the final human-facing
+section; an optional audit appendix follows only when requested.
+
+The report and its audit output have deliberately different purposes:
+
+```text
+Structured analysis
+       |
+       +--------------------+
+       |                    |
+       v                    v
+Laboratory Report       Audit JSON
+human-facing            machine-facing
+concise                 exhaustive
+reviewable              reproducible
+```
+
+The XeLaTeX toolchain can embed the report fonts and supplies a foundation for
+future archival profiles. The package does not currently generate or claim
+PDF/A output: an archival mode would require a controlled colour profile,
+metadata setup, and validation with an independent PDF/A validator before it
+could be labelled as such.
+
 `cr_report_display_data()` exposes the exact human labels and formatted values
 used for rendering while keeping stored ISO datetimes unchanged. A reusable
 profile can supply laboratory branding and policy once:

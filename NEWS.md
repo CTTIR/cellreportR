@@ -15,6 +15,12 @@
   compact metadata and QC tables, deliberate page flow, an intact release
   block, human-readable dates, Unicode-safe XeLaTeX output, and a separate-by-
   default audit appendix.
+* Refined template 2.0 with a single first-page title, centralized visual and
+  status tokens, balanced subject/specimen metadata, a quieter integrated
+  result indicator, compact two-column traceability and additional-information
+  grids, a deliberate reviewer/authorizer release block, stronger detached-page
+  identity, and optional controlled-document footer text. Visual QA fixtures
+  now cover colour, grayscale, FINAL, and AMENDED output.
 * Added `cr_report_style()`, `cr_report_profile()`, and
   `cr_report_display_data()` so branding, colour/grayscale output, density,
   display labels, locale, and organization-wide defaults are shared by the

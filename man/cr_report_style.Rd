@@ -40,7 +40,7 @@ are human-readable and locale-specific.}
 
 \item{labels}{Named display-label overrides.}
 
-\item{footer_text}{Optional laboratory-controlled release/footer statement.}
+\item{footer_text}{Optional laboratory-controlled document-footer statement.}
 
 \item{include_audit_appendix}{Include the technical appendix by default.}
 

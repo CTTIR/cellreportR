@@ -27,11 +27,15 @@
     interpretation_ruleset_version = "Interpretation Ruleset Version",
     instrument_id = "Instrument ID", instrument_name = "Instrument Name",
     instrument_software = "Instrument Software", classification = "Classification",
+    trace_pipeline_version = "Pipeline Version",
+    trace_qc_ruleset_version = "QC Ruleset",
+    trace_interpretation_ruleset_version = "Interpretation Ruleset",
+    trace_instrument_name = "Instrument", trace_instrument_software = "Software",
     measured_value = "Measured Value", reference = "Reference",
     decision_limit = "Decision Limit", qc_status = "QC Status",
     reviewed_by = "Reviewed by", reviewer_role = "Reviewer Role",
     authorized_by = "Authorized by", authorizer_role = "Authorizer Role",
-    electronic_release = "Electronic Report Release", signature_text = "Signature Text",
+    electronic_release = "Electronic Release", signature_text = "Signature Text",
     criterion = "Criterion", observed = "Observed", acceptance = "Acceptance",
     schema = "Report Data Schema", template = "Template",
     package_version = "cellreportR Version", r_version = "R Version",
@@ -63,6 +67,10 @@
     interpretation_ruleset_version = "Interpretationsregelwerk-Version",
     instrument_id = "Ger\u00e4te-ID", instrument_name = "Ger\u00e4tename",
     instrument_software = "Ger\u00e4tesoftware", classification = "Klassifikation",
+    trace_pipeline_version = "Pipeline-Version",
+    trace_qc_ruleset_version = "QC-Regelwerk",
+    trace_interpretation_ruleset_version = "Interpretationsregelwerk",
+    trace_instrument_name = "Ger\u00e4t", trace_instrument_software = "Software",
     measured_value = "Messwert", reference = "Referenz",
     decision_limit = "Entscheidungsgrenze", qc_status = "QC-Status",
     reviewed_by = "Gepr\u00fcft durch", reviewer_role = "Pr\u00fcferrolle",
@@ -146,6 +154,13 @@ cr_report_display_data <- function(report) {
     c("collection_datetime", "received_datetime"))
   examination <- .cr_display_rows(s$examination,
     c("name", "short_name", "intended_use"), labels, style)
+  if (all(c("name","short_name") %in% examination$key)) {
+    values <- trimws(tolower(examination$value[match(c("name","short_name"),
+                                                     examination$key)]))
+    if (identical(values[[1L]],values[[2L]])) {
+      examination <- examination[examination$key != "short_name",,drop=FALSE]
+    }
+  }
   result <- .cr_display_rows(list(
     classification = s$result$classification,
     measured_value = result_value, reference = s$result$reference,
@@ -153,21 +168,31 @@ cr_report_display_data <- function(report) {
     comment = s$result$comment),
     c("classification", "measured_value", "reference", "decision_limit",
       "qc_status", "comment"), labels, style)
-  instrument <- paste(Filter(.cr_present,
-    c(s$examination$instrument_name,
-      if (.cr_present(s$examination$instrument_id)) paste0("(", s$examination$instrument_id, ")") else NULL)),
-    collapse = " ")
   traceability <- .cr_display_rows(list(
     method = s$examination$method,
     assay_version = s$examination$assay_version,
     analysis_pipeline_version = s$examination$analysis_pipeline_version,
     qc_ruleset_version = s$examination$qc_ruleset_version,
     interpretation_ruleset_version = s$examination$interpretation_ruleset_version,
-    instrument_name = if (nzchar(instrument)) instrument else NULL,
+    instrument_name = s$examination$instrument_name,
+    instrument_id = s$examination$instrument_id,
     instrument_software = s$examination$instrument_software),
     c("method", "assay_version", "analysis_pipeline_version",
       "qc_ruleset_version", "interpretation_ruleset_version",
-      "instrument_name", "instrument_software"), labels, style)
+      "instrument_name", "instrument_id", "instrument_software"), labels, style)
+  trace_label_keys <- c(
+    analysis_pipeline_version = "trace_pipeline_version",
+    qc_ruleset_version = "trace_qc_ruleset_version",
+    interpretation_ruleset_version = "trace_interpretation_ruleset_version",
+    instrument_name = "trace_instrument_name",
+    instrument_software = "trace_instrument_software"
+  )
+  mapped <- match(traceability$key, names(trace_label_keys))
+  use <- !is.na(mapped)
+  traceability$label[use] <- vapply(
+    unname(trace_label_keys[mapped[use]]), .cr_display_label,
+    character(1), labels = labels
+  )
   identity <- .cr_display_rows(list(
     report_id = s$report$report_id, version = s$report$version,
     status = s$report$status,
@@ -191,6 +216,11 @@ cr_report_display_data <- function(report) {
     "released_at")
   amendment <- .cr_display_rows(s$report,
     c("supersedes_report_id", "amendment_reason"), labels, style)
+  released_value <- s$authorization$released_at %||% s$report$released_at
+  control_date_key <- if (.cr_present(released_value)) "released_at" else "created_at"
+  control_date <- .cr_human_datetime(
+    if (identical(control_date_key,"released_at")) released_value else s$report$created_at,
+    style)
   audit <- cr_report_provenance(report$experiment, report)
   audit_rows <- .cr_display_rows(list(
     report_id = s$report$report_id, version = s$report$version,
@@ -211,9 +241,11 @@ cr_report_display_data <- function(report) {
       "report_data_hash", "design_hash", "provenance_hash"), labels, style)
   list(
     labels = labels, style = unclass(style),
+    tokens = .cr_report_tokens(style,s$report$status),
     report = list(title = s$report$title, id = s$report$report_id,
       version = s$report$version, status = s$report$status,
       created = .cr_human_datetime(s$report$created_at, style),
+      control_date_key = control_date_key, control_date = control_date,
       laboratory_name = s$laboratory$name %||% "",
       department = s$laboratory$department %||% "",
       logo = style$logo %||% s$laboratory$logo %||% NULL),

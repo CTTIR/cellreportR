@@ -33,8 +33,8 @@ spec <- cellreportR::cr_report_spec(
   ),
   result = list(
     value = 1.42, display_value = "1.42", unit = "a.u.",
-    reference = "Configured lower category: <= 1.00",
-    decision_limit = "Configured upper category: >= 2.00",
+    reference = "≤ 1.00",
+    decision_limit = "≥ 2.00",
     classification = "INTERMEDIATE", qc_status = "PASS",
     comment = "Synthetic result for demonstration only.",
     thresholds = c(1, 2),
@@ -72,7 +72,7 @@ qc <- cellreportR::cr_report_qc(
 )
 style <- cellreportR::cr_report_style(
   mode = "colour", density = "standard",
-  footer_text = "Electronic release statement supplied for this synthetic example."
+  footer_text = "Synthetic controlled-document statement supplied by the report profile."
 )
 report <- cellreportR::cr_lab_report(
   spec = spec, qc = qc, result_graphic = TRUE, style = style
@@ -82,4 +82,44 @@ audit_file <- file.path(out_dir, "EXAMPLE-001_v1.0_audit.json")
 cellreportR::cr_render_lab_report(
   report, pdf_file, audit_file = audit_file, overwrite = TRUE
 )
-invisible(c(pdf = pdf_file, audit = audit_file))
+
+gray_report <- cellreportR::cr_lab_report(
+  spec = spec, qc = qc, result_graphic = TRUE,
+  style = cellreportR::cr_report_style(
+    mode = "grayscale", density = "standard",
+    footer_text = style$footer_text
+  )
+)
+gray_pdf <- file.path(out_dir, "EXAMPLE-001_v1.0_laboratory-report-grayscale.pdf")
+cellreportR::cr_render_lab_report(gray_report, gray_pdf, overwrite = TRUE)
+
+final_spec <- spec
+final_spec$report$status <- "FINAL"
+final_spec$authorization$released_at <- as.POSIXct(
+  "2026-08-13 15:32:00", tz = "Europe/Berlin"
+)
+final_report <- cellreportR::cr_lab_report(
+  spec = final_spec, qc = qc, result_graphic = TRUE, style = style
+)
+final_pdf <- file.path(out_dir, "EXAMPLE-001_v1.0_FINAL_laboratory-report.pdf")
+cellreportR::cr_render_lab_report(final_report, final_pdf, overwrite = TRUE)
+
+amended_spec <- final_spec
+amended_spec$report$version <- "1.1"
+amended_spec$report$status <- "AMENDED"
+amended_spec$report$supersedes_report_id <- "EXAMPLE-001 v1.0"
+amended_spec$report$amendment_reason <-
+  "Synthetic amendment metadata supplied for document-control testing."
+amended_spec$authorization$released_at <- as.POSIXct(
+  "2026-08-13 16:10:00", tz = "Europe/Berlin"
+)
+amended_report <- cellreportR::cr_lab_report(
+  spec = amended_spec, qc = qc, result_graphic = TRUE, style = style
+)
+amended_pdf <- file.path(out_dir, "EXAMPLE-001_v1.1_AMENDED_laboratory-report.pdf")
+cellreportR::cr_render_lab_report(amended_report, amended_pdf, overwrite = TRUE)
+
+invisible(c(
+  pdf = pdf_file, grayscale_pdf = gray_pdf, final_pdf = final_pdf,
+  amended_pdf = amended_pdf, audit = audit_file
+))

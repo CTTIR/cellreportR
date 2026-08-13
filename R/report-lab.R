@@ -43,10 +43,12 @@ cr_lab_report <- function(experiment=NULL, spec=cr_report_spec(), qc=NULL,
   if (!is.numeric(r$value) || length(r$value)!=1L || !is.finite(r$value)) return(NULL)
   bounds <- r$thresholds %||% NULL
   if (is.null(bounds) || !is.numeric(bounds) || !length(bounds)) return(NULL)
-  plot_style <- cr_plot_style(mode=style$mode, variant="report", base_size=8)
+  plot_style <- cr_plot_style(
+    mode=style$mode, variant="report", base_size=8,
+    base_family="TeX Gyre Heros",
+    palette=stats::setNames(style$primary_colour,"report_accent"))
   cr_plot_result_position(r$value, bounds, labels=r$threshold_labels %||% NULL,
-                          unit=r$unit %||% NULL,
-                          classification=r$classification %||% NULL,
+                          unit=NULL, classification=NULL,
                           mode=style$mode, style=plot_style)
 }
 
@@ -152,7 +154,23 @@ cr_plot_result_position <- function(value,thresholds,labels=NULL,xlim=NULL,
   if(is.null(xlim)) { span<-diff(range(c(value,thresholds))); if(!is.finite(span)||span==0) span<-max(abs(value),1); xlim<-range(c(value,thresholds))+c(-.15,.15)*span }
   mids <- c((xlim[1]+thresholds[1])/2, if(length(thresholds)>1) (thresholds[-length(thresholds)]+thresholds[-1])/2, (utils::tail(thresholds,1)+xlim[2])/2)
   marker<-paste(c(if(show_value) format(value,trim=TRUE),unit,classification),collapse=" ")
-  ggplot2::ggplot(data.frame(x=value,y=0),ggplot2::aes(x=.data$x,y=.data$y))+ggplot2::geom_segment(ggplot2::aes(x=xlim[1],xend=xlim[2],y=0,yend=0),linewidth=.7,colour="grey25")+ggplot2::geom_vline(xintercept=thresholds,linetype="dashed",colour="grey45",linewidth=.45)+ggplot2::geom_point(size=4,shape=21,fill=if(mode=="colour") unname(cr_palette(1)) else "grey35",colour="black",stroke=1.1)+ggplot2::annotate("text",x=mids,y=.12,label=labels,size=style$base_size/2.845)+ggplot2::annotate("text",x=value,y=-.12,label=marker,size=style$base_size/2.845,fontface="bold")+ggplot2::coord_cartesian(xlim=xlim,ylim=c(-.2,.2),clip="off")+ggplot2::labs(x=NULL,y=NULL)+ggplot2::theme_void(base_family=style$base_family,base_size=style$base_size)+ggplot2::theme(plot.margin=ggplot2::margin(5,8,5,8))
+  marker_fill <- if(mode=="colour") unname(style$palette[[1L]]) else "grey40"
+  marker_layer <- if(nzchar(marker)) ggplot2::annotate(
+    "text",x=value,y=-.105,label=marker,size=style$base_size/3.0,
+    fontface="plain") else NULL
+  ggplot2::ggplot(data.frame(x=value,y=0),ggplot2::aes(x=.data$x,y=.data$y))+
+    ggplot2::geom_segment(ggplot2::aes(x=xlim[1],xend=xlim[2],y=0,yend=0),
+                          linewidth=.55,colour="grey25")+
+    ggplot2::geom_vline(xintercept=thresholds,linetype="dashed",
+                        colour="grey48",linewidth=.35)+
+    ggplot2::geom_point(size=3.6,shape=21,fill=marker_fill,colour="black",stroke=.9)+
+    ggplot2::annotate("text",x=mids,y=.105,label=labels,
+                      size=style$base_size/3.0)+
+    marker_layer+
+    ggplot2::coord_cartesian(xlim=xlim,ylim=c(-.16,.16),clip="off")+
+    ggplot2::labs(x=NULL,y=NULL)+
+    ggplot2::theme_void(base_family=style$base_family,base_size=style$base_size)+
+    ggplot2::theme(plot.margin=ggplot2::margin(2,7,2,7))
 }
 
 #' Render a concise laboratory report
@@ -213,7 +231,7 @@ cr_render_lab_report <- function(report,output_file,template=NULL,quiet=TRUE,
       file.path(out_dir,paste0(tools::file_path_sans_ext(basename(output_file)),
                                "_result-position.pdf"))
     } else file.path(work,"result-position.pdf")
-    ggplot2::ggsave(graphic,plot=report$result_graphic,width=160,height=24,
+    ggplot2::ggsave(graphic,plot=report$result_graphic,width=160,height=18,
                     units="mm",device=grDevices::cairo_pdf,bg="white")
   }
   output_format <- rmarkdown::pdf_document(

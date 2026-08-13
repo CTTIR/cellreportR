@@ -15,7 +15,7 @@
 #' @param date_format,date_time_format Optional `format()` patterns. Defaults
 #'   are human-readable and locale-specific.
 #' @param labels Named display-label overrides.
-#' @param footer_text Optional laboratory-controlled release/footer statement.
+#' @param footer_text Optional laboratory-controlled document-footer statement.
 #' @param include_audit_appendix Include the technical appendix by default.
 #' @param show_signature_lines Add printable reviewer/authorizer lines.
 #' @param draft_watermark Add a light watermark only when status is `DRAFT`.
@@ -149,4 +149,28 @@ print.cr_report_style <- function(x, ...) {
   cat("  Paper:", x$paper, "|", x$mode, "|", x$density, "\n")
   cat("  Locale:", x$locale, "\n")
   invisible(x)
+}
+
+# Central visual tokens shared by the LaTeX document and embedded report plots.
+.cr_report_tokens <- function(style, status="DRAFT") {
+  style <- .cr_as_report_style(style)
+  grayscale <- identical(style$mode,"grayscale")
+  status_colour <- switch(toupper(status),
+    AMENDED="#7A332E", CANCELLED="#7A332E", REVIEWED="#515E65",
+    FINAL=style$primary_colour, DRAFT=style$primary_colour,
+    style$secondary_colour)
+  list(
+    primary=if(grayscale) "#3E3E3E" else style$primary_colour,
+    secondary=if(grayscale) "#666666" else style$secondary_colour,
+    text="#24292D", muted="#5D666C", rule="#AEB7BC",
+    panel="#F4F6F7", pass=if(grayscale) "#333333" else "#2F6663",
+    warn=if(grayscale) "#333333" else "#805A10",
+    fail=if(grayscale) "#222222" else "#7A332E",
+    status=if(grayscale) "#222222" else status_colour,
+    body_size=if(identical(style$density,"compact")) 9.4 else 10,
+    body_leading=if(identical(style$density,"compact")) 11.1 else 11.8,
+    metadata_stretch=if(identical(style$density,"compact")) 0.98 else 1.04,
+    table_stretch=if(identical(style$density,"compact")) 1.04 else 1.10,
+    section_space=if(identical(style$density,"compact")) 1.5 else 2.0
+  )
 }
