@@ -25,7 +25,7 @@ cr_report(
   render = NULL,
   template = NULL,
   output_dir = NULL,
-  format = c("html", "pdf")
+  format = c("html", "pdf", "docx")
 )
 ```
 
@@ -96,7 +96,7 @@ cr_report(
 
 - format:
 
-  One of `"html"` or `"pdf"`.
+  One of `"html"`, `"pdf"` or `"docx"`.
 
 ## Value
 

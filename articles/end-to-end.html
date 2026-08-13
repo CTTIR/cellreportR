@@ -679,7 +679,10 @@ themselves, rather than transcribed:</p>
 is shown but not executed here, because it needs a working pandoc and
 writes a file:</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/cr_render_report.html">cr_render_report</a></span><span class="op">(</span><span class="va">report</span>, output_dir <span class="op">=</span> <span class="va">out</span>, format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cr_render_report.html">cr_render_report</a></span><span class="op">(</span><span class="va">report</span>, output_dir <span class="op">=</span> <span class="va">out</span>, format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span>
+<span><span class="co"># The same assembled report can also be exported as PDF or Word:</span></span>
+<span><span class="fu"><a href="../reference/cr_render_report.html">cr_render_report</a></span><span class="op">(</span><span class="va">report</span>, output_dir <span class="op">=</span> <span class="va">out</span>, format <span class="op">=</span> <span class="st">"pdf"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/cr_render_report.html">cr_render_report</a></span><span class="op">(</span><span class="va">report</span>, output_dir <span class="op">=</span> <span class="va">out</span>, format <span class="op">=</span> <span class="st">"docx"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="what-was-decided-and-where-it-is-recorded">What was decided, and where it is recorded<a class="anchor" aria-label="anchor" href="#what-was-decided-and-where-it-is-recorded"></a>

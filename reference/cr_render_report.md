@@ -12,7 +12,7 @@ declares are passed, so templates of different vintages keep working.
 cr_render_report(
   report,
   output_dir = tempdir(),
-  format = c("html", "pdf"),
+  format = c("html", "pdf", "docx"),
   template = NULL,
   title = NULL,
   author = NULL,
@@ -36,7 +36,7 @@ cr_render_report(
 
 - format:
 
-  One of `"html"` or `"pdf"`.
+  One of `"html"`, `"pdf"` or `"docx"`.
 
 - template:
 

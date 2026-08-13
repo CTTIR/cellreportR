@@ -124,8 +124,8 @@ cr_parse_paths(
 #> # A tibble: 2 × 17
 #>   source_file          source_path run   compound plate merge_unit partial_plate
 #>   <chr>                <chr>       <chr> <chr>    <chr> <lgl>      <lgl>        
-#> 1 CompoundA_vehicle_1… /tmp/RtmpD… Run1  Compoun… Plat… FALSE      FALSE        
-#> 2 CompoundA_5min_10uM… /tmp/RtmpD… Run1  Compoun… Plat… FALSE      FALSE        
+#> 1 CompoundA_vehicle_1… /tmp/Rtmpb… Run1  Compoun… Plat… FALSE      FALSE        
+#> 2 CompoundA_5min_10uM… /tmp/Rtmpb… Run1  Compoun… Plat… FALSE      FALSE        
 #> # ℹ 10 more variables: omitted_reagent <lgl>, reacquisition <lgl>, lot <lgl>,
 #> #   variant <chr>, core <chr>, replicate <chr>, interval <chr>, dose <chr>,
 #> #   parse_ok <lgl>, parse_error <chr>

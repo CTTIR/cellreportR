@@ -112,7 +112,7 @@ cr_read_export(f, column_map = map)
 #> # A tibble: 3 × 4
 #>   source_file                       source_path            cell_id target_signal
 #>   <chr>                             <chr>                    <dbl>         <dbl>
-#> 1 CompoundA_5min_10uM_treated_1.csv /tmp/RtmpDtL8CM/cr_ex…       1           120
-#> 2 CompoundA_5min_10uM_treated_1.csv /tmp/RtmpDtL8CM/cr_ex…       2           140
-#> 3 CompoundA_5min_10uM_treated_1.csv /tmp/RtmpDtL8CM/cr_ex…       3            95
+#> 1 CompoundA_5min_10uM_treated_1.csv /tmp/RtmpbocsGq/cr_ex…       1           120
+#> 2 CompoundA_5min_10uM_treated_1.csv /tmp/RtmpbocsGq/cr_ex…       2           140
+#> 3 CompoundA_5min_10uM_treated_1.csv /tmp/RtmpbocsGq/cr_ex…       3            95
 ```

@@ -87,7 +87,7 @@ p <- ggplot2::ggplot(data.frame(x = 1:5, y = 1:5),
   cr_theme()
 out <- file.path(tempdir(), "figure-1")
 paths <- cr_save_plot(p, out, width = 5, formats = "png")
-#> ✔ Wrote 1 file to /tmp/RtmpDtL8CM.
+#> ✔ Wrote 1 file to /tmp/RtmpbocsGq.
 basename(paths)
 #> [1] "figure-1.png"
 unlink(paths)
