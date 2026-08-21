@@ -62,6 +62,7 @@ Suggests:
     shinytest2,
     shinyWidgets,
     sva,
+    svglite,
     testthat (>= 3.0.0),
     withr,
     writexl
