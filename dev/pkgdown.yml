@@ -1,0 +1,15 @@
+pandoc: 3.8.3
+pkgdown: 2.2.1
+pkgdown_sha: ~
+articles:
+  dose-response: dose-response.html
+  end-to-end: end-to-end.html
+  figure-style: figure-style.html
+  getting-started: getting-started.html
+  laboratory-reporting: laboratory-reporting.html
+  shiny-app: shiny-app.html
+  statistical-analysis: statistical-analysis.html
+last_built: 2026-10-01T06:57Z
+urls:
+  reference: https://cttir.github.io/cellreportR/reference
+  article: https://cttir.github.io/cellreportR/articles

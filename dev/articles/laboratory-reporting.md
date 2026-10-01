@@ -1,0 +1,151 @@
+# Configurable Laboratory Reports with cellreportR
+
+The laboratory-reporting layer separates analytical data and QC
+calculations from report metadata, classification, interpretation,
+rendering, and technical provenance. Rendering consumes finalized
+objects and does not recalculate or reinterpret analytical values.
+
+``` r
+
+exp <- cellreportR::cr_example_experiment(seed=42,n_cells_per_well=3)
+spec <- cellreportR::cr_report_spec(
+  report=list(title="Laboratory Report",report_id="EXAMPLE-001",version="1.0",status="DRAFT"),
+  laboratory=list(name="Example Laboratory"),
+  subject=list(subject_id="SUBJECT-001"),
+  specimen=list(specimen_id="SPECIMEN-001",specimen_type="Example specimen"),
+  examination=list(name="Example fluorescence assay",assay_version="1.0"),
+  result=list(value=1.42,unit="a.u.",classification="HIGH",qc_status="PASS",source="manual"),
+  interpretation=list(summary="The result falls within the configured upper category.",text="Interpretation text supplied by the user."),
+  limitations="Example limitation supplied by the user.",
+  authorization=list(reviewed_by="Example Reviewer",authorized_by="Example Authorizer")
+)
+qc <- cellreportR::cr_report_qc("Run acceptance","met","Configured criteria","PASS")
+style <- cellreportR::cr_report_style(
+  paper="A4",mode="colour",density="standard",locale="en"
+)
+report <- cellreportR::cr_lab_report(exp,spec,qc,style=style)
+cellreportR::cr_report_data(report)$spec$result
+#> $value
+#> [1] 1.42
+#> 
+#> $unit
+#> [1] "a.u."
+#> 
+#> $classification
+#> [1] "HIGH"
+#> 
+#> $qc_status
+#> [1] "PASS"
+#> 
+#> $source
+#> [1] "manual"
+```
+
+The human-facing PDF uses laboratory-report template 2.0. The
+package-owned KOMA-Script layout places report identity,
+subject/specimen summary, the examination, the primary result, and its
+interpretation on the first page for normal content. Quality control,
+traceability, limitations, additional information, and authorization
+form the second-page release record. Every page shows report ID,
+version, status, and `Page X of Y`; the machine-readable report schema
+remains independently versioned at 1.0.
+
+## Report design and document control
+
+The first page uses one configurable report title, a laboratory/logo
+area, and a dedicated document-identity strip. Later pages repeat the
+laboratory, report ID, version, and status in a compact header. The
+footer repeats report identity and page count, with an optional
+laboratory-controlled statement supplied by a report profile. `DRAFT`,
+`FINAL`, `AMENDED`, and other stored statuses use one shared status
+component in the header, identity strip, and footer. Amendment metadata
+is placed beside document identity rather than hidden in the audit
+record.
+
+Administrative fields use aligned key-value grids. The result has the
+strongest typographic hierarchy, while the compact position indicator is
+explanatory and uses position, an outlined marker, threshold lines, and
+labels in addition to colour. Colour and intentionally monochrome output
+share the same display data and visual tokens. The authorization block
+remains the final human-facing section; an optional audit appendix
+follows only when requested.
+
+The report and its audit output have deliberately different purposes:
+
+``` text
+Structured analysis
+       |
+       +--------------------+
+       |                    |
+       v                    v
+Laboratory Report       Audit JSON
+human-facing            machine-facing
+concise                 exhaustive
+reviewable              reproducible
+```
+
+The XeLaTeX toolchain can embed the report fonts and supplies a
+foundation for future archival profiles. The package does not currently
+generate or claim PDF/A output: an archival mode would require a
+controlled colour profile, metadata setup, and validation with an
+independent PDF/A validator before it could be labelled as such.
+
+[`cr_report_display_data()`](https://cttir.github.io/cellreportR/dev/reference/cr_report_display_data.md)
+exposes the exact human labels and formatted values used for rendering
+while keeping stored ISO datetimes unchanged. A reusable profile can
+supply laboratory branding and policy once:
+
+``` r
+
+profile <- cellreportR::cr_report_profile(
+  laboratory=list(name="Example Laboratory",department="Analytical Services"),
+  style=cellreportR::cr_report_style(
+    mode="grayscale",locale="de",show_signature_lines=FALSE
+  ),
+  labels=c(specimen_id="Sample ID")
+)
+profile$style
+#> <cr_report_style>
+#>   Paper: A4 | grayscale | standard 
+#>   Locale: de
+```
+
+Colour and grayscale are intentional document modes rather than
+post-render conversions. In either mode, classification and QC states
+remain explicit text. PDF rendering requires Pandoc and XeLaTeX;
+[`cr_render_lab_report()`](https://cttir.github.io/cellreportR/dev/reference/cr_render_lab_report.md)
+checks the engine, standard TeX components, logo, template, and output
+location before rendering. The technical appendix is excluded by default
+because audit JSON is the preferred machine-readable companion; opt in
+with `cr_report_style(include_audit_appendix=TRUE)` when a visible
+appendix is needed.
+
+[`cr_validate_report_spec()`](https://cttir.github.io/cellreportR/dev/reference/cr_validate_report_spec.md)
+reports `ERROR`, `WARNING`, and `INFO`-compatible issues. Laboratories
+can add dotted paths through `required_fields` without baking
+institutional policy into the package. `AMENDED` reports record their
+superseded report and reason; the package represents this metadata but
+is not a document-management or authentication system.
+
+Use
+[`cr_export_report_spec()`](https://cttir.github.io/cellreportR/dev/reference/cr_export_report_spec.md)
+for schema-versioned interchange and
+[`cr_export_report_audit()`](https://cttir.github.io/cellreportR/dev/reference/cr_export_report_audit.md)
+for concise provenance. The audit record includes package, R, schema,
+and template versions, structured-data hashes, selected QC, and
+experiment summaries without copying the full cell table. Report fields
+may contain confidential information; they are not printed in routine
+console messages, placed in filenames, or copied to the Shiny analysis
+log.
+
+``` r
+
+cellreportR::cr_run_app(experiment=exp,report_spec=spec)
+```
+
+The **Laboratory report** tab builds the same `cr_report_spec`,
+validates it, previews the result, and downloads PDF, audit JSON, or
+specification JSON. Scientific thresholds and interpretation remain user
+inputs. These features are designed to support traceability and can form
+part of a laboratory- controlled workflow; they do not guarantee
+regulatory or accreditation compliance.

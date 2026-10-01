@@ -1,0 +1,871 @@
+# cellreportR
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21889928.svg)](https://doi.org/10.5281/zenodo.21889928)
+
+## Laboratory-style reporting
+
+cellreportR can construct a versioned report specification containing
+report identity, laboratory metadata, subject/specimen identifiers,
+finalized results, selected QC summaries, user-supplied interpretation,
+limitations, authorization metadata, custom fields, and technical
+provenance. The same report object is rendered programmatically or
+configured through the bundled Shiny application.
+
+The reporting layer does not calculate results, supply decision limits,
+infer classifications, or invent interpretation. Those values and
+policies remain explicit caller inputs. Structured report data can be
+reviewed before rendering and exported with a deterministic hash and
+machine-readable audit record.
+
+PDF reports use a package-owned A4 KOMA-Script template with a
+controlled first-page identity block, repeating page identity,
+`Page X of Y` footers, compact metadata, a prominent result panel,
+deliberate pagination, and a kept-together authorization block.
+[`cr_report_style()`](https://cttir.github.io/cellreportR/dev/reference/cr_report_style.md)
+controls colour or intentional grayscale output, density, locale-aware
+date display, optional branding, signature lines, and an optional draft
+watermark. Reusable organization settings can be stored in
+[`cr_report_profile()`](https://cttir.github.io/cellreportR/dev/reference/cr_report_profile.md)
+without mixing branding policy with analytical configuration.
+
+``` r
+
+spec <- cellreportR::cr_report_spec(
+  report = list(report_id = "EXAMPLE-001", version = "1.0", status = "DRAFT"),
+  laboratory = list(name = "Example Laboratory"),
+  specimen = list(specimen_id = "SPECIMEN-001"),
+  examination = list(name = "Example assay"),
+  result = list(value = 1.42, unit = "a.u.", classification = "HIGH"),
+  interpretation = list(text = "User-supplied interpretation."),
+  authorization = list(authorized_by = "Example Authorizer")
+)
+report <- cellreportR::cr_lab_report(spec = spec)
+cellreportR::cr_render_lab_report(report, tempfile(fileext = ".pdf"))
+```
+
+## Publication-ready visual design
+
+Package figures use one restrained, colour-vision-conscious visual
+system with redundant shapes or line types for categorical distinctions.
+Colour and grayscale modes, standard manuscript/report dimensions,
+vector PDF/SVG export, and high-resolution PNG/TIFF export are available
+without changing plotted data.
+
+``` r
+
+estimates <- data.frame(
+  group = c("Reference", "Group A", "Group B"),
+  estimate = c(0.1, 0.8, 1.3),
+  conf_low = c(-0.2, 0.3, 0.7),
+  conf_high = c(0.4, 1.3, 1.9)
+)
+p <- cellreportR::cr_plot_estimates(estimates, reference = 0)
+cellreportR::cr_save_figure(p, tempfile(fileext = ".pdf"), size = "single")
+```
+
+`cellreportR` is an analysis and reporting pipeline for cell culture
+assays read out by microscopy. It picks up where segmentation leaves
+off: segmented single-cell exports flow in, and quality-controlled
+estimates, publication figures, machine-readable tables and a generated
+file of every quoted number flow out.
+
+The organising idea is the **unit of replication**. Cells are not
+replicates. `cellreportR` resolves acquisitions into units, standardizes
+every cell against the control condition of its *own* batch, and reports
+each effect at both unit and cell level so the cost of pooling is
+visible rather than assumed.
+
+## Pipeline
+
+    Cell culture -> Treatment -> Staining -> Microscopy -> Segmentation
+                                           (segmantR / CellProfiler / QuPath)
+                                                        |
+                                                        v
+                                       +----------------------------------+
+                                       |           cellreportR            |
+                                       |                                  |
+                                       |  Ingest + design from paths      |
+                                       |  Units, exclusion, balancing     |
+                                       |  Per-batch standardization       |
+                                       |  Quality-control gate            |
+                                       |  Effect sizes: unit vs cell      |
+                                       |  Sample size from the CI bound   |
+                                       |  Figures / tables / macros       |
+                                       |  Interactive front-end           |
+                                       +----------------------------------+
+                                                        |
+                                                        v
+                                    Report + tables + generated numbers
+
+## Installation
+
+`cellreportR` is **pure R** — it compiles nothing — so it installs the
+same way on **Windows, macOS, and Linux**. The only hard prerequisite is
+**R \>= 4.1.0**.
+
+Install the development version from GitHub:
+
+``` r
+
+# install.packages("pak")
+pak::pak("CTTIR/cellreportR")
+```
+
+### Platform notes
+
+- **Windows** — no *Rtools* required: the package itself compiles
+  nothing, and its dependencies install as pre-built binaries from CRAN.
+- **macOS** — nothing beyond R; no XQuartz needed.
+- **Linux** — several dependencies (`dplyr`, `readr`, `tidyr`,
+  `ggplot2`) contain C++ and build from source unless you use a binary
+  repository such as the [Posit Public Package
+  Manager](https://packagemanager.posit.co) or
+  [r2u](https://eddelbuettel.github.io/r2u/), which avoids needing a
+  compiler. Otherwise install a build toolchain (for example
+  `build-essential` on Debian/Ubuntu).
+
+Installing the package pulls in its required imports automatically.
+Optional features need a few extra packages:
+
+| Feature | Needs |
+|----|----|
+| Interactive front-end ([`cr_run_app()`](https://cttir.github.io/cellreportR/dev/reference/cr_run_app.md)) | `bslib`, `DT` |
+| Rendered research reports ([`cr_report()`](https://cttir.github.io/cellreportR/dev/reference/cr_report.md), [`cr_render_report()`](https://cttir.github.io/cellreportR/dev/reference/cr_render_report.md)) | `rmarkdown`, `knitr`, and a working pandoc |
+| Laboratory PDF reports ([`cr_render_lab_report()`](https://cttir.github.io/cellreportR/dev/reference/cr_render_lab_report.md)) | the above plus XeLaTeX and the standard TeX Live packages checked by render preflight |
+| Excel export ([`cr_export_tables()`](https://cttir.github.io/cellreportR/dev/reference/cr_export_tables.md), [`cr_export_results()`](https://cttir.github.io/cellreportR/dev/reference/cr_export_results.md)) | `writexl` |
+| Reading `.fcs` inputs | `flowCore` (Bioconductor) |
+| Batch correction via empirical Bayes | `sva` (Bioconductor) |
+
+## Quick start
+
+``` r
+
+library(cellreportR)
+
+exp <- cr_example_experiment(seed = 42)
+
+exp <- cr_qc_filter(exp, min_area = 50, max_area = 5000)
+
+res <- cr_test_all(exp,
+                   channel = "marker_1",
+                   control_group = "Untreated",
+                   level = "replicate")
+
+cr_plot_effect_sizes(res)
+```
+
+## Screening workflow
+
+The screening path is the reason the package exists. Each stage is an
+exported function, so the analysis is inspectable at every step rather
+than being one opaque call.
+
+``` r
+
+# 1. Ingest: design facts live in the tree and the file name, not the file
+cells <- cr_read_exports(
+  root       = "data/exports",
+  column_map = cr_column_map(),
+  spec       = cr_path_spec(levels = c("run", "compound", "experiment", "plate"))
+)
+
+# 2. Units: some files merge into one unit, some deliberately do not
+cells <- cr_assign_units(
+  cells,
+  key_vars = c("compound", "experiment", "plate", "interval", "concentration"),
+  rules    = cr_merge_rules()
+)
+
+ds <- cr_dataset(cells, unit_var = "well_id")
+
+# 3. Exclusion first, then balancing -- the order changes the threshold
+ds <- cr_exclude_small(ds, var = "area", probs = 0.10)
+ds <- cr_balance_cells(ds, n_max = 10000, seed = 42)
+
+# 4. Standardize against the control condition of each cell's own batch
+ds <- cr_standardize_batch(
+  ds,
+  channel       = "target",
+  control_level = "vehicle",
+  batch_vars    = c("compound", "run", "plate", "experiment", "interval")
+)
+
+# 5. Biological gate, plus the leverage of what it removed
+gate <- cr_qc_gate(ds, channel = "target", control_level = "vehicle",
+                   batch_vars = c("compound", "run", "plate", "experiment"))
+cr_qc_gate_impact(ds, gate, channel = "target")
+ds <- cr_apply_gate(ds, gate)
+
+# 6. Effects at the unit level, then the same grid at cell level
+units <- cr_summarize_wells(ds, channel = "target")
+
+eff_unit <- cr_effect_grid(units, value = "log2_fc", group_var = "treatment",
+                           reference_level = "reference", by = "compound")
+eff_cell <- cr_effect_grid(ds$cells, value = "log2_fc", group_var = "treatment",
+                           reference_level = "reference", by = "compound")
+
+cr_compare_levels(eff_unit, eff_cell)   # cell intervals are narrower, not better
+
+# 7. Sample size from the bound nearer the null, not the point estimate
+cr_power_grid(eff_unit)
+
+# 8. Figures, tables, and every quoted number in one generated file
+cr_plot_screen(ds$cells, units = units, facet_by = "interval", seed = 42)
+cr_export_tables(cr_tables(ds, eff_unit), "out/tables.xlsx")
+cr_macros(list(n_units = nrow(units)), "out/generated-numbers.tex")
+```
+
+## Source-bound report evidence
+
+[`cr_report_evidence()`](https://cttir.github.io/cellreportR/dev/reference/cr_report_evidence.md)
+connects explicitly keyed CSV/TSV result cells to quoted values and
+records figure hashes with their declared source-table links.
+[`cr_lab_report_from_evidence()`](https://cttir.github.io/cellreportR/dev/reference/cr_lab_report_from_evidence.md)
+inserts those displays into an existing laboratory report’s custom
+fields. The normal renderer and audit exporter revalidate the files and
+bound fields before use; existing reports retain their behavior.
+
+``` r
+
+# Source files are relative to an existing project results directory.
+evidence <- cr_report_evidence(
+  root = "results",
+  tables = list(effects = list(path = "effects.tsv", format = "tsv",
+                              key = c("contrast", "endpoint"))),
+  claims = list(estimate = list(table = "effects",
+    key = c(contrast = "treated_vs_control", endpoint = "response"),
+    column = "estimate", format = "number", digits = 3)),
+  figures = list(effect_plot = list(path = "effect_plot.pdf", tables = "effects"))
+)
+spec <- cr_report_spec(report = list(report_id = "example"),
+  result = list(display_value = "See source-bound additional information"),
+  authorization = list(authorized_by = "Reviewer"))
+report <- cr_lab_report_from_evidence(evidence, "results", spec = spec)
+cr_export_report_audit(report, "report-audit.json")
+```
+
+Relative paths and SHA-256 source identities allow relocation of the
+whole tree; reassemble the report with
+`cr_lab_report_from_evidence(evidence, new_root, spec)` using the
+original specification after relocation. Existing render, export and
+provenance function signatures remain unchanged. Source-byte changes,
+ambiguous or missing keys, nonfinite numeric claims, and altered bound
+fields fail validation. Numeric formatting performs no scaling or unit
+conversion. Figure-to-table links are declarations, not proof that a
+figure was generated from those tables. Scientific validity and other
+report prose or fields remain the author’s responsibility. Evidence
+hashes use versioned UTF-8 JSON bytes; the existing
+[`cr_report_hash()`](https://cttir.github.io/cellreportR/dev/reference/cr_report_hash.md)
+contract is unchanged.
+
+## Interactive analysis
+
+``` r
+
+cr_run_app()
+```
+
+The application provides a guided workflow covering import, quality
+control, normalization, statistical analysis, dose-response fitting,
+interactive visualisation and report export.
+
+## Output structure
+
+[`cr_dataset()`](https://cttir.github.io/cellreportR/dev/reference/cr_dataset.md)
+and
+[`cr_build_experiment()`](https://cttir.github.io/cellreportR/dev/reference/cr_build_experiment.md)
+return a list of class `cr_experiment`:
+
+| Slot | Description |
+|----|----|
+| `cells` | One row per segmented object, with provenance (`source_file`, `source_path`) and any derived columns added by later stages |
+| `design` | One row per spatial unit, carrying the treatment factors recovered from the design table or from the path grammar |
+| `channels` | Character vector of measurement channels detected or declared |
+| `plate_info` | Plate geometry and layout metadata |
+| `qc_log` | Append-only record of every filter, exclusion and gate applied, with the realised thresholds |
+| `metadata` | Free-form list of user-supplied experiment metadata |
+| `spatial_unit` | Name of the column identifying the physical acquisition location |
+| `unit_var` | Name of the column identifying the analysis unit of replication |
+| `batch_vars` | Character vector of design columns whose combination defines a batch |
+| `provenance` | One row per source file, with cell counts and the unit it was assigned to |
+| `set_aside` | Control arms split out of the sample pool and retained separately |
+
+## Function reference
+
+| Stage | Functions |
+|----|----|
+| Ingest | [`cr_read_export()`](https://cttir.github.io/cellreportR/dev/reference/cr_read_export.md), [`cr_read_exports()`](https://cttir.github.io/cellreportR/dev/reference/cr_read_exports.md), [`cr_read_cells()`](https://cttir.github.io/cellreportR/dev/reference/cr_read_cells.md), [`cr_read_design()`](https://cttir.github.io/cellreportR/dev/reference/cr_read_design.md), [`cr_read_cellprofiler()`](https://cttir.github.io/cellreportR/dev/reference/cr_read_cellprofiler.md), [`cr_read_qupath()`](https://cttir.github.io/cellreportR/dev/reference/cr_read_qupath.md), [`cr_read_segmantr()`](https://cttir.github.io/cellreportR/dev/reference/cr_read_segmantr.md), [`cr_column_map()`](https://cttir.github.io/cellreportR/dev/reference/cr_column_map.md), [`cr_path_spec()`](https://cttir.github.io/cellreportR/dev/reference/cr_path_spec.md), [`cr_parse_paths()`](https://cttir.github.io/cellreportR/dev/reference/cr_parse_paths.md), [`cr_filename_grammar()`](https://cttir.github.io/cellreportR/dev/reference/cr_filename_grammar.md), [`cr_marker_rules()`](https://cttir.github.io/cellreportR/dev/reference/cr_marker_rules.md), [`cr_extract_markers()`](https://cttir.github.io/cellreportR/dev/reference/cr_extract_markers.md) |
+| Experiment object | [`cr_dataset()`](https://cttir.github.io/cellreportR/dev/reference/cr_dataset.md), [`cr_build_experiment()`](https://cttir.github.io/cellreportR/dev/reference/cr_build_experiment.md), [`cr_validate_experiment()`](https://cttir.github.io/cellreportR/dev/reference/cr_validate_experiment.md), [`cr_design()`](https://cttir.github.io/cellreportR/dev/reference/cr_design.md), [`cr_batch_key()`](https://cttir.github.io/cellreportR/dev/reference/cr_batch_key.md), [`cr_channels()`](https://cttir.github.io/cellreportR/dev/reference/cr_channels.md), [`cr_n_cells()`](https://cttir.github.io/cellreportR/dev/reference/cr_n_cells.md), [`cr_filter_cells()`](https://cttir.github.io/cellreportR/dev/reference/cr_filter_cells.md), [`cr_merge_experiments()`](https://cttir.github.io/cellreportR/dev/reference/cr_merge_experiments.md) |
+| Units and balancing | [`cr_merge_rules()`](https://cttir.github.io/cellreportR/dev/reference/cr_merge_rules.md), [`cr_assign_units()`](https://cttir.github.io/cellreportR/dev/reference/cr_assign_units.md), [`cr_unit_map()`](https://cttir.github.io/cellreportR/dev/reference/cr_unit_map.md), [`cr_centroid_overlap()`](https://cttir.github.io/cellreportR/dev/reference/cr_centroid_overlap.md), [`cr_exclude_small()`](https://cttir.github.io/cellreportR/dev/reference/cr_exclude_small.md), [`cr_balance_cells()`](https://cttir.github.io/cellreportR/dev/reference/cr_balance_cells.md) |
+| Quality control | [`cr_qc_filter()`](https://cttir.github.io/cellreportR/dev/reference/cr_qc_filter.md), [`cr_qc_doublets()`](https://cttir.github.io/cellreportR/dev/reference/cr_qc_doublets.md), [`cr_qc_intensity()`](https://cttir.github.io/cellreportR/dev/reference/cr_qc_intensity.md), [`cr_qc_manual()`](https://cttir.github.io/cellreportR/dev/reference/cr_qc_manual.md), [`cr_qc_summary()`](https://cttir.github.io/cellreportR/dev/reference/cr_qc_summary.md), [`cr_qc_gate()`](https://cttir.github.io/cellreportR/dev/reference/cr_qc_gate.md), [`cr_qc_gate_impact()`](https://cttir.github.io/cellreportR/dev/reference/cr_qc_gate_impact.md), [`cr_apply_gate()`](https://cttir.github.io/cellreportR/dev/reference/cr_apply_gate.md), [`cr_qc_report()`](https://cttir.github.io/cellreportR/dev/reference/cr_qc_report.md) |
+| Standardization | [`cr_normalize()`](https://cttir.github.io/cellreportR/dev/reference/cr_normalize.md), [`cr_background_subtract()`](https://cttir.github.io/cellreportR/dev/reference/cr_background_subtract.md), [`cr_correct_batch()`](https://cttir.github.io/cellreportR/dev/reference/cr_correct_batch.md), [`cr_batch_reference()`](https://cttir.github.io/cellreportR/dev/reference/cr_batch_reference.md), [`cr_standardize_batch()`](https://cttir.github.io/cellreportR/dev/reference/cr_standardize_batch.md) |
+| Quantification | [`cr_summarize_wells()`](https://cttir.github.io/cellreportR/dev/reference/cr_summarize_wells.md), [`cr_fold_change()`](https://cttir.github.io/cellreportR/dev/reference/cr_fold_change.md), [`cr_compute_metrics()`](https://cttir.github.io/cellreportR/dev/reference/cr_compute_metrics.md) |
+| Effect sizes | [`cr_effect_grid()`](https://cttir.github.io/cellreportR/dev/reference/cr_effect_grid.md), [`cr_compare_levels()`](https://cttir.github.io/cellreportR/dev/reference/cr_compare_levels.md), [`cr_blocked_effect()`](https://cttir.github.io/cellreportR/dev/reference/cr_blocked_effect.md), [`cr_unit_variability()`](https://cttir.github.io/cellreportR/dev/reference/cr_unit_variability.md), [`cr_effect_size()`](https://cttir.github.io/cellreportR/dev/reference/cr_effect_size.md), [`cr_test()`](https://cttir.github.io/cellreportR/dev/reference/cr_test.md), [`cr_test_all()`](https://cttir.github.io/cellreportR/dev/reference/cr_test_all.md) |
+| Sample size | [`cr_conservative_effect()`](https://cttir.github.io/cellreportR/dev/reference/cr_conservative_effect.md), [`cr_power()`](https://cttir.github.io/cellreportR/dev/reference/cr_power.md), [`cr_power_grid()`](https://cttir.github.io/cellreportR/dev/reference/cr_power_grid.md), [`cr_power_analysis()`](https://cttir.github.io/cellreportR/dev/reference/cr_power_analysis.md) |
+| Discriminability | [`cr_logistic()`](https://cttir.github.io/cellreportR/dev/reference/cr_logistic.md), [`cr_roc()`](https://cttir.github.io/cellreportR/dev/reference/cr_roc.md), [`cr_auc()`](https://cttir.github.io/cellreportR/dev/reference/cr_auc.md), [`cr_confusion_matrix()`](https://cttir.github.io/cellreportR/dev/reference/cr_confusion_matrix.md) |
+| Dose-response | [`cr_dose_response()`](https://cttir.github.io/cellreportR/dev/reference/cr_dose_response.md), [`cr_ic50()`](https://cttir.github.io/cellreportR/dev/reference/cr_ic50.md) |
+| Visualization | eighteen `cr_plot_*()` functions, plus [`cr_theme()`](https://cttir.github.io/cellreportR/dev/reference/cr_theme.md), [`cr_palette()`](https://cttir.github.io/cellreportR/dev/reference/cr_palette.md), [`cr_shapes()`](https://cttir.github.io/cellreportR/dev/reference/cr_shapes.md), [`cr_scale_group()`](https://cttir.github.io/cellreportR/dev/reference/cr_scale_group.md), [`cr_save_plot()`](https://cttir.github.io/cellreportR/dev/reference/cr_save_plot.md) |
+| Tables and reporting | [`cr_tables()`](https://cttir.github.io/cellreportR/dev/reference/cr_tables.md), [`cr_table_disposition()`](https://cttir.github.io/cellreportR/dev/reference/cr_table_disposition.md), [`cr_table_qc()`](https://cttir.github.io/cellreportR/dev/reference/cr_table_qc.md), [`cr_export_tables()`](https://cttir.github.io/cellreportR/dev/reference/cr_export_tables.md), [`cr_export_results()`](https://cttir.github.io/cellreportR/dev/reference/cr_export_results.md), [`cr_export_plots()`](https://cttir.github.io/cellreportR/dev/reference/cr_export_plots.md), [`cr_report()`](https://cttir.github.io/cellreportR/dev/reference/cr_report.md), [`cr_render_report()`](https://cttir.github.io/cellreportR/dev/reference/cr_render_report.md) |
+| Generated numbers | [`cr_macros()`](https://cttir.github.io/cellreportR/dev/reference/cr_macros.md), [`cr_macros_from()`](https://cttir.github.io/cellreportR/dev/reference/cr_macros_from.md), [`cr_macro_name()`](https://cttir.github.io/cellreportR/dev/reference/cr_macro_name.md), [`cr_format_number()`](https://cttir.github.io/cellreportR/dev/reference/cr_format_number.md), [`cr_enumerate()`](https://cttir.github.io/cellreportR/dev/reference/cr_enumerate.md) |
+| Example data | [`cr_example_experiment()`](https://cttir.github.io/cellreportR/dev/reference/cr_example_experiment.md), [`cr_example_design()`](https://cttir.github.io/cellreportR/dev/reference/cr_example_design.md), [`cr_example_files()`](https://cttir.github.io/cellreportR/dev/reference/cr_example_files.md) |
+| Interactive | [`cr_run_app()`](https://cttir.github.io/cellreportR/dev/reference/cr_run_app.md) |
+
+## Documentation
+
+- [Getting
+  Started](https://cttir.github.io/cellreportR/articles/getting-started.html)
+- [Statistical
+  Analysis](https://cttir.github.io/cellreportR/articles/statistical-analysis.html)
+- [Dose-Response](https://cttir.github.io/cellreportR/articles/dose-response.html)
+- [Interactive
+  Front-End](https://cttir.github.io/cellreportR/articles/shiny-app.html)
+
+## Citation
+
+If you use `cellreportR` in academic work, please cite the package:
+
+> Heller R, Schwindling L, Büchner A, Lindenberger L, Müller S,
+> Hannemann M, Achatz G, Rothmiller S (2026). *cellreportR: Cell Culture
+> Microscopy Assay Analysis and Reporting*. R package version 0.2.0,
+> <https://github.com/CTTIR/cellreportR>.
+
+BibTeX:
+
+``` bibtex
+@Manual{cellreportR,
+  title  = {cellreportR: Cell Culture Microscopy Assay Analysis and Reporting},
+  author = {Raban Heller and Leila Schwindling and Alexander B\"uchner and
+            Lucia Lindenberger and Steffen M\"uller and Michael Hannemann and
+            Gerhard Achatz and Simone Rothmiller},
+  year   = {2026},
+  note   = {R package version 0.2.0},
+  url    = {https://github.com/CTTIR/cellreportR},
+}
+```
+
+You can always retrieve the up-to-date entry directly from R:
+
+``` r
+
+citation("cellreportR")
+```
+
+## Use of LLM tools
+
+Portions of this package were prepared with assistance from large
+language model tooling for narrowly defined, non-authorial tasks:
+copyediting, prose smoothing, Markdown/LaTeX formatting, scaffolding of
+boilerplate files (CI configs, build scripts), code refactoring. The
+tools used were [Chat
+AI](https://kisski.gwdg.de/leistungen/2-02-llm-service/), the LLM
+service of KISSKI (GWDG), and a self-hosted **Mistral Small (24B,
+Apache-2.0)** run locally via [Ollama](https://ollama.com/) and the
+`ollamar` R package — local inference only, with no data sent to third
+parties for the self-hosted model.
+
+All scientific claims, methodological choices, analyses,
+interpretations, and conclusions are the author’s own. No LLM-generated
+text was incorporated without review and revision, and every reference
+was verified against its DOI, arXiv ID, or ISBN.
+
+## License
+
+MIT (c) 2026 R. Heller.
+
+# Package index
+
+## Ingest
+
+Read segmented single-cell exports and recover the experimental design
+from the directory tree and the file naming convention.
+
+- [`cr_read_cells()`](https://cttir.github.io/cellreportR/dev/reference/cr_read_cells.md)
+  : Read segmented cell data from file
+- [`cr_read_design()`](https://cttir.github.io/cellreportR/dev/reference/cr_read_design.md)
+  : Read experimental design from CSV or Excel
+- [`cr_read_export()`](https://cttir.github.io/cellreportR/dev/reference/cr_read_export.md)
+  : Read one segmented single-cell export
+- [`cr_read_exports()`](https://cttir.github.io/cellreportR/dev/reference/cr_read_exports.md)
+  : Read a directory tree of segmented single-cell exports
+- [`cr_read_cellprofiler()`](https://cttir.github.io/cellreportR/dev/reference/cr_read_cellprofiler.md)
+  : Read a CellProfiler object export
+- [`cr_read_qupath()`](https://cttir.github.io/cellreportR/dev/reference/cr_read_qupath.md)
+  : Read a QuPath measurement export
+- [`cr_read_segmantr()`](https://cttir.github.io/cellreportR/dev/reference/cr_read_segmantr.md)
+  : Read a segmantR result
+- [`cr_column_map()`](https://cttir.github.io/cellreportR/dev/reference/cr_column_map.md)
+  [`print(`*`<cr_column_map>`*`)`](https://cttir.github.io/cellreportR/dev/reference/cr_column_map.md)
+  : Declare a column contract for vendor exports
+- [`cr_path_spec()`](https://cttir.github.io/cellreportR/dev/reference/cr_path_spec.md)
+  [`print(`*`<cr_path_spec>`*`)`](https://cttir.github.io/cellreportR/dev/reference/cr_path_spec.md)
+  : Bundle a directory and file-name specification
+- [`cr_parse_paths()`](https://cttir.github.io/cellreportR/dev/reference/cr_parse_paths.md)
+  : Parse design facts out of export paths
+- [`cr_filename_grammar()`](https://cttir.github.io/cellreportR/dev/reference/cr_filename_grammar.md)
+  [`print(`*`<cr_filename_grammar>`*`)`](https://cttir.github.io/cellreportR/dev/reference/cr_filename_grammar.md)
+  : Declare the token grammar of an export file name
+- [`cr_marker_rules()`](https://cttir.github.io/cellreportR/dev/reference/cr_marker_rules.md)
+  : Declare how parenthetical file-name markers are interpreted
+- [`cr_extract_markers()`](https://cttir.github.io/cellreportR/dev/reference/cr_extract_markers.md)
+  : Extract file-name markers into typed flags
+
+## Experiment object
+
+Build, validate and inspect the container that carries cells, design,
+channels, batch keys and provenance.
+
+- [`cr_build_experiment()`](https://cttir.github.io/cellreportR/dev/reference/cr_build_experiment.md)
+  :
+
+  Build a `cr_experiment` object
+
+- [`cr_validate_experiment()`](https://cttir.github.io/cellreportR/dev/reference/cr_validate_experiment.md)
+  :
+
+  Validate a `cr_experiment`
+
+- [`cr_dataset()`](https://cttir.github.io/cellreportR/dev/reference/cr_dataset.md)
+  [`print(`*`<cr_dataset>`*`)`](https://cttir.github.io/cellreportR/dev/reference/cr_dataset.md)
+  [`summary(`*`<cr_dataset>`*`)`](https://cttir.github.io/cellreportR/dev/reference/cr_dataset.md)
+  : Build an ingested data set
+
+- [`cr_design()`](https://cttir.github.io/cellreportR/dev/reference/cr_design.md)
+  [`print(`*`<cr_design>`*`)`](https://cttir.github.io/cellreportR/dev/reference/cr_design.md)
+  : Build an experimental design object
+
+- [`cr_batch_key()`](https://cttir.github.io/cellreportR/dev/reference/cr_batch_key.md)
+  : Construct a batch key
+
+- [`cr_channels()`](https://cttir.github.io/cellreportR/dev/reference/cr_channels.md)
+  :
+
+  List channels in a `cr_experiment`
+
+- [`cr_n_cells()`](https://cttir.github.io/cellreportR/dev/reference/cr_n_cells.md)
+  :
+
+  Count cells in a `cr_experiment`
+
+- [`cr_filter_cells()`](https://cttir.github.io/cellreportR/dev/reference/cr_filter_cells.md)
+  :
+
+  Filter cells in a `cr_experiment`
+
+- [`cr_merge_experiments()`](https://cttir.github.io/cellreportR/dev/reference/cr_merge_experiments.md)
+  : Merge multiple experiments
+
+## Units and balancing
+
+Resolve acquisitions into the analysis unit of replication, then
+equalise the cell contribution of each unit.
+
+- [`cr_merge_rules()`](https://cttir.github.io/cellreportR/dev/reference/cr_merge_rules.md)
+  [`print(`*`<cr_merge_rules>`*`)`](https://cttir.github.io/cellreportR/dev/reference/cr_merge_rules.md)
+  : Declare how files are merged into analysis units
+- [`cr_assign_units()`](https://cttir.github.io/cellreportR/dev/reference/cr_assign_units.md)
+  : Assign cells to analysis units
+- [`cr_unit_map()`](https://cttir.github.io/cellreportR/dev/reference/cr_unit_map.md)
+  : Map source files to analysis units
+- [`cr_centroid_overlap()`](https://cttir.github.io/cellreportR/dev/reference/cr_centroid_overlap.md)
+  : Centroid overlap between two candidate units
+- [`cr_exclude_small()`](https://cttir.github.io/cellreportR/dev/reference/cr_exclude_small.md)
+  : Exclude sub-threshold objects with a data-derived cut-off
+- [`cr_balance_cells()`](https://cttir.github.io/cellreportR/dev/reference/cr_balance_cells.md)
+  : Balance the number of cells per analysis unit
+
+## Quality control
+
+Threshold filters, the biological gate against each unit’s own control,
+and the leverage of what the gate removed.
+
+- [`cr_qc_filter()`](https://cttir.github.io/cellreportR/dev/reference/cr_qc_filter.md)
+  : Filter cells by morphology
+- [`cr_qc_doublets()`](https://cttir.github.io/cellreportR/dev/reference/cr_qc_doublets.md)
+  : Flag or remove doublets
+- [`cr_qc_intensity()`](https://cttir.github.io/cellreportR/dev/reference/cr_qc_intensity.md)
+  : Gate cells by intensity
+- [`cr_qc_manual()`](https://cttir.github.io/cellreportR/dev/reference/cr_qc_manual.md)
+  : Manually exclude wells or cells
+- [`cr_qc_summary()`](https://cttir.github.io/cellreportR/dev/reference/cr_qc_summary.md)
+  : Summarise QC steps applied to an experiment
+- [`cr_qc_gate()`](https://cttir.github.io/cellreportR/dev/reference/cr_qc_gate.md)
+  : Gate analysis units against their own in-batch control
+- [`cr_qc_gate_impact()`](https://cttir.github.io/cellreportR/dev/reference/cr_qc_gate_impact.md)
+  : Quantify the leverage of gate exclusions
+- [`cr_apply_gate()`](https://cttir.github.io/cellreportR/dev/reference/cr_apply_gate.md)
+  : Apply a QC gate to an experiment
+- [`cr_qc_report()`](https://cttir.github.io/cellreportR/dev/reference/cr_qc_report.md)
+  : Report every analysis unit with its QC verdict
+
+## Normalization and batch standardization
+
+Rescale each cell against the control condition of its own batch.
+
+- [`cr_normalize()`](https://cttir.github.io/cellreportR/dev/reference/cr_normalize.md)
+  : Normalize intensity data
+- [`cr_background_subtract()`](https://cttir.github.io/cellreportR/dev/reference/cr_background_subtract.md)
+  : Subtract background from a channel
+- [`cr_correct_batch()`](https://cttir.github.io/cellreportR/dev/reference/cr_correct_batch.md)
+  : Correct batch effects
+- [`cr_batch_reference()`](https://cttir.github.io/cellreportR/dev/reference/cr_batch_reference.md)
+  : Per-batch control reference statistics
+- [`cr_standardize_batch()`](https://cttir.github.io/cellreportR/dev/reference/cr_standardize_batch.md)
+  : Standardize a channel against the control of each cell's own batch
+
+## Quantification
+
+Collapse cells to units and derive per-unit quantities.
+
+- [`cr_summarize_wells()`](https://cttir.github.io/cellreportR/dev/reference/cr_summarize_wells.md)
+  : Summarize cell-level data to the analysis unit
+- [`cr_fold_change()`](https://cttir.github.io/cellreportR/dev/reference/cr_fold_change.md)
+  : Compute fold change relative to a control group
+- [`cr_compute_metrics()`](https://cttir.github.io/cellreportR/dev/reference/cr_compute_metrics.md)
+  : Compute per-unit summary metrics
+
+## Effect sizes and testing
+
+Estimate effects with confidence intervals at unit and at cell level,
+and quantify the distance between the two.
+
+- [`cr_test()`](https://cttir.github.io/cellreportR/dev/reference/cr_test.md)
+  : Hypothesis test comparing treatment to control
+- [`cr_test_all()`](https://cttir.github.io/cellreportR/dev/reference/cr_test_all.md)
+  : Test all treatments against a control group
+- [`cr_effect_size()`](https://cttir.github.io/cellreportR/dev/reference/cr_effect_size.md)
+  : Compute effect sizes between two samples
+- [`cr_effect_grid()`](https://cttir.github.io/cellreportR/dev/reference/cr_effect_grid.md)
+  : Effect sizes for a whole grid of contrasts
+- [`cr_compare_levels()`](https://cttir.github.io/cellreportR/dev/reference/cr_compare_levels.md)
+  : Compare unit-level and cell-level effect estimates
+- [`cr_blocked_effect()`](https://cttir.github.io/cellreportR/dev/reference/cr_blocked_effect.md)
+  : Block-stratified sensitivity fit
+- [`cr_unit_variability()`](https://cttir.github.io/cellreportR/dev/reference/cr_unit_variability.md)
+  : Between-unit variability within a condition
+
+## Sample size
+
+Solve the design for the observed estimate and for the confidence bound
+nearer the null.
+
+- [`cr_conservative_effect()`](https://cttir.github.io/cellreportR/dev/reference/cr_conservative_effect.md)
+  : Effect size at the confidence bound nearer the null
+- [`cr_power()`](https://cttir.github.io/cellreportR/dev/reference/cr_power.md)
+  : Sample size for a future study, sized twice
+- [`cr_power_grid()`](https://cttir.github.io/cellreportR/dev/reference/cr_power_grid.md)
+  : Sample sizes for a whole effect grid
+- [`cr_power_analysis()`](https://cttir.github.io/cellreportR/dev/reference/cr_power_analysis.md)
+  : Post-hoc power for a hierarchical cell-based assay
+
+## Discriminability
+
+Logistic models, ROC curves and classification summaries.
+
+- [`cr_logistic()`](https://cttir.github.io/cellreportR/dev/reference/cr_logistic.md)
+  : Univariate logistic regression of treatment vs. control
+
+- [`cr_roc()`](https://cttir.github.io/cellreportR/dev/reference/cr_roc.md)
+  :
+
+  Extract or compute an ROC curve from a `cr_result`
+
+- [`cr_auc()`](https://cttir.github.io/cellreportR/dev/reference/cr_auc.md)
+  :
+
+  Compute AUC with confidence interval from a `cr_result`
+
+- [`cr_confusion_matrix()`](https://cttir.github.io/cellreportR/dev/reference/cr_confusion_matrix.md)
+  :
+
+  Confusion matrix for a logistic `cr_result`
+
+## Dose-response
+
+Concentration-response curve fitting and potency estimates.
+
+- [`cr_dose_response()`](https://cttir.github.io/cellreportR/dev/reference/cr_dose_response.md)
+  : Fit a dose-response curve
+- [`cr_ic50()`](https://cttir.github.io/cellreportR/dev/reference/cr_ic50.md)
+  : Extract IC50 / EC50 from a dose-response fit
+
+## Visualization
+
+Publication figures and the shared plot design contract.
+
+- [`cr_plot_plate()`](https://cttir.github.io/cellreportR/dev/reference/cr_plot_plate.md)
+  : Plate-layout heatmap
+- [`cr_plot_intensity()`](https://cttir.github.io/cellreportR/dev/reference/cr_plot_intensity.md)
+  : Intensity distributions by group
+- [`cr_plot_scatter()`](https://cttir.github.io/cellreportR/dev/reference/cr_plot_scatter.md)
+  : Biaxial scatter plot of two channels
+- [`cr_plot_histogram()`](https://cttir.github.io/cellreportR/dev/reference/cr_plot_histogram.md)
+  : Histogram of channel intensity
+- [`cr_plot_foldchange()`](https://cttir.github.io/cellreportR/dev/reference/cr_plot_foldchange.md)
+  : Fold-change forest plot
+- [`cr_plot_effect_sizes()`](https://cttir.github.io/cellreportR/dev/reference/cr_plot_effect_sizes.md)
+  : Forest plot of effect sizes
+- [`cr_plot_forest()`](https://cttir.github.io/cellreportR/dev/reference/cr_plot_forest.md)
+  : Forest plot of effect sizes with confidence intervals
+- [`cr_plot_screen()`](https://cttir.github.io/cellreportR/dev/reference/cr_plot_screen.md)
+  : Distribution figure with the unit of replication overlaid
+- [`cr_plot_sample_size()`](https://cttir.github.io/cellreportR/dev/reference/cr_plot_sample_size.md)
+  : Sample-size comparison plot
+- [`cr_plot_specificity()`](https://cttir.github.io/cellreportR/dev/reference/cr_plot_specificity.md)
+  : Specificity control plot
+- [`cr_plot_qc()`](https://cttir.github.io/cellreportR/dev/reference/cr_plot_qc.md)
+  : QC dashboard
+- [`cr_plot_qc_gate()`](https://cttir.github.io/cellreportR/dev/reference/cr_plot_qc_gate.md)
+  : Quality-control gate diagnostic plot
+- [`cr_plot_roc()`](https://cttir.github.io/cellreportR/dev/reference/cr_plot_roc.md)
+  : ROC curve plot
+- [`cr_plot_dose_response()`](https://cttir.github.io/cellreportR/dev/reference/cr_plot_dose_response.md)
+  : Dose-response plot
+- [`cr_plot_spatial()`](https://cttir.github.io/cellreportR/dev/reference/cr_plot_spatial.md)
+  : Spatial scatter of cells in a well
+- [`cr_plot_comparison()`](https://cttir.github.io/cellreportR/dev/reference/cr_plot_comparison.md)
+  : Comparison panel (box, fold change, p-value) for a single result
+- [`cr_plot_heatmap()`](https://cttir.github.io/cellreportR/dev/reference/cr_plot_heatmap.md)
+  : Heatmap of channel medians across groups
+- [`cr_plot_timeline()`](https://cttir.github.io/cellreportR/dev/reference/cr_plot_timeline.md)
+  : Time-course line plot
+- [`cr_theme()`](https://cttir.github.io/cellreportR/dev/reference/cr_theme.md)
+  : Publication theme
+- [`cr_palette()`](https://cttir.github.io/cellreportR/dev/reference/cr_palette.md)
+  : Colour-vision-safe palette
+- [`cr_shapes()`](https://cttir.github.io/cellreportR/dev/reference/cr_shapes.md)
+  : Redundant shape encoding
+- [`cr_scale_group()`](https://cttir.github.io/cellreportR/dev/reference/cr_scale_group.md)
+  : Grouping scales with redundant encoding
+- [`cr_scale_colour()`](https://cttir.github.io/cellreportR/dev/reference/cr_scale_colour.md)
+  [`cr_scale_fill()`](https://cttir.github.io/cellreportR/dev/reference/cr_scale_colour.md)
+  [`cr_shape_scale()`](https://cttir.github.io/cellreportR/dev/reference/cr_scale_colour.md)
+  [`cr_linetype_scale()`](https://cttir.github.io/cellreportR/dev/reference/cr_scale_colour.md)
+  : Manual colour scale from the cellreportR visual system
+- [`cr_scale_diverging()`](https://cttir.github.io/cellreportR/dev/reference/cr_scale_diverging.md)
+  : Continuous diverging scale
+- [`cr_plot_style()`](https://cttir.github.io/cellreportR/dev/reference/cr_plot_style.md)
+  : Construct a reusable plot style
+- [`cr_linetypes()`](https://cttir.github.io/cellreportR/dev/reference/cr_linetypes.md)
+  : Stable line types for categorical figures
+- [`cr_figure_size()`](https://cttir.github.io/cellreportR/dev/reference/cr_figure_size.md)
+  : Standard deterministic figure dimensions
+- [`cr_figure_caption()`](https://cttir.github.io/cellreportR/dev/reference/cr_figure_caption.md)
+  : Build a descriptive figure caption
+- [`cr_plot_estimates()`](https://cttir.github.io/cellreportR/dev/reference/cr_plot_estimates.md)
+  : Plot estimates and confidence intervals
+- [`cr_plot_qc_summary()`](https://cttir.github.io/cellreportR/dev/reference/cr_plot_qc_summary.md)
+  : Compact text-first QC status plot
+- [`cr_plot_result_position()`](https://cttir.github.io/cellreportR/dev/reference/cr_plot_result_position.md)
+  : Plot a value relative to caller-supplied boundaries
+- [`cr_save_figure()`](https://cttir.github.io/cellreportR/dev/reference/cr_save_figure.md)
+  : Save a publication-ready figure deterministically
+- [`cr_save_plot()`](https://cttir.github.io/cellreportR/dev/reference/cr_save_plot.md)
+  : Save a figure at publication settings
+
+## Laboratory reporting
+
+Versioned, configurable report data, validation, rendering and audit
+export.
+
+- [`cr_report_spec()`](https://cttir.github.io/cellreportR/dev/reference/cr_report_spec.md)
+  : Construct a configurable laboratory report specification
+- [`cr_validate_report_spec()`](https://cttir.github.io/cellreportR/dev/reference/cr_validate_report_spec.md)
+  : Validate a laboratory report specification
+- [`cr_print_report_spec()`](https://cttir.github.io/cellreportR/dev/reference/cr_print_report_spec.md)
+  : Print a laboratory report specification
+- [`cr_classify_result()`](https://cttir.github.io/cellreportR/dev/reference/cr_classify_result.md)
+  : Deterministically classify numeric results using explicit boundaries
+- [`cr_finalize_result()`](https://cttir.github.io/cellreportR/dev/reference/cr_finalize_result.md)
+  : Apply a caller-selected QC finalization rule
+- [`cr_interpretation_lookup()`](https://cttir.github.io/cellreportR/dev/reference/cr_interpretation_lookup.md)
+  : Look up explicit interpretation text
+- [`cr_report_qc()`](https://cttir.github.io/cellreportR/dev/reference/cr_report_qc.md)
+  : Construct a concise report QC table
+- [`cr_validate_report_qc()`](https://cttir.github.io/cellreportR/dev/reference/cr_validate_report_qc.md)
+  : Validate a concise report QC table
+- [`cr_report_qc_from_log()`](https://cttir.github.io/cellreportR/dev/reference/cr_report_qc_from_log.md)
+  : Convert an existing experiment QC log to report-compatible rows
+- [`cr_lab_report()`](https://cttir.github.io/cellreportR/dev/reference/cr_lab_report.md)
+  : Assemble a laboratory report without recalculating analytical values
+- [`cr_report_data()`](https://cttir.github.io/cellreportR/dev/reference/cr_report_data.md)
+  : Inspect the exact structured values entering a laboratory report
+- [`cr_report_display_data()`](https://cttir.github.io/cellreportR/dev/reference/cr_report_display_data.md)
+  : Prepare human-facing values for report rendering
+- [`cr_report_style()`](https://cttir.github.io/cellreportR/dev/reference/cr_report_style.md)
+  : Configure the appearance of laboratory reports
+- [`cr_report_profile()`](https://cttir.github.io/cellreportR/dev/reference/cr_report_profile.md)
+  : Create a reusable laboratory report profile
+- [`cr_render_lab_report()`](https://cttir.github.io/cellreportR/dev/reference/cr_render_lab_report.md)
+  : Render a concise laboratory report
+- [`cr_report_hash()`](https://cttir.github.io/cellreportR/dev/reference/cr_report_hash.md)
+  : Hash report-relevant structured data
+- [`cr_report_provenance()`](https://cttir.github.io/cellreportR/dev/reference/cr_report_provenance.md)
+  : Build machine-readable report provenance
+- [`cr_report_evidence()`](https://cttir.github.io/cellreportR/dev/reference/cr_report_evidence.md)
+  : Bind report claims and figures to portable source-file evidence
+- [`cr_validate_report_evidence()`](https://cttir.github.io/cellreportR/dev/reference/cr_validate_report_evidence.md)
+  : Revalidate report evidence against its current source tree
+- [`cr_lab_report_from_evidence()`](https://cttir.github.io/cellreportR/dev/reference/cr_lab_report_from_evidence.md)
+  : Assemble a laboratory report with validated, source-bound quoted
+  values
+- [`cr_export_report_spec()`](https://cttir.github.io/cellreportR/dev/reference/cr_export_report_spec.md)
+  : Export a report specification as versioned JSON
+- [`cr_import_report_spec()`](https://cttir.github.io/cellreportR/dev/reference/cr_import_report_spec.md)
+  : Import a versioned report specification from JSON
+- [`cr_export_report_audit()`](https://cttir.github.io/cellreportR/dev/reference/cr_export_report_audit.md)
+  : Export report audit provenance as JSON
+
+## Tables and reporting
+
+Emit every reported count and table from the analysis objects rather
+than by hand.
+
+- [`cr_tables()`](https://cttir.github.io/cellreportR/dev/reference/cr_tables.md)
+  : Collect the tables of an analysis
+- [`cr_table_disposition()`](https://cttir.github.io/cellreportR/dev/reference/cr_table_disposition.md)
+  : Tabulate how many units and cells entered the analysis
+- [`cr_table_qc()`](https://cttir.github.io/cellreportR/dev/reference/cr_table_qc.md)
+  : Tabulate the quality-control record
+- [`cr_export_tables()`](https://cttir.github.io/cellreportR/dev/reference/cr_export_tables.md)
+  : Export a set of tables to CSV or Excel
+- [`cr_export_results()`](https://cttir.github.io/cellreportR/dev/reference/cr_export_results.md)
+  : Export results to CSV, Excel or RDS
+- [`cr_export_plots()`](https://cttir.github.io/cellreportR/dev/reference/cr_export_plots.md)
+  : Export plots to PNG, PDF or SVG in batch
+- [`cr_report()`](https://cttir.github.io/cellreportR/dev/reference/cr_report.md)
+  : Assemble a structured analysis report
+- [`cr_render_report()`](https://cttir.github.io/cellreportR/dev/reference/cr_render_report.md)
+  : Render a report to HTML or PDF
+
+## Generated numbers
+
+Write every quoted number and computed enumeration into a single
+generated include file.
+
+- [`cr_macros()`](https://cttir.github.io/cellreportR/dev/reference/cr_macros.md)
+  : Emit named values as a generated include file
+- [`cr_macros_from()`](https://cttir.github.io/cellreportR/dev/reference/cr_macros_from.md)
+  : Derive generated numbers from a report or a results table
+- [`cr_macro_name()`](https://cttir.github.io/cellreportR/dev/reference/cr_macro_name.md)
+  : Build a macro-safe name
+- [`cr_format_number()`](https://cttir.github.io/cellreportR/dev/reference/cr_format_number.md)
+  : Format a number for a generated document
+- [`cr_format_interval()`](https://cttir.github.io/cellreportR/dev/reference/cr_format_interval.md)
+  : Format an estimate and confidence interval
+- [`cr_format_percent()`](https://cttir.github.io/cellreportR/dev/reference/cr_format_percent.md)
+  : Format proportions as percentages
+- [`cr_format_pvalue()`](https://cttir.github.io/cellreportR/dev/reference/cr_format_pvalue.md)
+  : Format p-values without displaying calculated zero
+- [`cr_enumerate()`](https://cttir.github.io/cellreportR/dev/reference/cr_enumerate.md)
+  : Write a vector out as an English list
+
+## Example data
+
+Synthetic inputs that exercise the whole pipeline.
+
+- [`cr_example_screen()`](https://cttir.github.io/cellreportR/dev/reference/cr_example_screen.md)
+  : Generate a synthetic multi-compound screen
+
+- [`cr_example_experiment()`](https://cttir.github.io/cellreportR/dev/reference/cr_example_experiment.md)
+  :
+
+  Generate a synthetic `cr_experiment`
+
+- [`cr_example_design()`](https://cttir.github.io/cellreportR/dev/reference/cr_example_design.md)
+  : Generate an example experimental design
+
+- [`cr_example_exports()`](https://cttir.github.io/cellreportR/dev/reference/cr_example_exports.md)
+  : Write a synthetic export tree
+
+- [`cr_example_files()`](https://cttir.github.io/cellreportR/dev/reference/cr_example_files.md)
+  : Write example files in several on-disk formats
+
+- [`cr_example_path()`](https://cttir.github.io/cellreportR/dev/reference/cr_example_path.md)
+  : Locate the example files shipped with the package
+
+## Plate utilities
+
+Coordinate helpers for plate layouts.
+
+- [`cr_well_to_rowcol()`](https://cttir.github.io/cellreportR/dev/reference/cr_well_to_rowcol.md)
+  : Convert well IDs to row and column indices
+- [`cr_rowcol_to_well()`](https://cttir.github.io/cellreportR/dev/reference/cr_rowcol_to_well.md)
+  : Convert row and column indices to well IDs
+
+## Interactive front-end
+
+Guided analysis, exploration and report export in the browser.
+
+- [`cr_run_app()`](https://cttir.github.io/cellreportR/dev/reference/cr_run_app.md)
+  : Launch the cellreportR Shiny application
+
+## Methods
+
+Print and summarise the objects the pipeline returns.
+
+- [`print(`*`<cr_experiment>`*`)`](https://cttir.github.io/cellreportR/dev/reference/print.cr_experiment.md)
+  :
+
+  Print method for `cr_experiment`
+
+- [`summary(`*`<cr_experiment>`*`)`](https://cttir.github.io/cellreportR/dev/reference/summary.cr_experiment.md)
+  :
+
+  Summary method for `cr_experiment`
+
+- [`print(`*`<cr_result>`*`)`](https://cttir.github.io/cellreportR/dev/reference/print.cr_result.md)
+  :
+
+  Print method for `cr_result`
+
+- [`summary(`*`<cr_result>`*`)`](https://cttir.github.io/cellreportR/dev/reference/summary.cr_result.md)
+  :
+
+  Summary method for `cr_result`
+
+- [`print(`*`<cr_report>`*`)`](https://cttir.github.io/cellreportR/dev/reference/print.cr_report.md)
+  :
+
+  Print method for `cr_report`
+
+- [`summary(`*`<cr_report>`*`)`](https://cttir.github.io/cellreportR/dev/reference/summary.cr_report.md)
+  :
+
+  Summary method for `cr_report`
+
+- [`print(`*`<cr_qc_gate>`*`)`](https://cttir.github.io/cellreportR/dev/reference/print.cr_qc_gate.md)
+  : Print a QC gate
+
+## Package
+
+- [`cellreportR-package`](https://cttir.github.io/cellreportR/dev/reference/cellreportR-package.md)
+  [`cellreportR`](https://cttir.github.io/cellreportR/dev/reference/cellreportR-package.md)
+  : cellreportR: Cell Culture Microscopy Assay Analysis and Reporting
+
+# Articles
+
+### Getting started
+
+- [Getting Started with
+  cellreportR](https://cttir.github.io/cellreportR/dev/articles/getting-started.md):
+- [End to End: From Segmented Exports to a Finished
+  Report](https://cttir.github.io/cellreportR/dev/articles/end-to-end.md):
+
+### Analysis guides
+
+- [Statistical Analysis of Cell-Based
+  Assays](https://cttir.github.io/cellreportR/dev/articles/statistical-analysis.md):
+- [Dose-Response
+  Analysis](https://cttir.github.io/cellreportR/dev/articles/dose-response.md):
+
+### Interactive front-end
+
+- [Interactive Analysis with the cellreportR Shiny
+  App](https://cttir.github.io/cellreportR/dev/articles/shiny-app.md):
+
+### Reporting and figures
+
+- [Configurable Laboratory Reports with
+  cellreportR](https://cttir.github.io/cellreportR/dev/articles/laboratory-reporting.md):
+- [Publication-ready figures with
+  cellreportR](https://cttir.github.io/cellreportR/dev/articles/figure-style.md):
