@@ -188,6 +188,9 @@ reference:
       - cr_render_lab_report
       - cr_report_hash
       - cr_report_provenance
+      - cr_report_evidence
+      - cr_validate_report_evidence
+      - cr_lab_report_from_evidence
       - cr_export_report_spec
       - cr_import_report_spec
       - cr_export_report_audit

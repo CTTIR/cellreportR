@@ -1,5 +1,12 @@
 # cellreportR 0.2.0.9000
 
+* Added portable file-bound report evidence for keyed CSV/TSV result claims and
+  declared figure/table links. Laboratory reports can populate custom fields
+  from this evidence and revalidate sources and bound displays before rendering
+  or audit export. Evidence ordering, decimal parsing and numeric displays are
+  portable across collation and decimal-mark settings. Existing function
+  signatures, reports and analytical defaults are unchanged.
+
 * Added a domain-neutral laboratory reporting layer built around versioned
   `cr_report_spec` and `cr_lab_report` objects, strict/non-strict validation,
   concise QC tables, explicit classification helpers, JSON interchange,

@@ -57,9 +57,11 @@ cr_lab_report <- function(experiment=NULL, spec=cr_report_spec(), qc=NULL,
 #' @export
 cr_report_data <- function(report) {
   if(!inherits(report,"cr_lab_report")) cli::cli_abort("{.arg report} must be a {.cls cr_lab_report}.")
-  list(schema_name=report$spec$schema_name, schema_version=report$spec$schema_version,
+  out <- list(schema_name = report$spec$schema_name, schema_version = report$spec$schema_version,
     template_name=report$template_name, template_version=report$template_version,
     spec=unclass(report$spec), qc=as.data.frame(report$qc), style=unclass(report$style))
+  if (!is.null(report$evidence)) out$evidence <- unclass(report$evidence)
+  out
 }
 
 #' Hash report-relevant structured data
@@ -86,6 +88,11 @@ cr_report_hash <- function(x, algorithm="sha256") digest::digest(.cr_canonical(x
 #' @export
 cr_report_provenance <- function(experiment=NULL, report_spec, output_file=NULL, analysis_metadata=list()) {
   report <- if(inherits(report_spec,"cr_lab_report")) report_spec else cr_lab_report(experiment, report_spec, strict=FALSE)
+  .cr_validate_bound_evidence(report)
+  if (!is.null(report$evidence)) {
+    if ("report_evidence" %in% names(analysis_metadata)) cli::cli_abort("Reserved analysis metadata field: report_evidence.")
+    analysis_metadata$report_evidence <- unclass(report$evidence)
+  }
   spec <- report$spec; exp_summary <- NULL
   if(!is.null(experiment)) {
     cr_validate_experiment(experiment)
@@ -188,6 +195,7 @@ cr_render_lab_report <- function(report,output_file,template=NULL,quiet=TRUE,
                                  audit_file=NULL,overwrite=FALSE,
                                  keep_tex=FALSE) {
   if(!inherits(report,"cr_lab_report")) cli::cli_abort("{.arg report} must be a {.cls cr_lab_report}.")
+  .cr_validate_bound_evidence(report)
   cr_validate_report_spec(report$spec,strict=TRUE); cr_validate_report_qc(report$qc)
   .cr_check_path(output_file); ext<-tolower(tools::file_ext(output_file)); if(!ext%in%c("pdf","html")) cli::cli_abort("Laboratory reports support explicit {.val pdf} or {.val html} output files.")
   if(file.exists(output_file)&&!isTRUE(overwrite)) cli::cli_abort("Output already exists: {.path {output_file}}. Set {.arg overwrite = TRUE} explicitly to replace it.")

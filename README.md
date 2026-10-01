@@ -220,6 +220,43 @@ cr_export_tables(cr_tables(ds, eff_unit), "out/tables.xlsx")
 cr_macros(list(n_units = nrow(units)), "out/generated-numbers.tex")
 ```
 
+## Source-bound report evidence
+
+`cr_report_evidence()` connects explicitly keyed CSV/TSV result cells to quoted
+values and records figure hashes with their declared source-table links.
+`cr_lab_report_from_evidence()` inserts those displays into an existing laboratory
+report's custom fields. The normal renderer and audit exporter revalidate the
+files and bound fields before use; existing reports retain their behavior.
+
+```r
+# Source files are relative to an existing project results directory.
+evidence <- cr_report_evidence(
+  root = "results",
+  tables = list(effects = list(path = "effects.tsv", format = "tsv",
+                              key = c("contrast", "endpoint"))),
+  claims = list(estimate = list(table = "effects",
+    key = c(contrast = "treated_vs_control", endpoint = "response"),
+    column = "estimate", format = "number", digits = 3)),
+  figures = list(effect_plot = list(path = "effect_plot.pdf", tables = "effects"))
+)
+spec <- cr_report_spec(report = list(report_id = "example"),
+  result = list(display_value = "See source-bound additional information"),
+  authorization = list(authorized_by = "Reviewer"))
+report <- cr_lab_report_from_evidence(evidence, "results", spec = spec)
+cr_export_report_audit(report, "report-audit.json")
+```
+
+Relative paths and SHA-256 source identities allow relocation of the whole tree;
+reassemble the report with `cr_lab_report_from_evidence(evidence, new_root, spec)`
+using the original specification after relocation. Existing render, export and
+provenance function signatures remain unchanged.
+Source-byte changes, ambiguous or missing keys, nonfinite numeric claims, and
+altered bound fields fail validation. Numeric formatting performs no scaling or
+unit conversion. Figure-to-table links are declarations, not proof that a figure
+was generated from those tables. Scientific validity and other report prose or
+fields remain the author's responsibility. Evidence hashes use versioned UTF-8
+JSON bytes; the existing `cr_report_hash()` contract is unchanged.
+
 ## Interactive analysis
 
 ```r
