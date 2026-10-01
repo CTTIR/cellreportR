@@ -212,12 +212,16 @@ test_that("cr_example_screen feeds the batch standardisation", {
 # ---- cr_example_exports ----------------------------------------------------
 
 test_that("cr_example_exports writes a nested export tree", {
-  dir <- withr::local_tempdir()
+  dir <- file.path(withr::local_tempdir(), "exports [literal]+ (nested)")
+  dir.create(dir)
   files <- cr_example_exports(dir, seed = 1, n_cells = 4)
   expect_length(files, 10L)
   expect_true(all(file.exists(files)))
   # Design facts live in the path, not inside the file.
-  rel <- sub(paste0("^", dir, .Platform$file.sep), "", files)
+  root <- paste0(normalizePath(dir, winslash = "/"), "/")
+  normalized <- normalizePath(files, winslash = "/")
+  expect_true(all(startsWith(normalized, root)))
+  rel <- substring(normalized, nchar(root) + 1L)
   expect_true(all(grepl("^Run1", rel)))
   expect_true(any(grepl("Plate_1 \\(partial\\)", rel)))
   # Markers that change the analysis.
