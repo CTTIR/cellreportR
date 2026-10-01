@@ -162,6 +162,7 @@ reference:
       - cr_plot_style
       - cr_linetypes
       - cr_figure_size
+      - cr_figure_caption
       - cr_plot_estimates
       - cr_plot_qc_summary
       - cr_plot_result_position
@@ -218,6 +219,9 @@ reference:
       - cr_macros_from
       - cr_macro_name
       - cr_format_number
+      - cr_format_interval
+      - cr_format_percent
+      - cr_format_pvalue
       - cr_enumerate
 
   - title: Example data
