@@ -93,6 +93,8 @@ test_that("print.cr_result output is stable at cell level", {
   exp <- cr_example_experiment(seed = 1, n_cells_per_well = 8)
   res <- cr_test(exp, "marker_1", "CompoundA_high", "Untreated",
                  test = "mann_whitney", level = "cell")
+  # This snapshot tests formatting independently of numerical engine versions.
+  res$cell_level$p_value <- 0.0123456789
   expect_snapshot(print(res))
 })
 
@@ -114,6 +116,8 @@ test_that("summary.cr_result output is stable", {
   exp <- cr_example_experiment(seed = 1, n_cells_per_well = 8)
   res <- cr_test(exp, "marker_1", "CompoundA_high", "Untreated",
                  test = "mann_whitney", level = "cell")
+  # This snapshot tests formatting independently of numerical engine versions.
+  res$cell_level$p_value <- 0.0123456789
   expect_snapshot(summary(res))
 })
 

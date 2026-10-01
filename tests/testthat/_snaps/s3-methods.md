@@ -35,7 +35,7 @@
       * Treatment: "CompoundA_high"
       * Control: "Untreated"
       * Test: "mann_whitney"
-      i Cell-level p = 0
+      i Cell-level p = 0.0123
       i Effect sizes: cohens_d, hedges_g, cliffs_delta, and rank_biserial
 
 # print.cr_result output is stable at both levels
@@ -76,7 +76,7 @@
       * Treatment: "CompoundA_high"
       * Control: "Untreated"
       * Test: "mann_whitney"
-      i Cell-level p = 0
+      i Cell-level p = 0.0123
       i Effect sizes: cohens_d, hedges_g, cliffs_delta, and rank_biserial
 
 # print.cr_report output is stable when empty
