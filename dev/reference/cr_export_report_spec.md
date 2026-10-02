@@ -1,6 +1,8 @@
 # Export a report specification as versioned JSON
 
-Export a report specification as versioned JSON
+Named field labels are encoded as a JSON object. Date-time export
+retains its existing whole-second representation; fractional precision
+is not preserved by this format.
 
 ## Usage
 

@@ -100,9 +100,9 @@ rbind(
   cbind(model = "4pl", cr_ic50(fit)),
   cbind(model = "3pl", cr_ic50(fit_3pl))
 )
-#>   model parameter estimate    ci_low  ci_high units
-#> 1   4pl      IC50 124.7684  96.62501 161.1089    uM
-#> 2   3pl      IC50 363.4281 264.21280 499.9000    uM
+#>   model parameter estimate   ci_low  ci_high units
+#> 1   4pl      IC50 124.7684  96.6250 161.1089    uM
+#> 2   3pl      IC50 363.4281 264.2128 499.9000    uM
 ```
 
 ## Checking that the fit converged

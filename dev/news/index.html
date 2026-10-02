@@ -46,7 +46,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0.9000" id="cellreportr-0209000">cellreportR 0.2.0.9000<a class="anchor" aria-label="anchor" href="#cellreportr-0209000"></a></h2>
-<ul><li><p>Default laboratory HTML embeds its assets without a dynamic math dependency and wraps long table values on narrow screens. Custom templates and PDF rendering retain their existing behavior.</p></li>
+<ul><li><p>Specification JSON import now restores explicit timestamp offsets and supported UTC forms, custom-section structure, and named field-label objects. New exports retain field-label names. Previously lost names or fractional seconds cannot be recovered; export timestamp precision is unchanged.</p></li>
+<li><p>Default laboratory HTML embeds its assets without a dynamic math dependency and wraps long table values on narrow screens. Custom templates and PDF rendering retain their existing behavior.</p></li>
 <li><p>Corrected literal LaTeX escaping in laboratory reports. Special characters now receive one escape without changing literal sentinel text or Unicode.</p></li>
 <li><p>Added portable file-bound report evidence for keyed CSV/TSV result claims and declared figure/table links. Laboratory reports can populate custom fields from this evidence and revalidate sources and bound displays before rendering or audit export. Evidence ordering, decimal parsing and numeric displays are portable across collation and decimal-mark settings. Existing function signatures, reports and analytical defaults are unchanged.</p></li>
 <li><p>Added a domain-neutral laboratory reporting layer built around versioned <code>cr_report_spec</code> and <code>cr_lab_report</code> objects, strict/non-strict validation, concise QC tables, explicit classification helpers, JSON interchange, deterministic structured-data hashes, audit provenance, and a separate PDF/HTML template.</p></li>
