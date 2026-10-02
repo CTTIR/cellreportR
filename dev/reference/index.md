@@ -334,6 +334,8 @@ export.
 - [`cr_lab_report_from_evidence()`](https://cttir.github.io/cellreportR/dev/reference/cr_lab_report_from_evidence.md)
   : Assemble a laboratory report with validated, source-bound quoted
   values
+- [`cr_report_review_app()`](https://cttir.github.io/cellreportR/dev/reference/cr_report_review_app.md)
+  : Review an immutable source-bound report in a Shiny application
 - [`cr_export_report_spec()`](https://cttir.github.io/cellreportR/dev/reference/cr_export_report_spec.md)
   : Export a report specification as versioned JSON
 - [`cr_import_report_spec()`](https://cttir.github.io/cellreportR/dev/reference/cr_import_report_spec.md)

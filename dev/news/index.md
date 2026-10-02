@@ -2,6 +2,10 @@
 
 ## cellreportR 0.2.0.9000
 
+- Added a read-only application for already-bound reports, with
+  responsive claims, validated downloads and explicit source metadata.
+  The existing editable report preview retains its pagination default.
+
 - Specification JSON import now restores explicit timestamp offsets and
   supported UTC forms, custom-section structure, and named field-label
   objects. New exports retain field-label names. Previously lost names
