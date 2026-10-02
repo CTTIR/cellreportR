@@ -108,25 +108,102 @@ cr_report_provenance <- function(experiment=NULL, report_spec, output_file=NULL,
 .cr_iso <- function(x) { if(is.null(x)||!length(x)) return(NA_character_); if(inherits(x,"POSIXt")) format(x,"%Y-%m-%dT%H:%M:%S%z") else if(inherits(x,"Date")) format(x,"%Y-%m-%d") else as.character(x) }
 
 #' Export a report specification as versioned JSON
+#'
+#' Named field labels are encoded as a JSON object. Date-time export retains
+#' its existing whole-second representation; fractional precision is not
+#' preserved by this format.
 #' @param spec A `cr_report_spec`.
 #' @param path Output JSON path.
 #' @param pretty Pretty-print JSON.
 #' @export
-cr_export_report_spec <- function(spec,path,pretty=TRUE) { cr_validate_report_spec(spec,strict=FALSE); .cr_check_path(path); jsonlite::write_json(.cr_json_ready(unclass(spec)),path,pretty=pretty,auto_unbox=TRUE,null="null",na="null"); invisible(path) }
+cr_export_report_spec <- function(spec, path, pretty = TRUE) {
+  cr_validate_report_spec(spec, strict = FALSE)
+  .cr_check_path(path)
+  payload <- .cr_json_ready(unclass(spec))
+  payload$field_labels <- as.list(spec$field_labels)
+  jsonlite::write_json(payload, path, pretty = pretty, auto_unbox = TRUE, null = "null", na = "null")
+  invisible(path)
+}
+
+# Parse only the explicit ISO forms emitted or supported by specification JSON.
+.cr_import_datetime <- function(x) {
+  if (is.null(x)) {
+    return(NULL)
+  }
+  if (!is.character(x) || length(x) != 1L || is.na(x)) {
+    stop("Timestamp must be one ISO string or NULL.", call. = FALSE)
+  }
+  if (grepl("^[0-9]{4}-[0-9]{2}-[0-9]{2}$", x)) {
+    value <- as.Date(x, format = "%Y-%m-%d")
+    if (is.na(value) || format(value, "%Y-%m-%d") != x) {
+      stop("Invalid ISO date.", call. = FALSE)
+    }
+    return(value)
+  }
+  # Retain explicit UTC forms accepted by the previous importer.
+  if (grepl("^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}(:[0-9]{2}([.][0-9]+)?)? UTC$", x)) {
+    x <- sub(" UTC$", "", x)
+  }
+  if (grepl("^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}$", x)) {
+    x <- paste0(x, ":00")
+  }
+  if (grepl("^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}([.][0-9]+)?$", x)) {
+    x <- paste0(sub(" ", "T", x, fixed = TRUE), "Z")
+  }
+  pattern <- paste0("^([0-9]{4}-[0-9]{2}-[0-9]{2})T([0-9]{2}):",
+    "([0-9]{2}):([0-9]{2})([.][0-9]+)?(Z|[+-][0-9]{2}:?[0-9]{2})$")
+  pieces <- regmatches(x, regexec(pattern, x))[[1]]
+  if (!length(pieces)) {
+    stop("Invalid ISO timestamp.", call. = FALSE)
+  }
+  date <- .cr_import_datetime(pieces[2])
+  hh <- as.integer(pieces[3])
+  mm <- as.integer(pieces[4])
+  ss <- as.integer(pieces[5])
+  fraction <- if (nzchar(pieces[6])) as.numeric(paste0("0", pieces[6])) else 0
+  zone <- gsub(":", "", pieces[7], fixed = TRUE)
+  offset <- 0
+  if (zone != "Z") {
+    oh <- as.integer(substr(zone, 2, 3))
+    om <- as.integer(substr(zone, 4, 5))
+    if (oh > 23L || om > 59L) {
+      stop("Invalid ISO offset.", call. = FALSE)
+    }
+    offset <- (oh * 3600 + om * 60) * if (substr(zone, 1, 1) == "+") 1 else -1
+  }
+  if (hh > 23L || mm > 59L || ss > 59L || fraction >= 1) {
+    stop("Invalid ISO time.", call. = FALSE)
+  }
+  as.POSIXct(as.numeric(date) * 86400 + hh * 3600 + mm * 60 + ss + fraction - offset,
+    origin = "1970-01-01", tz = "UTC"
+  )
+}
 
 #' Import a versioned report specification from JSON
+#'
+#' Date-only timestamps retain Date class; ISO timestamps with Z or numeric
+#' offsets are restored as UTC date-times. Legacy space-separated UTC times
+#' with minutes or seconds (optionally ending in UTC) are also accepted.
+#' Custom-section lists and named field-label objects retain their structure.
+#' This cannot recover names or fractional seconds lost in older exports and
+#' does not guarantee equality of whole-report hashes after a JSON round trip.
 #' @param path Input JSON path.
 #' @param validate Validate the reconstructed specification.
 #' @export
-cr_import_report_spec <- function(path,validate=TRUE) {
-  .cr_check_path(path); x<-jsonlite::read_json(path,simplifyVector=TRUE)
-  if(!identical(x$schema_name,"cellreportR-report-spec")) cli::cli_abort("Unsupported report specification schema.")
-  for(nm in c("created_at","analysis_completed_at","released_at")) if(is.character(x$report[[nm]])&&length(x$report[[nm]])==1L) x$report[[nm]]<-as.POSIXct(x$report[[nm]],tz="UTC")
-  if(is.character(x$subject$date_of_birth)&&length(x$subject$date_of_birth)==1L) x$subject$date_of_birth<-as.Date(x$subject$date_of_birth)
-  for(nm in c("collection_datetime","received_datetime")) if(is.character(x$specimen[[nm]])&&length(x$specimen[[nm]])==1L) x$specimen[[nm]]<-as.POSIXct(x$specimen[[nm]],tz="UTC")
-  if(is.character(x$authorization$released_at)&&length(x$authorization$released_at)==1L) x$authorization$released_at<-as.POSIXct(x$authorization$released_at,tz="UTC")
-  obj<-cr_report_spec(report=as.list(x$report %||% list()),laboratory=as.list(x$laboratory %||% list()),subject=as.list(x$subject %||% list()),specimen=as.list(x$specimen %||% list()),examination=as.list(x$examination %||% list()),result=as.list(x$result %||% list()),interpretation=as.list(x$interpretation %||% list()),limitations=as.character(x$limitations %||% character()),authorization=as.list(x$authorization %||% list()),custom_fields=as.list(x$custom_fields %||% list()),custom_sections=x$custom_sections %||% list(),required_fields=as.character(x$required_fields %||% character()),field_labels=as.character(x$field_labels %||% character()),schema_version=x$schema_version)
-  obj$events<-.cr_events_df(x$events); if(validate) cr_validate_report_spec(obj,strict=FALSE); obj
+cr_import_report_spec <- function(path, validate = TRUE) {
+  .cr_check_path(path)
+  text <- paste(readLines(path, warn = FALSE, encoding = "UTF-8"), collapse = "\n")
+  x <- jsonlite::fromJSON(text, simplifyVector = TRUE)
+  x$custom_sections <- jsonlite::fromJSON(text, simplifyVector = FALSE)$custom_sections
+  if (!identical(x$schema_name, "cellreportR-report-spec")) cli::cli_abort("Unsupported report specification schema.")
+  for (nm in c("created_at", "analysis_completed_at", "released_at")) if (is.character(x$report[[nm]]) && length(x$report[[nm]]) == 1L) x$report[[nm]] <- .cr_import_datetime(x$report[[nm]])
+  if (is.character(x$subject$date_of_birth) && length(x$subject$date_of_birth) == 1L) x$subject$date_of_birth <- as.Date(x$subject$date_of_birth)
+  for (nm in c("collection_datetime", "received_datetime")) if (is.character(x$specimen[[nm]]) && length(x$specimen[[nm]]) == 1L) x$specimen[[nm]] <- .cr_import_datetime(x$specimen[[nm]])
+  if (is.character(x$authorization$released_at) && length(x$authorization$released_at) == 1L) x$authorization$released_at <- .cr_import_datetime(x$authorization$released_at)
+  obj <- cr_report_spec(report = as.list(x$report %||% list()), laboratory = as.list(x$laboratory %||% list()), subject = as.list(x$subject %||% list()), specimen = as.list(x$specimen %||% list()), examination = as.list(x$examination %||% list()), result = as.list(x$result %||% list()), interpretation = as.list(x$interpretation %||% list()), limitations = as.character(x$limitations %||% character()), authorization = as.list(x$authorization %||% list()), custom_fields = as.list(x$custom_fields %||% list()), custom_sections = x$custom_sections %||% list(), required_fields = as.character(x$required_fields %||% character()), field_labels = unlist(x$field_labels %||% character(), use.names = TRUE) %||% character(), schema_version = x$schema_version)
+  obj$events <- .cr_events_df(x$events)
+  if (validate) cr_validate_report_spec(obj, strict = FALSE)
+  obj
 }
 
 .cr_events_df <- function(x) { if(is.null(x)) return(.cr_report_event("report_spec_imported","INFO","specification")); if(is.data.frame(x)) return(x); as.data.frame(x,stringsAsFactors=FALSE) }

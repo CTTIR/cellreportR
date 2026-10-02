@@ -1,5 +1,10 @@
 # cellreportR 0.2.0.9000
 
+* Specification JSON import now restores explicit timestamp offsets and
+  supported UTC forms, custom-section structure, and named field-label objects.
+  New exports retain field-label names. Previously lost names or fractional
+  seconds cannot be recovered; export timestamp precision is unchanged.
+
 * Default laboratory HTML embeds its assets without a dynamic math dependency
   and wraps long table values on narrow screens. Custom templates and PDF
   rendering retain their existing behavior.
