@@ -2,6 +2,10 @@
 
 ## cellreportR 0.2.0.9000
 
+- Corrected literal LaTeX escaping in laboratory reports. Special
+  characters now receive one escape without changing literal sentinel
+  text or Unicode.
+
 - Added portable file-bound report evidence for keyed CSV/TSV result
   claims and declared figure/table links. Laboratory reports can
   populate custom fields from this evidence and revalidate sources and
