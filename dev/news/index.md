@@ -2,6 +2,10 @@
 
 ## cellreportR 0.2.0.9000
 
+- Default laboratory HTML embeds its assets without a dynamic math
+  dependency and wraps long table values on narrow screens. Custom
+  templates and PDF rendering retain their existing behavior.
+
 - Corrected literal LaTeX escaping in laboratory reports. Special
   characters now receive one escape without changing literal sentinel
   text or Unicode.

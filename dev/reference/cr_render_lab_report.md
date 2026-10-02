@@ -28,7 +28,9 @@ cr_render_lab_report(
 
 - template:
 
-  Optional R Markdown template.
+  Optional R Markdown template. The default HTML template embeds its
+  assets, disables dynamic math rendering, and wraps long table values.
+  Custom templates retain their own HTML output options.
 
 - quiet:
 
