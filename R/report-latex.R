@@ -2,15 +2,19 @@
 
 .cr_latex_escape <- function(x) {
   if (is.null(x) || !length(x)) return("")
-  x <- as.character(x)
-  token <- "CRBACKSLASHTOKEN"
-  x <- gsub("\\\\", token, x)
-  replacements <- c("&"="\\\\&", "%"="\\\\%", "$"="\\\\$",
-                    "#"="\\\\#", "_"="\\\\_", "{"="\\\\{",
-                    "}"="\\\\}", "~"="\\\\textasciitilde{}",
-                    "^"="\\\\textasciicircum{}")
-  for (key in names(replacements)) x <- gsub(key, replacements[[key]], x, fixed=TRUE)
-  gsub(token, "\\\\textbackslash{}", x, fixed=TRUE)
+  replacements <- c("&" = "\\&", "%" = "\\%", "$" = "\\$",
+                    "#" = "\\#", "_" = "\\_", "{" = "\\{", "}" = "\\}",
+                    "~" = "\\textasciitilde{}", "^" = "\\textasciicircum{}",
+                    "\\" = "\\textbackslash{}")
+  vapply(strsplit(as.character(x), "", fixed = TRUE), function(chars) {
+    if (anyNA(chars)) {
+      return(NA_character_)
+    }
+    matched <- match(chars, names(replacements))
+    replace <- !is.na(matched)
+    chars[replace] <- replacements[matched[replace]]
+    paste0(chars, collapse = "")
+  }, character(1), USE.NAMES = FALSE)
 }
 
 .cr_tex_command <- function(name, value) {
