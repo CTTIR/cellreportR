@@ -1,0 +1,12 @@
+/* Preserve literal table content at narrow viewport widths. */
+table td,
+table th {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+/* Two-column label/value rows; multi-column QC tables are unaffected. */
+table td:first-child:nth-last-child(2),
+table th:first-child:nth-last-child(2) {
+  min-width: 7em;
+}

@@ -183,7 +183,9 @@ cr_plot_result_position <- function(value,thresholds,labels=NULL,xlim=NULL,
 #' Render a concise laboratory report
 #' @param report A `cr_lab_report`.
 #' @param output_file Explicit output file ending in `.pdf` or `.html`.
-#' @param template Optional R Markdown template.
+#' @param template Optional R Markdown template. The default HTML template
+#'   embeds its assets, disables dynamic math rendering, and wraps long table
+#'   values. Custom templates retain their own HTML output options.
 #' @param quiet Passed to [rmarkdown::render()].
 #' @param audit_file Optional JSON audit path written after rendering.
 #' @param overwrite Replace an existing output file. Defaults to `FALSE`, so
@@ -203,13 +205,19 @@ cr_render_lab_report <- function(report,output_file,template=NULL,quiet=TRUE,
   if (ext == "pdf" && (is.null(template) || identical(template,"laboratory"))) {
     .cr_render_lab_pdf(report,output_file,quiet=quiet,keep_tex=keep_tex)
   } else {
+    output_format <- if (ext == "pdf") "pdf_document" else "html_document"
+    if (ext == "html" && is.null(template)) {
+      output_format <- rmarkdown::html_document(mathjax = NULL, self_contained = TRUE,
+        css = system.file("templates", "laboratory-report", "report.css",
+                          package = "cellreportR"))
+    }
     if(is.null(template)) template<-system.file("rmd","laboratory-report.Rmd",package="cellreportR")
     if(!nzchar(template)||!file.exists(template)) cli::cli_abort("Laboratory report template not found: {.path {template}}")
     dir.create(dirname(output_file),recursive=TRUE,showWarnings=FALSE)
     work<-tempfile("cr_lab_report_",fileext=".Rmd",tmpdir=dirname(output_file))
     on.exit(unlink(work),add=TRUE); file.copy(template,work,overwrite=TRUE)
     rendered <- rmarkdown::render(work,
-      output_format=if(ext=="pdf") "pdf_document" else "html_document",
+      output_format=output_format,
       output_file=basename(output_file),output_dir=dirname(output_file),
       params=list(report=report),envir=new.env(parent=globalenv()),quiet=quiet)
     if(!identical(normalizePath(rendered,mustWork=FALSE),normalizePath(output_file,mustWork=FALSE))) file.copy(rendered,output_file,overwrite=TRUE)

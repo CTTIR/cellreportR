@@ -19,7 +19,9 @@ cr_render_lab_report(
 
 \item{output_file}{Explicit output file ending in \code{.pdf} or \code{.html}.}
 
-\item{template}{Optional R Markdown template.}
+\item{template}{Optional R Markdown template. The default HTML template
+embeds its assets, disables dynamic math rendering, and wraps long table
+values. Custom templates retain their own HTML output options.}
 
 \item{quiet}{Passed to \code{\link[rmarkdown:render]{rmarkdown::render()}}.}
 
