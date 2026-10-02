@@ -83,7 +83,7 @@
   function(){ out<-current_report(); state$report_spec<-out$spec; out }
 }
 
-.cr_report_preview_ui <- function(d) {
+.cr_report_preview_ui <- function(d, show_pagination = TRUE) {
   first_value <- function(rows,key) { x<-rows$value[rows$key==key]; if(length(x)) x[[1L]] else "" }
   row_text <- function(rows) {
     if (!nrow(rows)) return(shiny::span(class="text-muted","Not supplied"))
@@ -117,5 +117,5 @@
     if(.cr_present(d$interpretation$text)) shiny::p(class="small",d$interpretation$text),
     shiny::hr(),shiny::div(class="small text-muted d-flex justify-content-between",
       shiny::span("Report ",d$report$id," | v",d$report$version," | ",d$report$status),
-      shiny::span("Page X of Y")))
+      if (isTRUE(show_pagination)) shiny::span("Page X of Y")))
 }

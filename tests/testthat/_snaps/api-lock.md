@@ -121,6 +121,7 @@
       cr_report_provenance(experiment = NULL, report_spec, output_file = NULL, analysis_metadata = list())
       cr_report_qc(criterion = character(), observed = character(), acceptance = character(), status = character(), source = character())
       cr_report_qc_from_log(x)
+      cr_report_review_app(report, root = NULL)
       cr_report_spec(report = list(), laboratory = list(), subject = list(), specimen = list(), examination = list(), result = list(), interpretation = list(), limitations = character(), authorization = list(), custom_fields = list(), custom_sections = list(), required_fields = character(), field_labels = character(), schema_version = "1.0")
       cr_report_style(paper = "A4", mode = c("colour", "grayscale"), density = c("standard", "compact"), locale = c("en", "de"), logo = NULL, primary_colour = "#315A70", secondary_colour = "#65747C", date_format = NULL, date_time_format = NULL, labels = character(), footer_text = NULL, include_audit_appendix = FALSE, show_signature_lines = FALSE, draft_watermark = FALSE)
       cr_roc(result)
