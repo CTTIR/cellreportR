@@ -90,9 +90,9 @@ structured, auditable set of estimates. This vignette walks the short
 path on one plate using bundled synthetic data;
 <code><a href="../articles/end-to-end.html">vignette("end-to-end")</a></code> walks the long one, from files on
 disk to a finished report.</p>
-<div class="section level3">
-<h3 id="load-example-data">1. Load example data<a class="anchor" aria-label="anchor" href="#load-example-data"></a>
-</h3>
+<div class="section level2">
+<h2 id="load-example-data">1. Load example data<a class="anchor" aria-label="anchor" href="#load-example-data"></a>
+</h2>
 <p><code><a href="../reference/cr_example_experiment.html">cr_example_experiment()</a></code> simulates a 96-unit plate: six
 treatment levels, four channels, two plates and two pre-treatment
 intervals. Sub-threshold debris, a plate-edge effect and a pair of
@@ -108,9 +108,9 @@ something real to remove.</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> QC steps applied: <span style="color: #0000BB;">0</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Metadata fields: <span style="color: #00BB00;">project</span> and <span style="color: #00BB00;">sop</span></span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="inspect-the-design">2. Inspect the design<a class="anchor" aria-label="anchor" href="#inspect-the-design"></a>
-</h3>
+<div class="section level2">
+<h2 id="inspect-the-design">2. Inspect the design<a class="anchor" aria-label="anchor" href="#inspect-the-design"></a>
+</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">exp</span><span class="op">$</span><span class="va">design</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 9</span></span></span>
@@ -146,9 +146,9 @@ standardization references:</p>
 <span><span class="co">#&gt;   Plate_1    24    24</span></span>
 <span><span class="co">#&gt;   Plate_2    24    24</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="apply-quality-control">3. Apply quality control<a class="anchor" aria-label="anchor" href="#apply-quality-control"></a>
-</h3>
+<div class="section level2">
+<h2 id="apply-quality-control">3. Apply quality control<a class="anchor" aria-label="anchor" href="#apply-quality-control"></a>
+</h2>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp_qc</span> <span class="op">&lt;-</span> <span class="va">exp</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/cr_qc_filter.html">cr_qc_filter</a></span><span class="op">(</span>min_area <span class="op">=</span> <span class="fl">50</span>, max_area <span class="op">=</span> <span class="fl">5000</span>, min_circularity <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -164,9 +164,9 @@ standardization references:</p>
 <p>The QC log is append-only and travels with the object, so what was
 removed stays recoverable after the fact.</p>
 </div>
-<div class="section level3">
-<h3 id="fold-changes-and-tests">4. Fold changes and tests<a class="anchor" aria-label="anchor" href="#fold-changes-and-tests"></a>
-</h3>
+<div class="section level2">
+<h2 id="fold-changes-and-tests">4. Fold changes and tests<a class="anchor" aria-label="anchor" href="#fold-changes-and-tests"></a>
+</h2>
 <p><code><a href="../reference/cr_test_all.html">cr_test_all()</a></code> contrasts every treatment level against
 the control and attaches a summary table with the multiplicity
 adjustments alongside — never instead of — the unadjusted p-value.</p>
@@ -191,9 +191,9 @@ well before testing. That is the defensible default;
 <code><a href="../articles/statistical-analysis.html">vignette("statistical-analysis")</a></code> shows what the cell-level
 alternative costs.</p>
 </div>
-<div class="section level3">
-<h3 id="visualize">5. Visualize<a class="anchor" aria-label="anchor" href="#visualize"></a>
-</h3>
+<div class="section level2">
+<h2 id="visualize">5. Visualize<a class="anchor" aria-label="anchor" href="#visualize"></a>
+</h2>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cr_plot_intensity.html">cr_plot_intensity</a></span><span class="op">(</span><span class="va">exp_qc</span>, <span class="st">"marker_1"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="getting-started_files/figure-html/plots-1.png" class="r-plt" alt="" width="576" style="display: block; margin: auto;"></p>
@@ -204,9 +204,9 @@ alternative costs.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cr_plot_plate.html">cr_plot_plate</a></span><span class="op">(</span><span class="va">exp_qc</span>, <span class="st">"marker_1"</span>, metric <span class="op">=</span> <span class="st">"median"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="getting-started_files/figure-html/plate-map-1.png" class="r-plt" alt="" width="576" style="display: block; margin: auto;"></p>
 </div>
-<div class="section level3">
-<h3 id="discriminability">6. Discriminability<a class="anchor" aria-label="anchor" href="#discriminability"></a>
-</h3>
+<div class="section level2">
+<h2 id="discriminability">6. Discriminability<a class="anchor" aria-label="anchor" href="#discriminability"></a>
+</h2>
 <p>When the question is whether a marker separates treated from control
 cells rather than whether the group means differ, fit a univariate
 logistic regression and read the area under the ROC curve:</p>
@@ -223,9 +223,9 @@ logistic regression and read the area under the ROC curve:</p>
 <span><span class="fu"><a href="../reference/cr_plot_roc.html">cr_plot_roc</a></span><span class="op">(</span><span class="va">logit</span><span class="op">)</span></span></code></pre></div>
 <p><img src="getting-started_files/figure-html/logistic-1.png" class="r-plt" alt="" width="576" style="display: block; margin: auto;"></p>
 </div>
-<div class="section level3">
-<h3 id="next-steps">7. Next steps<a class="anchor" aria-label="anchor" href="#next-steps"></a>
-</h3>
+<div class="section level2">
+<h2 id="next-steps">7. Next steps<a class="anchor" aria-label="anchor" href="#next-steps"></a>
+</h2>
 <ul>
 <li>
 <code><a href="../articles/end-to-end.html">vignette("end-to-end")</a></code> — ingest, units, the
@@ -241,23 +241,6 @@ curves.</li>
 <code><a href="../reference/cr_run_app.html">cr_run_app()</a></code> — the same pipeline in a browser; see
 <code><a href="../articles/shiny-app.html">vignette("shiny-app")</a></code>.</li>
 </ul>
-</div>
-<div class="section level2">
-<h2 id="use-of-llm-tools">Use of LLM tools<a class="anchor" aria-label="anchor" href="#use-of-llm-tools"></a>
-</h2>
-<p>Portions of this package were prepared with assistance from large
-language model tooling for narrowly defined, non-authorial tasks:
-copyediting, prose smoothing, Markdown/LaTeX formatting, scaffolding of
-boilerplate files (CI configs, build scripts), code refactoring. The
-tools used were <a href="https://kisski.gwdg.de/leistungen/2-02-llm-service/" class="external-link">Chat AI</a>,
-the LLM service of KISSKI (GWDG), and a self-hosted <strong>Mistral
-Small (24B, Apache-2.0)</strong> run locally via <a href="https://ollama.com/" class="external-link">Ollama</a> and the <code>ollamar</code> R
-package — local inference only, with no data sent to third parties for
-the self-hosted model.</p>
-<p>All scientific claims, methodological choices, analyses,
-interpretations, and conclusions are the author’s own. No LLM-generated
-text was incorporated without review and revision, and every reference
-was verified against its DOI, arXiv ID, or ISBN.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
