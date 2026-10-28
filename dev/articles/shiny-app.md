@@ -1,5 +1,8 @@
 # Interactive Analysis with the cellreportR Shiny App
 
+![cellreportR logo](figures/logo.svg)![cellreportR
+logo](figures/logo-dark.svg)
+
 The bundled application walks the same pipeline as the package functions
 — read segmented exports, specify the design, apply quality control at
 cell and unit level, standardize, estimate effect sizes with confidence

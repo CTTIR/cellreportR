@@ -1,5 +1,8 @@
 # Getting Started with cellreportR
 
+![cellreportR logo](figures/logo.svg)![cellreportR
+logo](figures/logo-dark.svg)
+
 cellreportR takes segmented single-cell microscopy data to a structured,
 auditable set of estimates. This vignette walks the short path on one
 plate using bundled synthetic data;

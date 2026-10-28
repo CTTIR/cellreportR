@@ -2,6 +2,10 @@
 
 ## cellreportR 0.2.0.9000
 
+- Standardize the named v5 package logo across README, documentation
+  pages and available application headers, with matching light and dark
+  artwork.
+
 - Added a read-only application for already-bound reports, with
   responsive claims, validated downloads and explicit source metadata.
   The existing editable report preview retains its pagination default.

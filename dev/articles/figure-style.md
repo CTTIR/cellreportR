@@ -1,5 +1,8 @@
 # Publication-ready figures with cellreportR
 
+![cellreportR logo](figures/logo.svg)![cellreportR
+logo](figures/logo-dark.svg)
+
 cellreportR uses position first, then shape or line type, then colour.
 Colour is intentionally redundant for categorical distinctions. The
 restrained default palette is designed with common colour-vision

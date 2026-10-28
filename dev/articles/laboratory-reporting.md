@@ -1,5 +1,8 @@
 # Configurable Laboratory Reports with cellreportR
 
+![cellreportR logo](figures/logo.svg)![cellreportR
+logo](figures/logo-dark.svg)
+
 The laboratory-reporting layer separates analytical data and QC
 calculations from report metadata, classification, interpretation,
 rendering, and technical provenance. Rendering consumes finalized

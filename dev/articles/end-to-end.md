@@ -1,5 +1,8 @@
 # End to End: From Segmented Exports to a Finished Report
 
+![cellreportR logo](figures/logo.svg)![cellreportR
+logo](figures/logo-dark.svg)
+
 [`vignette("getting-started")`](https://cttir.github.io/cellreportR/dev/articles/getting-started.md)
 runs the short path on a single plate. This vignette runs the long one,
 in the order the package is meant to be used:

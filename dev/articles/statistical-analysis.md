@@ -1,5 +1,8 @@
 # Statistical Analysis of Cell-Based Assays
 
+![cellreportR logo](figures/logo.svg)![cellreportR
+logo](figures/logo-dark.svg)
+
 ## Why the level of aggregation matters
 
 In a microscopy-based cell assay each treatment condition is measured
