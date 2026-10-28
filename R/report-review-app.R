@@ -120,7 +120,7 @@
 .cr_review_ui <- function(ctx) {
   shiny::fluidPage(
     shiny::tags$head(shiny::tags$style("body{overflow-wrap:anywhere}.cr-claim{border:1px solid #ccc;border-radius:6px;padding:14px;margin:12px 0}.cr-claim h4{margin:0 0 8px}.cr-claim-value{font-size:18px;line-height:1.5}.cr-claim dt{margin-top:8px}.cr-claim dd{margin-left:0}.cr-claim summary{cursor:pointer;padding:8px 0}")),
-    shiny::h2("Bound report review"), shiny::p("Read-only. Source identity does not establish scientific validity."),
+    shiny::h2(.cttir_brand_logo(), "Bound report review"), shiny::p("Read-only. Source identity does not establish scientific validity."),
     shiny::actionButton("refresh", "Revalidate and refresh"), shiny::uiOutput("preview"),
     shiny::h3("Source-bound claims"), shiny::uiOutput("claims"), shiny::h3("Source metadata"), shiny::uiOutput("sources"),
     shiny::h3("Declared figures"), shiny::uiOutput("figures"),

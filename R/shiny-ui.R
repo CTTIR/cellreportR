@@ -12,11 +12,7 @@
 .cr_brand_bar <- function() {
   shiny::div(
     class = "cr-brand",
-    shiny::tags$img(
-      src = "cr_www/logo.png", alt = "cellreportR logo",
-      class = "cr-logo",
-      onerror = "this.style.display='none'"
-    ),
+    .cttir_brand_logo(),
     shiny::span(class = "cr-title", "cellreportR"),
     shiny::span(class = "cr-sub", "microscopy assay analysis"),
     shiny::div(class = "ms-auto", .cr_dark_toggle())
@@ -132,7 +128,7 @@
 .cr_app_ui <- function() {
   .cr_app_resources()
   bslib::page_sidebar(
-    title = NULL,
+    title = NULL, window_title = "cellreportR",
     theme = .cr_app_theme(dark = FALSE),
     fillable = TRUE,
     shiny::tags$head(
