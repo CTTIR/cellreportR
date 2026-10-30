@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistics-power.R
 \name{cr_power_analysis}
 \alias{cr_power_analysis}
-\title{Post-hoc power for a hierarchical cell-based assay}
+\title{Simulated power under independent-cell assumptions}
 \usage{
 cr_power_analysis(
   effect_size,
@@ -35,9 +35,12 @@ A tibble with the inputs and the simulated \code{power}.
 }
 \description{
 A Monte-Carlo approximation of the power of a two-sample comparison
-that accounts for the hierarchical structure (cells nested within
-replicate units). Used mainly for reporting; for sizing a follow-up
-study use \code{\link[=cr_power]{cr_power()}}, which inverts the design analytically.
+of replicate means formed from independent, unit-variance normal cells.
+There is no between-unit random effect or intraclass correlation. The
+result is an idealized scenario, not a validated estimate of power for a
+clustered biological assay or a formal upper bound on laboratory power.
+For a follow-up design use \code{\link[=cr_power]{cr_power()}} with an effect on the independent
+experimental-unit scale, or a separately specified correlated-data model.
 }
 \examples{
 cr_power_analysis(effect_size = 0.8, n_replicates = 4,

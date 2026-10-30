@@ -87,9 +87,7 @@ cr_channels <- function(experiment) {
 cr_n_cells <- function(experiment, by = NULL) {
   cr_validate_experiment(experiment)
   if (is.null(by)) return(nrow(experiment$cells))
-  spatial <- experiment$spatial_unit
-  joined <- dplyr::left_join(experiment$cells, experiment$design,
-                             by = spatial)
+  joined <- .cr_join_design(experiment)
   joined |>
     dplyr::group_by(dplyr::across(dplyr::all_of(by))) |>
     dplyr::summarise(n_cells = dplyr::n(), .groups = "drop")
@@ -176,6 +174,5 @@ cr_merge_experiments <- function(...) {
 
 # Internal: safe join of cells with design, preserving grouping
 .cr_join_design <- function(experiment) {
-  dplyr::left_join(experiment$cells, experiment$design,
-                   by = experiment$spatial_unit)
+  .cr_batch_table(experiment)
 }

@@ -4,8 +4,11 @@
 \usepackage[left=19mm,right=19mm,top=20mm,bottom=20mm,headheight=10mm,headsep=4mm,footskip=11mm]{geometry}
 \usepackage{fontspec}
 \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
-\setmainfont{TeX Gyre Heros}
-\setsansfont{TeX Gyre Heros}
+% Resolve the TeX-distributed files without relying on OS font registration.
+\setmainfont{texgyreheros}[Extension=.otf,UprightFont=*-regular,
+  BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\setsansfont{texgyreheros}[Extension=.otf,UprightFont=*-regular,
+  BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
 \renewcommand{\familydefault}{\sfdefault}
 \usepackage{microtype}
 \usepackage{graphicx}

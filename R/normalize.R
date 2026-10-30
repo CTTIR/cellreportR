@@ -175,8 +175,11 @@ cr_background_subtract <- function(experiment,
 #' Correct batch effects
 #'
 #' Applies a simple batch correction. `"median_center"` shifts each
-#' batch's median to the overall median. `"combat"` delegates to
-#' `sva::ComBat` when available.
+#' batch's median to the overall median. The legacy `"combat"` choice
+#' is refused: this single-channel interface cannot supply the feature-by-sample
+#' matrix required for a valid empirical-Bayes ComBat analysis. Previous
+#' versions could substitute median centering after a ComBat error. Select
+#' `"median_center"` explicitly if that is the intended analysis.
 #'
 #' Batch correction removes a batch offset from the measured signal.
 #' It is *not* a substitute for [cr_standardize_batch()], which
@@ -223,27 +226,13 @@ cr_correct_batch <- function(experiment,
   b <- cr_batch_key(joined, batch_var)
 
   if (method == "combat") {
-    if (!requireNamespace("sva", quietly = TRUE)) {
-      cli::cli_warn("Package {.pkg sva} not available; falling back to median_center.")
-      method <- "median_center"
-    }
+    cli::cli_abort(c(
+      "ComBat is unsupported by this single-channel interface.",
+      "i" = "Use {.code method = \"median_center\"} explicitly for median centering.",
+      "i" = "For ComBat, supply a suitable feature-by-sample matrix and design to {.code sva::ComBat()} directly."
+    ))
   }
-  if (method == "combat") {
-    mat <- matrix(y, nrow = 1)
-    colnames(mat) <- seq_along(y)
-    corrected <- tryCatch(
-      sva::ComBat(dat = mat, batch = as.factor(b)),
-      error = function(e) {
-        cli::cli_warn("ComBat failed: {e$message}. Falling back to median_center.")
-        NULL
-      }
-    )
-    if (!is.null(corrected)) {
-      experiment$cells[[channel]] <- as.numeric(corrected[1, ])
-      return(experiment)
-    }
-  }
-  # median-center fallback / default
+  # Explicit median centering; never substitute a different requested method.
   batch_med <- tapply(y, b, stats::median, na.rm = TRUE)
   overall_med <- stats::median(y, na.rm = TRUE)
   offset <- batch_med[as.character(b)] - overall_med

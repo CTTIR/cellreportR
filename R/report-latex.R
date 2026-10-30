@@ -325,7 +325,8 @@
   if (!file.exists(template)) cli::cli_abort("Laboratory LaTeX template not found: {.path {template}}")
   needed <- c("scrartcl.cls","scrlayer-scrpage.sty","booktabs.sty","tabularx.sty",
               "longtable.sty","microtype.sty","needspace.sty","lastpage.sty",
-              "fontspec.sty","draftwatermark.sty")
+              "fontspec.sty", "draftwatermark.sty", "enumitem.sty",
+              paste0("texgyreheros-", c("regular", "bold", "italic", "bolditalic"), ".otf"))
   found <- vapply(needed,function(x) {
     ans <- suppressWarnings(system2("kpsewhich",x,stdout=TRUE,stderr=FALSE))
     if (length(ans)) ans[[1L]] else ""

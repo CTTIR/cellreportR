@@ -1,10 +1,8 @@
 cff-version: 1.2.0
-message: If you use this software, please cite it as below.
+message: Cite the exact version used. This is an unpublished corrective development version.
 type: software
 title: 'cellreportR: Analysis and reporting for cell culture microscopy assays'
-version: 0.2.0
-date-released: '2026-08-13'
-doi: 10.5281/zenodo.21889928
+version: 0.2.1.9000
 authors:
 - family-names: Heller
   given-names: Raban

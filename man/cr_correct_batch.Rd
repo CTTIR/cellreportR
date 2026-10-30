@@ -28,8 +28,11 @@ A modified \code{cr_experiment}.
 }
 \description{
 Applies a simple batch correction. \code{"median_center"} shifts each
-batch's median to the overall median. \code{"combat"} delegates to
-\code{sva::ComBat} when available.
+batch's median to the overall median. The legacy \code{"combat"} choice
+is refused: this single-channel interface cannot supply the feature-by-sample
+matrix required for a valid empirical-Bayes ComBat analysis. Previous
+versions could substitute median centering after a ComBat error. Select
+\code{"median_center"} explicitly if that is the intended analysis.
 }
 \details{
 Batch correction removes a batch offset from the measured signal.

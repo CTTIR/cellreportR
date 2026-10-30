@@ -18,6 +18,7 @@
     imported = NULL,
     gate = NULL,
     effects = NULL,
+    effect_selectors_ready = FALSE,
     results = NULL,
     plots = list(),
     before = NULL,
@@ -55,6 +56,7 @@
       state$imported <- exp
       state$gate <- NULL
       state$effects <- NULL
+      state$effect_selectors_ready <- FALSE
       state$results <- NULL
       state$before <- NULL
     }
@@ -373,12 +375,28 @@
       session, "sel_control", choices = levels_tr,
       selected = if (!is.null(current) && current %in% levels_tr) {
         current
+      } else if (length(exp$metadata$control_level) == 1L &&
+                 exp$metadata$control_level %in% levels_tr) {
+        exp$metadata$control_level
       } else {
         levels_tr[[1L]]
       }
     )
     design_vars <- setdiff(names(exp$design),
                            c(exp$spatial_unit, "treatment"))
+    current_by <- shiny::isolate(input$eff_by)
+    shiny::updateSelectInput(
+      session, "eff_by", choices = c("(none)" = "", design_vars),
+      selected = if (isTRUE(shiny::isolate(ctx$state$effect_selectors_ready)) &&
+                     !is.null(current_by) && current_by %in% c("", design_vars)) {
+        current_by
+      } else if ("compound" %in% design_vars) {
+        "compound"
+      } else {
+        ""
+      }
+    )
+    ctx$state$effect_selectors_ready <- TRUE
     shiny::updateSelectInput(session, "qc_batch", choices = design_vars,
                              selected = shiny::isolate(input$qc_batch))
     shiny::updateSelectInput(session, "norm_batch",

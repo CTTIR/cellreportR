@@ -36,6 +36,8 @@ on and reported.
 Missing values are replaced by \code{na_label} rather than propagated,
 so that two rows with an unrecorded plate are grouped together
 visibly instead of silently producing \code{NA} keys.
+If distinct tuples produce the same displayed key, the function refuses
+the collision; choose another separator or missing-value label.
 }
 \examples{
 exp <- cr_example_experiment(seed = 1, n_cells_per_well = 10)

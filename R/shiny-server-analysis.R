@@ -10,6 +10,13 @@
 .cr_srv_effects <- function(input, output, session, ctx) {
   state <- ctx$state
 
+  shiny::observeEvent(
+    list(state$experiment, input$sel_channel, input$sel_control,
+         input$eff_by, input$eff_level, input$eff_conf), {
+      state$effects <- NULL
+    }, ignoreInit = TRUE, priority = 10
+  )
+
   shiny::observeEvent(input$btn_effects, {
     exp <- state$experiment
     shiny::req(exp, input$sel_channel, input$sel_control)
@@ -29,6 +36,7 @@
           value = input$sel_channel,
           group_var = "treatment",
           reference_level = input$sel_control,
+          by = if (nzchar(input$eff_by %||% "")) input$eff_by else NULL,
           unit = if (identical(level, "unit")) exp$spatial_unit else NULL,
           methods = c("cohens_d", "hedges_g", "cliffs_delta"),
           conf_level = input$eff_conf %||% 0.95,
@@ -42,6 +50,7 @@
     if (is.null(eff)) {
       return()
     }
+    attr(eff, "strata") <- if (nzchar(input$eff_by %||% "")) input$eff_by else NULL
     state$effects <- eff
     ctx$log(sprintf("Estimated %d contrast(s) at %s level against %s.",
                     nrow(eff), level, input$sel_control))
@@ -101,6 +110,7 @@
         ci_low = cols$ci_low,
         ci_high = cols$ci_high,
         label = if (is.na(label)) NULL else label,
+        facet_by = attr(eff, "strata"),
         method = method,
         title = sprintf("%s versus %s", input$sel_channel %||% "signal",
                         input$sel_control %||% "control"),

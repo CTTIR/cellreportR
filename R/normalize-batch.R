@@ -16,6 +16,8 @@
 #' Missing values are replaced by `na_label` rather than propagated,
 #' so that two rows with an unrecorded plate are grouped together
 #' visibly instead of silently producing `NA` keys.
+#' If distinct tuples produce the same displayed key, the function refuses
+#' the collision; choose another separator or missing-value label.
 #'
 #' @param x A `cr_experiment` or a data frame. For a `cr_experiment`
 #'   the design columns are joined onto the cells first; a column
@@ -60,7 +62,15 @@ cr_batch_key <- function(x,
     val
   })
   if (!nrow(tbl)) return(character())
-  do.call(paste, c(parts, list(sep = sep)))
+  key <- do.call(paste, c(parts, list(sep = sep)))
+  distinct_rows <- !duplicated(tbl[, batch_vars, drop = FALSE])
+  if (anyDuplicated(key[distinct_rows])) {
+    cli::cli_abort(c(
+      "Batch key collision: distinct batches have the same label.",
+      "i" = "Choose an unambiguous {.arg sep} or {.arg na_label}, or revise the batch labels."
+    ))
+  }
+  key
 }
 
 #' Per-batch control reference statistics

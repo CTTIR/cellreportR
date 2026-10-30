@@ -10,11 +10,19 @@
 #'   `design$treatment`).
 #' @param control Name of the control group.
 #' @param test One of `"mann_whitney"`, `"t_test"` (pooled variance),
-#'   `"welch"` (unequal variance) or `"wilcoxon_signed"` (paired).
+#'   `"welch"` (unequal variance). The legacy `"wilcoxon_signed"`
+#'   choice is refused: this interface has no explicit matched-pair key.
+#'   Align complete pairs by a verified identifier and use
+#'   [stats::wilcox.test()] with `paired = TRUE` for paired inference.
 #' @param level `"cell"` (default), `"replicate"` or `"both"`.
 #'
 #' @return A `cr_result` object with the elements `comparison`,
 #'   `cell_level`, `rep_level`, `effect_sizes` and `fold_change`.
+#'   Effect sizes use cells for `level = "cell"` and replicate medians
+#'   for `"replicate"` or `"both"`. With `"both"`, the additional
+#'   `cell_effect_sizes` element retains the cell-level comparison.
+#'   Replicate effect estimates differ from versions through 0.2.0.9000,
+#'   which computed cell effects regardless of the requested level.
 #'
 #' @examples
 #' exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
@@ -69,17 +77,20 @@ cr_test <- function(experiment,
     )
   }
 
-  eff <- cr_effect_size(
-    joined[[channel]][joined$treatment == treatment],
-    joined[[channel]][joined$treatment == control],
-    method = c("cohens_d", "hedges_g", "cliffs_delta", "rank_biserial")
-  )
+  effect_methods <- c("cohens_d", "hedges_g", "cliffs_delta", "rank_biserial")
+  eff <- if (level == "cell") {
+    cr_effect_size(joined[[channel]][joined$treatment == treatment],
+                   joined[[channel]][joined$treatment == control], method = effect_methods)
+  } else {
+    cr_effect_size(wells$value[wells$treatment == treatment],
+                   wells$value[wells$treatment == control], method = effect_methods)
+  }
 
   fc <- cr_fold_change(experiment, channel = channel,
                        control_group = control)$summary
   fc <- fc[fc$treatment %in% c(treatment, control), , drop = FALSE]
 
-  .cr_new_result(
+  result <- .cr_new_result(
     comparison = list(channel = channel,
                       treatment = treatment,
                       control = control,
@@ -90,6 +101,13 @@ cr_test <- function(experiment,
     effect_sizes = eff,
     fold_change = fc
   )
+  if (level == "both") {
+    result$cell_effect_sizes <- cr_effect_size(
+      joined[[channel]][joined$treatment == treatment],
+      joined[[channel]][joined$treatment == control], method = effect_methods
+    )
+  }
+  result
 }
 
 #' Test all treatments against a control group
@@ -184,9 +202,10 @@ cr_test_all <- function(experiment,
     t_test = suppressWarnings(stats::t.test(x, y, var.equal = TRUE)),
     welch = suppressWarnings(stats::t.test(x, y, var.equal = FALSE)),
     wilcoxon_signed = {
-      n <- min(length(x), length(y))
-      suppressWarnings(stats::wilcox.test(x[seq_len(n)], y[seq_len(n)],
-                                          paired = TRUE, exact = FALSE))
+      cli::cli_abort(c(
+        "Signed-rank tests require explicit matched-pair identifiers.",
+        "i" = "This interface cannot identify pairs. Align observations by a verified pair key and use stats::wilcox.test(..., paired = TRUE)."
+      ))
     }
   )
   tibble::tibble(
@@ -268,9 +287,9 @@ cr_test_all <- function(experiment,
   if (is.null(by) || !length(by)) {
     return(list(list(idx = seq_len(nrow(data)), key = tibble::tibble())))
   }
-  keys <- lapply(by, function(b) as.character(data[[b]]))
-  flat <- do.call(paste, c(keys, list(sep = "\r")))
-  idx <- split(seq_len(nrow(data)), factor(flat, levels = unique(flat)))
+  grouped <- dplyr::group_by(data, dplyr::across(dplyr::all_of(by)))
+  group <- dplyr::group_indices(grouped)
+  idx <- split(seq_len(nrow(data)), factor(group, levels = unique(group)))
   lapply(unname(idx), function(i) {
     list(idx = i, key = data[i[1L], by, drop = FALSE])
   })

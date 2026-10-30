@@ -8,7 +8,8 @@
 #' @param ci_low Numeric vector of lower interval bounds.
 #' @param ci_high Numeric vector of upper interval bounds.
 #'
-#' @return A numeric vector the length of the recycled inputs.
+#' @return A numeric vector the length of the recycled inputs. Scalars can
+#'   recycle; other lengths must agree, and lower bounds cannot exceed upper bounds.
 #'
 #' @examples
 #' cr_conservative_effect(c(-1.8, -0.4), c(-0.6, 0.9))
@@ -19,8 +20,13 @@
 #' @export
 cr_conservative_effect <- function(ci_low, ci_high) {
   n <- max(length(ci_low), length(ci_high))
+  if (!n) return(numeric())
+  .cr_effect_lengths(list(ci_low = ci_low, ci_high = ci_high), n)
   lo <- rep_len(as.numeric(ci_low), n)
   hi <- rep_len(as.numeric(ci_high), n)
+  if (any(lo > hi, na.rm = TRUE)) {
+    cli::cli_abort("The lower confidence bound must not exceed the upper bound.")
+  }
   out <- rep(NA_real_, n)
   ok <- is.finite(lo) & is.finite(hi)
   spans <- ok & lo <= 0 & hi >= 0
@@ -85,6 +91,9 @@ cr_power <- function(effect_size = NULL,
   alternative <- match.arg(alternative)
   .cr_check_prob(power)
   .cr_check_prob(sig_level)
+  if (is.null(ci_low) != is.null(ci_high)) {
+    cli::cli_abort("Supply both {.arg ci_low} and {.arg ci_high}, or neither.")
+  }
   if (is.null(effect_size) && (is.null(ci_low) || is.null(ci_high))) {
     cli::cli_abort(
       c("Supply {.arg effect_size}, or both {.arg ci_low} and {.arg ci_high}.",
@@ -92,6 +101,8 @@ cr_power <- function(effect_size = NULL,
     )
   }
   n <- max(length(effect_size), length(ci_low), length(ci_high))
+  supplied <- list(effect_size = effect_size, ci_low = ci_low, ci_high = ci_high)
+  .cr_effect_lengths(supplied[!vapply(supplied, is.null, logical(1))], n)
   d_obs <- if (is.null(effect_size)) {
     rep(NA_real_, n)
   } else {
@@ -116,7 +127,10 @@ cr_power <- function(effect_size = NULL,
   basis[is.finite(n_obs)] <- "observed estimate (circular for a selected hit)"
   basis[is.finite(n_cons)] <- "confidence bound nearer the null"
   if (has_ci) {
-    spans <- !is.finite(d_cons) & is.finite(d_obs)
+    lo <- rep_len(as.numeric(ci_low), n)
+    hi <- rep_len(as.numeric(ci_high), n)
+    basis[!is.finite(d_cons)] <- "no usable confidence bound"
+    spans <- is.finite(lo) & is.finite(hi) & lo <= 0 & hi >= 0
     basis[spans] <- "interval spans the null; not sizable"
   }
 
@@ -126,8 +140,8 @@ cr_power <- function(effect_size = NULL,
     d_conservative = d_cons,
     n_conservative = n_cons,
     basis = basis,
-    power = power,
-    sig_level = sig_level
+    power = rep(power, n),
+    sig_level = rep(sig_level, n)
   )
 }
 
@@ -156,6 +170,9 @@ cr_power <- function(effect_size = NULL,
 #' @return `effects` with the columns `d_conservative`, `n_observed`,
 #'   `n_conservative` and `basis` appended, plus `n_available` and
 #'   `sufficient` when availability is known.
+#'   Sufficiency requires a finite conservative target; no observed-effect
+#'   fallback is used when the interval spans zero or has no usable bound.
+#'   Numeric availability inputs must be scalar or have one value per effect.
 #'
 #' @examples
 #' set.seed(1)
@@ -205,27 +222,39 @@ cr_power_grid <- function(effects,
     .cr_require_cols(effects, available, arg = "effects")
     avail <- as.numeric(effects[[available]])
   } else if (is.numeric(available)) {
+    .cr_effect_lengths(list(available = available), nrow(effects))
     avail <- rep_len(as.numeric(available), nrow(effects))
   } else if (all(c("n_ref", "n_cmp") %in% names(effects))) {
     avail <- pmin(effects$n_ref, effects$n_cmp)
   }
   if (!is.null(avail)) {
     out$n_available <- avail
-    target <- ifelse(is.finite(out$n_conservative),
-                     out$n_conservative, out$n_observed)
-    out$sufficient <- is.finite(target) & avail >= target
+    target <- out$n_conservative
+    out$sufficient <- is.finite(target) & is.finite(avail) & avail >= target
   }
   attr(out, "power") <- power
   attr(out, "sig_level") <- sig_level
   out
 }
 
-#' Post-hoc power for a hierarchical cell-based assay
+# Internal: recycle scalar inputs, never partial vectors across contrasts.
+.cr_effect_lengths <- function(values, n) {
+  bad <- names(values)[!vapply(values, function(x) length(x) %in% c(1L, n), logical(1))]
+  if (length(bad)) {
+    cli::cli_abort("{.field {bad}} must have length one or the full number of effects ({n}).")
+  }
+  invisible(TRUE)
+}
+
+#' Simulated power under independent-cell assumptions
 #'
 #' A Monte-Carlo approximation of the power of a two-sample comparison
-#' that accounts for the hierarchical structure (cells nested within
-#' replicate units). Used mainly for reporting; for sizing a follow-up
-#' study use [cr_power()], which inverts the design analytically.
+#' of replicate means formed from independent, unit-variance normal cells.
+#' There is no between-unit random effect or intraclass correlation. The
+#' result is an idealized scenario, not a validated estimate of power for a
+#' clustered biological assay or a formal upper bound on laboratory power.
+#' For a follow-up design use [cr_power()] with an effect on the independent
+#' experimental-unit scale, or a separately specified correlated-data model.
 #'
 #' @param effect_size Cohen's *d* at the cell level.
 #' @param n_replicates Number of replicate units per group.

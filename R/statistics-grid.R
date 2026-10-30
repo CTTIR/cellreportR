@@ -187,6 +187,8 @@ cr_effect_grid <- function(data,
 #' @param by Join keys. `NULL` (default) uses every non-numeric column
 #'   the two grids share, which is the stratifying columns plus
 #'   `contrast`.
+#'   Keys must be unique in both grids. Include numeric strata explicitly
+#'   when the default text keys do not uniquely identify a contrast.
 #' @param estimate Name of the effect size column to compare.
 #'
 #' @return A tibble with the join keys, `estimate_unit`,
@@ -244,6 +246,12 @@ cr_compare_levels <- function(unit_effects,
 
   u <- unit_effects[, c(by, cols), drop = FALSE]
   k <- cell_effects[, c(by, cols), drop = FALSE]
+  if (anyDuplicated(u[, by, drop = FALSE]) || anyDuplicated(k[, by, drop = FALSE])) {
+    cli::cli_abort(c(
+      "Comparison keys must uniquely identify each contrast in both grids.",
+      "i" = "Pass all stratifying columns, including numeric strata, explicitly in {.arg by}."
+    ))
+  }
   out <- dplyr::inner_join(u, k, by = by, suffix = c("_unit", "_cell"))
   res <- out[, by, drop = FALSE]
   res$estimate_unit <- out[[paste0(estimate, "_unit")]]

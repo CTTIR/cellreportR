@@ -29,3 +29,9 @@ cr_save_figure(
 \description{
 Save a publication-ready figure deterministically
 }
+\details{
+TIFF uses Cairo with lossless LZW compression when native Cairo
+and TIFF support are available. Otherwise the normal bitmap device is
+used. With Quartz configured, the fallback is uncompressed because
+Quartz does not support compression.
+}

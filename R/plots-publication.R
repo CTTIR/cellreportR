@@ -58,13 +58,25 @@ cr_figure_size <- function(size=c("single","double","report","square"),units=c("
 #' @param dpi Raster resolution.
 #' @param background Explicit background.
 #' @param metadata Optional list written to a JSON sidecar.
+#' @details TIFF uses Cairo with lossless LZW compression when native Cairo
+#'   and TIFF support are available. Otherwise the normal bitmap device is
+#'   used. With Quartz configured, the fallback is uncompressed because
+#'   Quartz does not support compression.
 #' @export
 cr_save_figure <- function(plot,filename,size=c("single","double","report","square"),dpi=600,background="white",metadata=NULL) {
   if(!inherits(plot,"ggplot")) cli::cli_abort("{.arg plot} must be a ggplot object.");.cr_check_path(filename);ext<-tolower(tools::file_ext(filename));if(!ext%in%c("pdf","svg","png","tiff","tif")) cli::cli_abort("Supported figure formats are PDF, SVG, PNG and TIFF.")
   dims<-if(is.character(size)) cr_figure_size(match.arg(size),"mm") else {if(!is.numeric(size)||length(size)!=2L) cli::cli_abort("Numeric {.arg size} must be width and height in millimetres.");as.list(stats::setNames(size,c("width","height")))}
   if(dims$width<40||dims$height<30) cli::cli_warn("Very small output dimensions may make text illegible.")
   args<-list(filename=filename,plot=plot,width=dims$width,height=dims$height,units="mm",dpi=dpi,bg=background)
-  if(ext%in%c("tiff","tif")) args$compression<-"lzw"
+  if (ext %in% c("tiff", "tif")) {
+    if (isTRUE(capabilities("cairo")) && isTRUE(capabilities("tiff"))) {
+      args$device <- grDevices::tiff
+      args$type <- "cairo"
+      args$compression <- "lzw"
+    } else if (!identical(getOption("bitmapType"), "quartz")) {
+      args$compression <- "lzw"
+    }
+  }
   do.call(ggplot2::ggsave,args)
   if(!is.null(metadata)){sidecar<-paste0(filename,".json");payload<-c(list(schema="cellreportR-figure",schema_version="1.0",created_at=.cr_iso(Sys.time()),package_version=as.character(utils::packageVersion("cellreportR")),file_hash=digest::digest(file=filename,algo="sha256")),metadata);jsonlite::write_json(.cr_json_ready(payload),sidecar,pretty=TRUE,auto_unbox=TRUE,na="null",null="null")}
   invisible(filename)

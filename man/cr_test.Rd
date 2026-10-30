@@ -24,13 +24,21 @@ cr_test(
 \item{control}{Name of the control group.}
 
 \item{test}{One of \code{"mann_whitney"}, \code{"t_test"} (pooled variance),
-\code{"welch"} (unequal variance) or \code{"wilcoxon_signed"} (paired).}
+\code{"welch"} (unequal variance). The legacy \code{"wilcoxon_signed"}
+choice is refused: this interface has no explicit matched-pair key.
+Align complete pairs by a verified identifier and use
+\code{\link[stats:wilcox.test]{stats::wilcox.test()}} with \code{paired = TRUE} for paired inference.}
 
 \item{level}{\code{"cell"} (default), \code{"replicate"} or \code{"both"}.}
 }
 \value{
 A \code{cr_result} object with the elements \code{comparison},
 \code{cell_level}, \code{rep_level}, \code{effect_sizes} and \code{fold_change}.
+Effect sizes use cells for \code{level = "cell"} and replicate medians
+for \code{"replicate"} or \code{"both"}. With \code{"both"}, the additional
+\code{cell_effect_sizes} element retains the cell-level comparison.
+Replicate effect estimates differ from versions through 0.2.0.9000,
+which computed cell effects regardless of the requested level.
 }
 \description{
 Runs a parametric or non-parametric two-sample test comparing

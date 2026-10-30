@@ -170,6 +170,9 @@
     bslib::layout_sidebar(
       sidebar = bslib::sidebar(
         width = 320, position = "right",
+        shiny::selectInput("eff_by", "Stratify contrasts by",
+                           choices = c("(none)" = "")),
+        shiny::helpText("Each stratum is compared with its own control. Compound is selected when available."),
         shiny::radioButtons(
           "eff_level", "Level",
           choices = c("Unit of replication" = "unit",
@@ -200,11 +203,13 @@
       shiny::uiOutput("msg_effects"),
       bslib::card(
         bslib::card_header("Forest plot"),
-        shiny::plotOutput("plt_forest", height = "380px")
+        shiny::plotOutput("plt_forest", height = "460px"),
+        min_height = "520px", full_screen = TRUE
       ),
       bslib::card(
         bslib::card_header("Effect size table"),
-        DT::DTOutput("tbl_effects")
+        DT::DTOutput("tbl_effects"),
+        min_height = "300px", full_screen = TRUE
       )
     )
   )

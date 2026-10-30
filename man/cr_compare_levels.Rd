@@ -15,7 +15,9 @@ cr_compare_levels(unit_effects, cell_effects, by = NULL, estimate = "cohens_d")
 
 \item{by}{Join keys. \code{NULL} (default) uses every non-numeric column
 the two grids share, which is the stratifying columns plus
-\code{contrast}.}
+\code{contrast}.
+Keys must be unique in both grids. Include numeric strata explicitly
+when the default text keys do not uniquely identify a contrast.}
 
 \item{estimate}{Name of the effect size column to compare.}
 }

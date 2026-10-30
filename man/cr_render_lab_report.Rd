@@ -25,9 +25,10 @@ values. Custom templates retain their own HTML output options.}
 
 \item{quiet}{Passed to \code{\link[rmarkdown:render]{rmarkdown::render()}}.}
 
-\item{audit_file}{Optional JSON audit path written after rendering.}
+\item{audit_file}{Optional JSON audit path written after rendering. It must
+be distinct from the report path, including relative-path aliases.}
 
-\item{overwrite}{Replace an existing output file. Defaults to \code{FALSE}, so
+\item{overwrite}{Replace existing report and audit files. Defaults to \code{FALSE}, so
 released or draft reports are never silently replaced.}
 
 \item{keep_tex}{Keep the generated \code{.tex} file beside a PDF for layout

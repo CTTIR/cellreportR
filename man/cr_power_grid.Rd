@@ -43,6 +43,9 @@ when those columns are present.}
 \code{effects} with the columns \code{d_conservative}, \code{n_observed},
 \code{n_conservative} and \code{basis} appended, plus \code{n_available} and
 \code{sufficient} when availability is known.
+Sufficiency requires a finite conservative target; no observed-effect
+fallback is used when the interval spans zero or has no usable bound.
+Numeric availability inputs must be scalar or have one value per effect.
 }
 \description{
 Applies \code{\link[=cr_power]{cr_power()}} to every row of an effect grid produced by

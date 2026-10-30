@@ -101,7 +101,7 @@ cr_blocked_effect <- function(data,
           contrast = contrast,
           n_units = nrow(sub),
           n_blocks = length(unique(sub$block)),
-          reason = "both arms and at least min_blocks blocks are required"
+          reason = "both arms, min_blocks blocks, an estimable design and residual degrees of freedom are required"
         ))
         next
       }
@@ -248,6 +248,7 @@ cr_unit_variability <- function(data,
   form <- if (n_blocks > 1L) y ~ grp + block else y ~ grp
   fit <- try(stats::lm(form, data = sub), silent = TRUE)
   if (inherits(fit, "try-error")) return(NULL)
+  if (fit$rank < length(stats::coef(fit)) || stats::df.residual(fit) < 1L) return(NULL)
   cf <- stats::coef(fit)
   nm <- grep("^grp", names(cf), value = TRUE)[1]
   if (is.na(nm) || !is.finite(cf[[nm]])) return(NULL)

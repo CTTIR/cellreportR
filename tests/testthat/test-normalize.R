@@ -131,14 +131,18 @@ test_that("batch correction errors on missing batch var and channel", {
   expect_error(cr_correct_batch(exp, "batch", "nope"), "not found")
 })
 
-test_that("batch correction combat falls back to median_center without sva", {
-  skip_if(requireNamespace("sva", quietly = TRUE),
-          "sva is installed; fallback branch not exercised")
+test_that("single-channel ComBat is refused without substituting another method", {
   exp <- cr_example_experiment(seed = 1, n_cells_per_well = 15)
   exp$design$batch <- rep(c("b1", "b2"), length.out = nrow(exp$design))
-  expect_warning(
-    exp2 <- cr_correct_batch(exp, "batch", "marker_1", method = "combat"),
-    "sva"
+  before <- exp$cells
+  expect_error(
+    cr_correct_batch(exp, "batch", "marker_1", method = "combat"),
+    "ComBat is unsupported"
   )
-  expect_equal(nrow(exp2$cells), nrow(exp$cells))
+  expect_identical(exp$cells, before)
+  corrected <- cr_correct_batch(exp, "batch", "marker_1", method = "median_center")
+  joined <- cellreportR:::.cr_join_design(exp)
+  reference <- median(joined$marker_1)
+  medians <- tapply(corrected$cells$marker_1, joined$batch, median)
+  expect_equal(unname(medians), rep(reference, length(medians)), ignore_attr = TRUE)
 })

@@ -1,6 +1,5 @@
 # cellreportR <picture class="cttir-readme-logo"><source class="cttir-logo-dark-source" media="(prefers-color-scheme: dark)" srcset="man/figures/logo-with-name-dark.png" /><img src="man/figures/logo-with-name.png" align="right" alt="cellreportR logo" width="120" height="139" /></picture>
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21889928.svg)](https://doi.org/10.5281/zenodo.21889928)
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/cellreportR)](https://CRAN.R-project.org/package=cellreportR)
@@ -138,10 +137,9 @@ Optional features need a few extra packages:
 |---|---|
 | Interactive front-end (`cr_run_app()`) | `bslib`, `DT` |
 | Rendered research reports (`cr_report()`, `cr_render_report()`) | `rmarkdown`, `knitr`, and a working pandoc |
-| Laboratory PDF reports (`cr_render_lab_report()`) | the above plus XeLaTeX and the standard TeX Live packages checked by render preflight |
+| Laboratory PDF reports (`cr_render_lab_report()`) | the above plus XeLaTeX, TeX Gyre fonts (`tex-gyre`), and the TeX Live components checked by render preflight |
 | Excel export (`cr_export_tables()`, `cr_export_results()`) | `writexl` |
 | Reading `.fcs` inputs | `flowCore` (Bioconductor) |
-| Batch correction via empirical Bayes | `sva` (Bioconductor) |
 
 ## Quick start
 
@@ -162,63 +160,80 @@ cr_plot_effect_sizes(res)
 
 ## Screening workflow
 
-The screening path is the reason the package exists. Each stage is an
-exported function, so the analysis is inspectable at every step rather
-than being one opaque call.
+This runnable example uses a synthetic screen with independent experimental
+units, controls in every batch and source-file provenance. For actual segmented
+files, declare the filename grammar and design explicitly as shown in the
+[end-to-end guide](https://cttir.github.io/cellreportR/articles/end-to-end.html).
+`cr_dataset()` is an ingest container; convert it with `cr_build_experiment()`
+and an explicit design before applying experiment-level analysis functions.
 
 ```r
-# 1. Ingest: design facts live in the tree and the file name, not the file
-cells <- cr_read_exports(
-  root       = "data/exports",
-  column_map = cr_column_map(),
-  spec       = cr_path_spec(levels = c("run", "compound", "experiment", "plate"))
-)
+library(cellreportR)
+ds <- cr_example_screen(seed = 42, n_compounds = 2, n_cells_per_well = 20)
+batch <- ds$batch_vars
 
-# 2. Units: some files merge into one unit, some deliberately do not
-cells <- cr_assign_units(
-  cells,
-  key_vars = c("compound", "experiment", "plate", "interval", "concentration"),
-  rules    = cr_merge_rules()
-)
-
-ds <- cr_dataset(cells, unit_var = "well_id")
-
-# 3. Exclusion first, then balancing -- the order changes the threshold
+# Exclude debris, balance cells, then use each batch's own control.
 ds <- cr_exclude_small(ds, var = "area", probs = 0.10)
-ds <- cr_balance_cells(ds, n_max = 10000, seed = 42)
-
-# 4. Standardize against the control condition of each cell's own batch
-ds <- cr_standardize_batch(
-  ds,
-  channel       = "target",
-  control_level = "vehicle",
-  batch_vars    = c("compound", "run", "plate", "experiment", "interval")
-)
-
-# 5. Biological gate, plus the leverage of what it removed
-gate <- cr_qc_gate(ds, channel = "target", control_level = "vehicle",
-                   batch_vars = c("compound", "run", "plate", "experiment"))
-cr_qc_gate_impact(ds, gate, channel = "target")
+ds <- cr_balance_cells(ds, n_max = 30, seed = 42)
+ds <- cr_standardize_batch(ds, channel = "target_signal",
+                            control_level = "Vehicle", batch_vars = batch)
+gate <- cr_qc_gate(ds, channel = "target_signal", control_level = "Vehicle",
+                   batch_vars = batch)
+cr_qc_gate_impact(ds, gate, group_var = "treatment",
+                  reference_level = "Vehicle", by = "compound")
 ds <- cr_apply_gate(ds, gate)
 
-# 6. Effects at the unit level, then the same grid at cell level
-units <- cr_summarize_wells(ds, channel = "target")
+# The summarized response column is named value.
+units <- cr_summarize_wells(ds, channel = "log2_fc")
+eff_unit <- cr_effect_grid(units, value = "value", group_var = "treatment",
+                           reference_level = "Vehicle", by = "compound", level = "unit")
+eff_cell <- cr_effect_grid(ds, value = "log2_fc", group_var = "treatment",
+                           reference_level = "Vehicle", by = "compound")
+cr_compare_levels(eff_unit, eff_cell, by = c("compound", "contrast"))
+sizes <- cr_power_grid(eff_unit)
+forest <- cr_plot_forest(eff_unit, estimate = "cohens_d", ci_low = "cohens_d_ci_low",
+                          ci_high = "cohens_d_ci_high", label = "contrast", facet_by = "compound") +
+  ggplot2::labs(subtitle = "Unit-level effects after QC; bars show 95% confidence intervals.")
+forest
 
-eff_unit <- cr_effect_grid(units, value = "log2_fc", group_var = "treatment",
-                           reference_level = "reference", by = "compound")
-eff_cell <- cr_effect_grid(ds$cells, value = "log2_fc", group_var = "treatment",
-                           reference_level = "reference", by = "compound")
-
-cr_compare_levels(eff_unit, eff_cell)   # cell intervals are narrower, not better
-
-# 7. Sample size from the bound nearer the null, not the point estimate
-cr_power_grid(eff_unit)
-
-# 8. Figures, tables, and every quoted number in one generated file
-cr_plot_screen(ds$cells, units = units, facet_by = "interval", seed = 42)
-cr_export_tables(cr_tables(ds, eff_unit), "out/tables.xlsx")
-cr_macros(list(n_units = nrow(units)), "out/generated-numbers.tex")
+out <- tempfile("cellreportR-output-")
+dir.create(out)
+tables <- c(cr_tables(ds), list(unit_effects = eff_unit, cell_effects = eff_cell,
+                                sample_sizes = sizes))
+cr_export_tables(tables, file.path(out, "tables.xlsx"), format = "xlsx")
+ggplot2::ggsave(file.path(out, "effects.pdf"), forest, width = 9, height = 5)
+cr_macros(list(n_units = nrow(units)), file.path(out, "generated-numbers.tex"))
+out
 ```
+
+## Corrective development version
+
+The single-channel `cr_correct_batch(method = "combat")` path now refuses an
+unsupported analysis. Earlier versions could return median centering after a
+ComBat error. Choose `method = "median_center"` explicitly when appropriate, or
+prepare a feature-by-sample matrix and a suitable design for `sva::ComBat()`.
+
+Version 0.2.1.9000 corrects analysis integrity defects; it is not a published
+release. For exact reproduction of the historical manuscript software, install
+`CTTIR/cellreportR@manuscript-anchor-2026-08-21` in a separate library. Do not
+replace archived results when comparing versions.
+
+- `cr_test()` and `cr_test_all()` now report replicate effect sizes when
+  `level = "replicate"` or `"both"`. With `"both"`, the cell effects are also
+  available as `$cell_effect_sizes`. Recompute affected effect estimates,
+  confidence intervals, plots and summary interpretations before citing them.
+- Fully confounded or saturated blocked models are skipped. Ambiguous batch
+  labels and comparison joins are rejected; supply all comparison keys in `by`.
+- `sufficient` in `cr_power_grid()` requires a usable conservative target.
+  An interval spanning zero cannot certify sufficiency through observed sizing.
+- The legacy `wilcoxon_signed` option is refused because this interface has no
+  matched-pair key. Join paired observations explicitly, verify one observation
+  per pair and arm, retain complete pairs, and call
+  `stats::wilcox.test(x, y, paired = TRUE)` on the aligned vectors. Row order or
+  equal group size alone does not establish pairing.
+
+Public function signatures and the API-lock snapshots remain unchanged. The
+manuscript anchor and historical source data remain intact.
 
 ## Source-bound report evidence
 
@@ -269,8 +284,8 @@ interactive visualisation and report export.
 
 ## Output structure
 
-`cr_dataset()` and `cr_build_experiment()` return a list of class
-`cr_experiment`:
+`cr_build_experiment()` returns a list of class `cr_experiment`.
+`cr_dataset()` instead returns the ingest container described above:
 
 | Slot | Description |
 |---|---|
@@ -315,11 +330,13 @@ interactive visualisation and report export.
 
 ## Citation
 
-If you use `cellreportR` in academic work, please cite the package:
+Cite the exact version used. This checkout is an unpublished corrective
+development version; no verified DOI is currently attached to it. For this
+version, the citation is:
 
 > Heller R, Schwindling L, Büchner A, Lindenberger L, Müller S, Hannemann
 > M, Achatz G, Rothmiller S (2026). _cellreportR: Cell Culture Microscopy
-> Assay Analysis and Reporting_. R package version 0.2.0,
+> Assay Analysis and Reporting_. R package version 0.2.1.9000,
 > <https://github.com/CTTIR/cellreportR>.
 
 BibTeX:
@@ -331,7 +348,7 @@ BibTeX:
             Lucia Lindenberger and Steffen M\"uller and Michael Hannemann and
             Gerhard Achatz and Simone Rothmiller},
   year   = {2026},
-  note   = {R package version 0.2.0},
+  note   = {R package version 0.2.1.9000},
   url    = {https://github.com/CTTIR/cellreportR},
 }
 ```

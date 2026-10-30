@@ -264,8 +264,9 @@ cr_plot_result_position <- function(value,thresholds,labels=NULL,xlim=NULL,
 #'   embeds its assets, disables dynamic math rendering, and wraps long table
 #'   values. Custom templates retain their own HTML output options.
 #' @param quiet Passed to [rmarkdown::render()].
-#' @param audit_file Optional JSON audit path written after rendering.
-#' @param overwrite Replace an existing output file. Defaults to `FALSE`, so
+#' @param audit_file Optional JSON audit path written after rendering. It must
+#'   be distinct from the report path, including relative-path aliases.
+#' @param overwrite Replace existing report and audit files. Defaults to `FALSE`, so
 #'   released or draft reports are never silently replaced.
 #' @param keep_tex Keep the generated `.tex` file beside a PDF for layout
 #'   diagnostics. Defaults to `FALSE`.
@@ -277,6 +278,15 @@ cr_render_lab_report <- function(report,output_file,template=NULL,quiet=TRUE,
   .cr_validate_bound_evidence(report)
   cr_validate_report_spec(report$spec,strict=TRUE); cr_validate_report_qc(report$qc)
   .cr_check_path(output_file); ext<-tolower(tools::file_ext(output_file)); if(!ext%in%c("pdf","html")) cli::cli_abort("Laboratory reports support explicit {.val pdf} or {.val html} output files.")
+  if (!is.null(audit_file)) {
+    .cr_check_path(audit_file)
+    if (identical(.cr_output_identity(output_file), .cr_output_identity(audit_file))) {
+      cli::cli_abort("Report and audit must have distinct output paths.")
+    }
+    if (file.exists(audit_file) && !isTRUE(overwrite)) {
+      cli::cli_abort("Audit output already exists: {.path {audit_file}}. Set {.arg overwrite = TRUE} explicitly to replace it.")
+    }
+  }
   if(file.exists(output_file)&&!isTRUE(overwrite)) cli::cli_abort("Output already exists: {.path {output_file}}. Set {.arg overwrite = TRUE} explicitly to replace it.")
   if(!requireNamespace("rmarkdown",quietly=TRUE)||!requireNamespace("knitr",quietly=TRUE)) cli::cli_abort("Rendering requires {.pkg rmarkdown} and {.pkg knitr}.")
   if (ext == "pdf" && (is.null(template) || identical(template,"laboratory"))) {
@@ -301,6 +311,20 @@ cr_render_lab_report <- function(report,output_file,template=NULL,quiet=TRUE,
   }
   if(!is.null(audit_file)) cr_export_report_audit(report,audit_file,output_file)
   invisible(output_file)
+}
+
+# Resolve existing parents too, so relative paths and symlinked directories
+# cannot make two names for one prospective output appear distinct.
+.cr_output_identity <- function(path) {
+  if (file.exists(path)) return(normalizePath(path, winslash = "/", mustWork = TRUE))
+  parent <- dirname(path)
+  if (dir.exists(parent)) {
+    return(file.path(normalizePath(parent, winslash = "/", mustWork = TRUE), basename(path)))
+  }
+  resolved <- .cr_output_identity(parent)
+  if (basename(path) == ".") return(resolved)
+  if (basename(path) == "..") return(dirname(resolved))
+  file.path(resolved, basename(path))
 }
 
 .cr_render_lab_pdf <- function(report,output_file,quiet=TRUE,keep_tex=FALSE) {
