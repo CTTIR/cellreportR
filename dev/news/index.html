@@ -15,7 +15,7 @@
     <!-- Standard logo aliases contain the named v5 light and dark hexes. -->
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo" data-cttir-dark-src="../reference/figures/logo-dark.svg">cellreportR</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,6 +52,18 @@
       <small>Source: <a href="https://github.com/CTTIR/cellreportR/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.1.9000" id="cellreportr-0219000">cellreportR 0.2.1.9000<a class="anchor" aria-label="anchor" href="#cellreportr-0219000"></a></h2>
+<ul><li>Correct replicate-level effect estimates to use the same unit summaries as the tests. <code>level = "both"</code> provides replicate effects plus explicitly named cell effects. Reanalysis is required before replacing historical estimates; the manuscript-anchor release remains unchanged.</li>
+<li>Reject non-estimable blocked models, ambiguous batch keys and comparison joins. Retain shared design columns without suffix-induced failures.</li>
+<li>Require a conservative target before declaring sample-size sufficiency and validate confidence-bound order and vector lengths.</li>
+<li>Refuse the legacy signed-rank path, which had no matched-pair identifiers and silently truncated unequal arms. Use explicitly aligned pairs with <code>stats::wilcox.test(..., paired = TRUE)</code>.</li>
+<li>Refuse the unsupported single-channel ComBat path instead of substituting median centering after failure. Select median centering explicitly or prepare a suitable feature-by-sample ComBat analysis outside this interface.</li>
+<li>Keep compounds separate in the analysis application through an explicit stratum selector, defaulting to compound when available. Use the declared control by default and clear stale effects after data or target changes.</li>
+<li>Use a native compression-capable Cairo TIFF device when available; retain an uncompressed Quartz fallback when it is not.</li>
+<li>Load laboratory PDF fonts from TeX-distributed files and check the font prerequisites, without requiring operating-system font registration.</li>
+<li>Protect distinct report/audit destinations and existing audit files before rendering. Correct the runnable screening example and describe the existing power simulation’s independent-cell assumptions accurately.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0.9000" id="cellreportr-0209000">cellreportR 0.2.0.9000<a class="anchor" aria-label="anchor" href="#cellreportr-0209000"></a></h2>
 <ul><li><p>Standardize the named v5 package logo across README, documentation pages and available application headers, with matching light and dark artwork.</p></li>

@@ -65,10 +65,10 @@ res$effect_sizes
 #> # A tibble: 4 × 5
 #>   method        estimate ci_low ci_high magnitude
 #>   <chr>            <dbl>  <dbl>   <dbl> <chr>    
-#> 1 cohens_d         2.22   2.10    2.33  large    
-#> 2 hedges_g         2.22   2.10    2.33  large    
-#> 3 cliffs_delta     0.984  0.976   0.989 large    
-#> 4 rank_biserial    0.984  0.976   0.989 large
+#> 1 cohens_d          6.59   4.71    8.48 large    
+#> 2 hedges_g          6.43   4.59    8.26 large    
+#> 3 cliffs_delta      1     NA      NA    large    
+#> 4 rank_biserial     1     NA      NA    large
 ```
 
 Those intervals are cell-level intervals whatever `level` was asked for,
@@ -200,10 +200,11 @@ Read the number for what the simulation models. The only source of
 spread between replicate means here is the averaging itself, so power
 rises steeply with `n_cells_per_rep`. Real units also differ from one
 another for reasons that more cells cannot average away — staining,
-focus, seeding density — and that component is not in this model. The
-figure is therefore an **upper bound**: a design that fails here will
-certainly fail in the laboratory, and one that passes here may still
-not.
+focus, seeding density — and that component is not in this model. This
+is an idealized independent-cell scenario, not a formal upper bound or a
+validated prediction of laboratory power. A design decision needs an
+explicit between-unit variance model or an effect and variance estimated
+at the independent experimental-unit level.
 
 For sizing a follow-up study from effects you have actually observed
 rather than from an assumed one, use

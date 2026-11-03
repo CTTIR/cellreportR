@@ -43,7 +43,9 @@ A character vector with one key per row of `x` (one key per cell when
 
 Missing values are replaced by `na_label` rather than propagated, so
 that two rows with an unrecorded plate are grouped together visibly
-instead of silently producing `NA` keys.
+instead of silently producing `NA` keys. If distinct tuples produce the
+same displayed key, the function refuses the collision; choose another
+separator or missing-value label.
 
 ## See also
 

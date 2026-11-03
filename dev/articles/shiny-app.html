@@ -38,7 +38,7 @@
     <!-- Standard logo aliases contain the named v5 light and dark hexes. -->
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo" data-cttir-dark-src="../reference/figures/logo-dark.svg">cellreportR</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -293,6 +293,15 @@ package namespace, so the app can be driven in-process by
 <code>inst/shiny/cellreportR/</code> holds only the <code>www/</code>
 assets and a thin <code>app.R</code> shim for deployment on a Shiny
 server.</p>
+<p>The Effect sizes tab offers <strong>Stratify contrasts by</strong>.
+Select the design column whose groups must be analyzed separately;
+<code>compound</code> is selected when present. Each stratum uses its
+own control observations, and tables, CSV downloads and forest facets
+retain its identity. The declared <code>metadata$control_level</code> is
+the initial control when valid. Changing data, channel, control,
+stratum, level or confidence clears the previous effect result; press
+<strong>Estimate effect sizes</strong> again before downloading.
+Selecting <code>(none)</code> explicitly pools the strata.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

@@ -43,7 +43,7 @@
     <!-- Standard logo aliases contain the named v5 light and dark hexes. -->
     <a class="navbar-brand me-2" href="index.html"><img src="logo.svg" alt="" class="themakr-navbar-logo" data-cttir-dark-src="reference/figures/logo-dark.svg">cellreportR</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -88,7 +88,6 @@
 <img src="logo.svg" class="logo" alt=""><h1 id="cellreportr-">cellreportR <picture class="cttir-readme-logo"><source class="cttir-logo-dark-source" media="(prefers-color-scheme: dark)" srcset="reference/figures/logo-with-name-dark.png"><img src="reference/figures/logo-with-name.png" align="right" alt="cellreportR logo" width="120" height="139"></picture><a class="anchor" aria-label="anchor" href="#cellreportr-"></a>
 </h1>
 </div>
-<p><a href="https://doi.org/10.5281/zenodo.21889928" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.21889928.svg" alt="DOI"></a></p>
 <!-- badges: start -->
 
 <div class="section level2">
@@ -192,7 +191,7 @@
 </tr>
 <tr>
 <td>Laboratory PDF reports (<code><a href="reference/cr_render_lab_report.html">cr_render_lab_report()</a></code>)</td>
-<td>the above plus XeLaTeX and the standard TeX Live packages checked by render preflight</td>
+<td>the above plus XeLaTeX, TeX Gyre fonts (<code>tex-gyre</code>), and the TeX Live components checked by render preflight</td>
 </tr>
 <tr>
 <td>Excel export (<code><a href="reference/cr_export_tables.html">cr_export_tables()</a></code>, <code><a href="reference/cr_export_results.html">cr_export_results()</a></code>)</td>
@@ -202,11 +201,6 @@
 <td>Reading <code>.fcs</code> inputs</td>
 <td>
 <code>flowCore</code> (Bioconductor)</td>
-</tr>
-<tr>
-<td>Batch correction via empirical Bayes</td>
-<td>
-<code>sva</code> (Bioconductor)</td>
 </tr>
 </tbody>
 </table>
@@ -232,59 +226,59 @@
 <div class="section level2">
 <h2 id="screening-workflow">Screening workflow<a class="anchor" aria-label="anchor" href="#screening-workflow"></a>
 </h2>
-<p>The screening path is the reason the package exists. Each stage is an exported function, so the analysis is inspectable at every step rather than being one opaque call.</p>
+<p>This runnable example uses a synthetic screen with independent experimental units, controls in every batch and source-file provenance. For actual segmented files, declare the filename grammar and design explicitly as shown in the <a href="https://cttir.github.io/cellreportR/articles/end-to-end.html">end-to-end guide</a>. <code><a href="reference/cr_dataset.html">cr_dataset()</a></code> is an ingest container; convert it with <code><a href="reference/cr_build_experiment.html">cr_build_experiment()</a></code> and an explicit design before applying experiment-level analysis functions.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># 1. Ingest: design facts live in the tree and the file name, not the file</span></span>
-<span><span class="va">cells</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_read_exports.html">cr_read_exports</a></span><span class="op">(</span></span>
-<span>  root       <span class="op">=</span> <span class="st">"data/exports"</span>,</span>
-<span>  column_map <span class="op">=</span> <span class="fu"><a href="reference/cr_column_map.html">cr_column_map</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  spec       <span class="op">=</span> <span class="fu"><a href="reference/cr_path_spec.html">cr_path_spec</a></span><span class="op">(</span>levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"run"</span>, <span class="st">"compound"</span>, <span class="st">"experiment"</span>, <span class="st">"plate"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/CTTIR/cellreportR" class="external-link">cellreportR</a></span><span class="op">)</span></span>
+<span><span class="va">ds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_example_screen.html">cr_example_screen</a></span><span class="op">(</span>seed <span class="op">=</span> <span class="fl">42</span>, n_compounds <span class="op">=</span> <span class="fl">2</span>, n_cells_per_well <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
+<span><span class="va">batch</span> <span class="op">&lt;-</span> <span class="va">ds</span><span class="op">$</span><span class="va">batch_vars</span></span>
 <span></span>
-<span><span class="co"># 2. Units: some files merge into one unit, some deliberately do not</span></span>
-<span><span class="va">cells</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_assign_units.html">cr_assign_units</a></span><span class="op">(</span></span>
-<span>  <span class="va">cells</span>,</span>
-<span>  key_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"compound"</span>, <span class="st">"experiment"</span>, <span class="st">"plate"</span>, <span class="st">"interval"</span>, <span class="st">"concentration"</span><span class="op">)</span>,</span>
-<span>  rules    <span class="op">=</span> <span class="fu"><a href="reference/cr_merge_rules.html">cr_merge_rules</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">ds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_dataset.html">cr_dataset</a></span><span class="op">(</span><span class="va">cells</span>, unit_var <span class="op">=</span> <span class="st">"well_id"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># 3. Exclusion first, then balancing -- the order changes the threshold</span></span>
+<span><span class="co"># Exclude debris, balance cells, then use each batch's own control.</span></span>
 <span><span class="va">ds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_exclude_small.html">cr_exclude_small</a></span><span class="op">(</span><span class="va">ds</span>, var <span class="op">=</span> <span class="st">"area"</span>, probs <span class="op">=</span> <span class="fl">0.10</span><span class="op">)</span></span>
-<span><span class="va">ds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_balance_cells.html">cr_balance_cells</a></span><span class="op">(</span><span class="va">ds</span>, n_max <span class="op">=</span> <span class="fl">10000</span>, seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># 4. Standardize against the control condition of each cell's own batch</span></span>
-<span><span class="va">ds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_standardize_batch.html">cr_standardize_batch</a></span><span class="op">(</span></span>
-<span>  <span class="va">ds</span>,</span>
-<span>  channel       <span class="op">=</span> <span class="st">"target"</span>,</span>
-<span>  control_level <span class="op">=</span> <span class="st">"vehicle"</span>,</span>
-<span>  batch_vars    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"compound"</span>, <span class="st">"run"</span>, <span class="st">"plate"</span>, <span class="st">"experiment"</span>, <span class="st">"interval"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># 5. Biological gate, plus the leverage of what it removed</span></span>
-<span><span class="va">gate</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_qc_gate.html">cr_qc_gate</a></span><span class="op">(</span><span class="va">ds</span>, channel <span class="op">=</span> <span class="st">"target"</span>, control_level <span class="op">=</span> <span class="st">"vehicle"</span>,</span>
-<span>                   batch_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"compound"</span>, <span class="st">"run"</span>, <span class="st">"plate"</span>, <span class="st">"experiment"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/cr_qc_gate_impact.html">cr_qc_gate_impact</a></span><span class="op">(</span><span class="va">ds</span>, <span class="va">gate</span>, channel <span class="op">=</span> <span class="st">"target"</span><span class="op">)</span></span>
+<span><span class="va">ds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_balance_cells.html">cr_balance_cells</a></span><span class="op">(</span><span class="va">ds</span>, n_max <span class="op">=</span> <span class="fl">30</span>, seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span>
+<span><span class="va">ds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_standardize_batch.html">cr_standardize_batch</a></span><span class="op">(</span><span class="va">ds</span>, channel <span class="op">=</span> <span class="st">"target_signal"</span>,</span>
+<span>                            control_level <span class="op">=</span> <span class="st">"Vehicle"</span>, batch_vars <span class="op">=</span> <span class="va">batch</span><span class="op">)</span></span>
+<span><span class="va">gate</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_qc_gate.html">cr_qc_gate</a></span><span class="op">(</span><span class="va">ds</span>, channel <span class="op">=</span> <span class="st">"target_signal"</span>, control_level <span class="op">=</span> <span class="st">"Vehicle"</span>,</span>
+<span>                   batch_vars <span class="op">=</span> <span class="va">batch</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/cr_qc_gate_impact.html">cr_qc_gate_impact</a></span><span class="op">(</span><span class="va">ds</span>, <span class="va">gate</span>, group_var <span class="op">=</span> <span class="st">"treatment"</span>,</span>
+<span>                  reference_level <span class="op">=</span> <span class="st">"Vehicle"</span>, by <span class="op">=</span> <span class="st">"compound"</span><span class="op">)</span></span>
 <span><span class="va">ds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_apply_gate.html">cr_apply_gate</a></span><span class="op">(</span><span class="va">ds</span>, <span class="va">gate</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># 6. Effects at the unit level, then the same grid at cell level</span></span>
-<span><span class="va">units</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_summarize_wells.html">cr_summarize_wells</a></span><span class="op">(</span><span class="va">ds</span>, channel <span class="op">=</span> <span class="st">"target"</span><span class="op">)</span></span>
+<span><span class="co"># The summarized response column is named value.</span></span>
+<span><span class="va">units</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_summarize_wells.html">cr_summarize_wells</a></span><span class="op">(</span><span class="va">ds</span>, channel <span class="op">=</span> <span class="st">"log2_fc"</span><span class="op">)</span></span>
+<span><span class="va">eff_unit</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_effect_grid.html">cr_effect_grid</a></span><span class="op">(</span><span class="va">units</span>, value <span class="op">=</span> <span class="st">"value"</span>, group_var <span class="op">=</span> <span class="st">"treatment"</span>,</span>
+<span>                           reference_level <span class="op">=</span> <span class="st">"Vehicle"</span>, by <span class="op">=</span> <span class="st">"compound"</span>, level <span class="op">=</span> <span class="st">"unit"</span><span class="op">)</span></span>
+<span><span class="va">eff_cell</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_effect_grid.html">cr_effect_grid</a></span><span class="op">(</span><span class="va">ds</span>, value <span class="op">=</span> <span class="st">"log2_fc"</span>, group_var <span class="op">=</span> <span class="st">"treatment"</span>,</span>
+<span>                           reference_level <span class="op">=</span> <span class="st">"Vehicle"</span>, by <span class="op">=</span> <span class="st">"compound"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/cr_compare_levels.html">cr_compare_levels</a></span><span class="op">(</span><span class="va">eff_unit</span>, <span class="va">eff_cell</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"compound"</span>, <span class="st">"contrast"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">sizes</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_power_grid.html">cr_power_grid</a></span><span class="op">(</span><span class="va">eff_unit</span><span class="op">)</span></span>
+<span><span class="va">forest</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_plot_forest.html">cr_plot_forest</a></span><span class="op">(</span><span class="va">eff_unit</span>, estimate <span class="op">=</span> <span class="st">"cohens_d"</span>, ci_low <span class="op">=</span> <span class="st">"cohens_d_ci_low"</span>,</span>
+<span>                          ci_high <span class="op">=</span> <span class="st">"cohens_d_ci_high"</span>, label <span class="op">=</span> <span class="st">"contrast"</span>, facet_by <span class="op">=</span> <span class="st">"compound"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>subtitle <span class="op">=</span> <span class="st">"Unit-level effects after QC; bars show 95% confidence intervals."</span><span class="op">)</span></span>
+<span><span class="va">forest</span></span>
 <span></span>
-<span><span class="va">eff_unit</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_effect_grid.html">cr_effect_grid</a></span><span class="op">(</span><span class="va">units</span>, value <span class="op">=</span> <span class="st">"log2_fc"</span>, group_var <span class="op">=</span> <span class="st">"treatment"</span>,</span>
-<span>                           reference_level <span class="op">=</span> <span class="st">"reference"</span>, by <span class="op">=</span> <span class="st">"compound"</span><span class="op">)</span></span>
-<span><span class="va">eff_cell</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cr_effect_grid.html">cr_effect_grid</a></span><span class="op">(</span><span class="va">ds</span><span class="op">$</span><span class="va">cells</span>, value <span class="op">=</span> <span class="st">"log2_fc"</span>, group_var <span class="op">=</span> <span class="st">"treatment"</span>,</span>
-<span>                           reference_level <span class="op">=</span> <span class="st">"reference"</span>, by <span class="op">=</span> <span class="st">"compound"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="reference/cr_compare_levels.html">cr_compare_levels</a></span><span class="op">(</span><span class="va">eff_unit</span>, <span class="va">eff_cell</span><span class="op">)</span>   <span class="co"># cell intervals are narrower, not better</span></span>
-<span></span>
-<span><span class="co"># 7. Sample size from the bound nearer the null, not the point estimate</span></span>
-<span><span class="fu"><a href="reference/cr_power_grid.html">cr_power_grid</a></span><span class="op">(</span><span class="va">eff_unit</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># 8. Figures, tables, and every quoted number in one generated file</span></span>
-<span><span class="fu"><a href="reference/cr_plot_screen.html">cr_plot_screen</a></span><span class="op">(</span><span class="va">ds</span><span class="op">$</span><span class="va">cells</span>, units <span class="op">=</span> <span class="va">units</span>, facet_by <span class="op">=</span> <span class="st">"interval"</span>, seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/cr_export_tables.html">cr_export_tables</a></span><span class="op">(</span><span class="fu"><a href="reference/cr_tables.html">cr_tables</a></span><span class="op">(</span><span class="va">ds</span>, <span class="va">eff_unit</span><span class="op">)</span>, <span class="st">"out/tables.xlsx"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/cr_macros.html">cr_macros</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>n_units <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">units</span><span class="op">)</span><span class="op">)</span>, <span class="st">"out/generated-numbers.tex"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"cellreportR-output-"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span>
+<span><span class="va">tables</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="reference/cr_tables.html">cr_tables</a></span><span class="op">(</span><span class="va">ds</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>unit_effects <span class="op">=</span> <span class="va">eff_unit</span>, cell_effects <span class="op">=</span> <span class="va">eff_cell</span>,</span>
+<span>                                sample_sizes <span class="op">=</span> <span class="va">sizes</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/cr_export_tables.html">cr_export_tables</a></span><span class="op">(</span><span class="va">tables</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">out</span>, <span class="st">"tables.xlsx"</span><span class="op">)</span>, format <span class="op">=</span> <span class="st">"xlsx"</span><span class="op">)</span></span>
+<span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html" class="external-link">ggsave</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">out</span>, <span class="st">"effects.pdf"</span><span class="op">)</span>, <span class="va">forest</span>, width <span class="op">=</span> <span class="fl">9</span>, height <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/cr_macros.html">cr_macros</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>n_units <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">units</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">out</span>, <span class="st">"generated-numbers.tex"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">out</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="corrective-development-version">Corrective development version<a class="anchor" aria-label="anchor" href="#corrective-development-version"></a>
+</h2>
+<p>The single-channel <code>cr_correct_batch(method = "combat")</code> path now refuses an unsupported analysis. Earlier versions could return median centering after a ComBat error. Choose <code>method = "median_center"</code> explicitly when appropriate, or prepare a feature-by-sample matrix and a suitable design for <code><a href="https://rdrr.io/pkg/sva/man/ComBat.html" class="external-link">sva::ComBat()</a></code>.</p>
+<p>Version 0.2.1.9000 corrects analysis integrity defects; it is not a published release. For exact reproduction of the historical manuscript software, install <code>CTTIR/cellreportR@manuscript-anchor-2026-08-21</code> in a separate library. Do not replace archived results when comparing versions.</p>
+<ul>
+<li>
+<code><a href="reference/cr_test.html">cr_test()</a></code> and <code><a href="reference/cr_test_all.html">cr_test_all()</a></code> now report replicate effect sizes when <code>level = "replicate"</code> or <code>"both"</code>. With <code>"both"</code>, the cell effects are also available as <code>$cell_effect_sizes</code>. Recompute affected effect estimates, confidence intervals, plots and summary interpretations before citing them.</li>
+<li>Fully confounded or saturated blocked models are skipped. Ambiguous batch labels and comparison joins are rejected; supply all comparison keys in <code>by</code>.</li>
+<li>
+<code>sufficient</code> in <code><a href="reference/cr_power_grid.html">cr_power_grid()</a></code> requires a usable conservative target. An interval spanning zero cannot certify sufficiency through observed sizing.</li>
+<li>The legacy <code>wilcoxon_signed</code> option is refused because this interface has no matched-pair key. Join paired observations explicitly, verify one observation per pair and arm, retain complete pairs, and call <code>stats::wilcox.test(x, y, paired = TRUE)</code> on the aligned vectors. Row order or equal group size alone does not establish pairing.</li>
+</ul>
+<p>Public function signatures and the API-lock snapshots remain unchanged. The manuscript anchor and historical source data remain intact.</p>
 </div>
 <div class="section level2">
 <h2 id="source-bound-report-evidence">Source-bound report evidence<a class="anchor" aria-label="anchor" href="#source-bound-report-evidence"></a>
@@ -318,7 +312,7 @@
 <div class="section level2">
 <h2 id="output-structure">Output structure<a class="anchor" aria-label="anchor" href="#output-structure"></a>
 </h2>
-<p><code><a href="reference/cr_dataset.html">cr_dataset()</a></code> and <code><a href="reference/cr_build_experiment.html">cr_build_experiment()</a></code> return a list of class <code>cr_experiment</code>:</p>
+<p><code><a href="reference/cr_build_experiment.html">cr_build_experiment()</a></code> returns a list of class <code>cr_experiment</code>. <code><a href="reference/cr_dataset.html">cr_dataset()</a></code> instead returns the ingest container described above:</p>
 <table class="table">
 <colgroup>
 <col width="50%">
@@ -492,9 +486,9 @@
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
-<p>If you use <code>cellreportR</code> in academic work, please cite the package:</p>
+<p>Cite the exact version used. This checkout is an unpublished corrective development version; no verified DOI is currently attached to it. For this version, the citation is:</p>
 <blockquote>
-<p>Heller R, Schwindling L, Büchner A, Lindenberger L, Müller S, Hannemann M, Achatz G, Rothmiller S (2026). <em>cellreportR: Cell Culture Microscopy Assay Analysis and Reporting</em>. R package version 0.2.0, <a href="https://github.com/CTTIR/cellreportR" class="external-link uri">https://github.com/CTTIR/cellreportR</a>.</p>
+<p>Heller R, Schwindling L, Büchner A, Lindenberger L, Müller S, Hannemann M, Achatz G, Rothmiller S (2026). <em>cellreportR: Cell Culture Microscopy Assay Analysis and Reporting</em>. R package version 0.2.1.9000, <a href="https://github.com/CTTIR/cellreportR" class="external-link uri">https://github.com/CTTIR/cellreportR</a>.</p>
 </blockquote>
 <p>BibTeX:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="va">@Manual</span>{<span class="ot">cellreportR</span>,</span>
@@ -503,7 +497,7 @@
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>            Lucia Lindenberger and Steffen M<span class="ch">\"</span>uller and Michael Hannemann and</span>
 <span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>            Gerhard Achatz and Simone Rothmiller},</span>
 <span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="dt">year</span>   = {2026},</span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="dt">note</span>   = {R package version 0.2.0},</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="dt">note</span>   = {R package version 0.2.1.9000},</span>
 <span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>  <span class="dt">url</span>    = {https://github.com/CTTIR/cellreportR},</span>
 <span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>}</span></code></pre></div>
 <p>You can always retrieve the up-to-date entry directly from R:</p>

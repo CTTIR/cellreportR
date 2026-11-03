@@ -39,12 +39,13 @@ cr_render_lab_report(
 
 - audit_file:
 
-  Optional JSON audit path written after rendering.
+  Optional JSON audit path written after rendering. It must be distinct
+  from the report path, including relative-path aliases.
 
 - overwrite:
 
-  Replace an existing output file. Defaults to `FALSE`, so released or
-  draft reports are never silently replaced.
+  Replace existing report and audit files. Defaults to `FALSE`, so
+  released or draft reports are never silently replaced.
 
 - keep_tex:
 

@@ -21,7 +21,7 @@ they belong to."><meta property="og:image" content="https://cttir.github.io/cell
     <!-- Standard logo aliases contain the named v5 light and dark hexes. -->
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo" data-cttir-dark-src="../reference/figures/logo-dark.svg">cellreportR</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -127,7 +127,10 @@ when those columns are present.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p><code>effects</code> with the columns <code>d_conservative</code>, <code>n_observed</code>,
 <code>n_conservative</code> and <code>basis</code> appended, plus <code>n_available</code> and
-<code>sufficient</code> when availability is known.</p>
+<code>sufficient</code> when availability is known.
+Sufficiency requires a finite conservative target; no observed-effect
+fallback is used when the interval spans zero or has no usable bound.
+Numeric availability inputs must be scalar or have one value per effect.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

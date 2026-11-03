@@ -38,7 +38,11 @@ cr_test(
 - test:
 
   One of `"mann_whitney"`, `"t_test"` (pooled variance), `"welch"`
-  (unequal variance) or `"wilcoxon_signed"` (paired).
+  (unequal variance). The legacy `"wilcoxon_signed"` choice is refused:
+  this interface has no explicit matched-pair key. Align complete pairs
+  by a verified identifier and use
+  [`stats::wilcox.test()`](https://rdrr.io/r/stats/wilcox.test.html)
+  with `paired = TRUE` for paired inference.
 
 - level:
 
@@ -47,7 +51,12 @@ cr_test(
 ## Value
 
 A `cr_result` object with the elements `comparison`, `cell_level`,
-`rep_level`, `effect_sizes` and `fold_change`.
+`rep_level`, `effect_sizes` and `fold_change`. Effect sizes use cells
+for `level = "cell"` and replicate medians for `"replicate"` or
+`"both"`. With `"both"`, the additional `cell_effect_sizes` element
+retains the cell-level comparison. Replicate effect estimates differ
+from versions through 0.2.0.9000, which computed cell effects regardless
+of the requested level.
 
 ## See also
 

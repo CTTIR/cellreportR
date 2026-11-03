@@ -181,7 +181,7 @@ nearer the null.
 - [`cr_power_grid()`](https://cttir.github.io/cellreportR/dev/reference/cr_power_grid.md)
   : Sample sizes for a whole effect grid
 - [`cr_power_analysis()`](https://cttir.github.io/cellreportR/dev/reference/cr_power_analysis.md)
-  : Post-hoc power for a hierarchical cell-based assay
+  : Simulated power under independent-cell assumptions
 
 ## Discriminability
 

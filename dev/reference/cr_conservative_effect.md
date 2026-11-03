@@ -23,7 +23,8 @@ cr_conservative_effect(ci_low, ci_high)
 
 ## Value
 
-A numeric vector the length of the recycled inputs.
+A numeric vector the length of the recycled inputs. Scalars can recycle;
+other lengths must agree, and lower bounds cannot exceed upper bounds.
 
 ## See also
 

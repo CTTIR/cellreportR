@@ -38,7 +38,7 @@
     <!-- Standard logo aliases contain the named v5 light and dark hexes. -->
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo" data-cttir-dark-src="../reference/figures/logo-dark.svg">cellreportR</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -207,11 +207,11 @@ adjustments alongside — never instead of — the unadjusted p-value.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 6</span></span></span>
 <span><span class="co">#&gt;   treatment      log2_fc    p_value       p_BH cohens_d interpretation</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> PosControl       3.21  0.000<span style="text-decoration: underline;">001</span>54 0.000<span style="text-decoration: underline;">003</span>86   2.26   strong        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> CompoundA_low    0.963 0.000<span style="text-decoration: underline;">036</span>8  0.000<span style="text-decoration: underline;">061</span>3    0.765  moderate      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> CompoundA_high   2.84  0.000<span style="text-decoration: underline;">001</span>54 0.000<span style="text-decoration: underline;">003</span>86   1.98   strong        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> CompoundB        0.354 0.030<span style="text-decoration: underline;">2</span>     0.030<span style="text-decoration: underline;">2</span>       0.055<span style="text-decoration: underline;">4</span> weak          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> CompoundC        0.690 0.000<span style="text-decoration: underline;">050</span>9  0.000<span style="text-decoration: underline;">063</span>6    0.504  moderate</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> PosControl       3.21  0.000<span style="text-decoration: underline;">001</span>54 0.000<span style="text-decoration: underline;">003</span>86   6.57   strong        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> CompoundA_low    0.963 0.000<span style="text-decoration: underline;">036</span>8  0.000<span style="text-decoration: underline;">061</span>3    1.11   strong        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> CompoundA_high   2.84  0.000<span style="text-decoration: underline;">001</span>54 0.000<span style="text-decoration: underline;">003</span>86   5.25   strong        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> CompoundB        0.354 0.030<span style="text-decoration: underline;">2</span>     0.030<span style="text-decoration: underline;">2</span>       0.020<span style="text-decoration: underline;">1</span> weak          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> CompoundC        0.690 0.000<span style="text-decoration: underline;">050</span>9  0.000<span style="text-decoration: underline;">063</span>6    0.589  moderate</span></span></code></pre></div>
 <p><code>level = "replicate"</code> aggregates cells to one value per
 well before testing. That is the defensible default;
 <code><a href="../articles/statistical-analysis.html">vignette("statistical-analysis")</a></code> shows what the cell-level

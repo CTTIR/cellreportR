@@ -15,7 +15,7 @@
     <!-- Standard logo aliases contain the named v5 light and dark hexes. -->
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo" data-cttir-dark-src="../reference/figures/logo-dark.svg">cellreportR</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -93,11 +93,12 @@ values. Custom templates retain their own HTML output options.</p></dd>
 
 
 <dt id="arg-audit-file">audit_file<a class="anchor" aria-label="anchor" href="#arg-audit-file"></a></dt>
-<dd><p>Optional JSON audit path written after rendering.</p></dd>
+<dd><p>Optional JSON audit path written after rendering. It must
+be distinct from the report path, including relative-path aliases.</p></dd>
 
 
 <dt id="arg-overwrite">overwrite<a class="anchor" aria-label="anchor" href="#arg-overwrite"></a></dt>
-<dd><p>Replace an existing output file. Defaults to <code>FALSE</code>, so
+<dd><p>Replace existing report and audit files. Defaults to <code>FALSE</code>, so
 released or draft reports are never silently replaced.</p></dd>
 
 

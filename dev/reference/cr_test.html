@@ -19,7 +19,7 @@ control group on a single channel."><meta property="og:image" content="https://c
     <!-- Standard logo aliases contain the named v5 light and dark hexes. -->
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo" data-cttir-dark-src="../reference/figures/logo-dark.svg">cellreportR</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,7 +98,10 @@ control group on a single channel.</p>
 
 <dt id="arg-test">test<a class="anchor" aria-label="anchor" href="#arg-test"></a></dt>
 <dd><p>One of <code>"mann_whitney"</code>, <code>"t_test"</code> (pooled variance),
-<code>"welch"</code> (unequal variance) or <code>"wilcoxon_signed"</code> (paired).</p></dd>
+<code>"welch"</code> (unequal variance). The legacy <code>"wilcoxon_signed"</code>
+choice is refused: this interface has no explicit matched-pair key.
+Align complete pairs by a verified identifier and use
+<code><a href="https://rdrr.io/r/stats/wilcox.test.html" class="external-link">stats::wilcox.test()</a></code> with <code>paired = TRUE</code> for paired inference.</p></dd>
 
 
 <dt id="arg-level">level<a class="anchor" aria-label="anchor" href="#arg-level"></a></dt>
@@ -108,7 +111,12 @@ control group on a single channel.</p>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A <code>cr_result</code> object with the elements <code>comparison</code>,
-<code>cell_level</code>, <code>rep_level</code>, <code>effect_sizes</code> and <code>fold_change</code>.</p>
+<code>cell_level</code>, <code>rep_level</code>, <code>effect_sizes</code> and <code>fold_change</code>.
+Effect sizes use cells for <code>level = "cell"</code> and replicate medians
+for <code>"replicate"</code> or <code>"both"</code>. With <code>"both"</code>, the additional
+<code>cell_effect_sizes</code> element retains the cell-level comparison.
+Replicate effect estimates differ from versions through 0.2.0.9000,
+which computed cell effects regardless of the requested level.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

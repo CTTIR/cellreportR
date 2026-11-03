@@ -1,8 +1,11 @@
 # Correct batch effects
 
 Applies a simple batch correction. `"median_center"` shifts each batch's
-median to the overall median. `"combat"` delegates to
-[`sva::ComBat`](https://rdrr.io/pkg/sva/man/ComBat.html) when available.
+median to the overall median. The legacy `"combat"` choice is refused:
+this single-channel interface cannot supply the feature-by-sample matrix
+required for a valid empirical-Bayes ComBat analysis. Previous versions
+could substitute median centering after a ComBat error. Select
+`"median_center"` explicitly if that is the intended analysis.
 
 ## Usage
 

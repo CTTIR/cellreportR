@@ -116,11 +116,11 @@ attr(res, "summary")[, c("treatment", "log2_fc", "p_value", "p_BH",
 #> # A tibble: 5 × 6
 #>   treatment      log2_fc    p_value       p_BH cohens_d interpretation
 #>   <chr>            <dbl>      <dbl>      <dbl>    <dbl> <chr>         
-#> 1 PosControl       3.21  0.00000154 0.00000386   2.26   strong        
-#> 2 CompoundA_low    0.963 0.0000368  0.0000613    0.765  moderate      
-#> 3 CompoundA_high   2.84  0.00000154 0.00000386   1.98   strong        
-#> 4 CompoundB        0.354 0.0302     0.0302       0.0554 weak          
-#> 5 CompoundC        0.690 0.0000509  0.0000636    0.504  moderate
+#> 1 PosControl       3.21  0.00000154 0.00000386   6.57   strong        
+#> 2 CompoundA_low    0.963 0.0000368  0.0000613    1.11   strong        
+#> 3 CompoundA_high   2.84  0.00000154 0.00000386   5.25   strong        
+#> 4 CompoundB        0.354 0.0302     0.0302       0.0201 weak          
+#> 5 CompoundC        0.690 0.0000509  0.0000636    0.589  moderate
 ```
 
 `level = "replicate"` aggregates cells to one value per well before

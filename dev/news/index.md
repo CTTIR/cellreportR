@@ -1,5 +1,38 @@
 # Changelog
 
+## cellreportR 0.2.1.9000
+
+- Correct replicate-level effect estimates to use the same unit
+  summaries as the tests. `level = "both"` provides replicate effects
+  plus explicitly named cell effects. Reanalysis is required before
+  replacing historical estimates; the manuscript-anchor release remains
+  unchanged.
+- Reject non-estimable blocked models, ambiguous batch keys and
+  comparison joins. Retain shared design columns without suffix-induced
+  failures.
+- Require a conservative target before declaring sample-size sufficiency
+  and validate confidence-bound order and vector lengths.
+- Refuse the legacy signed-rank path, which had no matched-pair
+  identifiers and silently truncated unequal arms. Use explicitly
+  aligned pairs with `stats::wilcox.test(..., paired = TRUE)`.
+- Refuse the unsupported single-channel ComBat path instead of
+  substituting median centering after failure. Select median centering
+  explicitly or prepare a suitable feature-by-sample ComBat analysis
+  outside this interface.
+- Keep compounds separate in the analysis application through an
+  explicit stratum selector, defaulting to compound when available. Use
+  the declared control by default and clear stale effects after data or
+  target changes.
+- Use a native compression-capable Cairo TIFF device when available;
+  retain an uncompressed Quartz fallback when it is not.
+- Load laboratory PDF fonts from TeX-distributed files and check the
+  font prerequisites, without requiring operating-system font
+  registration.
+- Protect distinct report/audit destinations and existing audit files
+  before rendering. Correct the runnable screening example and describe
+  the existing power simulation’s independent-cell assumptions
+  accurately.
+
 ## cellreportR 0.2.0.9000
 
 - Standardize the named v5 package logo across README, documentation

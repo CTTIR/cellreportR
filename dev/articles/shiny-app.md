@@ -115,3 +115,12 @@ namespace, so the app can be driven in-process by
 [`shiny::testServer()`](https://rdrr.io/pkg/shiny/man/testServer.html)
 as well as from a browser. `inst/shiny/cellreportR/` holds only the
 `www/` assets and a thin `app.R` shim for deployment on a Shiny server.
+
+The Effect sizes tab offers **Stratify contrasts by**. Select the design
+column whose groups must be analyzed separately; `compound` is selected
+when present. Each stratum uses its own control observations, and
+tables, CSV downloads and forest facets retain its identity. The
+declared `metadata$control_level` is the initial control when valid.
+Changing data, channel, control, stratum, level or confidence clears the
+previous effect result; press **Estimate effect sizes** again before
+downloading. Selecting `(none)` explicitly pools the strata.

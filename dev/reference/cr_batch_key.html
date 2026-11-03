@@ -27,7 +27,7 @@ on and reported."><meta property="og:image" content="https://cttir.github.io/cel
     <!-- Standard logo aliases contain the named v5 light and dark hexes. -->
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo" data-cttir-dark-src="../reference/figures/logo-dark.svg">cellreportR</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -113,7 +113,9 @@ cell when <code>x</code> is a <code>cr_experiment</code>).</p>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Missing values are replaced by <code>na_label</code> rather than propagated,
 so that two rows with an unrecorded plate are grouped together
-visibly instead of silently producing <code>NA</code> keys.</p>
+visibly instead of silently producing <code>NA</code> keys.
+If distinct tuples produce the same displayed key, the function refuses
+the collision; choose another separator or missing-value label.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
