@@ -349,7 +349,7 @@ cr_render_lab_report <- function(report,output_file,template=NULL,quiet=TRUE,
                                "_result-position.pdf"))
     } else file.path(work,"result-position.pdf")
     ggplot2::ggsave(graphic,plot=report$result_graphic,width=160,height=18,
-                    units="mm",device=grDevices::cairo_pdf,bg="white")
+                    units="mm",device=.cr_cairo_pdf_device,bg="white")
   }
   output_format <- rmarkdown::pdf_document(
     template=latex,latex_engine="xelatex",toc=FALSE,keep_tex=keep_tex,

@@ -62,15 +62,27 @@ cr_figure_size <- function(size=c("single","double","report","square"),units=c("
 #'   and TIFF support are available. Otherwise the normal bitmap device is
 #'   used. With Quartz configured, the fallback is uncompressed because
 #'   Quartz does not support compression.
+#'   CRAN R on macOS needs XQuartz for Cairo devices. A reported Cairo capability
+#'   alone does not establish that the runtime libraries are installed.
+#'   The figure and optional sidecar are staged before replacing their targets.
+#'   Missing or empty device output is an error. Ordinary publication failures
+#'   restore previous files; callers must serialize writers to these paths.
 #' @export
 cr_save_figure <- function(plot,filename,size=c("single","double","report","square"),dpi=600,background="white",metadata=NULL) {
   if(!inherits(plot,"ggplot")) cli::cli_abort("{.arg plot} must be a ggplot object.");.cr_check_path(filename);ext<-tolower(tools::file_ext(filename));if(!ext%in%c("pdf","svg","png","tiff","tif")) cli::cli_abort("Supported figure formats are PDF, SVG, PNG and TIFF.")
   dims<-if(is.character(size)) cr_figure_size(match.arg(size),"mm") else {if(!is.numeric(size)||length(size)!=2L) cli::cli_abort("Numeric {.arg size} must be width and height in millimetres.");as.list(stats::setNames(size,c("width","height")))}
   if(dims$width<40||dims$height<30) cli::cli_warn("Very small output dimensions may make text illegible.")
-  args<-list(filename=filename,plot=plot,width=dims$width,height=dims$height,units="mm",dpi=dpi,bg=background)
+  paths <- c(filename, if (!is.null(metadata)) paste0(filename, ".json"))
+  if (any(dir.exists(paths))) cli::cli_abort("Figure output targets must not be directories.")
+  stage <- vapply(paths, function(path) {
+    tempfile(".cr-figure-", tmpdir = dirname(path),
+             fileext = paste0(".", tools::file_ext(path)))
+  }, character(1))
+  on.exit(unlink(stage), add = TRUE)
+  args<-list(filename=stage[[1L]],plot=plot,width=dims$width,height=dims$height,units="mm",dpi=dpi,bg=background)
   if (ext %in% c("tiff", "tif")) {
     if (isTRUE(capabilities("cairo")) && isTRUE(capabilities("tiff"))) {
-      args$device <- grDevices::tiff
+      args$device <- .cr_tiff_device
       args$type <- "cairo"
       args$compression <- "lzw"
     } else if (!identical(getOption("bitmapType"), "quartz")) {
@@ -78,8 +90,65 @@ cr_save_figure <- function(plot,filename,size=c("single","double","report","squa
     }
   }
   do.call(ggplot2::ggsave,args)
-  if(!is.null(metadata)){sidecar<-paste0(filename,".json");payload<-c(list(schema="cellreportR-figure",schema_version="1.0",created_at=.cr_iso(Sys.time()),package_version=as.character(utils::packageVersion("cellreportR")),file_hash=digest::digest(file=filename,algo="sha256")),metadata);jsonlite::write_json(.cr_json_ready(payload),sidecar,pretty=TRUE,auto_unbox=TRUE,na="null",null="null")}
+  size <- file.info(stage[[1L]])$size
+  if (is.na(size) || size <= 0 || dir.exists(stage[[1L]])) {
+    cli::cli_abort("The graphics device did not create a nonempty figure. Check its runtime libraries.")
+  }
+  if(!is.null(metadata)){payload<-c(list(schema="cellreportR-figure",schema_version="1.0",created_at=.cr_iso(Sys.time()),package_version=as.character(utils::packageVersion("cellreportR")),file_hash=digest::digest(file=stage[[1L]],algo="sha256")),metadata);jsonlite::write_json(.cr_json_ready(payload),stage[[2L]],pretty=TRUE,auto_unbox=TRUE,na="null",null="null")}
+  .cr_publish_figure(stage, paths)
   invisible(filename)
+}
+
+# Preserve the res/units formals used by ggsave to pass DPI and inch dimensions.
+.cr_tiff_device <- function(filename, width, height, units = "px", res = NA, ...) {
+  previous <- grDevices::dev.cur()
+  grDevices::tiff(filename = filename, width = width, height = height,
+                  units = units, res = res, ...)
+  if (grDevices::dev.cur() == previous) {
+    cli::cli_abort("The TIFF device did not open. Check Cairo/X11 runtime libraries; macOS may require XQuartz.")
+  }
+}
+
+.cr_cairo_pdf_device <- function(filename, width, height, ...) {
+  previous <- grDevices::dev.cur()
+  grDevices::cairo_pdf(filename = filename, width = width, height = height, ...)
+  if (grDevices::dev.cur() == previous) {
+    cli::cli_abort("The Cairo PDF device did not open. Check Cairo/X11 runtime libraries; macOS may require XQuartz.")
+  }
+}
+
+# Same-directory renames with rollback, not a multi-file atomic transaction.
+.cr_publish_figure <- function(stage, paths, rename = file.rename) {
+  sizes <- file.info(stage)$size
+  if (anyNA(sizes) || any(sizes <= 0) || any(dir.exists(stage))) {
+    cli::cli_abort("The figure export did not create a nonempty output bundle.")
+  }
+  backup <- rep(NA_character_, length(paths))
+  published <- rep(FALSE, length(paths))
+  complete <- FALSE
+  on.exit({
+    if (!complete) {
+      for (i in rev(seq_along(paths))) {
+        if (published[[i]]) unlink(paths[[i]])
+        if (!is.na(backup[[i]]) && !rename(backup[[i]], paths[[i]])) {
+          warning("Could not restore the previous figure output; retained at ",
+                  backup[[i]], call. = FALSE)
+        }
+      }
+    }
+  }, add = TRUE)
+  for (i in seq_along(paths)) {
+    if (file.exists(paths[[i]])) {
+      old <- tempfile(".cr-figure-previous-", tmpdir = dirname(paths[[i]]))
+      if (!rename(paths[[i]], old)) cli::cli_abort("Cannot preserve the previous figure output.")
+      backup[[i]] <- old
+    }
+    if (!rename(stage[[i]], paths[[i]])) cli::cli_abort("Cannot publish the figure output.")
+    published[[i]] <- TRUE
+  }
+  complete <- TRUE
+  unlink(backup[!is.na(backup)])
+  invisible(paths)
 }
 
 #' Plot estimates and confidence intervals

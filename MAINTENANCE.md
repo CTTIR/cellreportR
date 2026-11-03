@@ -1,5 +1,62 @@
 # Maintenance audit — 2026-10-30
 
+## Hosted follow-up — 3 November 2026
+
+Baseline `3faf2712a031`, hosted R check `41604839545`: the macOS TIFF
+tests failed because CRAN R reported Cairo support but could not load its
+XQuartz runtime libraries. Enable the existing shared workflow's
+`macos-xquartz` input and correct the platform prerequisites in the README.
+The workflow and its supported matrix are otherwise unchanged. The existing
+informational oldrel-3 dependency failure (cytolib/BH before package checking)
+is distinct from this repaired macOS failure.
+
+Tracing the device failure exposed a second defect: `ggsave()` can return
+without producing a figure, or draw on the caller/default device when a Cairo
+initializer only warns. Publication figures now stage the figure and optional
+sidecar, require nonempty output, preserve previous files on render/metadata
+failure and restore them after ordinary publication failures. A failed restore
+retains and identifies its backup. This is not a multi-file crash-atomic
+transaction; callers must serialize writers. TIFF and laboratory-report Cairo
+PDF initializers now stop before drawing if no device was opened.
+
+Evidence retained under the audit's `hosted-followup/cellreportR` directory:
+
+- Original device/output regression: ten failing assertions. Later TIFF and
+  laboratory PDF initialization regressions each reproduced their failure.
+  Unintended synthetic Rplots output is retained with hashes outside the
+  package; it is excluded from the final exported source.
+- Final graphics, rollback and real PDF reviewer gate: 140 passing assertions,
+  no failures, warnings or skips. The complete final direct suite passes 1,957
+  assertions, with the reviewer render gate enabled and no skipped tests.
+- Final source archive: `R CMD check --as-cran`, zero errors, zero warnings,
+  one incoming new-submission/development-version NOTE. Installed tests pass
+  1,871 assertions with 32 existing CRAN-only skips; these cases are exercised
+  by the complete direct suite above. Examples, donttest examples, vignettes,
+  PDF and HTML manuals pass.
+- Archive SHA-256:
+  `9b0827faee70cd37ba6918c7251ec4047af50214f371c1c434621f3c39938356`.
+  All 319 comparable source payloads match; DESCRIPTION changes are standard
+  build reflow and derived author/packaging fields. Git metadata and diagnostic
+  Rplots files are absent. All author metadata and public signatures remain.
+- Actionlint and whitespace checks pass. House lint remains report-only:
+  250 baseline, 256 final; additions are five synthetic condition fixtures and
+  the explicit backup-recovery warning. No check was disabled or weakened.
+- Independent reviews cover staging, multi-file rollback, retained recovery
+  backups, graphics-device argument compatibility and both initialization
+  guards. No material issue remains from those reviews.
+
+First use: install R and the README's platform prerequisites (including XQuartz
+for Cairo graphics with CRAN R on macOS), then `pak::pak("CTTIR/cellreportR")`.
+Construct a ggplot and call `cr_save_figure(p, "figure.tiff", dpi = 300,
+metadata = list(source = "my dataset"))`. The returned filename is available
+only after publication succeeds. Actual installed-archive TIFF/PDF exports
+and their SHA-256 sidecars are checked separately in the local evidence.
+
+Native hosted macOS qualification follows the authorized main push. No release,
+submission, manual deployment or source-data modification was performed.
+
+## Original audit
+
 Baseline: `11e105790487f8964f8fdf6e782b255a46742f09`, version 0.2.0.9000.
 Work takes place in an isolated checkout. The clean original, manuscript-anchor
 tag/release, source data, author metadata and API-lock snapshots are preserved.
