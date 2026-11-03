@@ -2,6 +2,13 @@
 
 ## cellreportR 0.2.1.9000
 
+- Require nonempty staged figure output before publication, preserve
+  previous figures and metadata on device or sidecar failure, and
+  restore them after ordinary publication failures. Document and install
+  XQuartz in macOS CI for the Cairo devices used by compressed TIFF
+  figures and laboratory reports. Stop before drawing if a Cairo device
+  warns without opening, preserving the caller’s graphics device and
+  preventing unintended default PDF output.
 - Correct replicate-level effect estimates to use the same unit
   summaries as the tests. `level = "both"` provides replicate effects
   plus explicitly named cell effects. Reanalysis is required before

@@ -113,7 +113,10 @@ pak::pak("CTTIR/cellreportR")
 
 - **Windows** — no *Rtools* required: the package itself compiles
   nothing, and its dependencies install as pre-built binaries from CRAN.
-- **macOS** — nothing beyond R; no XQuartz needed.
+- **macOS** — install [XQuartz](https://www.xquartz.org/) for the Cairo
+  graphics devices used by compressed TIFF figures and laboratory PDF
+  reports with CRAN R. Restart R after installation. Ordinary analyses
+  do not use XQuartz.
 - **Linux** — several dependencies (`dplyr`, `readr`, `tidyr`,
   `ggplot2`) contain C++ and build from source unless you use a binary
   repository such as the [Posit Public Package

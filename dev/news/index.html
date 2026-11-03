@@ -54,7 +54,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.1.9000" id="cellreportr-0219000">cellreportR 0.2.1.9000<a class="anchor" aria-label="anchor" href="#cellreportr-0219000"></a></h2>
-<ul><li>Correct replicate-level effect estimates to use the same unit summaries as the tests. <code>level = "both"</code> provides replicate effects plus explicitly named cell effects. Reanalysis is required before replacing historical estimates; the manuscript-anchor release remains unchanged.</li>
+<ul><li>Require nonempty staged figure output before publication, preserve previous figures and metadata on device or sidecar failure, and restore them after ordinary publication failures. Document and install XQuartz in macOS CI for the Cairo devices used by compressed TIFF figures and laboratory reports. Stop before drawing if a Cairo device warns without opening, preserving the caller’s graphics device and preventing unintended default PDF output.</li>
+<li>Correct replicate-level effect estimates to use the same unit summaries as the tests. <code>level = "both"</code> provides replicate effects plus explicitly named cell effects. Reanalysis is required before replacing historical estimates; the manuscript-anchor release remains unchanged.</li>
 <li>Reject non-estimable blocked models, ambiguous batch keys and comparison joins. Retain shared design columns without suffix-induced failures.</li>
 <li>Require a conservative target before declaring sample-size sufficiency and validate confidence-bound order and vector lengths.</li>
 <li>Refuse the legacy signed-rank path, which had no matched-pair identifiers and silently truncated unequal arms. Use explicitly aligned pairs with <code>stats::wilcox.test(..., paired = TRUE)</code>.</li>

@@ -163,7 +163,7 @@
 <li>
 <strong>Windows</strong> — no <em>Rtools</em> required: the package itself compiles nothing, and its dependencies install as pre-built binaries from CRAN.</li>
 <li>
-<strong>macOS</strong> — nothing beyond R; no XQuartz needed.</li>
+<strong>macOS</strong> — install <a href="https://www.xquartz.org/" class="external-link">XQuartz</a> for the Cairo graphics devices used by compressed TIFF figures and laboratory PDF reports with CRAN R. Restart R after installation. Ordinary analyses do not use XQuartz.</li>
 <li>
 <strong>Linux</strong> — several dependencies (<code>dplyr</code>, <code>readr</code>, <code>tidyr</code>, <code>ggplot2</code>) contain C++ and build from source unless you use a binary repository such as the <a href="https://packagemanager.posit.co" class="external-link">Posit Public Package Manager</a> or <a href="https://eddelbuettel.github.io/r2u/" class="external-link">r2u</a>, which avoids needing a compiler. Otherwise install a build toolchain (for example <code>build-essential</code> on Debian/Ubuntu).</li>
 </ul>
