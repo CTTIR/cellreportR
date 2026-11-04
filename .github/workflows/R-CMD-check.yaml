@@ -15,7 +15,8 @@ jobs:
     uses: CTTIR/.github/.github/workflows/R-CMD-check.yaml@main
     with:
       # Bioconductor 3.18 cytolib requires the matching Boost filesystem API.
-      old-r-extra-packages: "BH@1.84.0-0"
+      # The archive reference keeps the solver from preferring newer BH headers.
+      old-r-extra-packages: "BH=url::https://cran.r-project.org/src/contrib/Archive/BH/BH_1.84.0-0.tar.gz"
       # Suggests Bioconductor packages that pak cannot solve without the
       # Bioconductor repository declared.
       bioc-repository: true
