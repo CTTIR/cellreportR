@@ -178,6 +178,8 @@ test_that("cr_render_report rejects objects that are not reports", {
 test_that("cr_report renders only when a destination is given", {
   exp <- .report_fixture()
   expect_s3_class(cr_report(exp), "cr_report")
+  skip_if_not_installed("rmarkdown")
+  skip_if_not_installed("knitr")
   dir <- withr::local_tempdir()
   expect_error(
     cr_report(exp, template = file.path(dir, "nope.Rmd")),

@@ -234,6 +234,8 @@ test_that("report formats include HTML, PDF and Word", {
 })
 
 test_that("cr_render_report errors on a template that does not exist", {
+  skip_if_not_installed("rmarkdown")
+  skip_if_not_installed("knitr")
   exp <- cr_example_experiment(seed = 1, n_cells_per_well = 8)
   rep <- cr_report(exp, render = FALSE)
   dir <- withr::local_tempdir()

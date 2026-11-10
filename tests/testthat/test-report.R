@@ -114,6 +114,8 @@ test_that("cr_export_plots names unnamed plots and supports svg/pdf", {
 })
 
 test_that("cr_report errors when template missing", {
+  skip_if_not_installed("rmarkdown")
+  skip_if_not_installed("knitr")
   exp <- cr_example_experiment(seed = 1, n_cells_per_well = 10)
   res <- cr_test_all(exp, "marker_1", "Untreated", level = "replicate")
   out_dir <- withr::local_tempdir()

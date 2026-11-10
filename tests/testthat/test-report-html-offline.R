@@ -39,6 +39,8 @@ test_that("only the default laboratory HTML selects offline embedded output", {
 })
 
 test_that("default PDF retains its controlled renderer", {
+  skip_if_not_installed("rmarkdown")
+  skip_if_not_installed("knitr")
   report <- cr_lab_report(spec = cr_test_lab_spec())
   called <- FALSE
   local_mocked_bindings(.cr_render_lab_pdf = function(...) {

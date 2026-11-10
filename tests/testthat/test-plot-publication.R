@@ -28,7 +28,7 @@ test_that("formatters avoid floating noise and p equals zero", {
 test_that("publication exports create meaningful files", {
   p<-ggplot2::ggplot(data.frame(x=1:3,y=1:3),ggplot2::aes(.data$x,.data$y))+ggplot2::geom_point()+cr_theme()
   for(ext in c("pdf","png","tiff")) { f<-withr::local_tempfile(fileext=paste0(".",ext));cr_save_figure(p,f,size="single",dpi=300);expect_gt(file.info(f)$size,500) }
-  if(capabilities("cairo")){f<-withr::local_tempfile(fileext=".svg");cr_save_figure(p,f);expect_gt(file.info(f)$size,500)}
+  if(capabilities("cairo") && requireNamespace("svglite", quietly = TRUE)){f<-withr::local_tempfile(fileext=".svg");cr_save_figure(p,f);expect_gt(file.info(f)$size,500)}
 })
 
 test_that("QC status plot prints status words and uses shapes", {

@@ -27,6 +27,8 @@ test_that("cr_run_app hands runApp an app object and lifts the upload limit", {
 })
 
 test_that("cr_run_app rejects an invalid upload limit", {
+  skip_if_not_installed("bslib")
+  skip_if_not_installed("DT")
   expect_error(cr_run_app(max_upload_mb = -1), "positive number")
   expect_error(cr_run_app(max_upload_mb = c(1, 2)), "positive number")
 })
