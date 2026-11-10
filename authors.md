@@ -2,7 +2,7 @@
 
 ## Authors
 
-- **Raban Heller**. Author, maintainer, copyright holder.
+- **R. Heller**. Author, maintainer, copyright holder.
   [](https://orcid.org/0000-0001-8006-9742)
 
 - **Leila Schwindling**. Author.
