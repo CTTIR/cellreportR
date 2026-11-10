@@ -1,6 +1,6 @@
 Package: cellreportR
 Title: Cell Culture Microscopy Assay Analysis and Reporting
-Version: 0.2.1.9000
+Version: 0.3.0
 Authors@R: c(
     person("Raban", "Heller",
            email = "raban.heller@uni-ulm.de",

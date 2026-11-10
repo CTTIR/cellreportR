@@ -8,6 +8,10 @@
 #    session$flushReact() before reading an output back.
 #  * DT renders server-side, so the JSON an output returns carries the
 #    column names but not the rows; assertions are on the header.
+#
+# Each in-process server test takes one to four seconds, about two minutes
+# for the file, so the file is skipped on CRAN to keep the check short.
+skip_on_cran()
 
 # ---- shared state and context -------------------------------------------
 

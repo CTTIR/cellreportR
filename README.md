@@ -214,7 +214,7 @@ unsupported analysis. Earlier versions could return median centering after a
 ComBat error. Choose `method = "median_center"` explicitly when appropriate, or
 prepare a feature-by-sample matrix and a suitable design for `sva::ComBat()`.
 
-Version 0.2.1.9000 corrects analysis integrity defects; it is not a published
+Version 0.3.0 corrects analysis integrity defects; it is not yet a published
 release. For exact reproduction of the historical manuscript software, install
 `CTTIR/cellreportR@manuscript-anchor-2026-08-21` in a separate library. Do not
 replace archived results when comparing versions.
@@ -331,13 +331,13 @@ interactive visualisation and report export.
 
 ## Citation
 
-Cite the exact version used. This checkout is an unpublished corrective
-development version; no verified DOI is currently attached to it. For this
+Cite the exact version used. This checkout is the unpublished corrective
+version 0.3.0; no verified DOI is currently attached to it. For this
 version, the citation is:
 
 > Heller R, Schwindling L, Büchner A, Lindenberger L, Müller S, Hannemann
 > M, Achatz G, Rothmiller S (2026). _cellreportR: Cell Culture Microscopy
-> Assay Analysis and Reporting_. R package version 0.2.1.9000,
+> Assay Analysis and Reporting_. R package version 0.3.0,
 > <https://github.com/CTTIR/cellreportR>.
 
 BibTeX:
@@ -349,7 +349,7 @@ BibTeX:
             Lucia Lindenberger and Steffen M\"uller and Michael Hannemann and
             Gerhard Achatz and Simone Rothmiller},
   year   = {2026},
-  note   = {R package version 0.2.1.9000},
+  note   = {R package version 0.3.0},
   url    = {https://github.com/CTTIR/cellreportR},
 }
 ```

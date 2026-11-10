@@ -1,4 +1,9 @@
-# cellreportR 0.2.1.9000
+# cellreportR 0.3.0
+
+* Prepare the first CRAN submission: every exported function documents its
+  return value and has a runnable example, the maintainer address is updated
+  and the description is phrased as full sentences.
+* Skip the slow in-process Shiny server tests on CRAN; they still run on CI.
 
 * Require nonempty staged figure output before publication, preserve previous
   figures and metadata on device or sidecar failure, and restore them after
