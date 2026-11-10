@@ -26,7 +26,9 @@ cr_compare_levels(unit_effects, cell_effects, by = NULL, estimate = "cohens_d")
 - by:
 
   Join keys. `NULL` (default) uses every non-numeric column the two
-  grids share, which is the stratifying columns plus `contrast`.
+  grids share, which is the stratifying columns plus `contrast`. Keys
+  must be unique in both grids. Include numeric strata explicitly when
+  the default text keys do not uniquely identify a contrast.
 
 - estimate:
 

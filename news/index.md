@@ -1,5 +1,137 @@
 # Changelog
 
+## cellreportR 0.3.0
+
+- Prepare the first CRAN submission: every exported function documents
+  its return value and has a runnable example, the maintainer address is
+  updated and the description is phrased as full sentences.
+
+- Skip the slow in-process Shiny server tests on CRAN; they still run on
+  CI.
+
+- Require nonempty staged figure output before publication, preserve
+  previous figures and metadata on device or sidecar failure, and
+  restore them after ordinary publication failures. Document and install
+  XQuartz in macOS CI for the Cairo devices used by compressed TIFF
+  figures and laboratory reports. Stop before drawing if a Cairo device
+  warns without opening, preserving the caller’s graphics device and
+  preventing unintended default PDF output.
+
+- Correct replicate-level effect estimates to use the same unit
+  summaries as the tests. `level = "both"` provides replicate effects
+  plus explicitly named cell effects. Reanalysis is required before
+  replacing historical estimates; the manuscript-anchor release remains
+  unchanged.
+
+- Reject non-estimable blocked models, ambiguous batch keys and
+  comparison joins. Retain shared design columns without suffix-induced
+  failures.
+
+- Require a conservative target before declaring sample-size sufficiency
+  and validate confidence-bound order and vector lengths.
+
+- Refuse the legacy signed-rank path, which had no matched-pair
+  identifiers and silently truncated unequal arms. Use explicitly
+  aligned pairs with `stats::wilcox.test(..., paired = TRUE)`.
+
+- Refuse the unsupported single-channel ComBat path instead of
+  substituting median centering after failure. Select median centering
+  explicitly or prepare a suitable feature-by-sample ComBat analysis
+  outside this interface.
+
+- Keep compounds separate in the analysis application through an
+  explicit stratum selector, defaulting to compound when available. Use
+  the declared control by default and clear stale effects after data or
+  target changes.
+
+- Use a native compression-capable Cairo TIFF device when available;
+  retain an uncompressed Quartz fallback when it is not.
+
+- Load laboratory PDF fonts from TeX-distributed files and check the
+  font prerequisites, without requiring operating-system font
+  registration.
+
+- Protect distinct report/audit destinations and existing audit files
+  before rendering. Correct the runnable screening example and describe
+  the existing power simulation’s independent-cell assumptions
+  accurately.
+
+## cellreportR 0.2.0.9000
+
+- Standardize the named v5 package logo across README, documentation
+  pages and available application headers, with matching light and dark
+  artwork.
+
+- Added a read-only application for already-bound reports, with
+  responsive claims, validated downloads and explicit source metadata.
+  The existing editable report preview retains its pagination default.
+
+- Specification JSON import now restores explicit timestamp offsets and
+  supported UTC forms, custom-section structure, and named field-label
+  objects. New exports retain field-label names. Previously lost names
+  or fractional seconds cannot be recovered; export timestamp precision
+  is unchanged.
+
+- Default laboratory HTML embeds its assets without a dynamic math
+  dependency and wraps long table values on narrow screens. Custom
+  templates and PDF rendering retain their existing behavior.
+
+- Corrected literal LaTeX escaping in laboratory reports. Special
+  characters now receive one escape without changing literal sentinel
+  text or Unicode.
+
+- Added portable file-bound report evidence for keyed CSV/TSV result
+  claims and declared figure/table links. Laboratory reports can
+  populate custom fields from this evidence and revalidate sources and
+  bound displays before rendering or audit export. Evidence ordering,
+  decimal parsing and numeric displays are portable across collation and
+  decimal-mark settings. Existing function signatures, reports and
+  analytical defaults are unchanged.
+
+- Added a domain-neutral laboratory reporting layer built around
+  versioned `cr_report_spec` and `cr_lab_report` objects,
+  strict/non-strict validation, concise QC tables, explicit
+  classification helpers, JSON interchange, deterministic
+  structured-data hashes, audit provenance, and a separate PDF/HTML
+  template.
+
+- Added a laboratory-report workflow to the existing Shiny application.
+  It uses the programmatic report objects, supports pre-population,
+  preview, validation, and PDF/specification/audit downloads without
+  logging sensitive free-text field contents.
+
+- Replaced the laboratory PDF’s default document styling with a
+  package-owned A4 KOMA-Script template (template version 2.0). It
+  provides controlled first- and later-page identity, `Page X of Y`
+  footers, a page-one result hierarchy, compact metadata and QC tables,
+  deliberate page flow, an intact release block, human-readable dates,
+  Unicode-safe XeLaTeX output, and a separate-by- default audit
+  appendix.
+
+- Refined template 2.0 with a single first-page title, centralized
+  visual and status tokens, balanced subject/specimen metadata, a
+  quieter integrated result indicator, compact two-column traceability
+  and additional-information grids, a deliberate reviewer/authorizer
+  release block, stronger detached-page identity, and optional
+  controlled-document footer text. Visual QA fixtures now cover colour,
+  grayscale, FINAL, and AMENDED output.
+
+- Added
+  [`cr_report_style()`](https://cttir.github.io/cellreportR/reference/cr_report_style.md),
+  [`cr_report_profile()`](https://cttir.github.io/cellreportR/reference/cr_report_profile.md),
+  and
+  [`cr_report_display_data()`](https://cttir.github.io/cellreportR/reference/cr_report_display_data.md)
+  so branding, colour/grayscale output, density, display labels, locale,
+  and organization-wide defaults are shared by the programmatic and
+  Shiny workflows without changing the report schema or any analytical
+  value.
+
+- Extended the centralized figure design system with colour and
+  grayscale modes, stable line types and manual scales, plot-style
+  objects, standard figure dimensions, deterministic PDF/SVG/PNG/TIFF
+  export, estimate and QC plots, and centralized interval, percentage,
+  and p-value formatting.
+
 ## cellreportR 0.2.0
 
 Rescopes the package from a single-plate assay helper to a full

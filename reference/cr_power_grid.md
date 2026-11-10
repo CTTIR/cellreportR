@@ -70,7 +70,10 @@ cr_power_grid(
 
 `effects` with the columns `d_conservative`, `n_observed`,
 `n_conservative` and `basis` appended, plus `n_available` and
-`sufficient` when availability is known.
+`sufficient` when availability is known. Sufficiency requires a finite
+conservative target; no observed-effect fallback is used when the
+interval spans zero or has no usable bound. Numeric availability inputs
+must be scalar or have one value per effect.
 
 ## See also
 

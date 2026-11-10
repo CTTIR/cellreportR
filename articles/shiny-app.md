@@ -1,5 +1,8 @@
 # Interactive Analysis with the cellreportR Shiny App
 
+![cellreportR logo](figures/logo.svg)![cellreportR
+logo](figures/logo-dark.svg)
+
 The bundled application walks the same pipeline as the package functions
 — read segmented exports, specify the design, apply quality control at
 cell and unit level, standardize, estimate effect sizes with confidence
@@ -31,8 +34,8 @@ MB, and the previous value is restored on exit.
 ``` r
 
 args(cr_run_app)
-#> function (experiment = NULL, max_upload_mb = 512, launch_browser = interactive(), 
-#>     ...) 
+#> function (experiment = NULL, report_spec = NULL, report_profile = NULL, 
+#>     max_upload_mb = 512, launch_browser = interactive(), ...) 
 #> NULL
 ```
 
@@ -112,3 +115,12 @@ namespace, so the app can be driven in-process by
 [`shiny::testServer()`](https://rdrr.io/pkg/shiny/man/testServer.html)
 as well as from a browser. `inst/shiny/cellreportR/` holds only the
 `www/` assets and a thin `app.R` shim for deployment on a Shiny server.
+
+The Effect sizes tab offers **Stratify contrasts by**. Select the design
+column whose groups must be analyzed separately; `compound` is selected
+when present. Each stratum uses its own control observations, and
+tables, CSV downloads and forest facets retain its identity. The
+declared `metadata$control_level` is the initial control when valid.
+Changing data, channel, control, stratum, level or confidence clears the
+previous effect result; press **Estimate effect sizes** again before
+downloading. Selecting `(none)` explicitly pools the strata.

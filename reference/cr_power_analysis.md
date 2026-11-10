@@ -1,10 +1,14 @@
-# Post-hoc power for a hierarchical cell-based assay
+# Simulated power under independent-cell assumptions
 
-A Monte-Carlo approximation of the power of a two-sample comparison that
-accounts for the hierarchical structure (cells nested within replicate
-units). Used mainly for reporting; for sizing a follow-up study use
-[`cr_power()`](https://cttir.github.io/cellreportR/reference/cr_power.md),
-which inverts the design analytically.
+A Monte-Carlo approximation of the power of a two-sample comparison of
+replicate means formed from independent, unit-variance normal cells.
+There is no between-unit random effect or intraclass correlation. The
+result is an idealized scenario, not a validated estimate of power for a
+clustered biological assay or a formal upper bound on laboratory power.
+For a follow-up design use
+[`cr_power()`](https://cttir.github.io/cellreportR/reference/cr_power.md)
+with an effect on the independent experimental-unit scale, or a
+separately specified correlated-data model.
 
 ## Usage
 

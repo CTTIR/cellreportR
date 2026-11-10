@@ -181,7 +181,7 @@ nearer the null.
 - [`cr_power_grid()`](https://cttir.github.io/cellreportR/reference/cr_power_grid.md)
   : Sample sizes for a whole effect grid
 - [`cr_power_analysis()`](https://cttir.github.io/cellreportR/reference/cr_power_analysis.md)
-  : Post-hoc power for a hierarchical cell-based assay
+  : Simulated power under independent-cell assumptions
 
 ## Discriminability
 
@@ -262,8 +262,86 @@ Publication figures and the shared plot design contract.
   : Redundant shape encoding
 - [`cr_scale_group()`](https://cttir.github.io/cellreportR/reference/cr_scale_group.md)
   : Grouping scales with redundant encoding
+- [`cr_scale_colour()`](https://cttir.github.io/cellreportR/reference/cr_scale_colour.md)
+  [`cr_scale_fill()`](https://cttir.github.io/cellreportR/reference/cr_scale_colour.md)
+  [`cr_shape_scale()`](https://cttir.github.io/cellreportR/reference/cr_scale_colour.md)
+  [`cr_linetype_scale()`](https://cttir.github.io/cellreportR/reference/cr_scale_colour.md)
+  : Manual colour scale from the cellreportR visual system
+- [`cr_scale_diverging()`](https://cttir.github.io/cellreportR/reference/cr_scale_diverging.md)
+  : Continuous diverging scale
+- [`cr_plot_style()`](https://cttir.github.io/cellreportR/reference/cr_plot_style.md)
+  : Construct a reusable plot style
+- [`cr_linetypes()`](https://cttir.github.io/cellreportR/reference/cr_linetypes.md)
+  : Stable line types for categorical figures
+- [`cr_figure_size()`](https://cttir.github.io/cellreportR/reference/cr_figure_size.md)
+  : Standard deterministic figure dimensions
+- [`cr_figure_caption()`](https://cttir.github.io/cellreportR/reference/cr_figure_caption.md)
+  : Build a descriptive figure caption
+- [`cr_plot_estimates()`](https://cttir.github.io/cellreportR/reference/cr_plot_estimates.md)
+  : Plot estimates and confidence intervals
+- [`cr_plot_qc_summary()`](https://cttir.github.io/cellreportR/reference/cr_plot_qc_summary.md)
+  : Compact text-first QC status plot
+- [`cr_plot_result_position()`](https://cttir.github.io/cellreportR/reference/cr_plot_result_position.md)
+  : Plot a value relative to caller-supplied boundaries
+- [`cr_save_figure()`](https://cttir.github.io/cellreportR/reference/cr_save_figure.md)
+  : Save a publication-ready figure deterministically
 - [`cr_save_plot()`](https://cttir.github.io/cellreportR/reference/cr_save_plot.md)
   : Save a figure at publication settings
+
+## Laboratory reporting
+
+Versioned, configurable report data, validation, rendering and audit
+export.
+
+- [`cr_report_spec()`](https://cttir.github.io/cellreportR/reference/cr_report_spec.md)
+  : Construct a configurable laboratory report specification
+- [`cr_validate_report_spec()`](https://cttir.github.io/cellreportR/reference/cr_validate_report_spec.md)
+  : Validate a laboratory report specification
+- [`cr_print_report_spec()`](https://cttir.github.io/cellreportR/reference/cr_print_report_spec.md)
+  : Print a laboratory report specification
+- [`cr_classify_result()`](https://cttir.github.io/cellreportR/reference/cr_classify_result.md)
+  : Deterministically classify numeric results using explicit boundaries
+- [`cr_finalize_result()`](https://cttir.github.io/cellreportR/reference/cr_finalize_result.md)
+  : Apply a caller-selected QC finalization rule
+- [`cr_interpretation_lookup()`](https://cttir.github.io/cellreportR/reference/cr_interpretation_lookup.md)
+  : Look up explicit interpretation text
+- [`cr_report_qc()`](https://cttir.github.io/cellreportR/reference/cr_report_qc.md)
+  : Construct a concise report QC table
+- [`cr_validate_report_qc()`](https://cttir.github.io/cellreportR/reference/cr_validate_report_qc.md)
+  : Validate a concise report QC table
+- [`cr_report_qc_from_log()`](https://cttir.github.io/cellreportR/reference/cr_report_qc_from_log.md)
+  : Convert an existing experiment QC log to report-compatible rows
+- [`cr_lab_report()`](https://cttir.github.io/cellreportR/reference/cr_lab_report.md)
+  : Assemble a laboratory report without recalculating analytical values
+- [`cr_report_data()`](https://cttir.github.io/cellreportR/reference/cr_report_data.md)
+  : Inspect the exact structured values entering a laboratory report
+- [`cr_report_display_data()`](https://cttir.github.io/cellreportR/reference/cr_report_display_data.md)
+  : Prepare human-facing values for report rendering
+- [`cr_report_style()`](https://cttir.github.io/cellreportR/reference/cr_report_style.md)
+  : Configure the appearance of laboratory reports
+- [`cr_report_profile()`](https://cttir.github.io/cellreportR/reference/cr_report_profile.md)
+  : Create a reusable laboratory report profile
+- [`cr_render_lab_report()`](https://cttir.github.io/cellreportR/reference/cr_render_lab_report.md)
+  : Render a concise laboratory report
+- [`cr_report_hash()`](https://cttir.github.io/cellreportR/reference/cr_report_hash.md)
+  : Hash report-relevant structured data
+- [`cr_report_provenance()`](https://cttir.github.io/cellreportR/reference/cr_report_provenance.md)
+  : Build machine-readable report provenance
+- [`cr_report_evidence()`](https://cttir.github.io/cellreportR/reference/cr_report_evidence.md)
+  : Bind report claims and figures to portable source-file evidence
+- [`cr_validate_report_evidence()`](https://cttir.github.io/cellreportR/reference/cr_validate_report_evidence.md)
+  : Revalidate report evidence against its current source tree
+- [`cr_lab_report_from_evidence()`](https://cttir.github.io/cellreportR/reference/cr_lab_report_from_evidence.md)
+  : Assemble a laboratory report with validated, source-bound quoted
+  values
+- [`cr_report_review_app()`](https://cttir.github.io/cellreportR/reference/cr_report_review_app.md)
+  : Review an immutable source-bound report in a Shiny application
+- [`cr_export_report_spec()`](https://cttir.github.io/cellreportR/reference/cr_export_report_spec.md)
+  : Export a report specification as versioned JSON
+- [`cr_import_report_spec()`](https://cttir.github.io/cellreportR/reference/cr_import_report_spec.md)
+  : Import a versioned report specification from JSON
+- [`cr_export_report_audit()`](https://cttir.github.io/cellreportR/reference/cr_export_report_audit.md)
+  : Export report audit provenance as JSON
 
 ## Tables and reporting
 
@@ -300,6 +378,12 @@ generated include file.
   : Build a macro-safe name
 - [`cr_format_number()`](https://cttir.github.io/cellreportR/reference/cr_format_number.md)
   : Format a number for a generated document
+- [`cr_format_interval()`](https://cttir.github.io/cellreportR/reference/cr_format_interval.md)
+  : Format an estimate and confidence interval
+- [`cr_format_percent()`](https://cttir.github.io/cellreportR/reference/cr_format_percent.md)
+  : Format proportions as percentages
+- [`cr_format_pvalue()`](https://cttir.github.io/cellreportR/reference/cr_format_pvalue.md)
+  : Format p-values without displaying calculated zero
 - [`cr_enumerate()`](https://cttir.github.io/cellreportR/reference/cr_enumerate.md)
   : Write a vector out as an English list
 

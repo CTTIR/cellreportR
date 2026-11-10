@@ -61,12 +61,12 @@ Useful links:
 
 ## Author
 
-**Maintainer**: Raban Heller <raban.heller@charite.de>
+**Maintainer**: Raban Heller <raban.heller@uni-ulm.de>
 ([ORCID](https://orcid.org/0000-0001-8006-9742)) \[copyright holder\]
 
 Authors:
 
-- Raban Heller <raban.heller@charite.de>
+- Raban Heller <raban.heller@uni-ulm.de>
   ([ORCID](https://orcid.org/0000-0001-8006-9742)) \[copyright holder\]
 
 - Leila Schwindling

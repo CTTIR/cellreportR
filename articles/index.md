@@ -18,3 +18,10 @@
 
 - [Interactive Analysis with the cellreportR Shiny
   App](https://cttir.github.io/cellreportR/articles/shiny-app.md):
+
+### Reporting and figures
+
+- [Configurable Laboratory Reports with
+  cellreportR](https://cttir.github.io/cellreportR/articles/laboratory-reporting.md):
+- [Publication-ready figures with
+  cellreportR](https://cttir.github.io/cellreportR/articles/figure-style.md):

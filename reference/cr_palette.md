@@ -12,7 +12,8 @@ of readers cannot separate.
 cr_palette(
   n = NULL,
   type = c("qualitative", "sequential", "diverging"),
-  names = NULL
+  names = NULL,
+  mode = c("colour", "grayscale")
 )
 ```
 
@@ -38,6 +39,10 @@ cr_palette(
   Optional character vector of names to attach to the returned colours,
   for use as the `values` argument of a manual scale. Must have the same
   length as the result.
+
+- mode:
+
+  `"colour"` or a monotonically separated `"grayscale"` palette.
 
 ## Value
 

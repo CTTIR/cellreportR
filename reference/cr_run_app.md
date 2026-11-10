@@ -12,6 +12,8 @@ export a report.
 ``` r
 cr_run_app(
   experiment = NULL,
+  report_spec = NULL,
+  report_profile = NULL,
   max_upload_mb = 512,
   launch_browser = interactive(),
   ...
@@ -27,6 +29,19 @@ cr_run_app(
   before the app is built and handed to the server through the app
   object, so no global state is involved. When `NULL` (default) the app
   starts empty and offers synthetic example data.
+
+- report_spec:
+
+  Optional
+  [`cr_report_spec()`](https://cttir.github.io/cellreportR/reference/cr_report_spec.md)
+  used to pre-populate the laboratory-report workflow.
+
+- report_profile:
+
+  Optional
+  [`cr_report_profile()`](https://cttir.github.io/cellreportR/reference/cr_report_profile.md)
+  providing reusable laboratory metadata, labels, required fields, and
+  visual style.
 
 - max_upload_mb:
 

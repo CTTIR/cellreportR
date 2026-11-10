@@ -78,10 +78,10 @@ attr(all_res, "summary")
 #> # A tibble: 5 × 8
 #>   treatment log2_fc p_value cohens_d   p_adj p_bonferroni    p_BH interpretation
 #>   <chr>       <dbl>   <dbl>    <dbl>   <dbl>        <dbl>   <dbl> <chr>         
-#> 1 PosContr…   3.40  1.54e-6   2.12   4.66e-6   0.00000772 4.66e-6 strong        
-#> 2 Compound…   1.07  3.12e-5   0.469  5.20e-5   0.000156   5.20e-5 weak          
-#> 3 Compound…   3.05  1.86e-6   2.08   4.66e-6   0.00000932 4.66e-6 strong        
-#> 4 CompoundB   0.495 2.73e-3   0.0445 2.73e-3   0.0137     2.73e-3 weak          
-#> 5 CompoundC   0.923 8.20e-5   0.487  1.02e-4   0.000410   1.02e-4 weak          
+#> 1 PosContr…   3.40  1.54e-6    6.79  4.66e-6   0.00000772 4.66e-6 strong        
+#> 2 Compound…   1.07  3.12e-5    0.822 5.20e-5   0.000156   5.20e-5 strong        
+#> 3 Compound…   3.05  1.86e-6    5.27  4.66e-6   0.00000932 4.66e-6 strong        
+#> 4 CompoundB   0.495 2.73e-3    0.113 2.73e-3   0.0137     2.73e-3 weak          
+#> 5 CompoundC   0.923 8.20e-5    0.674 1.02e-4   0.000410   1.02e-4 moderate      
 # }
 ```

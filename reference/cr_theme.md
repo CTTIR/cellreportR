@@ -10,9 +10,11 @@ a muted subtitle and a bottom legend.
 ``` r
 cr_theme(
   base_size = 11,
-  base_family = "",
+  base_family = "sans",
   grid = TRUE,
-  legend_position = "bottom"
+  legend_position = "bottom",
+  variant = c("publication", "report"),
+  mode = c("colour", "grayscale")
 )
 ```
 
@@ -24,8 +26,7 @@ cr_theme(
 
 - base_family:
 
-  Base font family. Default `""` (the device default), which keeps
-  figures reproducible across machines.
+  Base font family. Default generic `"sans"`.
 
 - grid:
 
@@ -36,6 +37,14 @@ cr_theme(
   Passed to
   [`ggplot2::theme()`](https://ggplot2.tidyverse.org/reference/theme.html).
   Default `"bottom"`.
+
+- variant:
+
+  `"publication"` or a tighter `"report"` layout.
+
+- mode:
+
+  Colour or grayscale mode. Typography is shared across modes.
 
 ## Value
 

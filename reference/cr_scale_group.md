@@ -14,7 +14,8 @@ cr_scale_group(
   aesthetics = c("colour", "fill", "shape"),
   name = NULL,
   guide_for = NULL,
-  drop = TRUE
+  drop = TRUE,
+  mode = c("colour", "grayscale")
 )
 ```
 
@@ -40,6 +41,10 @@ cr_scale_group(
 
   Passed to the underlying scales: drop unused factor levels (default
   `TRUE`).
+
+- mode:
+
+  Colour or grayscale palette for colour/fill aesthetics.
 
 ## Value
 

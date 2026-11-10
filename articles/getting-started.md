@@ -1,12 +1,15 @@
 # Getting Started with cellreportR
 
+![cellreportR logo](figures/logo.svg)![cellreportR
+logo](figures/logo-dark.svg)
+
 cellreportR takes segmented single-cell microscopy data to a structured,
 auditable set of estimates. This vignette walks the short path on one
 plate using bundled synthetic data;
 [`vignette("end-to-end")`](https://cttir.github.io/cellreportR/articles/end-to-end.md)
 walks the long one, from files on disk to a finished report.
 
-### 1. Load example data
+## 1. Load example data
 
 [`cr_example_experiment()`](https://cttir.github.io/cellreportR/reference/cr_example_experiment.md)
 simulates a 96-unit plate: six treatment levels, four channels, two
@@ -26,7 +29,7 @@ exp
 #> ℹ Metadata fields: project and sop
 ```
 
-### 2. Inspect the design
+## 2. Inspect the design
 
 ``` r
 
@@ -74,7 +77,7 @@ table(exp$design$plate, exp$design$interval)
 #>   Plate_2    24    24
 ```
 
-### 3. Apply quality control
+## 3. Apply quality control
 
 ``` r
 
@@ -94,7 +97,7 @@ cr_qc_summary(exp_qc)[, c("step", "cells_before", "cells_after",
 The QC log is append-only and travels with the object, so what was
 removed stays recoverable after the fact.
 
-### 4. Fold changes and tests
+## 4. Fold changes and tests
 
 [`cr_test_all()`](https://cttir.github.io/cellreportR/reference/cr_test_all.md)
 contrasts every treatment level against the control and attaches a
@@ -113,11 +116,11 @@ attr(res, "summary")[, c("treatment", "log2_fc", "p_value", "p_BH",
 #> # A tibble: 5 × 6
 #>   treatment      log2_fc    p_value       p_BH cohens_d interpretation
 #>   <chr>            <dbl>      <dbl>      <dbl>    <dbl> <chr>         
-#> 1 PosControl       3.21  0.00000154 0.00000386   2.26   strong        
-#> 2 CompoundA_low    0.963 0.0000368  0.0000613    0.765  moderate      
-#> 3 CompoundA_high   2.84  0.00000154 0.00000386   1.98   strong        
-#> 4 CompoundB        0.354 0.0302     0.0302       0.0554 weak          
-#> 5 CompoundC        0.690 0.0000509  0.0000636    0.504  moderate
+#> 1 PosControl       3.21  0.00000154 0.00000386   6.57   strong        
+#> 2 CompoundA_low    0.963 0.0000368  0.0000613    1.11   strong        
+#> 3 CompoundA_high   2.84  0.00000154 0.00000386   5.25   strong        
+#> 4 CompoundB        0.354 0.0302     0.0302       0.0201 weak          
+#> 5 CompoundC        0.690 0.0000509  0.0000636    0.589  moderate
 ```
 
 `level = "replicate"` aggregates cells to one value per well before
@@ -125,7 +128,7 @@ testing. That is the defensible default;
 [`vignette("statistical-analysis")`](https://cttir.github.io/cellreportR/articles/statistical-analysis.md)
 shows what the cell-level alternative costs.
 
-### 5. Visualize
+## 5. Visualize
 
 ``` r
 
@@ -148,7 +151,7 @@ cr_plot_plate(exp_qc, "marker_1", metric = "median")
 
 ![](getting-started_files/figure-html/plate-map-1.png)
 
-### 6. Discriminability
+## 6. Discriminability
 
 When the question is whether a marker separates treated from control
 cells rather than whether the group means differ, fit a univariate
@@ -170,7 +173,7 @@ cr_plot_roc(logit)
 
 ![](getting-started_files/figure-html/logistic-1.png)
 
-### 7. Next steps
+## 7. Next steps
 
 - [`vignette("end-to-end")`](https://cttir.github.io/cellreportR/articles/end-to-end.md)
   — ingest, units, the quality-control gate, per-batch standardization,
@@ -182,21 +185,3 @@ cr_plot_roc(logit)
 - [`cr_run_app()`](https://cttir.github.io/cellreportR/reference/cr_run_app.md)
   — the same pipeline in a browser; see
   [`vignette("shiny-app")`](https://cttir.github.io/cellreportR/articles/shiny-app.md).
-
-## Use of LLM tools
-
-Portions of this package were prepared with assistance from large
-language model tooling for narrowly defined, non-authorial tasks:
-copyediting, prose smoothing, Markdown/LaTeX formatting, scaffolding of
-boilerplate files (CI configs, build scripts), code refactoring. The
-tools used were [Chat
-AI](https://kisski.gwdg.de/leistungen/2-02-llm-service/), the LLM
-service of KISSKI (GWDG), and a self-hosted **Mistral Small (24B,
-Apache-2.0)** run locally via [Ollama](https://ollama.com/) and the
-`ollamar` R package — local inference only, with no data sent to third
-parties for the self-hosted model.
-
-All scientific claims, methodological choices, analyses,
-interpretations, and conclusions are the author’s own. No LLM-generated
-text was incorporated without review and revision, and every reference
-was verified against its DOI, arXiv ID, or ISBN.

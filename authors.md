@@ -26,13 +26,13 @@ Source:
 
 Heller R, Schwindling L, Büchner A, Lindenberger L, Müller S, Hannemann
 M, Achatz G, Rothmiller S (2026). *cellreportR: Cell Culture Microscopy
-Assay Analysis and Reporting*. R package version 0.2.0,
+Assay Analysis and Reporting*. R package version 0.3.0,
 <https://github.com/CTTIR/cellreportR>.
 
     @Manual{,
       title = {cellreportR: Cell Culture Microscopy Assay Analysis and Reporting},
       author = {Raban Heller and Leila Schwindling and Alexander Büchner and Lucia Lindenberger and Steffen Müller and Michael Hannemann and Gerhard Achatz and Simone Rothmiller},
       year = {2026},
-      note = {R package version 0.2.0},
+      note = {R package version 0.3.0},
       url = {https://github.com/CTTIR/cellreportR},
     }
