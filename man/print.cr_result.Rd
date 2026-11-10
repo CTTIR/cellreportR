@@ -17,3 +17,9 @@
 \description{
 Print method for \code{cr_result}
 }
+\examples{
+exp <- cr_example_experiment(seed = 1, n_cells_per_well = 20)
+res <- cr_test(exp, channel = "marker_1", treatment = "CompoundA_high",
+               control = "Untreated", level = "replicate")
+print(res)
+}

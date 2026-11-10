@@ -34,6 +34,20 @@ report figures. Legacy \code{cr_plot_style} objects are converted.}
 \item{profile}{Optional \code{\link[=cr_report_profile]{cr_report_profile()}} containing laboratory defaults,
 labels, required fields, and organization-wide visual settings.}
 }
+\value{
+A \code{cr_lab_report} object holding the validated specification, the QC table, the report style and audit events. No analytical values are recalculated.
+}
 \description{
 Assemble a laboratory report without recalculating analytical values
+}
+\examples{
+spec <- cr_report_spec(
+  report = list(report_id = "EXAMPLE-001"),
+  result = list(value = 1.42, unit = "a.u.", classification = "INTERMEDIATE"),
+  authorization = list(authorized_by = "Example Authorizer")
+)
+qc <- cr_report_qc("Cells per well", observed = "1520",
+                   acceptance = ">= 500", status = "PASS")
+report <- cr_lab_report(spec = spec, qc = qc)
+report
 }

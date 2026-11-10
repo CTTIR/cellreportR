@@ -20,6 +20,16 @@ cr_scale_diverging(
 
 \item{...}{Passed to the gradient scale.}
 }
+\value{
+A \code{ggplot2} continuous scale object.
+}
 \description{
 Continuous diverging scale
+}
+\examples{
+d <- expand.grid(x = 1:5, y = 1:5)
+d$z <- d$x - d$y
+ggplot2::ggplot(d, ggplot2::aes(x, y, fill = z)) +
+  ggplot2::geom_tile() +
+  cr_scale_diverging(aesthetics = "fill")
 }

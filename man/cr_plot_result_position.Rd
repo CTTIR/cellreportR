@@ -33,6 +33,14 @@ cr_plot_result_position(
 
 \item{style}{Optional \code{\link[=cr_plot_style]{cr_plot_style()}}.}
 }
+\value{
+A \code{ggplot} object.
+}
 \description{
 Plot a value relative to caller-supplied boundaries
+}
+\examples{
+cr_plot_result_position(1.42, thresholds = c(1, 2),
+                        labels = c("LOW", "INTERMEDIATE", "HIGH"),
+                        unit = "a.u.")
 }

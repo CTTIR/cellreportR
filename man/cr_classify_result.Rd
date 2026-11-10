@@ -25,3 +25,6 @@ Character vector with missing/non-finite inputs returned as \code{NA}.
 \description{
 Deterministically classify numeric results using explicit boundaries
 }
+\examples{
+cr_classify_result(c(0.5, 1, 1.5, 2, NA), negative_upper = 1, positive_lower = 2)
+}

@@ -17,6 +17,18 @@ deterministic rendering.
 Produces already formatted labels, dates, values, section visibility flags,
 and audit rows. It does not change the report specification.
 }
+\examples{
+spec <- cr_report_spec(
+  report = list(report_id = "EXAMPLE-001"),
+  result = list(value = 1.42, unit = "a.u.", classification = "INTERMEDIATE"),
+  authorization = list(authorized_by = "Example Authorizer")
+)
+qc <- cr_report_qc("Cells per well", observed = "1520",
+                   acceptance = ">= 500", status = "PASS")
+report <- cr_lab_report(spec = spec, qc = qc)
+display <- cr_report_display_data(report)
+names(display)
+}
 \seealso{
 Other laboratory reporting:
 \code{\link[=cr_report_profile]{cr_report_profile()}},

@@ -19,6 +19,12 @@ cr_figure_caption(
 
 \item{unit}{Optional unit-of-replication label.}
 }
+\value{
+A single character string.
+}
 \description{
 Build a descriptive figure caption
+}
+\examples{
+cr_figure_caption("Figure 1.", "Fold change per compound.", n = 6, unit = "wells")
 }

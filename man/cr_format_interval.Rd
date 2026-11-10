@@ -11,6 +11,12 @@ cr_format_interval(estimate, lower, upper, digits = 2)
 
 \item{digits}{Decimal places.}
 }
+\value{
+A character vector of the form \code{estimate [lower, upper]}.
+}
 \description{
 Format an estimate and confidence interval
+}
+\examples{
+cr_format_interval(1.234, 0.9, 1.6)
 }

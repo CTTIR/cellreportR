@@ -32,6 +32,13 @@ cr_plot_style(
 
 \item{legend_position}{Legend position.}
 }
+\value{
+A \code{cr_plot_style} object: a list with the colour mode, variant, base font settings, palette, shapes, line types and legend position.
+}
 \description{
 Construct a reusable plot style
+}
+\examples{
+style <- cr_plot_style(mode = "grayscale", variant = "report")
+names(style)
 }

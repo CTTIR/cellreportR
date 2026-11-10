@@ -32,6 +32,18 @@ cr_plot_estimates(
 
 \item{style}{Optional \code{cr_plot_style}.}
 }
+\value{
+A \code{ggplot} object.
+}
 \description{
 Plot estimates and confidence intervals
+}
+\examples{
+estimates <- data.frame(
+  group = c("CompoundA_low", "CompoundA_high", "CompoundB"),
+  estimate = c(0.31, 1.42, -0.12),
+  conf_low = c(-0.10, 0.55, -0.40),
+  conf_high = c(0.72, 2.29, 0.16)
+)
+cr_plot_estimates(estimates)
 }

@@ -13,8 +13,23 @@ cr_export_report_spec(spec, path, pretty = TRUE)
 
 \item{pretty}{Pretty-print JSON.}
 }
+\value{
+\code{path}, invisibly.
+}
 \description{
 Named field labels are encoded as a JSON object. Date-time export retains
 its existing whole-second representation; fractional precision is not
 preserved by this format.
+}
+\examples{
+spec <- cr_report_spec(
+  report = list(report_id = "EXAMPLE-001"),
+  result = list(value = 1.42, unit = "a.u.", classification = "INTERMEDIATE"),
+  authorization = list(authorized_by = "Example Authorizer")
+)
+path <- tempfile(fileext = ".json")
+cr_export_report_spec(spec, path)
+imported <- cr_import_report_spec(path)
+imported$report$report_id
+unlink(path)
 }

@@ -9,6 +9,20 @@ cr_report_data(report)
 \arguments{
 \item{report}{A \code{cr_lab_report}.}
 }
+\value{
+A plain list with the schema and template identifiers, the specification, the QC table, the style and, when present, the bound evidence.
+}
 \description{
 Inspect the exact structured values entering a laboratory report
+}
+\examples{
+spec <- cr_report_spec(
+  report = list(report_id = "EXAMPLE-001"),
+  result = list(value = 1.42, unit = "a.u.", classification = "INTERMEDIATE"),
+  authorization = list(authorized_by = "Example Authorizer")
+)
+qc <- cr_report_qc("Cells per well", observed = "1520",
+                   acceptance = ">= 500", status = "PASS")
+report <- cr_lab_report(spec = spec, qc = qc)
+str(cr_report_data(report), max.level = 1)
 }

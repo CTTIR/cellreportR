@@ -55,6 +55,10 @@ A \code{cr_report_style} object.
 Creates a presentation-only object shared by programmatic rendering and the
 Shiny report workflow. It does not alter report values or analytical data.
 }
+\examples{
+style <- cr_report_style(mode = "grayscale", density = "compact")
+class(style)
+}
 \seealso{
 Other laboratory reporting:
 \code{\link[=cr_report_display_data]{cr_report_display_data()}},

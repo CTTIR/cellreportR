@@ -11,6 +11,12 @@ cr_linetypes(n = NULL, names = NULL)
 
 \item{names}{Optional category names.}
 }
+\value{
+A character vector of \code{ggplot2} line-type names, named when \code{names} is supplied.
+}
 \description{
 Stable line types for categorical figures
+}
+\examples{
+cr_linetypes(3, names = c("Vehicle", "Low", "High"))
 }

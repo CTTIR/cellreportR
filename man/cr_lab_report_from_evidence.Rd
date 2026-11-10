@@ -25,3 +25,20 @@ values. Existing custom fields with the same names are rejected. The existing
 report renderer and audit exporter revalidate source files and bound fields.
 Other report fields and free text are not verified by this contract.
 }
+\examples{
+root <- tempfile()
+dir.create(root)
+writeLines(c("group,value", "control,1.25"), file.path(root, "result.csv"))
+evidence <- cr_report_evidence(root,
+  tables = list(result = list(path = "result.csv", format = "csv", key = "group")),
+  claims = list(mean = list(table = "result", key = c(group = "control"),
+                            column = "value", format = "number", digits = 2)))
+spec <- cr_report_spec(
+  report = list(report_id = "EXAMPLE-001"),
+  result = list(value = 1.42, unit = "a.u.", classification = "INTERMEDIATE"),
+  authorization = list(authorized_by = "Example Authorizer")
+)
+report <- cr_lab_report_from_evidence(evidence, root, spec = spec)
+report$spec$custom_fields
+unlink(root, recursive = TRUE)
+}

@@ -14,6 +14,12 @@ cr_figure_size(
 
 \item{units}{\code{"mm"} or \code{"in"}.}
 }
+\value{
+A named list with \code{width} and \code{height}; the unit is stored in the \code{units} attribute.
+}
 \description{
 Standard deterministic figure dimensions
+}
+\examples{
+cr_figure_size("double", units = "in")
 }

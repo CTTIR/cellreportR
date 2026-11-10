@@ -3,7 +3,7 @@ Title: Cell Culture Microscopy Assay Analysis and Reporting
 Version: 0.2.1.9000
 Authors@R: c(
     person("Raban", "Heller",
-           email = "raban.heller@charite.de",
+           email = "raban.heller@uni-ulm.de",
            role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0001-8006-9742")),
     person("Leila", "Schwindling", role = "aut"),
@@ -13,9 +13,10 @@ Authors@R: c(
     person("Michael", "Hannemann", role = "aut"),
     person("Gerhard", "Achatz", role = "aut"),
     person("Simone", "Rothmiller", role = "aut"))
-Description: Analysis and reporting pipeline for cell culture assays read
-    out by microscopy, starting from segmented single-cell exports such as
-    those written by 'segmantR', 'CellProfiler' or 'QuPath'. Recovers the
+Description: Provides an analysis and reporting pipeline for cell culture
+    assays read out by microscopy, starting from segmented single-cell
+    exports such as those written by 'segmantR', 'CellProfiler' or 'QuPath'.
+    Recovers the
     experimental design from the directory tree and the file naming
     convention, resolves acquisitions into the analysis unit of
     replication, and standardizes every cell against the control
@@ -72,5 +73,5 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.1
 Config/Needs/website: CTTIR/themakR

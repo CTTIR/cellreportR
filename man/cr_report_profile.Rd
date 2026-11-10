@@ -33,6 +33,14 @@ A \code{cr_report_profile} object.
 A profile stores organization-wide branding and display policy separately
 from examination-specific scientific configuration.
 }
+\examples{
+profile <- cr_report_profile(
+  laboratory = list(name = "Example Laboratory"),
+  style = cr_report_style(locale = "en"),
+  default_title = "Example Report"
+)
+names(profile)
+}
 \seealso{
 Other laboratory reporting:
 \code{\link[=cr_report_display_data]{cr_report_display_data()}},

@@ -30,3 +30,4 @@
 ^\.git$
 ^tools/branding$
 ^MAINTENANCE\.md$
+^tools$

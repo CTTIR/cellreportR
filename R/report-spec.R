@@ -19,6 +19,13 @@
 #' @param schema_version Report-data schema version, independent of the package version.
 #' @return An object of class `cr_report_spec`.
 #' @family laboratory reporting
+#' @examples
+#' spec <- cr_report_spec(
+#'   report = list(report_id = "EXAMPLE-001"),
+#'   result = list(value = 1.42, unit = "a.u.", classification = "INTERMEDIATE"),
+#'   authorization = list(authorized_by = "Example Authorizer")
+#' )
+#' spec
 #' @export
 cr_report_spec <- function(
     report = list(), laboratory = list(), subject = list(), specimen = list(),
@@ -60,6 +67,13 @@ cr_report_spec <- function(
 #' @param return_issues Return a severity-coded issue table instead of throwing errors.
 #' @return `TRUE` invisibly, or a data frame when `return_issues = TRUE`.
 #' @family laboratory reporting
+#' @examples
+#' spec <- cr_report_spec(
+#'   report = list(report_id = "EXAMPLE-001"),
+#'   result = list(value = 1.42, unit = "a.u.", classification = "INTERMEDIATE"),
+#'   authorization = list(authorized_by = "Example Authorizer")
+#' )
+#' cr_validate_report_spec(spec, strict = FALSE, return_issues = TRUE)
 #' @export
 cr_validate_report_spec <- function(spec, strict = TRUE, return_issues = FALSE) {
   issues <- .cr_report_spec_issues(spec, strict)
@@ -118,6 +132,13 @@ cr_validate_report_spec <- function(spec, strict = TRUE, return_issues = FALSE) 
 #' @param x A `cr_report_spec`.
 #' @param ... Unused.
 #' @return `x`, invisibly.
+#' @examples
+#' spec <- cr_report_spec(
+#'   report = list(report_id = "EXAMPLE-001"),
+#'   result = list(value = 1.42, unit = "a.u.", classification = "INTERMEDIATE"),
+#'   authorization = list(authorized_by = "Example Authorizer")
+#' )
+#' cr_print_report_spec(spec)
 #' @export
 cr_print_report_spec <- function(x, ...) { print(x); invisible(x) }
 
@@ -134,6 +155,8 @@ print.cr_report_spec <- function(x, ...) {
 #' @param negative_upper,positive_lower Explicit finite boundaries. Values at `negative_upper` are negative; values at `positive_lower` are positive; values between are indeterminate.
 #' @param labels Named character vector containing `negative`, `indeterminate`, and `positive`.
 #' @return Character vector with missing/non-finite inputs returned as `NA`.
+#' @examples
+#' cr_classify_result(c(0.5, 1, 1.5, 2, NA), negative_upper = 1, positive_lower = 2)
 #' @export
 cr_classify_result <- function(value, negative_upper, positive_lower,
                                labels = c(negative="NEGATIVE", indeterminate="INDETERMINATE", positive="POSITIVE")) {
@@ -152,6 +175,9 @@ cr_classify_result <- function(value, negative_upper, positive_lower,
 #' @param failed_statuses QC labels treated as failed.
 #' @param invalid_label Label used for failed QC.
 #' @param invalidate Whether failed QC replaces the supplied classification.
+#' @return Character vector of classifications in which entries with a failed QC status are replaced by `invalid_label` when `invalidate = TRUE`.
+#' @examples
+#' cr_finalize_result(c("POSITIVE", "NEGATIVE"), qc_status = c("PASS", "FAIL"))
 #' @export
 cr_finalize_result <- function(classification, qc_status, failed_statuses="FAIL", invalid_label="INVALID", invalidate=TRUE) {
   n <- max(length(classification), length(qc_status)); classification <- rep_len(as.character(classification), n); qc_status <- rep_len(as.character(qc_status), n)
@@ -163,6 +189,11 @@ cr_finalize_result <- function(classification, qc_status, failed_statuses="FAIL"
 #' @param classification Character vector.
 #' @param dictionary Named character vector or named list.
 #' @param default Value used for unknown or missing classifications.
+#' @return Character vector of interpretation texts, one per classification; `default` where no dictionary entry matches.
+#' @examples
+#' dictionary <- c(POSITIVE = "Signal above the configured limit.")
+#' cr_interpretation_lookup(c("POSITIVE", "UNKNOWN"), dictionary,
+#'                          default = "No interpretation configured.")
 #' @export
 cr_interpretation_lookup <- function(classification, dictionary, default=NA_character_) {
   if (is.null(names(dictionary)) || any(!nzchar(names(dictionary)))) cli::cli_abort("{.arg dictionary} must have non-empty names.")
@@ -172,6 +203,12 @@ cr_interpretation_lookup <- function(classification, dictionary, default=NA_char
 #' Construct a concise report QC table
 #' @param criterion,observed,acceptance,status Vectors defining reportable QC rows.
 #' @param source Optional source identifiers.
+#' @return A tibble with character columns `criterion`, `observed`, `acceptance`, `status` and `source`.
+#' @examples
+#' cr_report_qc(criterion = c("Cells per well", "Focus"),
+#'              observed = c("1520", "sharp"),
+#'              acceptance = c(">= 500", "visual check"),
+#'              status = c("PASS", "PASS"))
 #' @export
 cr_report_qc <- function(criterion=character(), observed=character(), acceptance=character(), status=character(), source=character()) {
   n <- max(length(criterion),length(observed),length(acceptance),length(status),length(source),0L)
@@ -182,10 +219,20 @@ cr_report_qc <- function(criterion=character(), observed=character(), acceptance
 
 #' Validate a concise report QC table
 #' @param qc A data frame with criterion, observed, acceptance and status columns.
+#' @return `TRUE`, invisibly. Invalid tables raise an error.
+#' @examples
+#' qc <- cr_report_qc("Cells per well", observed = "1520",
+#'                    acceptance = ">= 500", status = "PASS")
+#' cr_validate_report_qc(qc)
 #' @export
 cr_validate_report_qc <- function(qc) { if (!is.data.frame(qc)) cli::cli_abort("{.arg qc} must be a data frame."); missing <- setdiff(c("criterion","observed","acceptance","status"),names(qc)); if(length(missing)) cli::cli_abort("QC table is missing: {.field {missing}}."); if(any(!nzchar(trimws(as.character(qc$criterion))))) cli::cli_abort("QC criteria must not be empty."); invisible(TRUE) }
 
 #' Convert an existing experiment QC log to report-compatible rows
 #' @param x A `cr_experiment` or QC-log data frame.
+#' @return A report QC tibble as returned by [cr_report_qc()], with one row per recorded QC step.
+#' @examples
+#' qc_log <- data.frame(step = c("area filter", "doublet filter"),
+#'                      cells_after = c(950, 930))
+#' cr_report_qc_from_log(qc_log)
 #' @export
 cr_report_qc_from_log <- function(x) { log <- if(inherits(x,"cr_experiment")) x$qc_log else x; if(!is.data.frame(log)) cli::cli_abort("{.arg x} must contain a QC log."); if(!nrow(log)) return(cr_report_qc()); cr_report_qc(criterion=as.character(log$step), observed=if("cells_after"%in%names(log)) as.character(log$cells_after) else "", acceptance="Recorded analytical QC step", status="RECORDED", source="qc_log") }

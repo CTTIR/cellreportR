@@ -11,6 +11,12 @@ cr_format_percent(x, digits = 1)
 
 \item{digits}{Decimal places.}
 }
+\value{
+A character vector of percentages; \code{NA} inputs stay \code{NA}.
+}
 \description{
 Format proportions as percentages
+}
+\examples{
+cr_format_percent(c(0.125, 0.5, NA))
 }

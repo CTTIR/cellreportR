@@ -164,7 +164,11 @@ export(cr_validate_report_evidence)
 export(cr_validate_report_qc)
 export(cr_validate_report_spec)
 export(cr_well_to_rowcol)
-importFrom(rlang,":=")
-importFrom(rlang,.data)
-importFrom(utils,globalVariables)
-importFrom(utils,head)
+importFrom(rlang,
+  ":=",
+  .data
+)
+importFrom(utils,
+  globalVariables,
+  head
+)

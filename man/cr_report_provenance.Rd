@@ -20,6 +20,21 @@ cr_report_provenance(
 
 \item{analysis_metadata}{Optional concise metadata about upstream result objects.}
 }
+\value{
+A list with report, software, version, QC, analysis-metadata, output-hash and event entries, ready for JSON export.
+}
 \description{
 Build machine-readable report provenance
+}
+\examples{
+spec <- cr_report_spec(
+  report = list(report_id = "EXAMPLE-001"),
+  result = list(value = 1.42, unit = "a.u.", classification = "INTERMEDIATE"),
+  authorization = list(authorized_by = "Example Authorizer")
+)
+qc <- cr_report_qc("Cells per well", observed = "1520",
+                   acceptance = ">= 500", status = "PASS")
+report <- cr_lab_report(spec = spec, qc = qc)
+provenance <- cr_report_provenance(report_spec = report)
+names(provenance)
 }

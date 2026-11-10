@@ -44,6 +44,14 @@ Creates a domain-neutral, versioned description of values that may appear
 in a laboratory-style report. No analytical calculation or interpretation
 is performed. All scientific content is supplied by the caller.
 }
+\examples{
+spec <- cr_report_spec(
+  report = list(report_id = "EXAMPLE-001"),
+  result = list(value = 1.42, unit = "a.u.", classification = "INTERMEDIATE"),
+  authorization = list(authorized_by = "Example Authorizer")
+)
+spec
+}
 \seealso{
 Other laboratory reporting:
 \code{\link[=cr_report_display_data]{cr_report_display_data()}},

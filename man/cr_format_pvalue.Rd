@@ -11,6 +11,12 @@ cr_format_pvalue(x, digits = 3)
 
 \item{digits}{Decimal places determining the reporting threshold.}
 }
+\value{
+A character vector; values below the reporting threshold are shown as \code{p < ...} and invalid inputs as \code{NA}.
+}
 \description{
 Format p-values without displaying calculated zero
+}
+\examples{
+cr_format_pvalue(c(0.2, 0.0004, NA))
 }

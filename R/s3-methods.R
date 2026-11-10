@@ -2,6 +2,9 @@
 #' @param x A `cr_experiment`.
 #' @param ... Unused.
 #' @return `x` invisibly.
+#' @examples
+#' exp <- cr_example_experiment(seed = 1, n_cells_per_well = 20)
+#' print(exp)
 #' @export
 print.cr_experiment <- function(x, ...) {
   cli::cli_rule(left = "cr_experiment")
@@ -22,6 +25,9 @@ print.cr_experiment <- function(x, ...) {
 #' @param object A `cr_experiment`.
 #' @param ... Unused.
 #' @return A tibble summarising the experiment (invisibly printed).
+#' @examples
+#' exp <- cr_example_experiment(seed = 1, n_cells_per_well = 20)
+#' summary(exp)
 #' @export
 summary.cr_experiment <- function(object, ...) {
   spatial <- object$spatial_unit
@@ -44,6 +50,11 @@ summary.cr_experiment <- function(object, ...) {
 #' @param x A `cr_result`.
 #' @param ... Unused.
 #' @return `x` invisibly.
+#' @examples
+#' exp <- cr_example_experiment(seed = 1, n_cells_per_well = 20)
+#' res <- cr_test(exp, channel = "marker_1", treatment = "CompoundA_high",
+#'                control = "Untreated", level = "replicate")
+#' print(res)
 #' @export
 print.cr_result <- function(x, ...) {
   cli::cli_rule(left = "cr_result")
@@ -73,6 +84,11 @@ print.cr_result <- function(x, ...) {
 #' @param object A `cr_result`.
 #' @param ... Unused.
 #' @return The result list, invisibly.
+#' @examples
+#' exp <- cr_example_experiment(seed = 1, n_cells_per_well = 20)
+#' res <- cr_test(exp, channel = "marker_1", treatment = "CompoundA_high",
+#'                control = "Untreated", level = "replicate")
+#' summary(res)
 #' @export
 summary.cr_result <- function(object, ...) {
   print(object)
@@ -83,6 +99,10 @@ summary.cr_result <- function(object, ...) {
 #' @param x A `cr_report`.
 #' @param ... Unused.
 #' @return `x` invisibly.
+#' @examples
+#' exp <- cr_example_experiment(seed = 1, n_cells_per_well = 20)
+#' rep <- cr_report(exp, title = "Marker 1 overview")
+#' print(rep)
 #' @export
 print.cr_report <- function(x, ...) {
   cli::cli_rule(left = "cr_report")
@@ -100,6 +120,10 @@ print.cr_report <- function(x, ...) {
 #' @param object A `cr_report`.
 #' @param ... Unused.
 #' @return `object` invisibly.
+#' @examples
+#' exp <- cr_example_experiment(seed = 1, n_cells_per_well = 20)
+#' rep <- cr_report(exp, title = "Marker 1 overview")
+#' summary(rep)
 #' @export
 summary.cr_report <- function(object, ...) {
   print(object)

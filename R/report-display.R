@@ -128,6 +128,17 @@
 #' @return A plain nested list suitable for inspection, serialization, and
 #'   deterministic rendering.
 #' @family laboratory reporting
+#' @examples
+#' spec <- cr_report_spec(
+#'   report = list(report_id = "EXAMPLE-001"),
+#'   result = list(value = 1.42, unit = "a.u.", classification = "INTERMEDIATE"),
+#'   authorization = list(authorized_by = "Example Authorizer")
+#' )
+#' qc <- cr_report_qc("Cells per well", observed = "1520",
+#'                    acceptance = ">= 500", status = "PASS")
+#' report <- cr_lab_report(spec = spec, qc = qc)
+#' display <- cr_report_display_data(report)
+#' names(display)
 #' @export
 cr_report_display_data <- function(report) {
   if (!inherits(report, "cr_lab_report")) {

@@ -17,3 +17,8 @@
 \description{
 Summary method for \code{cr_report}
 }
+\examples{
+exp <- cr_example_experiment(seed = 1, n_cells_per_well = 20)
+rep <- cr_report(exp, title = "Marker 1 overview")
+summary(rep)
+}

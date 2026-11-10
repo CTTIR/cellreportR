@@ -17,3 +17,11 @@ cr_print_report_spec(x, ...)
 \description{
 Print a laboratory report specification
 }
+\examples{
+spec <- cr_report_spec(
+  report = list(report_id = "EXAMPLE-001"),
+  result = list(value = 1.42, unit = "a.u.", classification = "INTERMEDIATE"),
+  authorization = list(authorized_by = "Example Authorizer")
+)
+cr_print_report_spec(spec)
+}

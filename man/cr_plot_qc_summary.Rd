@@ -11,6 +11,16 @@ cr_plot_qc_summary(qc, mode = c("colour", "grayscale"))
 
 \item{mode}{Colour mode.}
 }
+\value{
+A \code{ggplot} object.
+}
 \description{
 Compact text-first QC status plot
+}
+\examples{
+qc <- cr_report_qc(criterion = c("Cells per well", "Focus"),
+                   observed = c("1520", "soft"),
+                   acceptance = c(">= 500", "visual check"),
+                   status = c("PASS", "WARN"))
+cr_plot_qc_summary(qc)
 }

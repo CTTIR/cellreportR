@@ -9,6 +9,10 @@
 #' @param shapes Optional named shape mapping.
 #' @param linetypes Optional named line-type mapping.
 #' @param legend_position Legend position.
+#' @return A `cr_plot_style` object: a list with the colour mode, variant, base font settings, palette, shapes, line types and legend position.
+#' @examples
+#' style <- cr_plot_style(mode = "grayscale", variant = "report")
+#' names(style)
 #' @export
 cr_plot_style <- function(mode=c("colour","grayscale"),variant=c("publication","report"),base_size=9,base_family="sans",palette=NULL,shapes=NULL,linetypes=NULL,legend_position="bottom") {
   mode<-match.arg(mode);variant<-match.arg(variant);if(!is.numeric(base_size)||length(base_size)!=1L||base_size<8) cli::cli_abort("{.arg base_size} must be at least 8 pt.")
@@ -18,6 +22,9 @@ cr_plot_style <- function(mode=c("colour","grayscale"),variant=c("publication","
 #' Stable line types for categorical figures
 #' @param n Number required, at most six.
 #' @param names Optional category names.
+#' @return A character vector of `ggplot2` line-type names, named when `names` is supplied.
+#' @examples
+#' cr_linetypes(3, names = c("Vehicle", "Low", "High"))
 #' @export
 cr_linetypes <- function(n=NULL,names=NULL) { vals<-c("solid","dashed","dotdash","dotted","longdash","twodash"); if(!is.null(n)){if(n>length(vals)) cli::cli_warn("More than six line types requested; prefer facets or direct labels.");vals<-rep(vals,length.out=n)};if(!is.null(names)){if(length(names)!=length(vals)) cli::cli_abort("{.arg names} must match the line-type count.");names(vals)<-names};vals }
 
@@ -25,6 +32,13 @@ cr_linetypes <- function(n=NULL,names=NULL) { vals<-c("solid","dashed","dotdash"
 #' @param values Optional named values.
 #' @param mode Colour mode.
 #' @param ... Passed to `ggplot2::scale_colour_manual()`.
+#' @return A `ggplot2` scale object.
+#' @examples
+#' d <- data.frame(x = 1:3, y = c(2, 1, 3), group = c("a", "b", "c"))
+#' ggplot2::ggplot(d, ggplot2::aes(x, y, colour = group, shape = group)) +
+#'   ggplot2::geom_point() +
+#'   cr_scale_colour(values = unname(cr_palette(3))) +
+#'   cr_shape_scale()
 #' @export
 cr_scale_colour <- function(values=NULL,mode=c("colour","grayscale"),...) { mode<-match.arg(mode);ggplot2::scale_colour_manual(values=values %||% cr_palette(mode=mode),...) }
 #' @rdname cr_scale_colour
@@ -42,12 +56,22 @@ cr_linetype_scale <- function(values=NULL,...) ggplot2::scale_linetype_manual(va
 #' @param aesthetics `"colour"` or `"fill"`.
 #' @param mode Colour mode.
 #' @param ... Passed to the gradient scale.
+#' @return A `ggplot2` continuous scale object.
+#' @examples
+#' d <- expand.grid(x = 1:5, y = 1:5)
+#' d$z <- d$x - d$y
+#' ggplot2::ggplot(d, ggplot2::aes(x, y, fill = z)) +
+#'   ggplot2::geom_tile() +
+#'   cr_scale_diverging(aesthetics = "fill")
 #' @export
 cr_scale_diverging <- function(midpoint=0,aesthetics=c("colour","fill"),mode=c("colour","grayscale"),...) { aesthetics<-match.arg(aesthetics);mode<-match.arg(mode);cols<-cr_palette(3,"diverging",mode=mode);fun<-if(aesthetics=="colour") ggplot2::scale_colour_gradient2 else ggplot2::scale_fill_gradient2;fun(low=cols[1],mid=cols[2],high=cols[3],midpoint=midpoint,...) }
 
 #' Standard deterministic figure dimensions
 #' @param size One of `single`, `double`, `report`, or `square`.
 #' @param units `"mm"` or `"in"`.
+#' @return A named list with `width` and `height`; the unit is stored in the `units` attribute.
+#' @examples
+#' cr_figure_size("double", units = "in")
 #' @export
 cr_figure_size <- function(size=c("single","double","report","square"),units=c("mm","in")) { size<-match.arg(size);units<-match.arg(units);z<-switch(size,single=c(width=85,height=60),double=c(width=175,height=105),report=c(width=160,height=90),square=c(width=100,height=100));if(units=="in") z<-z/25.4;structure(as.list(z),units=units) }
 
@@ -67,6 +91,13 @@ cr_figure_size <- function(size=c("single","double","report","square"),units=c("
 #'   The figure and optional sidecar are staged before replacing their targets.
 #'   Missing or empty device output is an error. Ordinary publication failures
 #'   restore previous files; callers must serialize writers to these paths.
+#' @return `filename`, invisibly.
+#' @examples
+#' p <- ggplot2::ggplot(data.frame(x = 1:3, y = 1:3), ggplot2::aes(x, y)) +
+#'   ggplot2::geom_point()
+#' out <- tempfile(fileext = ".png")
+#' cr_save_figure(p, out, size = "single", dpi = 72)
+#' unlink(out)
 #' @export
 cr_save_figure <- function(plot,filename,size=c("single","double","report","square"),dpi=600,background="white",metadata=NULL) {
   if(!inherits(plot,"ggplot")) cli::cli_abort("{.arg plot} must be a ggplot object.");.cr_check_path(filename);ext<-tolower(tools::file_ext(filename));if(!ext%in%c("pdf","svg","png","tiff","tif")) cli::cli_abort("Supported figure formats are PDF, SVG, PNG and TIFF.")
@@ -159,6 +190,15 @@ cr_save_figure <- function(plot,filename,size=c("single","double","report","squa
 #' @param order_by `design`, `estimate`, or `name`.
 #' @param colour_mode Colour mode.
 #' @param style Optional `cr_plot_style`.
+#' @return A `ggplot` object.
+#' @examples
+#' estimates <- data.frame(
+#'   group = c("CompoundA_low", "CompoundA_high", "CompoundB"),
+#'   estimate = c(0.31, 1.42, -0.12),
+#'   conf_low = c(-0.10, 0.55, -0.40),
+#'   conf_high = c(0.72, 2.29, 0.16)
+#' )
+#' cr_plot_estimates(estimates)
 #' @export
 cr_plot_estimates <- function(data,estimate="estimate",lower="conf_low",upper="conf_high",label="group",group=NULL,reference=0,order_by=c("design","estimate","name"),colour_mode=c("colour","grayscale"),style=NULL) {
   order_by<-match.arg(order_by);colour_mode<-match.arg(colour_mode);df<-tibble::as_tibble(data);.cr_need_cols(df,c(estimate,lower,upper,label,group));labs<-as.character(df[[label]]);levels<-if(is.factor(df[[label]])) levels(df[[label]]) else unique(labs);if(order_by=="estimate") levels<-labs[order(df[[estimate]])] else if(order_by=="name") levels<-sort(unique(labs));df$.cr_label<-factor(labs,levels=unique(levels));df$.cr_group<-if(is.null(group)) "Estimate" else as.character(df[[group]])
@@ -170,6 +210,13 @@ cr_plot_estimates <- function(data,estimate="estimate",lower="conf_low",upper="c
 #' Compact text-first QC status plot
 #' @param qc A report QC table.
 #' @param mode Colour mode.
+#' @return A `ggplot` object.
+#' @examples
+#' qc <- cr_report_qc(criterion = c("Cells per well", "Focus"),
+#'                    observed = c("1520", "soft"),
+#'                    acceptance = c(">= 500", "visual check"),
+#'                    status = c("PASS", "WARN"))
+#' cr_plot_qc_summary(qc)
 #' @export
 cr_plot_qc_summary <- function(qc,mode=c("colour","grayscale")) { mode<-match.arg(mode);cr_validate_report_qc(qc);d<-tibble::as_tibble(qc);d$.row<-rev(seq_len(nrow(d)));status_cols<-if(mode=="colour") c(PASS="#2F6B68",WARN="#B06A00",FAIL="#A33B32",INFO="#536878") else c(PASS="#303030",WARN="#666666",FAIL="#111111",INFO="#888888");ggplot2::ggplot(d,ggplot2::aes(x=0,y=.data$.row))+ggplot2::geom_point(ggplot2::aes(shape=.data$status,colour=.data$status),size=3,stroke=1)+ggplot2::geom_text(ggplot2::aes(x=.08,label=.data$criterion),hjust=0,size=3)+ggplot2::geom_text(ggplot2::aes(x=.92,label=.data$status),hjust=1,fontface="bold",size=3)+ggplot2::scale_colour_manual(values=status_cols)+cr_shape_scale()+ggplot2::coord_cartesian(xlim=c(0,1),clip="off")+cr_theme(base_size=9,grid=FALSE,legend_position="none",variant="report",mode=mode)+ggplot2::theme(axis.text=ggplot2::element_blank(),axis.ticks=ggplot2::element_blank(),axis.line=ggplot2::element_blank())+ggplot2::labs(x=NULL,y=NULL) }
 
@@ -177,24 +224,36 @@ cr_plot_qc_summary <- function(qc,mode=c("colour","grayscale")) { mode<-match.ar
 #' @param title,description,qc_note User-supplied descriptive text.
 #' @param n Optional observation count.
 #' @param unit Optional unit-of-replication label.
+#' @return A single character string.
+#' @examples
+#' cr_figure_caption("Figure 1.", "Fold change per compound.", n = 6, unit = "wells")
 #' @export
 cr_figure_caption <- function(title=NULL,description=NULL,n=NULL,unit=NULL,qc_note=NULL) paste(Filter(nzchar,c(title,description,if(!is.null(n)) paste0("n = ",n,if(!is.null(unit)) paste0(" ",unit) else ""),qc_note)),collapse=" ")
 
 #' Format p-values without displaying calculated zero
 #' @param x Numeric p-values.
 #' @param digits Decimal places determining the reporting threshold.
+#' @return A character vector; values below the reporting threshold are shown as `p < ...` and invalid inputs as `NA`.
+#' @examples
+#' cr_format_pvalue(c(0.2, 0.0004, NA))
 #' @export
 cr_format_pvalue <- function(x,digits=3) { cut<-10^-digits;out<-rep(NA_character_,length(x));ok<-is.finite(x)&x>=0&x<=1;out[ok&x<cut]<-paste0("p < ",formatC(cut,format="f",digits=digits));out[ok&x>=cut]<-paste0("p = ",formatC(x[ok&x>=cut],format="f",digits=digits));out }
 
 #' Format an estimate and confidence interval
 #' @param estimate,lower,upper Numeric vectors.
 #' @param digits Decimal places.
+#' @return A character vector of the form `estimate [lower, upper]`.
+#' @examples
+#' cr_format_interval(1.234, 0.9, 1.6)
 #' @export
 cr_format_interval <- function(estimate,lower,upper,digits=2) sprintf(paste0("%.",digits,"f [%.",digits,"f, %.",digits,"f]"),estimate,lower,upper)
 
 #' Format proportions as percentages
 #' @param x Numeric proportions.
 #' @param digits Decimal places.
+#' @return A character vector of percentages; `NA` inputs stay `NA`.
+#' @examples
+#' cr_format_percent(c(0.125, 0.5, NA))
 #' @export
 cr_format_percent <- function(x,digits=1) ifelse(is.na(x),NA_character_,paste0(formatC(100*x,format="f",digits=digits),"%"))
 

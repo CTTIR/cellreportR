@@ -105,7 +105,7 @@ The XeLaTeX toolchain can embed the report fonts and supplies a foundation for
 future archival profiles. The package does not currently generate or claim
 PDF/A output: an archival mode would require a controlled colour profile,
 metadata setup, and validation with an independent PDF/A validator before it
-could be labelled as such.
+could be labeled as such.
 
 `cr_report_display_data()` exposes the exact human labels and formatted values
 used for rendering while keeping stored ISO datetimes unchanged. A reusable

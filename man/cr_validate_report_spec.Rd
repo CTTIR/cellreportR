@@ -19,6 +19,14 @@ cr_validate_report_spec(spec, strict = TRUE, return_issues = FALSE)
 \description{
 Validate a laboratory report specification
 }
+\examples{
+spec <- cr_report_spec(
+  report = list(report_id = "EXAMPLE-001"),
+  result = list(value = 1.42, unit = "a.u.", classification = "INTERMEDIATE"),
+  authorization = list(authorized_by = "Example Authorizer")
+)
+cr_validate_report_spec(spec, strict = FALSE, return_issues = TRUE)
+}
 \seealso{
 Other laboratory reporting:
 \code{\link[=cr_report_display_data]{cr_report_display_data()}},

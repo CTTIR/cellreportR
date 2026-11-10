@@ -17,3 +17,14 @@ Invisibly \code{TRUE}; invalid schemas, changed bytes or altered claims error.
 \description{
 Revalidate report evidence against its current source tree
 }
+\examples{
+root <- tempfile()
+dir.create(root)
+writeLines(c("group,value", "control,1.25"), file.path(root, "result.csv"))
+evidence <- cr_report_evidence(root,
+  tables = list(result = list(path = "result.csv", format = "csv", key = "group")),
+  claims = list(mean = list(table = "result", key = c(group = "control"),
+                            column = "value", format = "number", digits = 2)))
+cr_validate_report_evidence(evidence, root)
+unlink(root, recursive = TRUE)
+}

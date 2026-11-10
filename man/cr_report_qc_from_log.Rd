@@ -9,6 +9,14 @@ cr_report_qc_from_log(x)
 \arguments{
 \item{x}{A \code{cr_experiment} or QC-log data frame.}
 }
+\value{
+A report QC tibble as returned by \code{\link[=cr_report_qc]{cr_report_qc()}}, with one row per recorded QC step.
+}
 \description{
 Convert an existing experiment QC log to report-compatible rows
+}
+\examples{
+qc_log <- data.frame(step = c("area filter", "doublet filter"),
+                     cells_after = c(950, 930))
+cr_report_qc_from_log(qc_log)
 }

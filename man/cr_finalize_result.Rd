@@ -23,6 +23,12 @@ cr_finalize_result(
 
 \item{invalidate}{Whether failed QC replaces the supplied classification.}
 }
+\value{
+Character vector of classifications in which entries with a failed QC status are replaced by \code{invalid_label} when \code{invalidate = TRUE}.
+}
 \description{
 Apply a caller-selected QC finalization rule
+}
+\examples{
+cr_finalize_result(c("POSITIVE", "NEGATIVE"), qc_status = c("PASS", "FAIL"))
 }

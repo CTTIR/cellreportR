@@ -26,6 +26,9 @@ cr_save_figure(
 
 \item{metadata}{Optional list written to a JSON sidecar.}
 }
+\value{
+\code{filename}, invisibly.
+}
 \description{
 Save a publication-ready figure deterministically
 }
@@ -39,4 +42,11 @@ alone does not establish that the runtime libraries are installed.
 The figure and optional sidecar are staged before replacing their targets.
 Missing or empty device output is an error. Ordinary publication failures
 restore previous files; callers must serialize writers to these paths.
+}
+\examples{
+p <- ggplot2::ggplot(data.frame(x = 1:3, y = 1:3), ggplot2::aes(x, y)) +
+  ggplot2::geom_point()
+out <- tempfile(fileext = ".png")
+cr_save_figure(p, out, size = "single", dpi = 72)
+unlink(out)
 }

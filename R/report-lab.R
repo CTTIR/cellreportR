@@ -11,6 +11,17 @@
 #'   report figures. Legacy `cr_plot_style` objects are converted.
 #' @param profile Optional [cr_report_profile()] containing laboratory defaults,
 #'   labels, required fields, and organization-wide visual settings.
+#' @return A `cr_lab_report` object holding the validated specification, the QC table, the report style and audit events. No analytical values are recalculated.
+#' @examples
+#' spec <- cr_report_spec(
+#'   report = list(report_id = "EXAMPLE-001"),
+#'   result = list(value = 1.42, unit = "a.u.", classification = "INTERMEDIATE"),
+#'   authorization = list(authorized_by = "Example Authorizer")
+#' )
+#' qc <- cr_report_qc("Cells per well", observed = "1520",
+#'                    acceptance = ">= 500", status = "PASS")
+#' report <- cr_lab_report(spec = spec, qc = qc)
+#' report
 #' @export
 cr_lab_report <- function(experiment=NULL, spec=cr_report_spec(), qc=NULL,
                           result_graphic=FALSE, include_audit_appendix=NULL,
@@ -54,6 +65,17 @@ cr_lab_report <- function(experiment=NULL, spec=cr_report_spec(), qc=NULL,
 
 #' Inspect the exact structured values entering a laboratory report
 #' @param report A `cr_lab_report`.
+#' @return A plain list with the schema and template identifiers, the specification, the QC table, the style and, when present, the bound evidence.
+#' @examples
+#' spec <- cr_report_spec(
+#'   report = list(report_id = "EXAMPLE-001"),
+#'   result = list(value = 1.42, unit = "a.u.", classification = "INTERMEDIATE"),
+#'   authorization = list(authorized_by = "Example Authorizer")
+#' )
+#' qc <- cr_report_qc("Cells per well", observed = "1520",
+#'                    acceptance = ">= 500", status = "PASS")
+#' report <- cr_lab_report(spec = spec, qc = qc)
+#' str(cr_report_data(report), max.level = 1)
 #' @export
 cr_report_data <- function(report) {
   if(!inherits(report,"cr_lab_report")) cli::cli_abort("{.arg report} must be a {.cls cr_lab_report}.")
@@ -67,6 +89,9 @@ cr_report_data <- function(report) {
 #' Hash report-relevant structured data
 #' @param x Any R object.
 #' @param algorithm Algorithm supported by [digest::digest()], default SHA-256.
+#' @return A character string holding the hexadecimal digest.
+#' @examples
+#' cr_report_hash(list(report_id = "EXAMPLE-001", value = 1.42))
 #' @export
 cr_report_hash <- function(x, algorithm="sha256") digest::digest(.cr_canonical(x), algo=algorithm, serialize=TRUE)
 
@@ -85,6 +110,18 @@ cr_report_hash <- function(x, algorithm="sha256") digest::digest(.cr_canonical(x
 #' @param report_spec A `cr_report_spec` or `cr_lab_report`.
 #' @param output_file Optional rendered file whose byte hash is recorded.
 #' @param analysis_metadata Optional concise metadata about upstream result objects.
+#' @return A list with report, software, version, QC, analysis-metadata, output-hash and event entries, ready for JSON export.
+#' @examples
+#' spec <- cr_report_spec(
+#'   report = list(report_id = "EXAMPLE-001"),
+#'   result = list(value = 1.42, unit = "a.u.", classification = "INTERMEDIATE"),
+#'   authorization = list(authorized_by = "Example Authorizer")
+#' )
+#' qc <- cr_report_qc("Cells per well", observed = "1520",
+#'                    acceptance = ">= 500", status = "PASS")
+#' report <- cr_lab_report(spec = spec, qc = qc)
+#' provenance <- cr_report_provenance(report_spec = report)
+#' names(provenance)
 #' @export
 cr_report_provenance <- function(experiment=NULL, report_spec, output_file=NULL, analysis_metadata=list()) {
   report <- if(inherits(report_spec,"cr_lab_report")) report_spec else cr_lab_report(experiment, report_spec, strict=FALSE)
@@ -115,6 +152,18 @@ cr_report_provenance <- function(experiment=NULL, report_spec, output_file=NULL,
 #' @param spec A `cr_report_spec`.
 #' @param path Output JSON path.
 #' @param pretty Pretty-print JSON.
+#' @return `path`, invisibly.
+#' @examples
+#' spec <- cr_report_spec(
+#'   report = list(report_id = "EXAMPLE-001"),
+#'   result = list(value = 1.42, unit = "a.u.", classification = "INTERMEDIATE"),
+#'   authorization = list(authorized_by = "Example Authorizer")
+#' )
+#' path <- tempfile(fileext = ".json")
+#' cr_export_report_spec(spec, path)
+#' imported <- cr_import_report_spec(path)
+#' imported$report$report_id
+#' unlink(path)
 #' @export
 cr_export_report_spec <- function(spec, path, pretty = TRUE) {
   cr_validate_report_spec(spec, strict = FALSE)
@@ -189,6 +238,18 @@ cr_export_report_spec <- function(spec, path, pretty = TRUE) {
 #' does not guarantee equality of whole-report hashes after a JSON round trip.
 #' @param path Input JSON path.
 #' @param validate Validate the reconstructed specification.
+#' @return A `cr_report_spec` reconstructed from the JSON file.
+#' @examples
+#' spec <- cr_report_spec(
+#'   report = list(report_id = "EXAMPLE-001"),
+#'   result = list(value = 1.42, unit = "a.u.", classification = "INTERMEDIATE"),
+#'   authorization = list(authorized_by = "Example Authorizer")
+#' )
+#' path <- tempfile(fileext = ".json")
+#' cr_export_report_spec(spec, path)
+#' imported <- cr_import_report_spec(path)
+#' imported$result$classification
+#' unlink(path)
 #' @export
 cr_import_report_spec <- function(path, validate = TRUE) {
   .cr_check_path(path)
@@ -213,6 +274,19 @@ cr_import_report_spec <- function(path, validate = TRUE) {
 #' @param report A `cr_lab_report`.
 #' @param path Output JSON path.
 #' @param output_file Optional rendered file to hash.
+#' @return `path`, invisibly.
+#' @examples
+#' spec <- cr_report_spec(
+#'   report = list(report_id = "EXAMPLE-001"),
+#'   result = list(value = 1.42, unit = "a.u.", classification = "INTERMEDIATE"),
+#'   authorization = list(authorized_by = "Example Authorizer")
+#' )
+#' qc <- cr_report_qc("Cells per well", observed = "1520",
+#'                    acceptance = ">= 500", status = "PASS")
+#' report <- cr_lab_report(spec = spec, qc = qc)
+#' audit <- tempfile(fileext = ".json")
+#' cr_export_report_audit(report, audit)
+#' unlink(audit)
 #' @export
 cr_export_report_audit <- function(report,path,output_file=NULL) { if(!inherits(report,"cr_lab_report")) cli::cli_abort("{.arg report} must be a {.cls cr_lab_report}."); audit<-cr_report_provenance(report$experiment,report,output_file); jsonlite::write_json(.cr_json_ready(audit),path,pretty=TRUE,auto_unbox=TRUE,null="null",na="null"); invisible(path) }
 
@@ -225,6 +299,11 @@ cr_export_report_audit <- function(report,path,output_file=NULL) { if(!inherits(
 #' @param show_value Include the numeric value below the marker.
 #' @param mode Colour or grayscale rendering.
 #' @param style Optional [cr_plot_style()].
+#' @return A `ggplot` object.
+#' @examples
+#' cr_plot_result_position(1.42, thresholds = c(1, 2),
+#'                         labels = c("LOW", "INTERMEDIATE", "HIGH"),
+#'                         unit = "a.u.")
 #' @export
 cr_plot_result_position <- function(value,thresholds,labels=NULL,xlim=NULL,
                                     unit=NULL,classification=NULL,
@@ -270,6 +349,24 @@ cr_plot_result_position <- function(value,thresholds,labels=NULL,xlim=NULL,
 #'   released or draft reports are never silently replaced.
 #' @param keep_tex Keep the generated `.tex` file beside a PDF for layout
 #'   diagnostics. Defaults to `FALSE`.
+#' @return `output_file`, invisibly.
+#' @examples
+#' \donttest{
+#' if (requireNamespace("rmarkdown", quietly = TRUE) &&
+#'     rmarkdown::pandoc_available()) {
+#'   spec <- cr_report_spec(
+#'     report = list(report_id = "EXAMPLE-001"),
+#'     result = list(value = 1.42, unit = "a.u.", classification = "INTERMEDIATE"),
+#'     authorization = list(authorized_by = "Example Authorizer")
+#'   )
+#'   qc <- cr_report_qc("Cells per well", observed = "1520",
+#'                      acceptance = ">= 500", status = "PASS")
+#'   report <- cr_lab_report(spec = spec, qc = qc)
+#'   out <- tempfile(fileext = ".html")
+#'   cr_render_lab_report(report, out)
+#'   unlink(out)
+#' }
+#' }
 #' @export
 cr_render_lab_report <- function(report,output_file,template=NULL,quiet=TRUE,
                                  audit_file=NULL,overwrite=FALSE,

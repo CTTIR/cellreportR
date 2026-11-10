@@ -13,6 +13,14 @@ cr_interpretation_lookup(classification, dictionary, default = NA_character_)
 
 \item{default}{Value used for unknown or missing classifications.}
 }
+\value{
+Character vector of interpretation texts, one per classification; \code{default} where no dictionary entry matches.
+}
 \description{
 Look up explicit interpretation text
+}
+\examples{
+dictionary <- c(POSITIVE = "Signal above the configured limit.")
+cr_interpretation_lookup(c("POSITIVE", "UNKNOWN"), dictionary,
+                         default = "No interpretation configured.")
 }

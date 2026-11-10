@@ -17,3 +17,7 @@ A tibble summarising the experiment (invisibly printed).
 \description{
 Summary method for \code{cr_experiment}
 }
+\examples{
+exp <- cr_example_experiment(seed = 1, n_cells_per_well = 20)
+summary(exp)
+}

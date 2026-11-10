@@ -17,6 +17,15 @@ cr_report_qc(
 
 \item{source}{Optional source identifiers.}
 }
+\value{
+A tibble with character columns \code{criterion}, \code{observed}, \code{acceptance}, \code{status} and \code{source}.
+}
 \description{
 Construct a concise report QC table
+}
+\examples{
+cr_report_qc(criterion = c("Cells per well", "Focus"),
+             observed = c("1520", "sharp"),
+             acceptance = c(">= 500", "visual check"),
+             status = c("PASS", "PASS"))
 }

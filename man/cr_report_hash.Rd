@@ -11,6 +11,12 @@ cr_report_hash(x, algorithm = "sha256")
 
 \item{algorithm}{Algorithm supported by \code{\link[digest:digest]{digest::digest()}}, default SHA-256.}
 }
+\value{
+A character string holding the hexadecimal digest.
+}
 \description{
 Hash report-relevant structured data
+}
+\examples{
+cr_report_hash(list(report_id = "EXAMPLE-001", value = 1.42))
 }

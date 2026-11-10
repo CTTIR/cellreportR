@@ -22,6 +22,16 @@ cr_linetype_scale(values = NULL, ...)
 
 \item{...}{Passed to \code{ggplot2::scale_colour_manual()}.}
 }
+\value{
+A \code{ggplot2} scale object.
+}
 \description{
 Manual colour scale from the cellreportR visual system
+}
+\examples{
+d <- data.frame(x = 1:3, y = c(2, 1, 3), group = c("a", "b", "c"))
+ggplot2::ggplot(d, ggplot2::aes(x, y, colour = group, shape = group)) +
+  ggplot2::geom_point() +
+  cr_scale_colour(values = unname(cr_palette(3))) +
+  cr_shape_scale()
 }

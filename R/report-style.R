@@ -21,6 +21,9 @@
 #' @param draft_watermark Add a light watermark only when status is `DRAFT`.
 #' @return A `cr_report_style` object.
 #' @family laboratory reporting
+#' @examples
+#' style <- cr_report_style(mode = "grayscale", density = "compact")
+#' class(style)
 #' @export
 cr_report_style <- function(
     paper = "A4", mode = c("colour", "grayscale"),
@@ -104,6 +107,13 @@ cr_report_style <- function(
 #' @param required_fields Optional dotted required-field paths.
 #' @return A `cr_report_profile` object.
 #' @family laboratory reporting
+#' @examples
+#' profile <- cr_report_profile(
+#'   laboratory = list(name = "Example Laboratory"),
+#'   style = cr_report_style(locale = "en"),
+#'   default_title = "Example Report"
+#' )
+#' names(profile)
 #' @export
 cr_report_profile <- function(laboratory = list(), style = cr_report_style(),
                               labels = character(), footer_statement = NULL,

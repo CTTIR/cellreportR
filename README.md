@@ -2,7 +2,6 @@
 
 
 <!-- badges: start -->
-[![CRAN status](https://www.r-pkg.org/badges/version/cellreportR)](https://CRAN.R-project.org/package=cellreportR)
 [![R-CMD-check](https://github.com/CTTIR/cellreportR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CTTIR/cellreportR/actions/workflows/R-CMD-check.yaml)
 [![pkgdown](https://github.com/CTTIR/cellreportR/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/CTTIR/cellreportR/actions/workflows/pkgdown.yaml)
 [![lint](https://github.com/CTTIR/cellreportR/actions/workflows/lint.yaml/badge.svg)](https://github.com/CTTIR/cellreportR/actions/workflows/lint.yaml)

@@ -129,6 +129,16 @@ cr_report_evidence <- function(root, tables, claims = list(), figures = list()) 
 #' @param evidence A [cr_report_evidence()] object.
 #' @param root Current root of the source tree, including after relocation.
 #' @return Invisibly `TRUE`; invalid schemas, changed bytes or altered claims error.
+#' @examples
+#' root <- tempfile()
+#' dir.create(root)
+#' writeLines(c("group,value", "control,1.25"), file.path(root, "result.csv"))
+#' evidence <- cr_report_evidence(root,
+#'   tables = list(result = list(path = "result.csv", format = "csv", key = "group")),
+#'   claims = list(mean = list(table = "result", key = c(group = "control"),
+#'                             column = "value", format = "number", digits = 2)))
+#' cr_validate_report_evidence(evidence, root)
+#' unlink(root, recursive = TRUE)
 #' @export
 cr_validate_report_evidence <- function(evidence, root) {
   if (!inherits(evidence, "cr_report_evidence") ||
@@ -167,6 +177,22 @@ cr_validate_report_evidence <- function(evidence, root) {
 #' @param spec A [cr_report_spec()].
 #' @param ... Other arguments to [cr_lab_report()].
 #' @return A `cr_lab_report` with additional evidence and local root fields.
+#' @examples
+#' root <- tempfile()
+#' dir.create(root)
+#' writeLines(c("group,value", "control,1.25"), file.path(root, "result.csv"))
+#' evidence <- cr_report_evidence(root,
+#'   tables = list(result = list(path = "result.csv", format = "csv", key = "group")),
+#'   claims = list(mean = list(table = "result", key = c(group = "control"),
+#'                             column = "value", format = "number", digits = 2)))
+#' spec <- cr_report_spec(
+#'   report = list(report_id = "EXAMPLE-001"),
+#'   result = list(value = 1.42, unit = "a.u.", classification = "INTERMEDIATE"),
+#'   authorization = list(authorized_by = "Example Authorizer")
+#' )
+#' report <- cr_lab_report_from_evidence(evidence, root, spec = spec)
+#' report$spec$custom_fields
+#' unlink(root, recursive = TRUE)
 #' @export
 cr_lab_report_from_evidence <- function(evidence, root, spec = cr_report_spec(), ...) {
   cr_validate_report_evidence(evidence, root)

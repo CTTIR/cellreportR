@@ -34,6 +34,27 @@ released or draft reports are never silently replaced.}
 \item{keep_tex}{Keep the generated \code{.tex} file beside a PDF for layout
 diagnostics. Defaults to \code{FALSE}.}
 }
+\value{
+\code{output_file}, invisibly.
+}
 \description{
 Render a concise laboratory report
+}
+\examples{
+\donttest{
+if (requireNamespace("rmarkdown", quietly = TRUE) &&
+    rmarkdown::pandoc_available()) {
+  spec <- cr_report_spec(
+    report = list(report_id = "EXAMPLE-001"),
+    result = list(value = 1.42, unit = "a.u.", classification = "INTERMEDIATE"),
+    authorization = list(authorized_by = "Example Authorizer")
+  )
+  qc <- cr_report_qc("Cells per well", observed = "1520",
+                     acceptance = ">= 500", status = "PASS")
+  report <- cr_lab_report(spec = spec, qc = qc)
+  out <- tempfile(fileext = ".html")
+  cr_render_lab_report(report, out)
+  unlink(out)
+}
+}
 }
