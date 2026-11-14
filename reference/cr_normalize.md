@@ -57,7 +57,8 @@ A modified `cr_experiment`.
 - `"robust_zscore"` uses the median and MAD.
 
 - `"quantile"` maps the per-well empirical distributions onto the global
-  quantile distribution.
+  quantile distribution. Missing values remain missing and are excluded
+  from each well's empirical rank denominator.
 
 All five methods use a *single, pooled* reference for the whole
 experiment and overwrite the channel in place. When the reference has to

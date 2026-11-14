@@ -54,7 +54,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="cellreportr-030">cellreportR 0.3.0<a class="anchor" aria-label="anchor" href="#cellreportr-030"></a></h2>
-<ul><li><p>Prepare the first CRAN submission: every exported function documents its return value and has a runnable example, the maintainer address is updated and the description is phrased as full sentences.</p></li>
+<ul><li><p>Effect-size calculations use double-precision sample counts to prevent integer overflow for large cell samples. Quantile normalization excludes missing observations from within-well rank denominators, preserving their missing values. Analysis unit construction rejects collisions between distinct merged key tuples while retaining declared merges.</p></li>
+<li><p>Prepare the first CRAN submission: every exported function documents its return value and has a runnable example, the maintainer address is updated and the description is phrased as full sentences.</p></li>
 <li><p>Skip the slow in-process Shiny server tests on CRAN; they still run on CI.</p></li>
 <li><p>Require nonempty staged figure output before publication, preserve previous figures and metadata on device or sidecar failure, and restore them after ordinary publication failures. Document and install XQuartz in macOS CI for the Cairo devices used by compressed TIFF figures and laboratory reports. Stop before drawing if a Cairo device warns without opening, preserving the caller’s graphics device and preventing unintended default PDF output.</p></li>
 <li><p>Correct replicate-level effect estimates to use the same unit summaries as the tests. <code>level = "both"</code> provides replicate effects plus explicitly named cell effects. Reanalysis is required before replacing historical estimates; the manuscript-anchor release remains unchanged.</p></li>

@@ -111,7 +111,8 @@ of cells assigned to <code>control_group</code>, then takes the log2 ratio.</p><
 <li><p><code>"zscore"</code> applies a global Z-score across all cells.</p></li>
 <li><p><code>"robust_zscore"</code> uses the median and MAD.</p></li>
 <li><p><code>"quantile"</code> maps the per-well empirical distributions onto the
-global quantile distribution.</p></li>
+global quantile distribution. Missing values remain missing and are
+excluded from each well's empirical rank denominator.</p></li>
 </ul><p>All five methods use a <em>single, pooled</em> reference for the whole
 experiment and overwrite the channel in place. When the reference
 has to be the control of each cell's own batch – the usual

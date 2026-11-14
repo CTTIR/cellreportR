@@ -65,7 +65,9 @@ units is attached as the `"n_units"` attribute.
 
 The unit identifier is the combination of `key_vars` and the merged
 replicate index. Files that share it are one unit; files that do not are
-separate replicates. Because a unit may be assembled from more than one
+separate replicates. Distinct merged key tuples that produce the same
+displayed identifier are rejected; choose an unambiguous separator or
+revise the labels. Because a unit may be assembled from more than one
 file,
 [`cr_unit_map()`](https://cttir.github.io/cellreportR/reference/cr_unit_map.md)
 should be used afterwards to see which units were merged and from how

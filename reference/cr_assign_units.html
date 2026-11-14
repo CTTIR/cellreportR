@@ -126,7 +126,9 @@ number of units is attached as the <code>"n_units"</code> attribute.</p>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The unit identifier is the combination of <code>key_vars</code> and the merged
 replicate index. Files that share it are one unit; files that do not
-are separate replicates. Because a unit may be assembled from more
+are separate replicates. Distinct merged key tuples that produce the same
+displayed identifier are rejected; choose an unambiguous separator or
+revise the labels. Because a unit may be assembled from more
 than one file, <code><a href="cr_unit_map.html">cr_unit_map()</a></code> should be used afterwards to see which
 units were merged and from how many files.</p>
     </div>

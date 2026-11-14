@@ -2,6 +2,13 @@
 
 ## cellreportR 0.3.0
 
+- Effect-size calculations use double-precision sample counts to prevent
+  integer overflow for large cell samples. Quantile normalization
+  excludes missing observations from within-well rank denominators,
+  preserving their missing values. Analysis unit construction rejects
+  collisions between distinct merged key tuples while retaining declared
+  merges.
+
 - Prepare the first CRAN submission: every exported function documents
   its return value and has a runnable example, the maintainer address is
   updated and the description is phrased as full sentences.
