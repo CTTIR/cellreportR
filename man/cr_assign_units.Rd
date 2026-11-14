@@ -48,7 +48,9 @@ set.
 \details{
 The unit identifier is the combination of \code{key_vars} and the merged
 replicate index. Files that share it are one unit; files that do not
-are separate replicates. Because a unit may be assembled from more
+are separate replicates. Distinct merged key tuples that produce the same
+displayed identifier are rejected; choose an unambiguous separator or
+revise the labels. Because a unit may be assembled from more
 than one file, \code{\link[=cr_unit_map]{cr_unit_map()}} should be used afterwards to see which
 units were merged and from how many files.
 }

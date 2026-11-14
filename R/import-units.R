@@ -102,7 +102,9 @@ print.cr_merge_rules <- function(x, ...) {
 #'
 #' The unit identifier is the combination of `key_vars` and the merged
 #' replicate index. Files that share it are one unit; files that do not
-#' are separate replicates. Because a unit may be assembled from more
+#' are separate replicates. Distinct merged key tuples that produce the same
+#' displayed identifier are rejected; choose an unambiguous separator or
+#' revise the labels. Because a unit may be assembled from more
 #' than one file, [cr_unit_map()] should be used afterwards to see which
 #' units were merged and from how many files.
 #'
@@ -206,6 +208,15 @@ cr_assign_units <- function(x,
   key_values <- lapply(key_vars, function(v) as.character(out[[v]]))
   key_values[[length(key_values) + 1L]] <- rep_merged
   ids <- do.call(paste, c(key_values, list(sep = sep)))
+  names(key_values) <- paste0("key", seq_along(key_values))
+  tuples <- as.data.frame(key_values, stringsAsFactors = FALSE)
+  distinct_tuples <- !duplicated(tuples)
+  if (anyDuplicated(ids[distinct_tuples])) {
+    cli::cli_abort(c(
+      "Analysis unit key collision: distinct merged units have the same identifier.",
+      "i" = "Choose an unambiguous {.arg sep}, or revise the unit labels."
+    ), call = call)
+  }
 
   out$replicate_merged <- rep_merged
   out[[id_col]] <- ids

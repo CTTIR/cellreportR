@@ -19,7 +19,8 @@
 #' - `"zscore"` applies a global Z-score across all cells.
 #' - `"robust_zscore"` uses the median and MAD.
 #' - `"quantile"` maps the per-well empirical distributions onto the
-#'   global quantile distribution.
+#'   global quantile distribution. Missing values remain missing and are
+#'   excluded from each well's empirical rank denominator.
 #'
 #' All five methods use a *single, pooled* reference for the whole
 #' experiment and overwrite the channel in place. When the reference
@@ -89,9 +90,8 @@ cr_normalize <- function(experiment,
 .cr_norm_quantile <- function(experiment, channel) {
   spatial <- experiment$spatial_unit
   wells <- split(experiment$cells[[channel]], experiment$cells[[spatial]])
-  max_n <- max(lengths(wells))
   ranks <- lapply(wells, function(x) {
-    rank(x, ties.method = "average", na.last = "keep") / max(length(x), 1)
+    rank(x, ties.method = "average", na.last = "keep") / max(sum(!is.na(x)), 1)
   })
   global <- sort(unlist(wells, use.names = FALSE), na.last = NA)
   if (!length(global)) return(experiment$cells[[channel]])

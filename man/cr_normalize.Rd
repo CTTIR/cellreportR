@@ -41,7 +41,8 @@ of cells assigned to \code{control_group}, then takes the log2 ratio.
 \item \code{"zscore"} applies a global Z-score across all cells.
 \item \code{"robust_zscore"} uses the median and MAD.
 \item \code{"quantile"} maps the per-well empirical distributions onto the
-global quantile distribution.
+global quantile distribution. Missing values remain missing and are
+excluded from each well's empirical rank denominator.
 }
 
 All five methods use a \emph{single, pooled} reference for the whole

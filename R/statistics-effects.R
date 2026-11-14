@@ -113,7 +113,7 @@ cr_effect_size <- function(x, y,
 
 # Internal: pooled standard deviation of two samples.
 .cr_pooled_sd <- function(x, y) {
-  n1 <- length(x); n2 <- length(y)
+  n1 <- as.double(length(x)); n2 <- as.double(length(y))
   if (n1 < 2L || n2 < 2L) return(NA_real_)
   sqrt(((n1 - 1) * stats::var(x) + (n2 - 1) * stats::var(y)) / (n1 + n2 - 2))
 }
@@ -122,7 +122,7 @@ cr_effect_size <- function(x, y,
 # O(n log n) via rank counting rather than an n1 x n2 outer product, so
 # that cell-level samples of 1e4+ observations stay tractable.
 .cr_cliff_stats <- function(x, y) {
-  n1 <- length(x); n2 <- length(y)
+  n1 <- as.double(length(x)); n2 <- as.double(length(y))
   if (n1 < 1L || n2 < 1L) {
     return(list(delta = NA_real_, sigma = NA_real_))
   }
@@ -163,7 +163,7 @@ cr_effect_size <- function(x, y,
       s <- .cr_pooled_sd(x, y)
       if (is.na(s) || s == 0) return(NA_real_)
       d <- (mean(x) - mean(y)) / s
-      df <- length(x) + length(y) - 2
+      df <- as.double(length(x)) + length(y) - 2
       d * (1 - 3 / (4 * df - 1))
     },
     cliffs_delta = .cr_cliff_stats(x, y)$delta,
@@ -179,7 +179,7 @@ cr_effect_size <- function(x, y,
 
 # Internal: analytic confidence interval for one effect size
 .cr_effsize_ci <- function(x, y, m, conf_level = 0.95) {
-  n1 <- length(x); n2 <- length(y)
+  n1 <- as.double(length(x)); n2 <- as.double(length(y))
   na2 <- c(NA_real_, NA_real_)
   if (n1 < 2L || n2 < 2L) return(na2)
   alpha <- 1 - conf_level
