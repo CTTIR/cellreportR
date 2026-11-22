@@ -3,6 +3,7 @@ message: Cite the exact version used. This is an unpublished corrective developm
 type: software
 title: 'cellreportR: Analysis and reporting for cell culture microscopy assays'
 version: 0.3.0
+doi: 10.5281/zenodo.21889928
 authors:
 - family-names: Heller
   given-names: Raban
@@ -23,3 +24,7 @@ authors:
   given-names: Simone
 repository-code: https://github.com/CTTIR/cellreportR
 license: MIT
+identifiers:
+- type: doi
+  value: 10.5281/zenodo.21889928
+  description: Zenodo DOI (reserved; resolves once the record is published)
