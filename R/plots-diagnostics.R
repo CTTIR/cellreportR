@@ -110,14 +110,16 @@ cr_plot_sample_size <- function(sizes,
   # when given, the colour column (fill). The value labels carry neither
   # (the constant `alpha = 1` below replaces the mapped alpha), so they are
   # given the same grouping explicitly and each label is dodged onto its own
-  # bar.
+  # bar. A missing colour value is a group of its own, ordered last, as it
+  # is for the bars; interaction() alone would leave its labels ungrouped.
   label_aes <- if (is.null(colour_by)) {
     ggplot2::aes(label = scales::label_comma(accuracy = 1)(.data$n),
                  group = .data$kind)
   } else {
     ggplot2::aes(label = scales::label_comma(accuracy = 1)(.data$n),
-                 group = interaction(.data[[colour_by]], .data$kind,
-                                     lex.order = TRUE))
+                 group = interaction(factor(.data[[colour_by]],
+                                            exclude = NULL),
+                                     .data$kind, lex.order = TRUE))
   }
   p <- p +
     ggplot2::geom_text(

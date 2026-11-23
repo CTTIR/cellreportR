@@ -41,7 +41,8 @@
   curves are merged instead of being printed as two legends. `cr_plot_sample_size()`
   places each value label on its own bar; the labels of a group that carries
   both an observed and a conservative bar were previously stacked at the group
-  centre. Curves, bars and all computed values are unchanged.
+  centre, and a missing value in the `colour_by` column no longer moves the
+  labels off their bars. Curves, bars and all computed values are unchanged.
 * Document the curve `cr_dose_response()` actually fits: a logistic in the
   fitting scale, which for `log_dose = TRUE` is the four-parameter log-logistic
   with `EC50 = 10^e` and Hill slope `b / ln(10)`. The help page now also

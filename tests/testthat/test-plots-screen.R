@@ -322,4 +322,12 @@ test_that("cr_plot_sample_size places each value label on its own bar", {
                           levels = c("CompoundC", "CompoundD", "CompoundA"))
   on_bars(cr_plot_sample_size(grid, label = "contrast",
                               colour_by = "compound"), 10L)
+  # A missing colour value is a group of its own for bars and labels alike,
+  # whether the column is a factor or a character vector.
+  grid$compound[grid$compound == "CompoundD"] <- NA
+  on_bars(cr_plot_sample_size(grid, label = "contrast",
+                              colour_by = "compound"), 10L)
+  grid$compound <- as.character(grid$compound)
+  on_bars(cr_plot_sample_size(grid, label = "contrast",
+                              colour_by = "compound"), 10L)
 })
