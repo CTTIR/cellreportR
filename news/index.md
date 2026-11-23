@@ -63,6 +63,43 @@
   the existing power simulation’s independent-cell assumptions
   accurately.
 
+- [`cr_plot_roc()`](https://cttir.github.io/cellreportR/reference/cr_plot_roc.md)
+  draws one legend: the colour and line type keys of the same curves are
+  merged instead of being printed as two legends.
+  [`cr_plot_sample_size()`](https://cttir.github.io/cellreportR/reference/cr_plot_sample_size.md)
+  places each value label on its own bar; the labels of a group that
+  carries both an observed and a conservative bar were previously
+  stacked at the group centre, and a missing value in the `colour_by`
+  column no longer moves the labels off their bars. Curves, bars and all
+  computed values are unchanged.
+
+- Document the curve
+  [`cr_dose_response()`](https://cttir.github.io/cellreportR/reference/cr_dose_response.md)
+  actually fits: a logistic in the fitting scale, which for
+  `log_dose = TRUE` is the four-parameter log-logistic with
+  `EC50 = 10^e` and Hill slope `b / ln(10)`. The help page now also
+  states that a straight line is substituted when the nonlinear fit
+  cannot be obtained, and that the `model` element records this, and
+  cites the parameterization (Ritz et al. 2015,
+  <https://doi.org/10.1371/journal.pone.0146021>). The fit is unchanged.
+
+- [`cr_scale_group()`](https://cttir.github.io/cellreportR/reference/cr_scale_group.md)
+  documents the `"linetype"` aesthetic it already accepts.
+
+- [`cr_plot_plate()`](https://cttir.github.io/cellreportR/reference/cr_plot_plate.md)
+  labels rows beyond `Z` with two letters (`AA`, `AB`, …) instead of
+  leaving them unlabeled.
+  [`cr_well_to_rowcol()`](https://cttir.github.io/cellreportR/reference/cr_well_to_rowcol.md)
+  returns an integer `row` column, as documented, also for empty input
+  (previously a list column) and for two-letter rows (previously
+  double). Results for plates of up to 26 rows are unchanged.
+
+- `cr_run_app(experiment = )` loads the experiment in a live session.
+  The start-up load read the application log outside a reactive
+  consumer, so every browser session started with an experiment stopped
+  with “Can’t access reactive value ‘log’” and showed an empty, dimmed
+  application. Starting without an experiment was not affected.
+
 ## cellreportR 0.2.0.9000
 
 - Standardize the named v5 package logo across README, documentation

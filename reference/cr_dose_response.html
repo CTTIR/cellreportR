@@ -113,9 +113,34 @@ parameters, and helper predictions.</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The 4PL model fitted is:
-$$y = d + \frac{a - d}{1 + (x / e)^b}$$
-where <code>a</code> is the top asymptote, <code>d</code> the bottom asymptote, <code>e</code> the
-inflection point (EC50 / IC50), and <code>b</code> the Hill slope.</p>
+$$y = d + \frac{a - d}{1 + \exp(b\,(x - e))}$$
+where <code>x</code> is the dose on the fitting scale (<code>log10(dose)</code> when
+<code>log_dose = TRUE</code>, the untransformed dose otherwise), <code>a</code> and <code>d</code> are
+the asymptotes approached at low and at high <code>x</code> when <code>b</code> is positive
+(and the reverse when <code>b</code> is negative), <code>e</code> is the inflection point
+on the fitting scale, and <code>b</code> is the slope on that scale. The 3PL
+model is the same curve with <code>d</code> fixed at zero.</p>
+<p>With <code>log_dose = TRUE</code> this is the four-parameter log-logistic curve
+\(y = d + (a - d) / (1 + (\mathrm{dose} / \mathrm{EC50})^h)\) with
+\(\mathrm{EC50} = 10^e\) and Hill slope \(h = b / \ln 10\).
+<code>params</code> reports <code>e</code> and <code>b</code> on the fitting scale; <code><a href="cr_ic50.html">cr_ic50()</a></code>
+back-transforms <code>e</code> to the dose scale. With <code>log_dose = FALSE</code> the
+curve is logistic in the dose itself and <code>b</code> is not a Hill slope.
+The <code>log_dose = TRUE</code> curve is the log-logistic parameterization that
+carries the logarithm of the half-maximal dose as a parameter (Ritz
+et al. 2015, Eq. 3, p. 3), written with base-10 instead of natural
+logarithms; <code>a</code> and <code>d</code> take the place of the two limits called <code>d</code>
+and <code>c</code> there.</p>
+<p>When the nonlinear fit cannot be obtained (for example with fewer
+distinct doses than parameters) a straight line is fitted instead and
+the <code>model</code> element of the result reads <code>"linear"</code>; check it before
+interpreting <code>params</code>, and note that <code><a href="cr_ic50.html">cr_ic50()</a></code> then returns <code>NA</code>.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    <p>Ritz C, Baty F, Streibig JC, Gerhard D (2015). Dose-response analysis
+using R. <em>PLoS ONE</em> 10(12), e0146021, section "Built-in dose-response
+models", Eqs. 2 and 3, p. 3. <a href="https://doi.org/10.1371/journal.pone.0146021" class="external-link">doi:10.1371/journal.pone.0146021</a></p>
     </div>
 
     <div class="section level2">

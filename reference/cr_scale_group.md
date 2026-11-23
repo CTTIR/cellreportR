@@ -24,7 +24,7 @@ cr_scale_group(
 - aesthetics:
 
   Character vector of aesthetics to scale. Any of `"colour"`, `"color"`,
-  `"fill"`, `"shape"`.
+  `"fill"`, `"shape"`, `"linetype"`.
 
 - name:
 

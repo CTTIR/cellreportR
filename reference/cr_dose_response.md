@@ -49,9 +49,40 @@ data used for the fit, the estimated parameters, and helper predictions.
 
 ## Details
 
-The 4PL model fitted is: \$\$y = d + \frac{a - d}{1 + (x / e)^b}\$\$
-where `a` is the top asymptote, `d` the bottom asymptote, `e` the
-inflection point (EC50 / IC50), and `b` the Hill slope.
+The 4PL model fitted is: \$\$y = d + \frac{a - d}{1 + \exp(b\\(x -
+e))}\$\$ where `x` is the dose on the fitting scale (`log10(dose)` when
+`log_dose = TRUE`, the untransformed dose otherwise), `a` and `d` are
+the asymptotes approached at low and at high `x` when `b` is positive
+(and the reverse when `b` is negative), `e` is the inflection point on
+the fitting scale, and `b` is the slope on that scale. The 3PL model is
+the same curve with `d` fixed at zero.
+
+With `log_dose = TRUE` this is the four-parameter log-logistic curve \\y
+= d + (a - d) / (1 + (\mathrm{dose} / \mathrm{EC50})^h)\\ with
+\\\mathrm{EC50} = 10^e\\ and Hill slope \\h = b / \ln 10\\. `params`
+reports `e` and `b` on the fitting scale;
+[`cr_ic50()`](https://cttir.github.io/cellreportR/reference/cr_ic50.md)
+back-transforms `e` to the dose scale. With `log_dose = FALSE` the curve
+is logistic in the dose itself and `b` is not a Hill slope. The
+`log_dose = TRUE` curve is the log-logistic parameterization that
+carries the logarithm of the half-maximal dose as a parameter (Ritz et
+al. 2015, Eq. 3, p. 3), written with base-10 instead of natural
+logarithms; `a` and `d` take the place of the two limits called `d` and
+`c` there.
+
+When the nonlinear fit cannot be obtained (for example with fewer
+distinct doses than parameters) a straight line is fitted instead and
+the `model` element of the result reads `"linear"`; check it before
+interpreting `params`, and note that
+[`cr_ic50()`](https://cttir.github.io/cellreportR/reference/cr_ic50.md)
+then returns `NA`.
+
+## References
+
+Ritz C, Baty F, Streibig JC, Gerhard D (2015). Dose-response analysis
+using R. *PLoS ONE* 10(12), e0146021, section "Built-in dose-response
+models", Eqs. 2 and 3, p. 3.
+[doi:10.1371/journal.pone.0146021](https://doi.org/10.1371/journal.pone.0146021)
 
 ## Examples
 
