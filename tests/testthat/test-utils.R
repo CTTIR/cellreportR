@@ -51,8 +51,9 @@ test_that("cr_merge_experiments merges with unique wells", {
 test_that("cr_well_to_rowcol returns typed empty columns for empty input", {
   rc <- cr_well_to_rowcol(character())
   expect_equal(nrow(rc), 0L)
-  expect_type(rc$row, "double")
+  expect_type(rc$row, "integer")
   expect_type(rc$col, "integer")
-  # Unchanged for ordinary and for two-letter rows.
-  expect_equal(cr_well_to_rowcol(c("A01", "AA03", NA))$row, c(1, 27, NA))
+  # Integer, as documented, for one- and two-letter rows.
+  expect_identical(cr_well_to_rowcol(c("A01", "AA03", NA))$row,
+                   c(1L, 27L, NA))
 })

@@ -52,9 +52,10 @@
   The fit is unchanged.
 * `cr_scale_group()` documents the `"linetype"` aesthetic it already accepts.
 * `cr_plot_plate()` labels rows beyond `Z` with two letters (`AA`, `AB`, ...)
-  instead of leaving them unlabeled, and `cr_well_to_rowcol()` returns an empty
-  numeric `row` column, not a list column, for empty input. Results for plates
-  of up to 26 rows are unchanged.
+  instead of leaving them unlabeled. `cr_well_to_rowcol()` returns an integer
+  `row` column, as documented, also for empty input (previously a list column)
+  and for two-letter rows (previously double). Results for plates of up to 26
+  rows are unchanged.
 * `cr_run_app(experiment = )` loads the experiment in a live session. The
   start-up load read the application log outside a reactive consumer, so every
   browser session started with an experiment stopped with "Can't access
