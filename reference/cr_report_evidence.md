@@ -43,7 +43,7 @@ cr_report_evidence(root, tables, claims = list(), figures = list())
 
 `cr_report_evidence` returns a versioned list with file SHA-256 hashes,
 keyed raw values, formatted displays and a manifest SHA-256. Its hash
-uses UTF-8 JSON bytes, not R serialization. Identifiers use radix
+uses UTF-8 JSON bytes, not R serialisation. Identifiers use radix
 ordering and numeric displays use a period decimal mark regardless of
 locale/options. Row order and other source-byte changes deliberately
 invalidate the source hash.

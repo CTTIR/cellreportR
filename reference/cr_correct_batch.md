@@ -4,7 +4,7 @@ Applies a simple batch correction. `"median_center"` shifts each batch's
 median to the overall median. The legacy `"combat"` choice is refused:
 this single-channel interface cannot supply the feature-by-sample matrix
 required for a valid empirical-Bayes ComBat analysis. Previous versions
-could substitute median centering after a ComBat error. Select
+could substitute median centring after a ComBat error. Select
 `"median_center"` explicitly if that is the intended analysis.
 
 ## Usage
@@ -56,7 +56,7 @@ batch and leaves the measured signal untouched.
 [`cr_batch_key()`](https://cttir.github.io/cellreportR/reference/cr_batch_key.md),
 [`cr_standardize_batch()`](https://cttir.github.io/cellreportR/reference/cr_standardize_batch.md)
 
-Other batch standardization functions:
+Other batch standardisation functions:
 [`cr_batch_key()`](https://cttir.github.io/cellreportR/reference/cr_batch_key.md),
 [`cr_batch_reference()`](https://cttir.github.io/cellreportR/reference/cr_batch_reference.md),
 [`cr_standardize_batch()`](https://cttir.github.io/cellreportR/reference/cr_standardize_batch.md)

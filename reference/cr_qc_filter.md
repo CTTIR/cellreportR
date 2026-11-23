@@ -1,6 +1,6 @@
 # Filter cells by morphology
 
-Removes debris and artifacts by thresholding morphological measurements.
+Removes debris and artefacts by thresholding morphological measurements.
 Any parameter left at `NA` is not applied.
 
 ## Usage

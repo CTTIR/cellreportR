@@ -39,7 +39,7 @@ cr_fold_change(
 
   Additive offset applied to numerator and denominator before the ratio
   is taken, i.e. `log2((value + eps) / (ref + eps))`. The default `0`
-  keeps the historical behavior, which floors the numerator at a small
+  keeps the historical behaviour, which floors the numerator at a small
   positive value instead. An additive offset is the better choice for
   counts and for signals that legitimately reach zero, because flooring
   turns every zero into the same arbitrary large negative fold change.
@@ -61,7 +61,7 @@ of units, median, mean and SD of the unit-level log2 fold change).
 
 The reference is pooled across the whole experiment. When controls
 differ systematically between plates, runs or acquisition days,
-standardize each cell against the control of its own batch instead — a
+standardise each cell against the control of its own batch instead — a
 pooled reference silently mixes those batches together.
 
 ## See also

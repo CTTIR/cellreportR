@@ -49,7 +49,7 @@ cr_report_style(
 
 - primary_colour, secondary_colour:
 
-  Six-digit hex colours. In grayscale mode neutral values are used
+  Six-digit hex colours. In `"grayscale"` mode neutral values are used
   regardless of these settings.
 
 - date_format, date_time_format:
@@ -71,7 +71,7 @@ cr_report_style(
 
 - show_signature_lines:
 
-  Add printable reviewer/authorizer lines.
+  Add printable reviewer/authoriser lines.
 
 - draft_watermark:
 

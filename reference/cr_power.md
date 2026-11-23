@@ -22,7 +22,7 @@ cr_power(
 
 - effect_size:
 
-  Numeric vector of observed standardized effects (Cohen's *d*). May be
+  Numeric vector of observed standardised effects (Cohen's *d*). May be
   `NULL` when only interval bounds are given.
 
 - ci_low, ci_high:
@@ -62,7 +62,7 @@ an interval compatible with no effect cannot be sized.
 
 The solver is
 [`stats::power.t.test()`](https://rdrr.io/r/stats/power.t.test.html), so
-the effect size is read as a standardized mean difference and `n` is per
+the effect size is read as a standardised mean difference and `n` is per
 group.
 
 ## See also

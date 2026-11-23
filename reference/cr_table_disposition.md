@@ -2,7 +2,7 @@
 
 Counts of analysis units and cells, overall and per arm. The reported
 counts of an assay are themselves an analysis output: once they are
-generated from the object that was analyzed, a count in the write-up
+generated from the object that was analysed, a count in the write-up
 cannot drift away from the data it describes.
 
 ## Usage

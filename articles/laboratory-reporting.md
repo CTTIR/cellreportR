@@ -5,7 +5,7 @@ logo](figures/logo-dark.svg)
 
 The laboratory-reporting layer separates analytical data and QC
 calculations from report metadata, classification, interpretation,
-rendering, and technical provenance. Rendering consumes finalized
+rendering, and technical provenance. Rendering consumes finalised
 objects and does not recalculate or reinterpret analytical values.
 
 ``` r
@@ -48,7 +48,7 @@ The human-facing PDF uses laboratory-report template 2.0. The
 package-owned KOMA-Script layout places report identity,
 subject/specimen summary, the examination, the primary result, and its
 interpretation on the first page for normal content. Quality control,
-traceability, limitations, additional information, and authorization
+traceability, limitations, additional information, and authorisation
 form the second-page release record. Every page shows report ID,
 version, status, and `Page X of Y`; the machine-readable report schema
 remains independently versioned at 1.0.
@@ -69,7 +69,7 @@ Administrative fields use aligned key-value grids. The result has the
 strongest typographic hierarchy, while the compact position indicator is
 explanatory and uses position, an outlined marker, threshold lines, and
 labels in addition to colour. Colour and intentionally monochrome output
-share the same display data and visual tokens. The authorization block
+share the same display data and visual tokens. The authorisation block
 remains the final human-facing section; an optional audit appendix
 follows only when requested.
 
@@ -91,7 +91,7 @@ The XeLaTeX toolchain can embed the report fonts and supplies a
 foundation for future archival profiles. The package does not currently
 generate or claim PDF/A output: an archival mode would require a
 controlled colour profile, metadata setup, and validation with an
-independent PDF/A validator before it could be labeled as such.
+independent PDF/A validator before it could be labelled as such.
 
 [`cr_report_display_data()`](https://cttir.github.io/cellreportR/reference/cr_report_display_data.md)
 exposes the exact human labels and formatted values used for rendering
@@ -113,7 +113,7 @@ profile$style
 #>   Locale: de
 ```
 
-Colour and grayscale are intentional document modes rather than
+Colour and greyscale are intentional document modes rather than
 post-render conversions. In either mode, classification and QC states
 remain explicit text. PDF rendering requires Pandoc and XeLaTeX;
 [`cr_render_lab_report()`](https://cttir.github.io/cellreportR/reference/cr_render_lab_report.md)

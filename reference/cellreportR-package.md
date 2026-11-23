@@ -1,10 +1,10 @@
 # cellreportR: Cell Culture Microscopy Assay Analysis and Reporting
 
-The cellreportR package provides a complete pipeline for analyzing cell
+The cellreportR package provides a complete pipeline for analysing cell
 culture-based laboratory assays evaluated by microscopy. It picks up
 where cell segmentation tools (e.g. `segmantR`, CellProfiler, QuPath)
 leave off, and covers experimental design, quality control,
-normalization, hierarchical statistical testing, effect size estimation,
+normalisation, hierarchical statistical testing, effect size estimation,
 discriminability analysis, and structured report generation.
 
 A companion interactive shiny application is available via
@@ -30,7 +30,7 @@ for guided analysis by laboratory personnel.
     [`cr_qc_doublets()`](https://cttir.github.io/cellreportR/reference/cr_qc_doublets.md),
     [`cr_qc_intensity()`](https://cttir.github.io/cellreportR/reference/cr_qc_intensity.md)).
 
-4.  Normalize
+4.  Normalise
     ([`cr_normalize()`](https://cttir.github.io/cellreportR/reference/cr_normalize.md),
     [`cr_background_subtract()`](https://cttir.github.io/cellreportR/reference/cr_background_subtract.md)).
 
@@ -44,7 +44,7 @@ for guided analysis by laboratory personnel.
     [`cr_test_all()`](https://cttir.github.io/cellreportR/reference/cr_test_all.md),
     [`cr_effect_size()`](https://cttir.github.io/cellreportR/reference/cr_effect_size.md)).
 
-7.  Visualize with any `cr_plot_*` function.
+7.  Visualise with any `cr_plot_*` function.
 
 8.  Report via
     [`cr_report()`](https://cttir.github.io/cellreportR/reference/cr_report.md).

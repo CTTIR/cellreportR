@@ -1,6 +1,6 @@
 # Tabulate the quality-control record
 
-Normalizes the several shapes a QC record can take — an experiment's QC
+Normalises the several shapes a QC record can take — an experiment's QC
 log, a gate object, or a plain data frame — into one tibble suitable for
 a supplement.
 

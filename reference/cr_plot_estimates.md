@@ -23,7 +23,7 @@ cr_plot_estimates(
 
 - data:
 
-  Data frame of finalized estimates.
+  Data frame of finalised estimates.
 
 - estimate, lower, upper, label:
 

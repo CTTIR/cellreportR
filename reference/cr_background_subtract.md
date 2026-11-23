@@ -49,7 +49,7 @@ A modified `cr_experiment`.
 [`cr_normalize()`](https://cttir.github.io/cellreportR/reference/cr_normalize.md),
 [`cr_standardize_batch()`](https://cttir.github.io/cellreportR/reference/cr_standardize_batch.md)
 
-Other normalization functions:
+Other normalisation functions:
 [`cr_normalize()`](https://cttir.github.io/cellreportR/reference/cr_normalize.md)
 
 ## Examples

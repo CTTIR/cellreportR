@@ -64,7 +64,7 @@ reports `e` and `b` on the fitting scale;
 [`cr_ic50()`](https://cttir.github.io/cellreportR/reference/cr_ic50.md)
 back-transforms `e` to the dose scale. With `log_dose = FALSE` the curve
 is logistic in the dose itself and `b` is not a Hill slope. The
-`log_dose = TRUE` curve is the log-logistic parameterization that
+`log_dose = TRUE` curve is the log-logistic parameterisation that
 carries the logarithm of the half-maximal dose as a parameter (Ritz et
 al. 2015, Eq. 3, p. 3), written with base-10 instead of natural
 logarithms; `a` and `d` take the place of the two limits called `d` and

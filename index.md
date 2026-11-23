@@ -4,8 +4,8 @@
 
 cellreportR can construct a versioned report specification containing
 report identity, laboratory metadata, subject/specimen identifiers,
-finalized results, selected QC summaries, user-supplied interpretation,
-limitations, authorization metadata, custom fields, and technical
+finalised results, selected QC summaries, user-supplied interpretation,
+limitations, authorisation metadata, custom fields, and technical
 provenance. The same report object is rendered programmatically or
 configured through the bundled Shiny application.
 
@@ -18,11 +18,11 @@ machine-readable audit record.
 PDF reports use a package-owned A4 KOMA-Script template with a
 controlled first-page identity block, repeating page identity,
 `Page X of Y` footers, compact metadata, a prominent result panel,
-deliberate pagination, and a kept-together authorization block.
+deliberate pagination, and a kept-together authorisation block.
 [`cr_report_style()`](https://cttir.github.io/cellreportR/reference/cr_report_style.md)
-controls colour or intentional grayscale output, density, locale-aware
+controls colour or intentional greyscale output, density, locale-aware
 date display, optional branding, signature lines, and an optional draft
-watermark. Reusable organization settings can be stored in
+watermark. Reusable organisation settings can be stored in
 [`cr_report_profile()`](https://cttir.github.io/cellreportR/reference/cr_report_profile.md)
 without mixing branding policy with analytical configuration.
 
@@ -45,7 +45,7 @@ cellreportR::cr_render_lab_report(report, tempfile(fileext = ".pdf"))
 
 Package figures use one restrained, colour-vision-conscious visual
 system with redundant shapes or line types for categorical distinctions.
-Colour and grayscale modes, standard manuscript/report dimensions,
+Colour and greyscale modes, standard manuscript/report dimensions,
 vector PDF/SVG export, and high-resolution PNG/TIFF export are available
 without changing plotted data.
 
@@ -68,7 +68,7 @@ estimates, publication figures, machine-readable tables and a generated
 file of every quoted number flow out.
 
 The organising idea is the **unit of replication**. Cells are not
-replicates. `cellreportR` resolves acquisitions into units, standardizes
+replicates. `cellreportR` resolves acquisitions into units, standardises
 every cell against the control condition of its *own* batch, and reports
 each effect at both unit and cell level so the cost of pooling is
 visible rather than assumed.
@@ -84,7 +84,7 @@ visible rather than assumed.
                                        |                                  |
                                        |  Ingest + design from paths      |
                                        |  Units, exclusion, balancing     |
-                                       |  Per-batch standardization       |
+                                       |  Per-batch standardisation       |
                                        |  Quality-control gate            |
                                        |  Effect sizes: unit vs cell      |
                                        |  Sample size from the CI bound   |
@@ -184,7 +184,7 @@ cr_qc_gate_impact(ds, gate, group_var = "treatment",
                   reference_level = "Vehicle", by = "compound")
 ds <- cr_apply_gate(ds, gate)
 
-# The summarized response column is named value.
+# The summarised response column is named value.
 units <- cr_summarize_wells(ds, channel = "log2_fc")
 eff_unit <- cr_effect_grid(units, value = "value", group_var = "treatment",
                            reference_level = "Vehicle", by = "compound", level = "unit")
@@ -211,7 +211,7 @@ out
 
 The single-channel `cr_correct_batch(method = "combat")` path now
 refuses an unsupported analysis. Earlier versions could return median
-centering after a ComBat error. Choose `method = "median_center"`
+centring after a ComBat error. Choose `method = "median_center"`
 explicitly when appropriate, or prepare a feature-by-sample matrix and a
 suitable design for
 [`sva::ComBat()`](https://rdrr.io/pkg/sva/man/ComBat.html).
@@ -253,7 +253,7 @@ records figure hashes with their declared source-table links.
 [`cr_lab_report_from_evidence()`](https://cttir.github.io/cellreportR/reference/cr_lab_report_from_evidence.md)
 inserts those displays into an existing laboratory report’s custom
 fields. The normal renderer and audit exporter revalidate the files and
-bound fields before use; existing reports retain their behavior.
+bound fields before use; existing reports retain their behaviour.
 
 ``` r
 
@@ -296,7 +296,7 @@ cr_run_app()
 ```
 
 The application provides a guided workflow covering import, quality
-control, normalization, statistical analysis, dose-response fitting,
+control, normalisation, statistical analysis, dose-response fitting,
 interactive visualisation and report export.
 
 ## Output structure
@@ -328,13 +328,13 @@ instead returns the ingest container described above:
 | Experiment object | [`cr_dataset()`](https://cttir.github.io/cellreportR/reference/cr_dataset.md), [`cr_build_experiment()`](https://cttir.github.io/cellreportR/reference/cr_build_experiment.md), [`cr_validate_experiment()`](https://cttir.github.io/cellreportR/reference/cr_validate_experiment.md), [`cr_design()`](https://cttir.github.io/cellreportR/reference/cr_design.md), [`cr_batch_key()`](https://cttir.github.io/cellreportR/reference/cr_batch_key.md), [`cr_channels()`](https://cttir.github.io/cellreportR/reference/cr_channels.md), [`cr_n_cells()`](https://cttir.github.io/cellreportR/reference/cr_n_cells.md), [`cr_filter_cells()`](https://cttir.github.io/cellreportR/reference/cr_filter_cells.md), [`cr_merge_experiments()`](https://cttir.github.io/cellreportR/reference/cr_merge_experiments.md) |
 | Units and balancing | [`cr_merge_rules()`](https://cttir.github.io/cellreportR/reference/cr_merge_rules.md), [`cr_assign_units()`](https://cttir.github.io/cellreportR/reference/cr_assign_units.md), [`cr_unit_map()`](https://cttir.github.io/cellreportR/reference/cr_unit_map.md), [`cr_centroid_overlap()`](https://cttir.github.io/cellreportR/reference/cr_centroid_overlap.md), [`cr_exclude_small()`](https://cttir.github.io/cellreportR/reference/cr_exclude_small.md), [`cr_balance_cells()`](https://cttir.github.io/cellreportR/reference/cr_balance_cells.md) |
 | Quality control | [`cr_qc_filter()`](https://cttir.github.io/cellreportR/reference/cr_qc_filter.md), [`cr_qc_doublets()`](https://cttir.github.io/cellreportR/reference/cr_qc_doublets.md), [`cr_qc_intensity()`](https://cttir.github.io/cellreportR/reference/cr_qc_intensity.md), [`cr_qc_manual()`](https://cttir.github.io/cellreportR/reference/cr_qc_manual.md), [`cr_qc_summary()`](https://cttir.github.io/cellreportR/reference/cr_qc_summary.md), [`cr_qc_gate()`](https://cttir.github.io/cellreportR/reference/cr_qc_gate.md), [`cr_qc_gate_impact()`](https://cttir.github.io/cellreportR/reference/cr_qc_gate_impact.md), [`cr_apply_gate()`](https://cttir.github.io/cellreportR/reference/cr_apply_gate.md), [`cr_qc_report()`](https://cttir.github.io/cellreportR/reference/cr_qc_report.md) |
-| Standardization | [`cr_normalize()`](https://cttir.github.io/cellreportR/reference/cr_normalize.md), [`cr_background_subtract()`](https://cttir.github.io/cellreportR/reference/cr_background_subtract.md), [`cr_correct_batch()`](https://cttir.github.io/cellreportR/reference/cr_correct_batch.md), [`cr_batch_reference()`](https://cttir.github.io/cellreportR/reference/cr_batch_reference.md), [`cr_standardize_batch()`](https://cttir.github.io/cellreportR/reference/cr_standardize_batch.md) |
+| Standardisation | [`cr_normalize()`](https://cttir.github.io/cellreportR/reference/cr_normalize.md), [`cr_background_subtract()`](https://cttir.github.io/cellreportR/reference/cr_background_subtract.md), [`cr_correct_batch()`](https://cttir.github.io/cellreportR/reference/cr_correct_batch.md), [`cr_batch_reference()`](https://cttir.github.io/cellreportR/reference/cr_batch_reference.md), [`cr_standardize_batch()`](https://cttir.github.io/cellreportR/reference/cr_standardize_batch.md) |
 | Quantification | [`cr_summarize_wells()`](https://cttir.github.io/cellreportR/reference/cr_summarize_wells.md), [`cr_fold_change()`](https://cttir.github.io/cellreportR/reference/cr_fold_change.md), [`cr_compute_metrics()`](https://cttir.github.io/cellreportR/reference/cr_compute_metrics.md) |
 | Effect sizes | [`cr_effect_grid()`](https://cttir.github.io/cellreportR/reference/cr_effect_grid.md), [`cr_compare_levels()`](https://cttir.github.io/cellreportR/reference/cr_compare_levels.md), [`cr_blocked_effect()`](https://cttir.github.io/cellreportR/reference/cr_blocked_effect.md), [`cr_unit_variability()`](https://cttir.github.io/cellreportR/reference/cr_unit_variability.md), [`cr_effect_size()`](https://cttir.github.io/cellreportR/reference/cr_effect_size.md), [`cr_test()`](https://cttir.github.io/cellreportR/reference/cr_test.md), [`cr_test_all()`](https://cttir.github.io/cellreportR/reference/cr_test_all.md) |
 | Sample size | [`cr_conservative_effect()`](https://cttir.github.io/cellreportR/reference/cr_conservative_effect.md), [`cr_power()`](https://cttir.github.io/cellreportR/reference/cr_power.md), [`cr_power_grid()`](https://cttir.github.io/cellreportR/reference/cr_power_grid.md), [`cr_power_analysis()`](https://cttir.github.io/cellreportR/reference/cr_power_analysis.md) |
 | Discriminability | [`cr_logistic()`](https://cttir.github.io/cellreportR/reference/cr_logistic.md), [`cr_roc()`](https://cttir.github.io/cellreportR/reference/cr_roc.md), [`cr_auc()`](https://cttir.github.io/cellreportR/reference/cr_auc.md), [`cr_confusion_matrix()`](https://cttir.github.io/cellreportR/reference/cr_confusion_matrix.md) |
 | Dose-response | [`cr_dose_response()`](https://cttir.github.io/cellreportR/reference/cr_dose_response.md), [`cr_ic50()`](https://cttir.github.io/cellreportR/reference/cr_ic50.md) |
-| Visualization | eighteen `cr_plot_*()` functions, plus [`cr_theme()`](https://cttir.github.io/cellreportR/reference/cr_theme.md), [`cr_palette()`](https://cttir.github.io/cellreportR/reference/cr_palette.md), [`cr_shapes()`](https://cttir.github.io/cellreportR/reference/cr_shapes.md), [`cr_scale_group()`](https://cttir.github.io/cellreportR/reference/cr_scale_group.md), [`cr_save_plot()`](https://cttir.github.io/cellreportR/reference/cr_save_plot.md) |
+| Visualisation | eighteen `cr_plot_*()` functions, plus [`cr_theme()`](https://cttir.github.io/cellreportR/reference/cr_theme.md), [`cr_palette()`](https://cttir.github.io/cellreportR/reference/cr_palette.md), [`cr_shapes()`](https://cttir.github.io/cellreportR/reference/cr_shapes.md), [`cr_scale_group()`](https://cttir.github.io/cellreportR/reference/cr_scale_group.md), [`cr_save_plot()`](https://cttir.github.io/cellreportR/reference/cr_save_plot.md) |
 | Tables and reporting | [`cr_tables()`](https://cttir.github.io/cellreportR/reference/cr_tables.md), [`cr_table_disposition()`](https://cttir.github.io/cellreportR/reference/cr_table_disposition.md), [`cr_table_qc()`](https://cttir.github.io/cellreportR/reference/cr_table_qc.md), [`cr_export_tables()`](https://cttir.github.io/cellreportR/reference/cr_export_tables.md), [`cr_export_results()`](https://cttir.github.io/cellreportR/reference/cr_export_results.md), [`cr_export_plots()`](https://cttir.github.io/cellreportR/reference/cr_export_plots.md), [`cr_report()`](https://cttir.github.io/cellreportR/reference/cr_report.md), [`cr_render_report()`](https://cttir.github.io/cellreportR/reference/cr_render_report.md) |
 | Generated numbers | [`cr_macros()`](https://cttir.github.io/cellreportR/reference/cr_macros.md), [`cr_macros_from()`](https://cttir.github.io/cellreportR/reference/cr_macros_from.md), [`cr_macro_name()`](https://cttir.github.io/cellreportR/reference/cr_macro_name.md), [`cr_format_number()`](https://cttir.github.io/cellreportR/reference/cr_format_number.md), [`cr_enumerate()`](https://cttir.github.io/cellreportR/reference/cr_enumerate.md) |
 | Example data | [`cr_example_experiment()`](https://cttir.github.io/cellreportR/reference/cr_example_experiment.md), [`cr_example_design()`](https://cttir.github.io/cellreportR/reference/cr_example_design.md), [`cr_example_files()`](https://cttir.github.io/cellreportR/reference/cr_example_files.md) |
@@ -366,7 +366,7 @@ BibTeX:
 ``` bibtex
 @Manual{cellreportR,
   title  = {cellreportR: Cell Culture Microscopy Assay Analysis and Reporting},
-  author = {Raban Heller and Leila Schwindling and Alexander B\"uchner and
+  author = {R. Heller and Leila Schwindling and Alexander B\"uchner and
             Lucia Lindenberger and Steffen M\"uller and Michael Hannemann and
             Gerhard Achatz and Simone Rothmiller},
   year   = {2026},
@@ -382,7 +382,7 @@ You can always retrieve the up-to-date entry directly from R:
 citation("cellreportR")
 ```
 
-## License
+## Licence
 
 MIT (c) 2026 R. Heller.
 

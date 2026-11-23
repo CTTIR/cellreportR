@@ -17,7 +17,7 @@ cr_report_display_data(report)
 
 ## Value
 
-A plain nested list suitable for inspection, serialization, and
+A plain nested list suitable for inspection, serialisation, and
 deterministic rendering.
 
 ## See also

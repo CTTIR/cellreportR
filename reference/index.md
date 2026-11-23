@@ -123,12 +123,12 @@ and the leverage of what the gate removed.
 - [`cr_qc_report()`](https://cttir.github.io/cellreportR/reference/cr_qc_report.md)
   : Report every analysis unit with its QC verdict
 
-## Normalization and batch standardization
+## Normalisation and batch standardisation
 
 Rescale each cell against the control condition of its own batch.
 
 - [`cr_normalize()`](https://cttir.github.io/cellreportR/reference/cr_normalize.md)
-  : Normalize intensity data
+  : Normalise intensity data
 - [`cr_background_subtract()`](https://cttir.github.io/cellreportR/reference/cr_background_subtract.md)
   : Subtract background from a channel
 - [`cr_correct_batch()`](https://cttir.github.io/cellreportR/reference/cr_correct_batch.md)
@@ -136,14 +136,14 @@ Rescale each cell against the control condition of its own batch.
 - [`cr_batch_reference()`](https://cttir.github.io/cellreportR/reference/cr_batch_reference.md)
   : Per-batch control reference statistics
 - [`cr_standardize_batch()`](https://cttir.github.io/cellreportR/reference/cr_standardize_batch.md)
-  : Standardize a channel against the control of each cell's own batch
+  : Standardise a channel against the control of each cell's own batch
 
 ## Quantification
 
 Collapse cells to units and derive per-unit quantities.
 
 - [`cr_summarize_wells()`](https://cttir.github.io/cellreportR/reference/cr_summarize_wells.md)
-  : Summarize cell-level data to the analysis unit
+  : Summarise cell-level data to the analysis unit
 - [`cr_fold_change()`](https://cttir.github.io/cellreportR/reference/cr_fold_change.md)
   : Compute fold change relative to a control group
 - [`cr_compute_metrics()`](https://cttir.github.io/cellreportR/reference/cr_compute_metrics.md)
@@ -214,7 +214,7 @@ Concentration-response curve fitting and potency estimates.
 - [`cr_ic50()`](https://cttir.github.io/cellreportR/reference/cr_ic50.md)
   : Extract IC50 / EC50 from a dose-response fit
 
-## Visualization
+## Visualisation
 
 Publication figures and the shared plot design contract.
 
@@ -302,7 +302,7 @@ export.
 - [`cr_classify_result()`](https://cttir.github.io/cellreportR/reference/cr_classify_result.md)
   : Deterministically classify numeric results using explicit boundaries
 - [`cr_finalize_result()`](https://cttir.github.io/cellreportR/reference/cr_finalize_result.md)
-  : Apply a caller-selected QC finalization rule
+  : Apply a caller-selected QC finalisation rule
 - [`cr_interpretation_lookup()`](https://cttir.github.io/cellreportR/reference/cr_interpretation_lookup.md)
   : Look up explicit interpretation text
 - [`cr_report_qc()`](https://cttir.github.io/cellreportR/reference/cr_report_qc.md)

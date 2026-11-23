@@ -1,6 +1,6 @@
 # Collect the tables of an analysis
 
-Gathers every tabular artifact of an experiment or report into one named
+Gathers every tabular artefact of an experiment or report into one named
 list, ready for
 [`cr_export_tables()`](https://cttir.github.io/cellreportR/reference/cr_export_tables.md).
 Empty tables are dropped, so the result reflects what actually exists.
@@ -19,7 +19,7 @@ cr_tables(x, results = NULL, which = NULL)
 
 - results:
 
-  Optional results to summarize when `x` is a `cr_experiment`. Ignored
+  Optional results to summarise when `x` is a `cr_experiment`. Ignored
   for a `cr_report`, which carries its own.
 
 - which:

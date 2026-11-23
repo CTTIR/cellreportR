@@ -1,6 +1,6 @@
 # Between-unit variability within a condition
 
-Summarizes how far apart the units of one condition sit. For every group
+Summarises how far apart the units of one condition sit. For every group
 defined by `by` that holds at least `min_units` units, the number of
 units, the coefficient of variation, the spread (`max - min` of the unit
 values) and the fold range (`log_base ^ spread`) are reported.

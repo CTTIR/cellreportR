@@ -1,6 +1,6 @@
 # Create a reusable laboratory report profile
 
-A profile stores organization-wide branding and display policy
+A profile stores organisation-wide branding and display policy
 separately from examination-specific scientific configuration.
 
 ## Usage

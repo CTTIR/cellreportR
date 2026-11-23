@@ -58,7 +58,7 @@ cr_lab_report(
   Optional
   [`cr_report_profile()`](https://cttir.github.io/cellreportR/reference/cr_report_profile.md)
   containing laboratory defaults, labels, required fields, and
-  organization-wide visual settings.
+  organisation-wide visual settings.
 
 ## Value
 

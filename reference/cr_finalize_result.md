@@ -1,6 +1,6 @@
-# Apply a caller-selected QC finalization rule
+# Apply a caller-selected QC finalisation rule
 
-Apply a caller-selected QC finalization rule
+Apply a caller-selected QC finalisation rule
 
 ## Usage
 

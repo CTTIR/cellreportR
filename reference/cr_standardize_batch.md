@@ -1,8 +1,8 @@
-# Standardize a channel against the control of each cell's own batch
+# Standardise a channel against the control of each cell's own batch
 
 Expresses every cell relative to the control cells of the batch it
 belongs to, rather than to one pooled reference for the whole
-experiment. This is the standardization a plate-based screen needs:
+experiment. This is the standardisation a plate-based screen needs:
 plates, runs and acquisition days each carry their own offset, and a
 single pooled control folds that offset into the estimate.
 
@@ -31,7 +31,7 @@ cr_standardize_batch(
 
 - channel:
 
-  Channel column to standardize. Must be numeric.
+  Channel column to standardise. Must be numeric.
 
 - control_level:
 
@@ -52,7 +52,7 @@ cr_standardize_batch(
   Which quantity becomes the canonical analysis value in `value_to`:
   `"log2_fc"` (default), `"zscore"` (the per-batch z-score `z_ctrl`), or
   `"raw"` (the untransformed channel, for a like-for-like comparison of
-  standardized against measured signal).
+  standardised against measured signal).
 
 - eps:
 
@@ -116,12 +116,12 @@ The fold change divides by the control **mean** while
 [`cr_batch_reference()`](https://cttir.github.io/cellreportR/reference/cr_batch_reference.md)
 also reports the control **median**; see there for why both are kept.
 
-A batch that contains no control cells cannot be standardized: its
+A batch that contains no control cells cannot be standardised: its
 reference does not exist, and a value computed against some other
 batch's control would be a silent error rather than a measurement.
 `cr_standardize_batch()` therefore refuses by default. Use
 `on_missing_control = "drop"` to remove those cells (recorded in the QC
-log) or `"warn"` to keep them with `NA` standardized values.
+log) or `"warn"` to keep them with `NA` standardised values.
 
 ## See also
 
@@ -129,7 +129,7 @@ log) or `"warn"` to keep them with `NA` standardized values.
 [`cr_batch_key()`](https://cttir.github.io/cellreportR/reference/cr_batch_key.md),
 [`cr_normalize()`](https://cttir.github.io/cellreportR/reference/cr_normalize.md)
 
-Other batch standardization functions:
+Other batch standardisation functions:
 [`cr_batch_key()`](https://cttir.github.io/cellreportR/reference/cr_batch_key.md),
 [`cr_batch_reference()`](https://cttir.github.io/cellreportR/reference/cr_batch_reference.md),
 [`cr_correct_batch()`](https://cttir.github.io/cellreportR/reference/cr_correct_batch.md)

@@ -3,7 +3,7 @@
 ## cellreportR 0.3.0
 
 - Effect-size calculations use double-precision sample counts to prevent
-  integer overflow for large cell samples. Quantile normalization
+  integer overflow for large cell samples. Quantile normalisation
   excludes missing observations from within-well rank denominators,
   preserving their missing values. Analysis unit construction rejects
   collisions between distinct merged key tuples while retaining declared
@@ -42,7 +42,7 @@
   aligned pairs with `stats::wilcox.test(..., paired = TRUE)`.
 
 - Refuse the unsupported single-channel ComBat path instead of
-  substituting median centering after failure. Select median centering
+  substituting median centring after failure. Select median centring
   explicitly or prepare a suitable feature-by-sample ComBat analysis
   outside this interface.
 
@@ -80,7 +80,7 @@
   `EC50 = 10^e` and Hill slope `b / ln(10)`. The help page now also
   states that a straight line is substituted when the nonlinear fit
   cannot be obtained, and that the `model` element records this, and
-  cites the parameterization (Ritz et al. 2015,
+  cites the parameterisation (Ritz et al. 2015,
   <https://doi.org/10.1371/journal.pone.0146021>). The fit is unchanged.
 
 - [`cr_scale_group()`](https://cttir.github.io/cellreportR/reference/cr_scale_group.md)
@@ -88,7 +88,7 @@
 
 - [`cr_plot_plate()`](https://cttir.github.io/cellreportR/reference/cr_plot_plate.md)
   labels rows beyond `Z` with two letters (`AA`, `AB`, …) instead of
-  leaving them unlabeled.
+  leaving them unlabelled.
   [`cr_well_to_rowcol()`](https://cttir.github.io/cellreportR/reference/cr_well_to_rowcol.md)
   returns an integer `row` column, as documented, also for empty input
   (previously a list column) and for two-letter rows (previously
@@ -99,6 +99,18 @@
   consumer, so every browser session started with an experiment stopped
   with “Can’t access reactive value ‘log’” and showed an empty, dimmed
   application. Starting without an experiment was not affected.
+
+- The documentation is declared as British English (`Language: en-GB`);
+  the help pages, README, vignettes and these notes use British spelling
+  (normalisation, standardisation, analyse, colour). Function names,
+  arguments and values such as
+  [`cr_normalize()`](https://cttir.github.io/cellreportR/reference/cr_normalize.md),
+  [`cr_standardize_batch()`](https://cttir.github.io/cellreportR/reference/cr_standardize_batch.md)
+  and `mode = "grayscale"` are unchanged.
+
+- The citation names the maintainer as “R. Heller” in `inst/CITATION`,
+  the README, `CITATION.cff` and `.zenodo.json`, and `CITATION.cff` and
+  `.zenodo.json` carry the title of `inst/CITATION`.
 
 ## cellreportR 0.2.0.9000
 

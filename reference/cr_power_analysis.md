@@ -3,7 +3,7 @@
 A Monte-Carlo approximation of the power of a two-sample comparison of
 replicate means formed from independent, unit-variance normal cells.
 There is no between-unit random effect or intraclass correlation. The
-result is an idealized scenario, not a validated estimate of power for a
+result is an idealised scenario, not a validated estimate of power for a
 clustered biological assay or a formal upper bound on laboratory power.
 For a follow-up design use
 [`cr_power()`](https://cttir.github.io/cellreportR/reference/cr_power.md)

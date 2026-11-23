@@ -1,6 +1,6 @@
-# Normalize intensity data
+# Normalise intensity data
 
-Applies a channel-wise normalization. The normalized channel values
+Applies a channel-wise normalisation. The normalised channel values
 replace the original column in `cells`.
 
 ## Usage
@@ -23,7 +23,7 @@ cr_normalize(
 
 - channel:
 
-  Channel column to normalize.
+  Channel column to normalise.
 
 - method:
 
@@ -71,11 +71,11 @@ signal.
 ## See also
 
 [`cr_standardize_batch()`](https://cttir.github.io/cellreportR/reference/cr_standardize_batch.md)
-for per-batch standardization,
+for per-batch standardisation,
 [`cr_background_subtract()`](https://cttir.github.io/cellreportR/reference/cr_background_subtract.md),
 [`cr_correct_batch()`](https://cttir.github.io/cellreportR/reference/cr_correct_batch.md).
 
-Other normalization functions:
+Other normalisation functions:
 [`cr_background_subtract()`](https://cttir.github.io/cellreportR/reference/cr_background_subtract.md)
 
 ## Examples

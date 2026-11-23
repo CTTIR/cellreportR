@@ -64,7 +64,7 @@ cr_n_cells(exp, by = "treatment")
 ```
 
 A batch here is the combination of two columns, which is what later
-standardization references:
+standardisation references:
 
 ``` r
 
@@ -128,7 +128,7 @@ testing. That is the defensible default;
 [`vignette("statistical-analysis")`](https://cttir.github.io/cellreportR/articles/statistical-analysis.md)
 shows what the cell-level alternative costs.
 
-## 5. Visualize
+## 5. Visualise
 
 ``` r
 
@@ -176,7 +176,7 @@ cr_plot_roc(logit)
 ## 7. Next steps
 
 - [`vignette("end-to-end")`](https://cttir.github.io/cellreportR/articles/end-to-end.md)
-  — ingest, units, the quality-control gate, per-batch standardization,
+  — ingest, units, the quality-control gate, per-batch standardisation,
   effect sizes at two levels, sample size and the report.
 - [`vignette("statistical-analysis")`](https://cttir.github.io/cellreportR/articles/statistical-analysis.md)
   — cell-level versus replicate-level inference.

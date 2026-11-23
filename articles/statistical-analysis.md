@@ -201,7 +201,7 @@ spread between replicate means here is the averaging itself, so power
 rises steeply with `n_cells_per_rep`. Real units also differ from one
 another for reasons that more cells cannot average away — staining,
 focus, seeding density — and that component is not in this model. This
-is an idealized independent-cell scenario, not a formal upper bound or a
+is an idealised independent-cell scenario, not a formal upper bound or a
 validated prediction of laboratory power. A design decision needs an
 explicit between-unit variance model or an effect and variance estimated
 at the independent experimental-unit level.

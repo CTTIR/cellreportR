@@ -47,7 +47,7 @@ cr_plot_result_position(
 
 - mode:
 
-  Colour or grayscale rendering.
+  `"colour"` or `"grayscale"` rendering.
 
 - style:
 

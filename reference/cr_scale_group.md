@@ -44,7 +44,7 @@ cr_scale_group(
 
 - mode:
 
-  Colour or grayscale palette for colour/fill aesthetics.
+  `"colour"` or `"grayscale"` palette for colour/fill aesthetics.
 
 ## Value
 

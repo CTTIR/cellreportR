@@ -1,4 +1,4 @@
-# Summarize cell-level data to the analysis unit
+# Summarise cell-level data to the analysis unit
 
 Aggregates the per-cell values of one channel to a single number per
 analysis unit. By default the analysis unit is the spatial unit of the

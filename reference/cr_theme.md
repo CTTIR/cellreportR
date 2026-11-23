@@ -44,7 +44,7 @@ cr_theme(
 
 - mode:
 
-  Colour or grayscale mode. Typography is shared across modes.
+  `"colour"` or `"grayscale"` mode. Typography is shared across modes.
 
 ## Value
 

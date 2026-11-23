@@ -1,12 +1,12 @@
 # Per-batch control reference statistics
 
-Summarizes the control cells of every batch: how many there are, and
+Summarises the control cells of every batch: how many there are, and
 their mean, median and standard deviation for one channel. This table is
 the reference that
 [`cr_standardize_batch()`](https://cttir.github.io/cellreportR/reference/cr_standardize_batch.md)
 divides by, and it is worth inspecting on its own – a batch with very
 few control cells, or none at all, is visible here before any
-standardized value is computed.
+standardised value is computed.
 
 ## Usage
 
@@ -29,7 +29,7 @@ cr_batch_reference(
 
 - channel:
 
-  Channel column to summarize. Must be numeric.
+  Channel column to summarise. Must be numeric.
 
 - control_level:
 
@@ -76,7 +76,7 @@ A tibble with one row per batch and the columns
 
 - `has_control`:
 
-  Whether the batch can be standardized.
+  Whether the batch can be standardised.
 
 ## Details
 
@@ -90,7 +90,7 @@ Keeping both lets each consumer compare like with like.
 [`cr_standardize_batch()`](https://cttir.github.io/cellreportR/reference/cr_standardize_batch.md),
 [`cr_batch_key()`](https://cttir.github.io/cellreportR/reference/cr_batch_key.md)
 
-Other batch standardization functions:
+Other batch standardisation functions:
 [`cr_batch_key()`](https://cttir.github.io/cellreportR/reference/cr_batch_key.md),
 [`cr_correct_batch()`](https://cttir.github.io/cellreportR/reference/cr_correct_batch.md),
 [`cr_standardize_batch()`](https://cttir.github.io/cellreportR/reference/cr_standardize_batch.md)

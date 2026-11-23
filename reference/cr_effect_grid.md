@@ -39,7 +39,7 @@ cr_effect_grid(
 
 - value:
 
-  Name of the numeric response column, for example a standardized log2
+  Name of the numeric response column, for example a standardised log2
   fold change or a raw channel.
 
 - group_var:

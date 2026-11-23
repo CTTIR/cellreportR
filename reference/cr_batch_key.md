@@ -3,7 +3,7 @@
 A batch is rarely identified by a single column. Once an assay spans
 several plates, acquisition runs or experiment days, the analytical
 batch is the *combination* of those columns, and any analysis that
-standardizes against a control has to respect that combination.
+standardises against a control has to respect that combination.
 `cr_batch_key()` collapses any number of design or cell columns into one
 character key that can be grouped on, joined on and reported.
 
@@ -52,7 +52,7 @@ separator or missing-value label.
 [`cr_batch_reference()`](https://cttir.github.io/cellreportR/reference/cr_batch_reference.md),
 [`cr_standardize_batch()`](https://cttir.github.io/cellreportR/reference/cr_standardize_batch.md)
 
-Other batch standardization functions:
+Other batch standardisation functions:
 [`cr_batch_reference()`](https://cttir.github.io/cellreportR/reference/cr_batch_reference.md),
 [`cr_correct_batch()`](https://cttir.github.io/cellreportR/reference/cr_correct_batch.md),
 [`cr_standardize_batch()`](https://cttir.github.io/cellreportR/reference/cr_standardize_batch.md)
