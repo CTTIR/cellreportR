@@ -38,12 +38,14 @@ cr_rowcol_to_well <- function(row, col, pad = 2) {
 }
 
 .cr_letters_to_row <- function(x) {
-  sapply(toupper(x), function(s) {
+  # vapply(), not sapply(): an empty input must give an empty numeric
+  # vector, not a list.
+  vapply(toupper(x), function(s) {
     if (is.na(s) || !nchar(s)) return(NA_integer_)
     chars <- strsplit(s, "")[[1]]
     nums <- match(chars, LETTERS)
     Reduce(function(a, b) a * 26 + b, nums)
-  }, USE.NAMES = FALSE)
+  }, numeric(1), USE.NAMES = FALSE)
 }
 
 .cr_row_to_letters <- function(n) {

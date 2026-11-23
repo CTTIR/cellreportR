@@ -175,3 +175,15 @@ test_that("cr_plot_roc merges colour and line type into one legend", {
     expect_equal(sum(grepl("^guides", boxes[[1L]]$layout$name)), 1L)
   }
 })
+
+test_that("cr_plot_plate labels rows beyond Z with two letters", {
+  exp <- cr_example_experiment(seed = 1, n_cells_per_well = 5)
+  old <- exp$design$well
+  new <- sub("^A", "AB", old)
+  exp$design$well <- new
+  exp$cells$well <- new[match(exp$cells$well, old)]
+  p <- cr_plot_plate(exp, "marker_1")
+  labs <- ggplot2::ggplot_build(p)$layout$panel_params[[1L]]$y$get_labels()
+  expect_false(anyNA(labs))
+  expect_true(all(c("A", "Z", "AA", "AB") %in% labs))
+})

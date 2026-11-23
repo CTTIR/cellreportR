@@ -47,3 +47,12 @@ test_that("cr_merge_experiments merges with unique wells", {
   expect_s3_class(merged, "cr_experiment")
   expect_gt(nrow(merged$cells), nrow(e1$cells))
 })
+
+test_that("cr_well_to_rowcol returns typed empty columns for empty input", {
+  rc <- cr_well_to_rowcol(character())
+  expect_equal(nrow(rc), 0L)
+  expect_type(rc$row, "double")
+  expect_type(rc$col, "integer")
+  # Unchanged for ordinary and for two-letter rows.
+  expect_equal(cr_well_to_rowcol(c("A01", "AA03", NA))$row, c(1, 27, NA))
+})

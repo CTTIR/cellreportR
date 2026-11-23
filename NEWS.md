@@ -48,6 +48,10 @@
   states that a straight line is substituted when the nonlinear fit cannot be
   obtained, and that the `model` element records this. The fit is unchanged.
 * `cr_scale_group()` documents the `"linetype"` aesthetic it already accepts.
+* `cr_plot_plate()` labels rows beyond `Z` with two letters (`AA`, `AB`, ...)
+  instead of leaving them unlabeled, and `cr_well_to_rowcol()` returns an empty
+  numeric `row` column, not a list column, for empty input. Results for plates
+  of up to 26 rows are unchanged.
 
 # cellreportR 0.2.0.9000
 

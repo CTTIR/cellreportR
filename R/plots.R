@@ -29,8 +29,11 @@ cr_plot_plate <- function(experiment, channel,
   ggplot2::ggplot(df, ggplot2::aes(x = .data$col, y = .data$row,
                                    fill = .data$value)) +
     ggplot2::geom_tile(colour = "white", linewidth = 0.3) +
-    ggplot2::scale_y_reverse(breaks = seq_len(max(df$row, na.rm = TRUE)),
-                             labels = LETTERS[seq_len(max(df$row, na.rm = TRUE))]) +
+    # Row letters continue past Z (AA, AB, ...) as on 1536-well plates.
+    ggplot2::scale_y_reverse(
+      breaks = seq_len(max(df$row, na.rm = TRUE)),
+      labels = .cr_row_to_letters(seq_len(max(df$row, na.rm = TRUE)))
+    ) +
     ggplot2::scale_x_continuous(breaks = seq_len(max(df$col, na.rm = TRUE)),
                                 position = "top") +
     ggplot2::scale_fill_gradientn(
