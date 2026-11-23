@@ -290,17 +290,36 @@ test_that("cr_plot_sample_size places each value label on its own bar", {
     n_observed = c(12, 84, 640),
     n_conservative = c(46, NA, NA)
   )
-  for (p in list(cr_plot_sample_size(sizes),
-                 cr_plot_sample_size(sizes, log_y = FALSE))) {
+  on_bars <- function(p, n_positions) {
     built <- ggplot2::ggplot_build(p)
     bars <- built$data[[1L]]
     text <- built$data[[2L]]
-    bars <- bars[order(bars$y), c("x", "y")]
-    text <- text[order(text$y), c("x", "y")]
+    bars <- bars[order(bars$y, bars$x), c("x", "y")]
+    text <- text[order(text$y, text$x), c("x", "y")]
     # Dodged bars and their labels share an x position, including the
     # group that carries both an observed and a conservative bar.
-    expect_equal(text$x, bars$x)
+    expect_equal(as.numeric(text$x), as.numeric(bars$x))
     expect_equal(text$y, bars$y)
-    expect_equal(length(unique(round(bars$x, 6))), 4L)
+    expect_equal(length(unique(round(bars$x, 6))), n_positions)
   }
+  on_bars(cr_plot_sample_size(sizes), 4L)
+  on_bars(cr_plot_sample_size(sizes, log_y = FALSE), 4L)
+
+  # Several coloured groups share one axis label, as in a contrast-by-
+  # compound screen; the colour column is given in a non-alphabetical order.
+  grid <- expand.grid(
+    contrast = c("Dose_10", "Dose_50"),
+    compound = c("CompoundD", "CompoundA", "CompoundC"),
+    stringsAsFactors = FALSE
+  )
+  grid$n_observed <- c(9, 3, 11, 4, 17, 8)
+  grid$n_conservative <- c(93, NA, 120, 10, NA, 66)
+  p <- cr_plot_sample_size(grid, label = "contrast", colour_by = "compound")
+  on_bars(p, 10L)
+  # The plot data keep their columns; grouping is not stored in them.
+  expect_named(p$data, c("contrast", "compound", "kind", "n"))
+  grid$compound <- factor(grid$compound,
+                          levels = c("CompoundC", "CompoundD", "CompoundA"))
+  on_bars(cr_plot_sample_size(grid, label = "contrast",
+                              colour_by = "compound"), 10L)
 })

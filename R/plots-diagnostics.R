@@ -106,13 +106,22 @@ cr_plot_sample_size <- function(sizes,
       cr_scale_group("fill", name = colour_by)
   }
 
+  # The bars are grouped by the aesthetics mapped to them: kind (alpha) and,
+  # when given, the colour column (fill). The value labels carry neither
+  # (the constant `alpha = 1` below replaces the mapped alpha), so they are
+  # given the same grouping explicitly and each label is dodged onto its own
+  # bar.
+  label_aes <- if (is.null(colour_by)) {
+    ggplot2::aes(label = scales::label_comma(accuracy = 1)(.data$n),
+                 group = .data$kind)
+  } else {
+    ggplot2::aes(label = scales::label_comma(accuracy = 1)(.data$n),
+                 group = interaction(.data[[colour_by]], .data$kind,
+                                     lex.order = TRUE))
+  }
   p <- p +
     ggplot2::geom_text(
-      # The constant `alpha = 1` below replaces the mapped alpha, which is
-      # what groups the bars; group explicitly so each label is dodged onto
-      # its own bar.
-      ggplot2::aes(label = scales::label_comma(accuracy = 1)(.data$n),
-                   group = .data$kind),
+      label_aes,
       position = dodge, vjust = -0.45, size = 2.7, colour = "grey15",
       alpha = 1, show.legend = FALSE
     ) +
