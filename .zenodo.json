@@ -1,11 +1,11 @@
 {
   "upload_type": "software",
-  "title": "cellreportR: Analysis and reporting for cell culture microscopy assays",
+  "title": "cellreportR: Cell Culture Microscopy Assay Analysis and Reporting",
   "version": "0.3.0",
   "description": "<p>cellreportR provides a complete analysis path for laboratory assays on cultured cells that are read out by microscopy. Beginning from segmented single-cell measurements, it handles experimental design specification, fluorescence intensity quantification, quality control, normalisation, and hierarchical statistical testing at both the individual cell and the biological replicate level. It also estimates effect sizes, fits logistic regression models for discriminability analysis, and generates structured diagnostic reports. An interactive application guides users through analysis, result exploration and report export. It is aimed at cell biology laboratories that need statistically defensible, reproducible readouts from imaging assays.</p>",
   "creators": [
     {
-      "name": "Heller, Raban",
+      "name": "Heller, R.",
       "orcid": "0000-0001-8006-9742"
     },
     {

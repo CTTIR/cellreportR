@@ -66,6 +66,9 @@
   (normalisation, standardisation, analyse, colour). Function names,
   arguments and values such as `cr_normalize()`, `cr_standardize_batch()`
   and `mode = "grayscale"` are unchanged.
+* The citation names the maintainer as "R. Heller" in `inst/CITATION`, the
+  README, `CITATION.cff` and `.zenodo.json`, and `CITATION.cff` and
+  `.zenodo.json` carry the title of `inst/CITATION`.
 
 # cellreportR 0.2.0.9000
 

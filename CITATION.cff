@@ -1,12 +1,12 @@
 cff-version: 1.2.0
 message: Cite the exact version used. This is an unpublished corrective development version.
 type: software
-title: 'cellreportR: Analysis and reporting for cell culture microscopy assays'
+title: 'cellreportR: Cell Culture Microscopy Assay Analysis and Reporting'
 version: 0.3.0
 doi: 10.5281/zenodo.21889928
 authors:
 - family-names: Heller
-  given-names: Raban
+  given-names: R.
   orcid: https://orcid.org/0000-0001-8006-9742
 - family-names: Schwindling
   given-names: Leila

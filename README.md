@@ -346,7 +346,7 @@ BibTeX:
 ```bibtex
 @Manual{cellreportR,
   title  = {cellreportR: Cell Culture Microscopy Assay Analysis and Reporting},
-  author = {Raban Heller and Leila Schwindling and Alexander B\"uchner and
+  author = {R. Heller and Leila Schwindling and Alexander B\"uchner and
             Lucia Lindenberger and Steffen M\"uller and Michael Hannemann and
             Gerhard Achatz and Simone Rothmiller},
   year   = {2026},
