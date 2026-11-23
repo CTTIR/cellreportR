@@ -53,11 +53,11 @@ cellreportR::cr_plot_estimates(d,reference=0,colour_mode="colour")
 cellreportR::cr_plot_estimates(d,reference=0,colour_mode="grayscale")
 ```
 
-```{r result-position}
+```{r result-position, fig.height=1.8}
 cellreportR::cr_plot_result_position(1.42,c(1,2),c("Lower","Intermediate","Upper"),unit="a.u.",classification="HIGH",mode="grayscale")
 ```
 
-```{r qc}
+```{r qc, fig.height=1.1}
 qc <- cellreportR::cr_report_qc(c("Criterion A","Criterion B"),c("met","review"),c("Configured criteria","Configured criteria"),c("PASS","WARN"))
 cellreportR::cr_plot_qc_summary(qc)
 ```
