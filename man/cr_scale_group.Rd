@@ -14,7 +14,7 @@ cr_scale_group(
 }
 \arguments{
 \item{aesthetics}{Character vector of aesthetics to scale. Any of
-\code{"colour"}, \code{"color"}, \code{"fill"}, \code{"shape"}.}
+\code{"colour"}, \code{"color"}, \code{"fill"}, \code{"shape"}, \code{"linetype"}.}
 
 \item{name}{Legend title. \code{NULL} (default) keeps the mapped variable name.}
 

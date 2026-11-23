@@ -39,9 +39,25 @@ across doses. Supports 4-parameter log-logistic (\code{"4pl"}),
 }
 \details{
 The 4PL model fitted is:
-\deqn{y = d + \frac{a - d}{1 + (x / e)^b}}
-where \code{a} is the top asymptote, \code{d} the bottom asymptote, \code{e} the
-inflection point (EC50 / IC50), and \code{b} the Hill slope.
+\deqn{y = d + \frac{a - d}{1 + \exp(b\,(x - e))}}
+where \code{x} is the dose on the fitting scale (\code{log10(dose)} when
+\code{log_dose = TRUE}, the untransformed dose otherwise), \code{a} and \code{d} are
+the asymptotes approached at low and at high \code{x} when \code{b} is positive
+(and the reverse when \code{b} is negative), \code{e} is the inflection point
+on the fitting scale, and \code{b} is the slope on that scale. The 3PL
+model is the same curve with \code{d} fixed at zero.
+
+With \code{log_dose = TRUE} this is the four-parameter log-logistic curve
+\eqn{y = d + (a - d) / (1 + (\mathrm{dose} / \mathrm{EC50})^h)} with
+\eqn{\mathrm{EC50} = 10^e} and Hill slope \eqn{h = b / \ln 10}.
+\code{params} reports \code{e} and \code{b} on the fitting scale; \code{\link[=cr_ic50]{cr_ic50()}}
+back-transforms \code{e} to the dose scale. With \code{log_dose = FALSE} the
+curve is logistic in the dose itself and \code{b} is not a Hill slope.
+
+When the nonlinear fit cannot be obtained (for example with fewer
+distinct doses than parameters) a straight line is fitted instead and
+the \code{model} element of the result reads \code{"linear"}; check it before
+interpreting \code{params}, and note that \code{\link[=cr_ic50]{cr_ic50()}} then returns \code{NA}.
 }
 \examples{
 exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)

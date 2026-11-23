@@ -232,7 +232,7 @@ cr_theme <- function(base_size = 11, base_family = "sans", grid = TRUE,
 #' aesthetic that keeps its legend and every other aesthetic is suppressed.
 #'
 #' @param aesthetics Character vector of aesthetics to scale. Any of
-#'   `"colour"`, `"color"`, `"fill"`, `"shape"`.
+#'   `"colour"`, `"color"`, `"fill"`, `"shape"`, `"linetype"`.
 #' @param name Legend title. `NULL` (default) keeps the mapped variable name.
 #' @param guide_for Aesthetics that keep a visible guide. Use `"all"` when the
 #'   aesthetics are drawn by the same layer and should merge into one key,

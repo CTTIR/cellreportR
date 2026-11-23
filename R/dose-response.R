@@ -6,9 +6,25 @@
 #' (`"3pl"`), and a simple linear model (`"linear"`).
 #'
 #' The 4PL model fitted is:
-#' \deqn{y = d + \frac{a - d}{1 + (x / e)^b}}
-#' where `a` is the top asymptote, `d` the bottom asymptote, `e` the
-#' inflection point (EC50 / IC50), and `b` the Hill slope.
+#' \deqn{y = d + \frac{a - d}{1 + \exp(b\,(x - e))}}
+#' where `x` is the dose on the fitting scale (`log10(dose)` when
+#' `log_dose = TRUE`, the untransformed dose otherwise), `a` and `d` are
+#' the asymptotes approached at low and at high `x` when `b` is positive
+#' (and the reverse when `b` is negative), `e` is the inflection point
+#' on the fitting scale, and `b` is the slope on that scale. The 3PL
+#' model is the same curve with `d` fixed at zero.
+#'
+#' With `log_dose = TRUE` this is the four-parameter log-logistic curve
+#' \eqn{y = d + (a - d) / (1 + (\mathrm{dose} / \mathrm{EC50})^h)} with
+#' \eqn{\mathrm{EC50} = 10^e} and Hill slope \eqn{h = b / \ln 10}.
+#' `params` reports `e` and `b` on the fitting scale; [cr_ic50()]
+#' back-transforms `e` to the dose scale. With `log_dose = FALSE` the
+#' curve is logistic in the dose itself and `b` is not a Hill slope.
+#'
+#' When the nonlinear fit cannot be obtained (for example with fewer
+#' distinct doses than parameters) a straight line is fitted instead and
+#' the `model` element of the result reads `"linear"`; check it before
+#' interpreting `params`, and note that [cr_ic50()] then returns `NA`.
 #'
 #' @param experiment A `cr_experiment`.
 #' @param channel Channel name.
