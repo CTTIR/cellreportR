@@ -20,6 +20,11 @@
 #' `params` reports `e` and `b` on the fitting scale; [cr_ic50()]
 #' back-transforms `e` to the dose scale. With `log_dose = FALSE` the
 #' curve is logistic in the dose itself and `b` is not a Hill slope.
+#' The `log_dose = TRUE` curve is the log-logistic parameterization that
+#' carries the logarithm of the half-maximal dose as a parameter (Ritz
+#' et al. 2015, Eq. 3, p. 3), written with base-10 instead of natural
+#' logarithms; `a` and `d` take the place of the two limits called `d`
+#' and `c` there.
 #'
 #' When the nonlinear fit cannot be obtained (for example with fewer
 #' distinct doses than parameters) a straight line is fitted instead and
@@ -37,6 +42,10 @@
 #' @return A list with class `"cr_dose_response"` containing the
 #'   fitted model, the data used for the fit, the estimated
 #'   parameters, and helper predictions.
+#' @references
+#' Ritz C, Baty F, Streibig JC, Gerhard D (2015). Dose-response analysis
+#' using R. *PLoS ONE* 10(12), e0146021, section "Built-in dose-response
+#' models", Eqs. 2 and 3, p. 3. \doi{10.1371/journal.pone.0146021}
 #' @export
 #' @examples
 #' exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)

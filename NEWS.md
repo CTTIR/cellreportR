@@ -47,7 +47,9 @@
   fitting scale, which for `log_dose = TRUE` is the four-parameter log-logistic
   with `EC50 = 10^e` and Hill slope `b / ln(10)`. The help page now also
   states that a straight line is substituted when the nonlinear fit cannot be
-  obtained, and that the `model` element records this. The fit is unchanged.
+  obtained, and that the `model` element records this, and cites the
+  parameterization (Ritz et al. 2015, <https://doi.org/10.1371/journal.pone.0146021>).
+  The fit is unchanged.
 * `cr_scale_group()` documents the `"linetype"` aesthetic it already accepts.
 * `cr_plot_plate()` labels rows beyond `Z` with two letters (`AA`, `AB`, ...)
   instead of leaving them unlabeled, and `cr_well_to_rowcol()` returns an empty

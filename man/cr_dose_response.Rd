@@ -53,6 +53,11 @@ With \code{log_dose = TRUE} this is the four-parameter log-logistic curve
 \code{params} reports \code{e} and \code{b} on the fitting scale; \code{\link[=cr_ic50]{cr_ic50()}}
 back-transforms \code{e} to the dose scale. With \code{log_dose = FALSE} the
 curve is logistic in the dose itself and \code{b} is not a Hill slope.
+The \code{log_dose = TRUE} curve is the log-logistic parameterization that
+carries the logarithm of the half-maximal dose as a parameter (Ritz
+et al. 2015, Eq. 3, p. 3), written with base-10 instead of natural
+logarithms; \code{a} and \code{d} take the place of the two limits called \code{d}
+and \code{c} there.
 
 When the nonlinear fit cannot be obtained (for example with fewer
 distinct doses than parameters) a straight line is fitted instead and
@@ -66,4 +71,9 @@ exp$design$dose <- ifelse(exp$design$treatment == "CompoundA_high",
                           500, exp$design$dose)
 fit <- cr_dose_response(exp, channel = "marker_1", model = "4pl")
 print(fit$params)
+}
+\references{
+Ritz C, Baty F, Streibig JC, Gerhard D (2015). Dose-response analysis
+using R. \emph{PLoS ONE} 10(12), e0146021, section "Built-in dose-response
+models", Eqs. 2 and 3, p. 3. \doi{10.1371/journal.pone.0146021}
 }

@@ -107,3 +107,35 @@ test_that("cr_ic50 carries a confidence interval for an nls e parameter", {
   ic <- cr_ic50(fit, level = 0.9)
   expect_true(all(c("estimate", "ci_low", "ci_high") %in% names(ic)))
 })
+
+test_that("the fitted curve is the documented log-logistic", {
+  # Cells follow y = d + (a - d) / (1 + (dose / EC50)^h). The help page
+  # states that the fit recovers EC50 as 10^e and h as b / ln(10).
+  exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
+  doses <- c(1, 3, 10, 30, 100, 300, 1000, 3000)
+  exp$design$dose <- rep(doses, length.out = nrow(exp$design))
+  dose <- exp$design$dose[match(exp$cells$well, exp$design$well)]
+  ec50 <- 50
+  hill <- 1.3
+  withr::local_seed(2)
+  exp$cells$marker_1 <- 100 + (1000 - 100) / (1 + (dose / ec50)^hill) +
+    stats::rnorm(nrow(exp$cells), sd = 5)
+  fit <- cr_dose_response(exp, "marker_1", model = "4pl")
+  expect_identical(fit$model, "4pl")
+  est <- stats::setNames(fit$params$estimate, fit$params$parameter)
+  expect_equal(10^est[["e"]], ec50, tolerance = 0.02)
+  expect_equal(est[["b"]] / log(10), hill, tolerance = 0.02)
+  # a is approached at low doses and d at high doses when b is positive.
+  expect_equal(est[["a"]], 1000, tolerance = 0.02)
+  expect_equal(est[["d"]], 100, tolerance = 0.05)
+  expect_equal(cr_ic50(fit)$estimate, ec50, tolerance = 0.02)
+})
+
+test_that("a fit that falls back to a straight line says so", {
+  # Two distinct positive doses cannot carry four parameters.
+  exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
+  fit <- cr_dose_response(exp, "marker_1", model = "4pl")
+  expect_identical(fit$model, "linear")
+  expect_setequal(fit$params$parameter, c("intercept", "slope"))
+  expect_true(is.na(cr_ic50(fit)$estimate))
+})
