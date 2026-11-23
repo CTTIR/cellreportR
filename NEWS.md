@@ -37,6 +37,17 @@
 * Protect distinct report/audit destinations and existing audit files before
   rendering. Correct the runnable screening example and describe the existing
   power simulation's independent-cell assumptions accurately.
+* `cr_plot_roc()` draws one legend: the colour and line type keys of the same
+  curves are merged instead of being printed as two legends. `cr_plot_sample_size()`
+  places each value label on its own bar; the labels of a group that carries
+  both an observed and a conservative bar were previously stacked at the group
+  centre. Curves, bars and all computed values are unchanged.
+* Document the curve `cr_dose_response()` actually fits: a logistic in the
+  fitting scale, which for `log_dose = TRUE` is the four-parameter log-logistic
+  with `EC50 = 10^e` and Hill slope `b / ln(10)`. The help page now also
+  states that a straight line is substituted when the nonlinear fit cannot be
+  obtained, and that the `model` element records this. The fit is unchanged.
+* `cr_scale_group()` documents the `"linetype"` aesthetic it already accepts.
 
 # cellreportR 0.2.0.9000
 
