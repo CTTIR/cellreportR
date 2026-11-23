@@ -283,3 +283,24 @@ test_that("cr_save_plot writes one non-empty file per format", {
   expect_error(cr_save_plot(p, file.path(dir, "x"), formats = character()),
                "at least one file format")
 })
+
+test_that("cr_plot_sample_size places each value label on its own bar", {
+  sizes <- data.frame(
+    group = c("CompoundA", "CompoundB", "CompoundC"),
+    n_observed = c(12, 84, 640),
+    n_conservative = c(46, NA, NA)
+  )
+  for (p in list(cr_plot_sample_size(sizes),
+                 cr_plot_sample_size(sizes, log_y = FALSE))) {
+    built <- ggplot2::ggplot_build(p)
+    bars <- built$data[[1L]]
+    text <- built$data[[2L]]
+    bars <- bars[order(bars$y), c("x", "y")]
+    text <- text[order(text$y), c("x", "y")]
+    # Dodged bars and their labels share an x position, including the
+    # group that carries both an observed and a conservative bar.
+    expect_equal(text$x, bars$x)
+    expect_equal(text$y, bars$y)
+    expect_equal(length(unique(round(bars$x, 6))), 4L)
+  }
+})

@@ -108,7 +108,11 @@ cr_plot_sample_size <- function(sizes,
 
   p <- p +
     ggplot2::geom_text(
-      ggplot2::aes(label = scales::label_comma(accuracy = 1)(.data$n)),
+      # The constant `alpha = 1` below replaces the mapped alpha, which is
+      # what groups the bars; group explicitly so each label is dodged onto
+      # its own bar.
+      ggplot2::aes(label = scales::label_comma(accuracy = 1)(.data$n),
+                   group = .data$kind),
       position = dodge, vjust = -0.45, size = 2.7, colour = "grey15",
       alpha = 1, show.legend = FALSE
     ) +
