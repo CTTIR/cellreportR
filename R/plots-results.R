@@ -124,6 +124,9 @@ cr_plot_roc <- function(result) {
     ggplot2::labs(x = "False Positive Rate",
                   y = "True Positive Rate",
                   colour = NULL,
+                  # Same (empty) title on both scales, so colour and line
+                  # type share one key instead of printing two legends.
+                  linetype = NULL,
                   title = sprintf(
                     "ROC (AUC %s)",
                     paste(

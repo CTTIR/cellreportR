@@ -155,3 +155,23 @@ test_that("cr_plot_comparison validates both of its arguments", {
   expect_error(cr_plot_comparison(42, exp), "must be a")
   expect_error(cr_plot_comparison(res, list(nope = TRUE)), "cr_experiment")
 })
+
+test_that("cr_plot_roc merges colour and line type into one legend", {
+  exp <- cr_example_experiment(seed = 1, n_cells_per_well = 15)
+  results <- list(
+    high = cr_logistic(exp, "marker_1", "CompoundA_high", "Untreated"),
+    low = cr_logistic(exp, "marker_1", "CompoundA_low", "Untreated")
+  )
+  # Building the grob measures text; keep that off the default PDF device.
+  grDevices::pdf(NULL)
+  withr::defer(grDevices::dev.off())
+  for (p in list(cr_plot_roc(results[["high"]]), cr_plot_roc(results))) {
+    grob <- ggplot2::ggplotGrob(p)
+    boxes <- grob$grobs[grepl("guide-box", grob$layout$name)]
+    boxes <- boxes[!vapply(boxes, inherits, logical(1), what = "zeroGrob")]
+    expect_length(boxes, 1L)
+    # One key: the colour and line type scales share a title, so they are
+    # not printed as two legends for the same curves.
+    expect_equal(sum(grepl("^guides", boxes[[1L]]$layout$name)), 1L)
+  }
+})
