@@ -89,6 +89,23 @@ test_that("an experiment passed to the app is loaded on start-up", {
   })
 })
 
+test_that("an experiment is loaded when the server runs as in a live session", {
+  skip_if_no_app()
+  exp <- cr_test_experiment()
+  # shiny::testServer() isolates the server function; a browser session does
+  # not. Run the server the way a session does, outside a reactive consumer.
+  session <- shiny::MockShinySession$new()
+  ctx <- NULL
+  expect_no_error(
+    shiny::withReactiveDomain(session, {
+      ctx <- cellreportR:::.cr_app_server(session$input, session$output,
+                                          session, experiment = exp)
+    })
+  )
+  expect_s3_class(shiny::isolate(ctx$state$experiment), "cr_experiment")
+  expect_length(shiny::isolate(ctx$state$log), 1L)
+})
+
 # ---- status and data import ---------------------------------------------
 
 test_that("the status line invites input and then mirrors the log", {

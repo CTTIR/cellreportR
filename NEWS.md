@@ -52,6 +52,11 @@
   instead of leaving them unlabeled, and `cr_well_to_rowcol()` returns an empty
   numeric `row` column, not a list column, for empty input. Results for plates
   of up to 26 rows are unchanged.
+* `cr_run_app(experiment = )` loads the experiment in a live session. The
+  start-up load read the application log outside a reactive consumer, so every
+  browser session started with an experiment stopped with "Can't access
+  reactive value 'log'" and showed an empty, greyed-out application. Starting
+  without an experiment was not affected.
 
 # cellreportR 0.2.0.9000
 

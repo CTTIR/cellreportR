@@ -83,7 +83,11 @@
   state$report_profile <- report_profile
   state$report_spec <- .cr_apply_report_profile(report_spec %||% cr_report_spec(), report_profile)
   if (!is.null(experiment)) {
-    ctx$set(experiment)
+    # The server function of a live session runs outside any reactive
+    # consumer, and loading the experiment reads the log it appends to.
+    # Without isolate() every session started with an experiment stopped
+    # here; shiny::testServer() hid that because it isolates the server.
+    shiny::isolate(ctx$set(experiment))
   }
 
   .cr_srv_data(input, output, session, ctx)
