@@ -10,14 +10,14 @@
 #' @param density `"standard"` or `"compact"`.
 #' @param locale Display-label locale, currently `"en"` or `"de"`.
 #' @param logo Optional local PNG, JPEG, or PDF logo path.
-#' @param primary_colour,secondary_colour Six-digit hex colours. In grayscale
+#' @param primary_colour,secondary_colour Six-digit hex colours. In `"grayscale"`
 #'   mode neutral values are used regardless of these settings.
 #' @param date_format,date_time_format Optional `format()` patterns. Defaults
 #'   are human-readable and locale-specific.
 #' @param labels Named display-label overrides.
 #' @param footer_text Optional laboratory-controlled document-footer statement.
 #' @param include_audit_appendix Include the technical appendix by default.
-#' @param show_signature_lines Add printable reviewer/authorizer lines.
+#' @param show_signature_lines Add printable reviewer/authoriser lines.
 #' @param draft_watermark Add a light watermark only when status is `DRAFT`.
 #' @return A `cr_report_style` object.
 #' @family laboratory reporting
@@ -96,7 +96,7 @@ cr_report_style <- function(
 
 #' Create a reusable laboratory report profile
 #'
-#' A profile stores organization-wide branding and display policy separately
+#' A profile stores organisation-wide branding and display policy separately
 #' from examination-specific scientific configuration.
 #'
 #' @param laboratory Default laboratory metadata.

@@ -53,7 +53,7 @@ With \code{log_dose = TRUE} this is the four-parameter log-logistic curve
 \code{params} reports \code{e} and \code{b} on the fitting scale; \code{\link[=cr_ic50]{cr_ic50()}}
 back-transforms \code{e} to the dose scale. With \code{log_dose = FALSE} the
 curve is logistic in the dose itself and \code{b} is not a Hill slope.
-The \code{log_dose = TRUE} curve is the log-logistic parameterization that
+The \code{log_dose = TRUE} curve is the log-logistic parameterisation that
 carries the logarithm of the half-maximal dose as a parameter (Ritz
 et al. 2015, Eq. 3, p. 3), written with base-10 instead of natural
 logarithms; \code{a} and \code{d} take the place of the two limits called \code{d}

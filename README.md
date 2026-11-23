@@ -14,9 +14,9 @@
 ## Laboratory-style reporting
 
 cellreportR can construct a versioned report specification containing report
-identity, laboratory metadata, subject/specimen identifiers, finalized results,
+identity, laboratory metadata, subject/specimen identifiers, finalised results,
 selected QC summaries, user-supplied interpretation, limitations,
-authorization metadata, custom fields, and technical provenance. The same
+authorisation metadata, custom fields, and technical provenance. The same
 report object is rendered programmatically or configured through the bundled
 Shiny application.
 
@@ -29,10 +29,10 @@ record.
 PDF reports use a package-owned A4 KOMA-Script template with a controlled
 first-page identity block, repeating page identity, `Page X of Y` footers,
 compact metadata, a prominent result panel, deliberate pagination, and a
-kept-together authorization block. `cr_report_style()` controls colour or
-intentional grayscale output, density, locale-aware date display, optional
+kept-together authorisation block. `cr_report_style()` controls colour or
+intentional greyscale output, density, locale-aware date display, optional
 branding, signature lines, and an optional draft watermark. Reusable
-organization settings can be stored in `cr_report_profile()` without mixing
+organisation settings can be stored in `cr_report_profile()` without mixing
 branding policy with analytical configuration.
 
 ```r
@@ -53,7 +53,7 @@ cellreportR::cr_render_lab_report(report, tempfile(fileext = ".pdf"))
 
 Package figures use one restrained, colour-vision-conscious visual system with
 redundant shapes or line types for categorical distinctions. Colour and
-grayscale modes, standard manuscript/report dimensions, vector PDF/SVG export,
+greyscale modes, standard manuscript/report dimensions, vector PDF/SVG export,
 and high-resolution PNG/TIFF export are available without changing plotted
 data.
 
@@ -75,7 +75,7 @@ publication figures, machine-readable tables and a generated file of every
 quoted number flow out.
 
 The organising idea is the **unit of replication**. Cells are not
-replicates. `cellreportR` resolves acquisitions into units, standardizes
+replicates. `cellreportR` resolves acquisitions into units, standardises
 every cell against the control condition of its *own* batch, and reports
 each effect at both unit and cell level so the cost of pooling is visible
 rather than assumed.
@@ -92,7 +92,7 @@ Cell culture -> Treatment -> Staining -> Microscopy -> Segmentation
                                    |                                  |
                                    |  Ingest + design from paths      |
                                    |  Units, exclusion, balancing     |
-                                   |  Per-batch standardization       |
+                                   |  Per-batch standardisation       |
                                    |  Quality-control gate            |
                                    |  Effect sizes: unit vs cell      |
                                    |  Sample size from the CI bound   |
@@ -185,7 +185,7 @@ cr_qc_gate_impact(ds, gate, group_var = "treatment",
                   reference_level = "Vehicle", by = "compound")
 ds <- cr_apply_gate(ds, gate)
 
-# The summarized response column is named value.
+# The summarised response column is named value.
 units <- cr_summarize_wells(ds, channel = "log2_fc")
 eff_unit <- cr_effect_grid(units, value = "value", group_var = "treatment",
                            reference_level = "Vehicle", by = "compound", level = "unit")
@@ -211,7 +211,7 @@ out
 ## Corrective development version
 
 The single-channel `cr_correct_batch(method = "combat")` path now refuses an
-unsupported analysis. Earlier versions could return median centering after a
+unsupported analysis. Earlier versions could return median centring after a
 ComBat error. Choose `method = "median_center"` explicitly when appropriate, or
 prepare a feature-by-sample matrix and a suitable design for `sva::ComBat()`.
 
@@ -243,7 +243,7 @@ manuscript anchor and historical source data remain intact.
 values and records figure hashes with their declared source-table links.
 `cr_lab_report_from_evidence()` inserts those displays into an existing laboratory
 report's custom fields. The normal renderer and audit exporter revalidate the
-files and bound fields before use; existing reports retain their behavior.
+files and bound fields before use; existing reports retain their behaviour.
 
 ```r
 # Source files are relative to an existing project results directory.
@@ -281,7 +281,7 @@ cr_run_app()
 ```
 
 The application provides a guided workflow covering import, quality
-control, normalization, statistical analysis, dose-response fitting,
+control, normalisation, statistical analysis, dose-response fitting,
 interactive visualisation and report export.
 
 ## Output structure
@@ -311,13 +311,13 @@ interactive visualisation and report export.
 | Experiment object | `cr_dataset()`, `cr_build_experiment()`, `cr_validate_experiment()`, `cr_design()`, `cr_batch_key()`, `cr_channels()`, `cr_n_cells()`, `cr_filter_cells()`, `cr_merge_experiments()` |
 | Units and balancing | `cr_merge_rules()`, `cr_assign_units()`, `cr_unit_map()`, `cr_centroid_overlap()`, `cr_exclude_small()`, `cr_balance_cells()` |
 | Quality control | `cr_qc_filter()`, `cr_qc_doublets()`, `cr_qc_intensity()`, `cr_qc_manual()`, `cr_qc_summary()`, `cr_qc_gate()`, `cr_qc_gate_impact()`, `cr_apply_gate()`, `cr_qc_report()` |
-| Standardization | `cr_normalize()`, `cr_background_subtract()`, `cr_correct_batch()`, `cr_batch_reference()`, `cr_standardize_batch()` |
+| Standardisation | `cr_normalize()`, `cr_background_subtract()`, `cr_correct_batch()`, `cr_batch_reference()`, `cr_standardize_batch()` |
 | Quantification | `cr_summarize_wells()`, `cr_fold_change()`, `cr_compute_metrics()` |
 | Effect sizes | `cr_effect_grid()`, `cr_compare_levels()`, `cr_blocked_effect()`, `cr_unit_variability()`, `cr_effect_size()`, `cr_test()`, `cr_test_all()` |
 | Sample size | `cr_conservative_effect()`, `cr_power()`, `cr_power_grid()`, `cr_power_analysis()` |
 | Discriminability | `cr_logistic()`, `cr_roc()`, `cr_auc()`, `cr_confusion_matrix()` |
 | Dose-response | `cr_dose_response()`, `cr_ic50()` |
-| Visualization | eighteen `cr_plot_*()` functions, plus `cr_theme()`, `cr_palette()`, `cr_shapes()`, `cr_scale_group()`, `cr_save_plot()` |
+| Visualisation | eighteen `cr_plot_*()` functions, plus `cr_theme()`, `cr_palette()`, `cr_shapes()`, `cr_scale_group()`, `cr_save_plot()` |
 | Tables and reporting | `cr_tables()`, `cr_table_disposition()`, `cr_table_qc()`, `cr_export_tables()`, `cr_export_results()`, `cr_export_plots()`, `cr_report()`, `cr_render_report()` |
 | Generated numbers | `cr_macros()`, `cr_macros_from()`, `cr_macro_name()`, `cr_format_number()`, `cr_enumerate()` |
 | Example data | `cr_example_experiment()`, `cr_example_design()`, `cr_example_files()` |
@@ -361,7 +361,7 @@ You can always retrieve the up-to-date entry directly from R:
 citation("cellreportR")
 ```
 
-## License
+## Licence
 
 MIT (c) 2026 R. Heller.
 

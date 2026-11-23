@@ -29,7 +29,7 @@ cr_plot_result_position(
 
 \item{show_value}{Include the numeric value below the marker.}
 
-\item{mode}{Colour or grayscale rendering.}
+\item{mode}{\code{"colour"} or \code{"grayscale"} rendering.}
 
 \item{style}{Optional \code{\link[=cr_plot_style]{cr_plot_style()}}.}
 }

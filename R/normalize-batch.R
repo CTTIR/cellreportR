@@ -8,7 +8,7 @@
 #' A batch is rarely identified by a single column. Once an assay
 #' spans several plates, acquisition runs or experiment days, the
 #' analytical batch is the *combination* of those columns, and any
-#' analysis that standardizes against a control has to respect that
+#' analysis that standardises against a control has to respect that
 #' combination. `cr_batch_key()` collapses any number of design or
 #' cell columns into one character key that can be grouped on, joined
 #' on and reported.
@@ -31,7 +31,7 @@
 #' @return A character vector with one key per row of `x` (one key per
 #'   cell when `x` is a `cr_experiment`).
 #' @export
-#' @family batch standardization functions
+#' @family batch standardisation functions
 #' @seealso [cr_batch_reference()], [cr_standardize_batch()]
 #' @examples
 #' exp <- cr_example_experiment(seed = 1, n_cells_per_well = 10)
@@ -75,12 +75,12 @@ cr_batch_key <- function(x,
 
 #' Per-batch control reference statistics
 #'
-#' Summarizes the control cells of every batch: how many there are,
+#' Summarises the control cells of every batch: how many there are,
 #' and their mean, median and standard deviation for one channel.
 #' This table is the reference that [cr_standardize_batch()] divides
 #' by, and it is worth inspecting on its own -- a batch with very few
 #' control cells, or none at all, is visible here before any
-#' standardized value is computed.
+#' standardised value is computed.
 #'
 #' Both centres are reported deliberately. A right-skewed signal has
 #' `mean > median`, so a downstream gate that compares a well's median
@@ -88,7 +88,7 @@ cr_batch_key <- function(x,
 #' states. Keeping both lets each consumer compare like with like.
 #'
 #' @param experiment A `cr_experiment`.
-#' @param channel Channel column to summarize. Must be numeric.
+#' @param channel Channel column to summarise. Must be numeric.
 #' @param control_level Value (or values) of `control_var` that mark
 #'   the control cells of a batch.
 #' @param batch_vars Character vector of columns that jointly define a
@@ -107,10 +107,10 @@ cr_batch_key <- function(x,
 #'     \item{`ctrl_n`}{Control cells with a finite channel value.}
 #'     \item{`ctrl_mean`, `ctrl_median`, `ctrl_sd`}{Control statistics;
 #'       `NA` when the batch has no control cells.}
-#'     \item{`has_control`}{Whether the batch can be standardized.}
+#'     \item{`has_control`}{Whether the batch can be standardised.}
 #'   }
 #' @export
-#' @family batch standardization functions
+#' @family batch standardisation functions
 #' @seealso [cr_standardize_batch()], [cr_batch_key()]
 #' @examples
 #' exp <- cr_example_experiment(seed = 1, n_cells_per_well = 20)
@@ -165,11 +165,11 @@ cr_batch_reference <- function(experiment,
   ref
 }
 
-#' Standardize a channel against the control of each cell's own batch
+#' Standardise a channel against the control of each cell's own batch
 #'
 #' Expresses every cell relative to the control cells of the batch it
 #' belongs to, rather than to one pooled reference for the whole
-#' experiment. This is the standardization a plate-based screen needs:
+#' experiment. This is the standardisation a plate-based screen needs:
 #' plates, runs and acquisition days each carry their own offset, and
 #' a single pooled control folds that offset into the estimate.
 #'
@@ -189,15 +189,15 @@ cr_batch_reference <- function(experiment,
 #' [cr_batch_reference()] also reports the control **median**; see
 #' there for why both are kept.
 #'
-#' A batch that contains no control cells cannot be standardized: its
+#' A batch that contains no control cells cannot be standardised: its
 #' reference does not exist, and a value computed against some other
 #' batch's control would be a silent error rather than a measurement.
 #' `cr_standardize_batch()` therefore refuses by default. Use
 #' `on_missing_control = "drop"` to remove those cells (recorded in
-#' the QC log) or `"warn"` to keep them with `NA` standardized values.
+#' the QC log) or `"warn"` to keep them with `NA` standardised values.
 #'
 #' @param experiment A `cr_experiment`.
-#' @param channel Channel column to standardize. Must be numeric.
+#' @param channel Channel column to standardise. Must be numeric.
 #' @param control_level Value (or values) of `control_var` that mark
 #'   the control cells of a batch.
 #' @param batch_vars Character vector of columns that jointly define a
@@ -207,7 +207,7 @@ cr_batch_reference <- function(experiment,
 #' @param method Which quantity becomes the canonical analysis value
 #'   in `value_to`: `"log2_fc"` (default), `"zscore"` (the per-batch
 #'   z-score `z_ctrl`), or `"raw"` (the untransformed channel, for a
-#'   like-for-like comparison of standardized against measured
+#'   like-for-like comparison of standardised against measured
 #'   signal).
 #' @param eps Additive offset for the log2 fold change.
 #' @param sd_floor Lower bound for the control standard deviation.
@@ -229,7 +229,7 @@ cr_batch_reference <- function(experiment,
 #'   columns as `$batch_vars`, and the settings under
 #'   `$metadata$standardization`.
 #' @export
-#' @family batch standardization functions
+#' @family batch standardisation functions
 #' @seealso [cr_batch_reference()], [cr_batch_key()], [cr_normalize()]
 #' @examples
 #' exp <- cr_example_experiment(seed = 1, n_cells_per_well = 20)

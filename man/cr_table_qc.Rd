@@ -16,7 +16,7 @@ A tibble. For a list of several data frames the elements are
 stacked and identified by a \code{component} column.
 }
 \description{
-Normalizes the several shapes a QC record can take — an
+Normalises the several shapes a QC record can take — an
 experiment's QC log, a gate object, or a plain data frame — into one
 tibble suitable for a supplement.
 }

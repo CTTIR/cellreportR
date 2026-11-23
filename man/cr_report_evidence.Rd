@@ -26,7 +26,7 @@ character vector of declared source-table identifiers).}
 \value{
 \code{cr_report_evidence} returns a versioned list with file SHA-256 hashes,
 keyed raw values, formatted displays and a manifest SHA-256. Its hash uses
-UTF-8 JSON bytes, not R serialization. Identifiers use radix ordering and
+UTF-8 JSON bytes, not R serialisation. Identifiers use radix ordering and
 numeric displays use a period decimal mark regardless of locale/options.
 Row order and
 other source-byte changes deliberately invalidate the source hash.

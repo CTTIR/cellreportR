@@ -10,7 +10,7 @@
 #' @param style A [cr_report_style()] shared by the document and its embedded
 #'   report figures. Legacy `cr_plot_style` objects are converted.
 #' @param profile Optional [cr_report_profile()] containing laboratory defaults,
-#'   labels, required fields, and organization-wide visual settings.
+#'   labels, required fields, and organisation-wide visual settings.
 #' @return A `cr_lab_report` object holding the validated specification, the QC table, the report style and audit events. No analytical values are recalculated.
 #' @examples
 #' spec <- cr_report_spec(
@@ -297,7 +297,7 @@ cr_export_report_audit <- function(report,path,output_file=NULL) { if(!inherits(
 #' @param xlim Optional two-value display range.
 #' @param unit,classification Optional user-supplied marker labels.
 #' @param show_value Include the numeric value below the marker.
-#' @param mode Colour or grayscale rendering.
+#' @param mode `"colour"` or `"grayscale"` rendering.
 #' @param style Optional [cr_plot_style()].
 #' @return A `ggplot` object.
 #' @examples

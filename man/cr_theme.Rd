@@ -24,7 +24,7 @@ cr_theme(
 
 \item{variant}{\code{"publication"} or a tighter \code{"report"} layout.}
 
-\item{mode}{Colour or grayscale mode. Typography is shared across modes.}
+\item{mode}{\code{"colour"} or \code{"grayscale"} mode. Typography is shared across modes.}
 }
 \value{
 A \code{ggplot2} theme object, usable with \code{+} like any other theme.

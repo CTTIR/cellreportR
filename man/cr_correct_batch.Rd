@@ -31,7 +31,7 @@ Applies a simple batch correction. \code{"median_center"} shifts each
 batch's median to the overall median. The legacy \code{"combat"} choice
 is refused: this single-channel interface cannot supply the feature-by-sample
 matrix required for a valid empirical-Bayes ComBat analysis. Previous
-versions could substitute median centering after a ComBat error. Select
+versions could substitute median centring after a ComBat error. Select
 \code{"median_center"} explicitly if that is the intended analysis.
 }
 \details{
@@ -53,9 +53,9 @@ cr_correct_batch(exp, batch_var = c("batch", "plate"),
 \seealso{
 \code{\link[=cr_batch_key]{cr_batch_key()}}, \code{\link[=cr_standardize_batch]{cr_standardize_batch()}}
 
-Other batch standardization functions:
+Other batch standardisation functions:
 \code{\link[=cr_batch_key]{cr_batch_key()}},
 \code{\link[=cr_batch_reference]{cr_batch_reference()}},
 \code{\link[=cr_standardize_batch]{cr_standardize_batch()}}
 }
-\concept{batch standardization functions}
+\concept{batch standardisation functions}

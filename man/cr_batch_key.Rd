@@ -27,7 +27,7 @@ cell when \code{x} is a \code{cr_experiment}).
 A batch is rarely identified by a single column. Once an assay
 spans several plates, acquisition runs or experiment days, the
 analytical batch is the \emph{combination} of those columns, and any
-analysis that standardizes against a control has to respect that
+analysis that standardises against a control has to respect that
 combination. \code{cr_batch_key()} collapses any number of design or
 cell columns into one character key that can be grouped on, joined
 on and reported.
@@ -51,9 +51,9 @@ cr_batch_key(data.frame(a = c("x", "y"), b = 1:2), c("a", "b"))
 \seealso{
 \code{\link[=cr_batch_reference]{cr_batch_reference()}}, \code{\link[=cr_standardize_batch]{cr_standardize_batch()}}
 
-Other batch standardization functions:
+Other batch standardisation functions:
 \code{\link[=cr_batch_reference]{cr_batch_reference()}},
 \code{\link[=cr_correct_batch]{cr_correct_batch()}},
 \code{\link[=cr_standardize_batch]{cr_standardize_batch()}}
 }
-\concept{batch standardization functions}
+\concept{batch standardisation functions}

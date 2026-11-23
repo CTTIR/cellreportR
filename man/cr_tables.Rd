@@ -9,7 +9,7 @@ cr_tables(x, results = NULL, which = NULL)
 \arguments{
 \item{x}{A \code{cr_report} or a \code{cr_experiment}.}
 
-\item{results}{Optional results to summarize when \code{x} is a
+\item{results}{Optional results to summarise when \code{x} is a
 \code{cr_experiment}. Ignored for a \code{cr_report}, which carries its own.}
 
 \item{which}{Optional character vector selecting a subset of tables
@@ -19,7 +19,7 @@ by name. Unknown names are an error that lists what is available.}
 A named list of tibbles.
 }
 \description{
-Gathers every tabular artifact of an experiment or report into one
+Gathers every tabular artefact of an experiment or report into one
 named list, ready for \code{\link[=cr_export_tables]{cr_export_tables()}}. Empty tables are
 dropped, so the result reflects what actually exists.
 }

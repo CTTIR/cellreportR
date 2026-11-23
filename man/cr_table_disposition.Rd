@@ -28,7 +28,7 @@ A tibble with the grouping columns (as character), \code{n_units},
 \description{
 Counts of analysis units and cells, overall and per arm. The
 reported counts of an assay are themselves an analysis output: once
-they are generated from the object that was analyzed, a count in the
+they are generated from the object that was analysed, a count in the
 write-up cannot drift away from the data it describes.
 }
 \examples{

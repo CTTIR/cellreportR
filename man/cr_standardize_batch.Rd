@@ -2,7 +2,7 @@
 % Please edit documentation in R/normalize-batch.R
 \name{cr_standardize_batch}
 \alias{cr_standardize_batch}
-\title{Standardize a channel against the control of each cell's own batch}
+\title{Standardise a channel against the control of each cell's own batch}
 \usage{
 cr_standardize_batch(
   experiment,
@@ -20,7 +20,7 @@ cr_standardize_batch(
 \arguments{
 \item{experiment}{A \code{cr_experiment}.}
 
-\item{channel}{Channel column to standardize. Must be numeric.}
+\item{channel}{Channel column to standardise. Must be numeric.}
 
 \item{control_level}{Value (or values) of \code{control_var} that mark
 the control cells of a batch.}
@@ -34,7 +34,7 @@ Defaults to \code{"treatment"}.}
 \item{method}{Which quantity becomes the canonical analysis value
 in \code{value_to}: \code{"log2_fc"} (default), \code{"zscore"} (the per-batch
 z-score \code{z_ctrl}), or \code{"raw"} (the untransformed channel, for a
-like-for-like comparison of standardized against measured
+like-for-like comparison of standardised against measured
 signal).}
 
 \item{eps}{Additive offset for the log2 fold change.}
@@ -64,7 +64,7 @@ columns as \verb{$batch_vars}, and the settings under
 \description{
 Expresses every cell relative to the control cells of the batch it
 belongs to, rather than to one pooled reference for the whole
-experiment. This is the standardization a plate-based screen needs:
+experiment. This is the standardisation a plate-based screen needs:
 plates, runs and acquisition days each carry their own offset, and
 a single pooled control folds that offset into the estimate.
 }
@@ -84,12 +84,12 @@ The fold change divides by the control \strong{mean} while
 \code{\link[=cr_batch_reference]{cr_batch_reference()}} also reports the control \strong{median}; see
 there for why both are kept.
 
-A batch that contains no control cells cannot be standardized: its
+A batch that contains no control cells cannot be standardised: its
 reference does not exist, and a value computed against some other
 batch's control would be a silent error rather than a measurement.
 \code{cr_standardize_batch()} therefore refuses by default. Use
 \code{on_missing_control = "drop"} to remove those cells (recorded in
-the QC log) or \code{"warn"} to keep them with \code{NA} standardized values.
+the QC log) or \code{"warn"} to keep them with \code{NA} standardised values.
 }
 \examples{
 exp <- cr_example_experiment(seed = 1, n_cells_per_well = 20)
@@ -116,9 +116,9 @@ try(cr_standardize_batch(exp, channel = "marker_1",
 \seealso{
 \code{\link[=cr_batch_reference]{cr_batch_reference()}}, \code{\link[=cr_batch_key]{cr_batch_key()}}, \code{\link[=cr_normalize]{cr_normalize()}}
 
-Other batch standardization functions:
+Other batch standardisation functions:
 \code{\link[=cr_batch_key]{cr_batch_key()}},
 \code{\link[=cr_batch_reference]{cr_batch_reference()}},
 \code{\link[=cr_correct_batch]{cr_correct_batch()}}
 }
-\concept{batch standardization functions}
+\concept{batch standardisation functions}

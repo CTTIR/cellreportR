@@ -32,7 +32,7 @@ cr_report_style(
 
 \item{logo}{Optional local PNG, JPEG, or PDF logo path.}
 
-\item{primary_colour, secondary_colour}{Six-digit hex colours. In grayscale
+\item{primary_colour, secondary_colour}{Six-digit hex colours. In \code{"grayscale"}
 mode neutral values are used regardless of these settings.}
 
 \item{date_format, date_time_format}{Optional \code{format()} patterns. Defaults
@@ -44,7 +44,7 @@ are human-readable and locale-specific.}
 
 \item{include_audit_appendix}{Include the technical appendix by default.}
 
-\item{show_signature_lines}{Add printable reviewer/authorizer lines.}
+\item{show_signature_lines}{Add printable reviewer/authoriser lines.}
 
 \item{draft_watermark}{Add a light watermark only when status is \code{DRAFT}.}
 }

@@ -26,7 +26,7 @@ A modified \code{cr_experiment} with fewer cells and a QC log
 entry.
 }
 \description{
-Removes debris and artifacts by thresholding morphological
+Removes debris and artefacts by thresholding morphological
 measurements. Any parameter left at \code{NA} is not applied.
 }
 \examples{

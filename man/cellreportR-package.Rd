@@ -6,11 +6,11 @@
 \alias{cellreportR}
 \title{cellreportR: Cell Culture Microscopy Assay Analysis and Reporting}
 \description{
-The cellreportR package provides a complete pipeline for analyzing
+The cellreportR package provides a complete pipeline for analysing
 cell culture-based laboratory assays evaluated by microscopy. It
 picks up where cell segmentation tools (e.g. \code{segmantR},
 CellProfiler, QuPath) leave off, and covers experimental design,
-quality control, normalization, hierarchical statistical testing,
+quality control, normalisation, hierarchical statistical testing,
 effect size estimation, discriminability analysis, and structured
 report generation.
 
@@ -27,11 +27,11 @@ A companion interactive \pkg{shiny} application is available via
 \code{\link[=cr_build_experiment]{cr_build_experiment()}}.
 \item Apply quality control (\code{\link[=cr_qc_filter]{cr_qc_filter()}},
 \code{\link[=cr_qc_doublets]{cr_qc_doublets()}}, \code{\link[=cr_qc_intensity]{cr_qc_intensity()}}).
-\item Normalize (\code{\link[=cr_normalize]{cr_normalize()}}, \code{\link[=cr_background_subtract]{cr_background_subtract()}}).
+\item Normalise (\code{\link[=cr_normalize]{cr_normalize()}}, \code{\link[=cr_background_subtract]{cr_background_subtract()}}).
 \item Quantify (\code{\link[=cr_summarize_wells]{cr_summarize_wells()}}, \code{\link[=cr_fold_change]{cr_fold_change()}},
 \code{\link[=cr_compute_metrics]{cr_compute_metrics()}}).
 \item Test (\code{\link[=cr_test]{cr_test()}}, \code{\link[=cr_test_all]{cr_test_all()}}, \code{\link[=cr_effect_size]{cr_effect_size()}}).
-\item Visualize with any \verb{cr_plot_*} function.
+\item Visualise with any \verb{cr_plot_*} function.
 \item Report via \code{\link[=cr_report]{cr_report()}}.
 }
 }

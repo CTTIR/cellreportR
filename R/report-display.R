@@ -125,7 +125,7 @@
 #' and audit rows. It does not change the report specification.
 #'
 #' @param report A `cr_lab_report`.
-#' @return A plain nested list suitable for inspection, serialization, and
+#' @return A plain nested list suitable for inspection, serialisation, and
 #'   deterministic rendering.
 #' @family laboratory reporting
 #' @examples

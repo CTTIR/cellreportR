@@ -79,7 +79,7 @@ reference:
       - cr_apply_gate
       - cr_qc_report
 
-  - title: Normalization and batch standardization
+  - title: Normalisation and batch standardisation
     desc: >
       Rescale each cell against the control condition of its own batch.
     contents:
@@ -133,7 +133,7 @@ reference:
       - cr_dose_response
       - cr_ic50
 
-  - title: Visualization
+  - title: Visualisation
     desc: Publication figures and the shared plot design contract.
     contents:
       - cr_plot_plate

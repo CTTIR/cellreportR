@@ -1,6 +1,6 @@
 # cellreportR 0.3.0
 
-- Effect-size calculations use double-precision sample counts to prevent integer overflow for large cell samples. Quantile normalization excludes missing observations from within-well rank denominators, preserving their missing values. Analysis unit construction rejects collisions between distinct merged key tuples while retaining declared merges.
+- Effect-size calculations use double-precision sample counts to prevent integer overflow for large cell samples. Quantile normalisation excludes missing observations from within-well rank denominators, preserving their missing values. Analysis unit construction rejects collisions between distinct merged key tuples while retaining declared merges.
 
 * Prepare the first CRAN submission: every exported function documents its
   return value and has a runnable example, the maintainer address is updated
@@ -25,7 +25,7 @@
   silently truncated unequal arms. Use explicitly aligned pairs with
   `stats::wilcox.test(..., paired = TRUE)`.
 * Refuse the unsupported single-channel ComBat path instead of substituting
-  median centering after failure. Select median centering explicitly or prepare
+  median centring after failure. Select median centring explicitly or prepare
   a suitable feature-by-sample ComBat analysis outside this interface.
 * Keep compounds separate in the analysis application through an explicit
   stratum selector, defaulting to compound when available. Use the declared
@@ -48,11 +48,11 @@
   with `EC50 = 10^e` and Hill slope `b / ln(10)`. The help page now also
   states that a straight line is substituted when the nonlinear fit cannot be
   obtained, and that the `model` element records this, and cites the
-  parameterization (Ritz et al. 2015, <https://doi.org/10.1371/journal.pone.0146021>).
+  parameterisation (Ritz et al. 2015, <https://doi.org/10.1371/journal.pone.0146021>).
   The fit is unchanged.
 * `cr_scale_group()` documents the `"linetype"` aesthetic it already accepts.
 * `cr_plot_plate()` labels rows beyond `Z` with two letters (`AA`, `AB`, ...)
-  instead of leaving them unlabeled. `cr_well_to_rowcol()` returns an integer
+  instead of leaving them unlabelled. `cr_well_to_rowcol()` returns an integer
   `row` column, as documented, also for empty input (previously a list column)
   and for two-letter rows (previously double). Results for plates of up to 26
   rows are unchanged.
@@ -61,6 +61,11 @@
   browser session started with an experiment stopped with "Can't access
   reactive value 'log'" and showed an empty, dimmed application. Starting
   without an experiment was not affected.
+* The documentation is declared as British English (`Language: en-GB`); the
+  help pages, README, vignettes and these notes use British spelling
+  (normalisation, standardisation, analyse, colour). Function names,
+  arguments and values such as `cr_normalize()`, `cr_standardize_batch()`
+  and `mode = "grayscale"` are unchanged.
 
 # cellreportR 0.2.0.9000
 

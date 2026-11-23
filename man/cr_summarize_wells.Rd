@@ -2,7 +2,7 @@
 % Please edit documentation in R/quantify.R
 \name{cr_summarize_wells}
 \alias{cr_summarize_wells}
-\title{Summarize cell-level data to the analysis unit}
+\title{Summarise cell-level data to the analysis unit}
 \usage{
 cr_summarize_wells(experiment, channel, fun = stats::median, unit = NULL)
 }

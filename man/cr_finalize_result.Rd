@@ -2,7 +2,7 @@
 % Please edit documentation in R/report-spec.R
 \name{cr_finalize_result}
 \alias{cr_finalize_result}
-\title{Apply a caller-selected QC finalization rule}
+\title{Apply a caller-selected QC finalisation rule}
 \usage{
 cr_finalize_result(
   classification,
@@ -27,7 +27,7 @@ cr_finalize_result(
 Character vector of classifications in which entries with a failed QC status are replaced by \code{invalid_label} when \code{invalidate = TRUE}.
 }
 \description{
-Apply a caller-selected QC finalization rule
+Apply a caller-selected QC finalisation rule
 }
 \examples{
 cr_finalize_result(c("POSITIVE", "NEGATIVE"), qc_status = c("PASS", "FAIL"))

@@ -90,7 +90,7 @@ cr_figure_size <- function(size=c("single","double","report","square"),units=c("
 #'   alone does not establish that the runtime libraries are installed.
 #'   The figure and optional sidecar are staged before replacing their targets.
 #'   Missing or empty device output is an error. Ordinary publication failures
-#'   restore previous files; callers must serialize writers to these paths.
+#'   restore previous files; callers must serialise writers to these paths.
 #' @return `filename`, invisibly.
 #' @examples
 #' p <- ggplot2::ggplot(data.frame(x = 1:3, y = 1:3), ggplot2::aes(x, y)) +
@@ -183,7 +183,7 @@ cr_save_figure <- function(plot,filename,size=c("single","double","report","squa
 }
 
 #' Plot estimates and confidence intervals
-#' @param data Data frame of finalized estimates.
+#' @param data Data frame of finalised estimates.
 #' @param estimate,lower,upper,label Column names.
 #' @param group Optional grouping column, redundantly encoded by colour and shape.
 #' @param reference Optional explicit reference value.

@@ -16,7 +16,7 @@ cr_batch_reference(
 \arguments{
 \item{experiment}{A \code{cr_experiment}.}
 
-\item{channel}{Channel column to summarize. Must be numeric.}
+\item{channel}{Channel column to summarise. Must be numeric.}
 
 \item{control_level}{Value (or values) of \code{control_var} that mark
 the control cells of a batch.}
@@ -40,16 +40,16 @@ A tibble with one row per batch and the columns
 \item{\code{ctrl_n}}{Control cells with a finite channel value.}
 \item{\code{ctrl_mean}, \code{ctrl_median}, \code{ctrl_sd}}{Control statistics;
 \code{NA} when the batch has no control cells.}
-\item{\code{has_control}}{Whether the batch can be standardized.}
+\item{\code{has_control}}{Whether the batch can be standardised.}
 }
 }
 \description{
-Summarizes the control cells of every batch: how many there are,
+Summarises the control cells of every batch: how many there are,
 and their mean, median and standard deviation for one channel.
 This table is the reference that \code{\link[=cr_standardize_batch]{cr_standardize_batch()}} divides
 by, and it is worth inspecting on its own -- a batch with very few
 control cells, or none at all, is visible here before any
-standardized value is computed.
+standardised value is computed.
 }
 \details{
 Both centres are reported deliberately. A right-skewed signal has
@@ -66,9 +66,9 @@ cr_batch_reference(exp, channel = "marker_1",
 \seealso{
 \code{\link[=cr_standardize_batch]{cr_standardize_batch()}}, \code{\link[=cr_batch_key]{cr_batch_key()}}
 
-Other batch standardization functions:
+Other batch standardisation functions:
 \code{\link[=cr_batch_key]{cr_batch_key()}},
 \code{\link[=cr_correct_batch]{cr_correct_batch()}},
 \code{\link[=cr_standardize_batch]{cr_standardize_batch()}}
 }
-\concept{batch standardization functions}
+\concept{batch standardisation functions}

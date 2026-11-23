@@ -15,7 +15,7 @@ cr_power(
 )
 }
 \arguments{
-\item{effect_size}{Numeric vector of observed standardized effects
+\item{effect_size}{Numeric vector of observed standardised effects
 (Cohen's \emph{d}). May be \code{NULL} when only interval bounds are given.}
 
 \item{ci_low, ci_high}{Numeric vectors of interval bounds for the
@@ -51,7 +51,7 @@ interval spans the null, because an interval compatible with no
 effect cannot be sized.
 
 The solver is \code{\link[stats:power.t.test]{stats::power.t.test()}}, so the effect size is read as
-a standardized mean difference and \code{n} is per group.
+a standardised mean difference and \code{n} is per group.
 }
 \examples{
 cr_power(effect_size = c(-1.31, -0.28),

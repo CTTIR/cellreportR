@@ -1,6 +1,6 @@
 #' Compute effect sizes between two samples
 #'
-#' Standardized effect sizes for a comparison of two independent
+#' Standardised effect sizes for a comparison of two independent
 #' samples, each with a confidence interval. Confidence intervals are
 #' analytic by default (deterministic and cheap on large samples); a
 #' bootstrap interval is available for cases where the analytic
@@ -11,7 +11,7 @@
 #' approximation with a *t* quantile on `n_x + n_y - 2` degrees of
 #' freedom. Hedges' *g* applies the bias correction
 #' \eqn{J = 1 - 3 / (4 \cdot df - 1)} to both estimate and interval.
-#' Glass's delta standardizes by the standard deviation of `y` only.
+#' Glass's delta standardises by the standard deviation of `y` only.
 #' Cliff's delta uses the consistent variance estimator with the
 #' interval on the transformed scale, so the bounds always lie inside
 #' \eqn{[-1, 1]}. The rank-biserial correlation of two independent

@@ -45,7 +45,7 @@ library(cellreportR)
 vignette runs the long one, in the order the package is meant to be used:
 
 ```
-files on disk -> units -> quality control -> standardization
+files on disk -> units -> quality control -> standardisation
     -> effect sizes at two levels -> sample size -> report
 ```
 
@@ -223,11 +223,11 @@ The QC log is append-only and travels with the object, so the disposition of
 every cell is recoverable at the end from the object itself rather than from
 a lab notebook.
 
-## 4. Standardization against each unit's own control
+## 4. Standardisation against each unit's own control
 
 The second experiment ran at a higher raw baseline than the first, and the
 second plate higher than the first. Both offsets act on control and treated
-units alike, which is exactly what standardizing against the control of a
+units alike, which is exactly what standardising against the control of a
 unit's own batch removes.
 
 ```{r batch-ref}
@@ -236,7 +236,7 @@ ref <- cr_batch_reference(ds, channel = "target_signal",
 head(ref[, c("batch_key", "n_cells", "ctrl_n", "ctrl_median", "has_control")], 4)
 ```
 
-Inspect this table before standardizing, not after: a batch with very few
+Inspect this table before standardising, not after: a batch with very few
 control cells, or none at all, is visible here while it is still cheap to
 notice.
 
@@ -407,7 +407,7 @@ sizes[, c("compound", "contrast", "cohens_d", "d_conservative",
           "n_observed", "n_conservative")]
 ```
 
-A contrast whose interval spans the null is not sizable at all, and is
+A contrast whose interval spans the null is not sizeable at all, and is
 reported as such rather than given a number. The `basis` column says which
 of the two happened for every row:
 

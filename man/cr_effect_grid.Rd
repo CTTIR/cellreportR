@@ -26,7 +26,7 @@ cr_effect_grid(
 cells first.}
 
 \item{value}{Name of the numeric response column, for example a
-standardized log2 fold change or a raw channel.}
+standardised log2 fold change or a raw channel.}
 
 \item{group_var}{Name of the column holding the compared groups.}
 

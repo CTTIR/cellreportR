@@ -32,7 +32,7 @@ A tibble with the \code{by} columns, \code{n_units}, \code{mean_value},
 and the median, quartiles and maximum of the fold range).
 }
 \description{
-Summarizes how far apart the units of one condition sit. For every
+Summarises how far apart the units of one condition sit. For every
 group defined by \code{by} that holds at least \code{min_units} units, the
 number of units, the coefficient of variation, the spread
 (\code{max - min} of the unit values) and the fold range

@@ -1,4 +1,4 @@
-#' Summarize cell-level data to the analysis unit
+#' Summarise cell-level data to the analysis unit
 #'
 #' Aggregates the per-cell values of one channel to a single number
 #' per analysis unit. By default the analysis unit is the spatial unit
@@ -117,7 +117,7 @@ cr_compute_metrics <- function(experiment, channel,
 #'
 #' The reference is pooled across the whole experiment. When controls
 #' differ systematically between plates, runs or acquisition days,
-#' standardize each cell against the control of its own batch instead —
+#' standardise each cell against the control of its own batch instead —
 #' a pooled reference silently mixes those batches together.
 #'
 #' @inheritParams cr_summarize_wells
@@ -127,7 +127,7 @@ cr_compute_metrics <- function(experiment, channel,
 #'   to aggregate within a unit before taking log2 ratios.
 #' @param eps Additive offset applied to numerator and denominator
 #'   before the ratio is taken, i.e. `log2((value + eps) / (ref + eps))`.
-#'   The default `0` keeps the historical behavior, which floors the
+#'   The default `0` keeps the historical behaviour, which floors the
 #'   numerator at a small positive value instead. An additive offset is
 #'   the better choice for counts and for signals that legitimately
 #'   reach zero, because flooring turns every zero into the same
@@ -208,7 +208,7 @@ cr_fold_change <- function(experiment,
 #'
 #' Counts of analysis units and cells, overall and per arm. The
 #' reported counts of an assay are themselves an analysis output: once
-#' they are generated from the object that was analyzed, a count in the
+#' they are generated from the object that was analysed, a count in the
 #' write-up cannot drift away from the data it describes.
 #'
 #' @inheritParams cr_summarize_wells

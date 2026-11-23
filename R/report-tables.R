@@ -1,11 +1,11 @@
 #' Collect the tables of an analysis
 #'
-#' Gathers every tabular artifact of an experiment or report into one
+#' Gathers every tabular artefact of an experiment or report into one
 #' named list, ready for [cr_export_tables()]. Empty tables are
 #' dropped, so the result reflects what actually exists.
 #'
 #' @param x A `cr_report` or a `cr_experiment`.
-#' @param results Optional results to summarize when `x` is a
+#' @param results Optional results to summarise when `x` is a
 #'   `cr_experiment`. Ignored for a `cr_report`, which carries its own.
 #' @param which Optional character vector selecting a subset of tables
 #'   by name. Unknown names are an error that lists what is available.
@@ -73,7 +73,7 @@ cr_tables <- function(x, results = NULL, which = NULL) {
 
 #' Tabulate the quality-control record
 #'
-#' Normalizes the several shapes a QC record can take — an
+#' Normalises the several shapes a QC record can take — an
 #' experiment's QC log, a gate object, or a plain data frame — into one
 #' tibble suitable for a supplement.
 #'

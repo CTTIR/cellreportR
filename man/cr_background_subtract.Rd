@@ -41,7 +41,7 @@ cr_background_subtract(exp, channel = "marker_1")
 \seealso{
 \code{\link[=cr_normalize]{cr_normalize()}}, \code{\link[=cr_standardize_batch]{cr_standardize_batch()}}
 
-Other normalization functions:
+Other normalisation functions:
 \code{\link[=cr_normalize]{cr_normalize()}}
 }
-\concept{normalization functions}
+\concept{normalisation functions}

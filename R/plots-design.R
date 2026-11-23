@@ -177,7 +177,7 @@ cr_shapes <- function(n = NULL, names = NULL) {
 #' @param grid Draw the faint major grid (default `TRUE`).
 #' @param legend_position Passed to [ggplot2::theme()]. Default `"bottom"`.
 #' @param variant `"publication"` or a tighter `"report"` layout.
-#' @param mode Colour or grayscale mode. Typography is shared across modes.
+#' @param mode `"colour"` or `"grayscale"` mode. Typography is shared across modes.
 #' @return A `ggplot2` theme object, usable with `+` like any other theme.
 #' @seealso [cr_palette()], [cr_scale_group()]
 #' @family plot design
@@ -240,7 +240,7 @@ cr_theme <- function(base_size = 11, base_family = "sans", grid = TRUE,
 #'   which is the one drawn on top.
 #' @param drop Passed to the underlying scales: drop unused factor levels
 #'   (default `TRUE`).
-#' @param mode Colour or grayscale palette for colour/fill aesthetics.
+#' @param mode `"colour"` or `"grayscale"` palette for colour/fill aesthetics.
 #' @return A list of `ggplot2` scales.
 #' @seealso [cr_palette()], [cr_shapes()], [cr_theme()]
 #' @family plot design

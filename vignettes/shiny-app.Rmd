@@ -38,7 +38,7 @@ library(cellreportR)
 
 The bundled application walks the same pipeline as the package functions —
 read segmented exports, specify the design, apply quality control at cell and
-unit level, standardize, estimate effect sizes with confidence intervals at
+unit level, standardise, estimate effect sizes with confidence intervals at
 both levels, export a report — in a browser rather than in a script. It is
 meant for laboratory personnel without an R background, and for anyone who
 wants to look at a data set before writing the script.
@@ -138,7 +138,7 @@ well as from a browser. `inst/shiny/cellreportR/` holds only the `www/` assets
 and a thin `app.R` shim for deployment on a Shiny server.
 
 The Effect sizes tab offers **Stratify contrasts by**. Select the design column
-whose groups must be analyzed separately; `compound` is selected when present.
+whose groups must be analysed separately; `compound` is selected when present.
 Each stratum uses its own control observations, and tables, CSV downloads and
 forest facets retain its identity. The declared `metadata$control_level` is the
 initial control when valid. Changing data, channel, control, stratum, level or

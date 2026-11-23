@@ -2,7 +2,7 @@
 % Please edit documentation in R/normalize.R
 \name{cr_normalize}
 \alias{cr_normalize}
-\title{Normalize intensity data}
+\title{Normalise intensity data}
 \usage{
 cr_normalize(
   experiment,
@@ -15,7 +15,7 @@ cr_normalize(
 \arguments{
 \item{experiment}{A \code{cr_experiment}.}
 
-\item{channel}{Channel column to normalize.}
+\item{channel}{Channel column to normalise.}
 
 \item{method}{One of \code{"background"}, \code{"control"}, \code{"zscore"},
 \code{"robust_zscore"}, \code{"quantile"}.}
@@ -29,7 +29,7 @@ cr_normalize(
 A modified \code{cr_experiment}.
 }
 \description{
-Applies a channel-wise normalization. The normalized channel
+Applies a channel-wise normalisation. The normalised channel
 values replace the original column in \code{cells}.
 }
 \details{
@@ -57,10 +57,10 @@ exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
 cr_normalize(exp, channel = "marker_1", method = "robust_zscore")
 }
 \seealso{
-\code{\link[=cr_standardize_batch]{cr_standardize_batch()}} for per-batch standardization,
+\code{\link[=cr_standardize_batch]{cr_standardize_batch()}} for per-batch standardisation,
 \code{\link[=cr_background_subtract]{cr_background_subtract()}}, \code{\link[=cr_correct_batch]{cr_correct_batch()}}.
 
-Other normalization functions:
+Other normalisation functions:
 \code{\link[=cr_background_subtract]{cr_background_subtract()}}
 }
-\concept{normalization functions}
+\concept{normalisation functions}

@@ -18,7 +18,7 @@ cr_plot_estimates(
 )
 }
 \arguments{
-\item{data}{Data frame of finalized estimates.}
+\item{data}{Data frame of finalised estimates.}
 
 \item{estimate, lower, upper, label}{Column names.}
 

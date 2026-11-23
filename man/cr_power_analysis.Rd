@@ -37,7 +37,7 @@ A tibble with the inputs and the simulated \code{power}.
 A Monte-Carlo approximation of the power of a two-sample comparison
 of replicate means formed from independent, unit-variance normal cells.
 There is no between-unit random effect or intraclass correlation. The
-result is an idealized scenario, not a validated estimate of power for a
+result is an idealised scenario, not a validated estimate of power for a
 clustered biological assay or a formal upper bound on laboratory power.
 For a follow-up design use \code{\link[=cr_power]{cr_power()}} with an effect on the independent
 experimental-unit scale, or a separately specified correlated-data model.

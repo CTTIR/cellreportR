@@ -50,9 +50,9 @@ cr_conservative_effect <- function(ci_low, ci_high) {
 #' effect cannot be sized.
 #'
 #' The solver is [stats::power.t.test()], so the effect size is read as
-#' a standardized mean difference and `n` is per group.
+#' a standardised mean difference and `n` is per group.
 #'
-#' @param effect_size Numeric vector of observed standardized effects
+#' @param effect_size Numeric vector of observed standardised effects
 #'   (Cohen's *d*). May be `NULL` when only interval bounds are given.
 #' @param ci_low,ci_high Numeric vectors of interval bounds for the
 #'   same effects. Optional.
@@ -251,7 +251,7 @@ cr_power_grid <- function(effects,
 #' A Monte-Carlo approximation of the power of a two-sample comparison
 #' of replicate means formed from independent, unit-variance normal cells.
 #' There is no between-unit random effect or intraclass correlation. The
-#' result is an idealized scenario, not a validated estimate of power for a
+#' result is an idealised scenario, not a validated estimate of power for a
 #' clustered biological assay or a formal upper bound on laboratory power.
 #' For a follow-up design use [cr_power()] with an effect on the independent
 #' experimental-unit scale, or a separately specified correlated-data model.

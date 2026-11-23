@@ -169,7 +169,7 @@ cr_classify_result <- function(value, negative_upper, positive_lower,
   out[ok & value >= positive_lower] <- labels[["positive"]]; out
 }
 
-#' Apply a caller-selected QC finalization rule
+#' Apply a caller-selected QC finalisation rule
 #' @param classification Character vector.
 #' @param qc_status Character vector, recycled against `classification`.
 #' @param failed_statuses QC labels treated as failed.

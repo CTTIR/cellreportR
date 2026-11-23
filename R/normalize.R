@@ -1,10 +1,10 @@
-#' Normalize intensity data
+#' Normalise intensity data
 #'
-#' Applies a channel-wise normalization. The normalized channel
+#' Applies a channel-wise normalisation. The normalised channel
 #' values replace the original column in `cells`.
 #'
 #' @param experiment A `cr_experiment`.
-#' @param channel Channel column to normalize.
+#' @param channel Channel column to normalise.
 #' @param method One of `"background"`, `"control"`, `"zscore"`,
 #'   `"robust_zscore"`, `"quantile"`.
 #' @param control_group For `method = "control"`: the treatment name
@@ -31,8 +31,8 @@
 #'
 #' @return A modified `cr_experiment`.
 #' @export
-#' @family normalization functions
-#' @seealso [cr_standardize_batch()] for per-batch standardization,
+#' @family normalisation functions
+#' @seealso [cr_standardize_batch()] for per-batch standardisation,
 #'   [cr_background_subtract()], [cr_correct_batch()].
 #' @examples
 #' exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
@@ -123,7 +123,7 @@ cr_normalize <- function(experiment,
 #'   `"empty_wells"`.
 #' @return A modified `cr_experiment`.
 #' @export
-#' @family normalization functions
+#' @family normalisation functions
 #' @seealso [cr_normalize()], [cr_standardize_batch()]
 #' @examples
 #' exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)
@@ -178,7 +178,7 @@ cr_background_subtract <- function(experiment,
 #' batch's median to the overall median. The legacy `"combat"` choice
 #' is refused: this single-channel interface cannot supply the feature-by-sample
 #' matrix required for a valid empirical-Bayes ComBat analysis. Previous
-#' versions could substitute median centering after a ComBat error. Select
+#' versions could substitute median centring after a ComBat error. Select
 #' `"median_center"` explicitly if that is the intended analysis.
 #'
 #' Batch correction removes a batch offset from the measured signal.
@@ -195,7 +195,7 @@ cr_background_subtract <- function(experiment,
 #' @param method `"median_center"` or `"combat"`.
 #' @return A modified `cr_experiment`.
 #' @export
-#' @family batch standardization functions
+#' @family batch standardisation functions
 #' @seealso [cr_batch_key()], [cr_standardize_batch()]
 #' @examples
 #' exp <- cr_example_experiment(seed = 1, n_cells_per_well = 30)

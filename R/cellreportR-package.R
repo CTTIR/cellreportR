@@ -1,11 +1,11 @@
 #' cellreportR: Cell Culture Microscopy Assay Analysis and Reporting
 #'
 #' @description
-#' The cellreportR package provides a complete pipeline for analyzing
+#' The cellreportR package provides a complete pipeline for analysing
 #' cell culture-based laboratory assays evaluated by microscopy. It
 #' picks up where cell segmentation tools (e.g. `segmantR`,
 #' CellProfiler, QuPath) leave off, and covers experimental design,
-#' quality control, normalization, hierarchical statistical testing,
+#' quality control, normalisation, hierarchical statistical testing,
 #' effect size estimation, discriminability analysis, and structured
 #' report generation.
 #'
@@ -21,11 +21,11 @@
 #'     [cr_build_experiment()].
 #'   \item Apply quality control ([cr_qc_filter()],
 #'     [cr_qc_doublets()], [cr_qc_intensity()]).
-#'   \item Normalize ([cr_normalize()], [cr_background_subtract()]).
+#'   \item Normalise ([cr_normalize()], [cr_background_subtract()]).
 #'   \item Quantify ([cr_summarize_wells()], [cr_fold_change()],
 #'     [cr_compute_metrics()]).
 #'   \item Test ([cr_test()], [cr_test_all()], [cr_effect_size()]).
-#'   \item Visualize with any `cr_plot_*` function.
+#'   \item Visualise with any `cr_plot_*` function.
 #'   \item Report via [cr_report()].
 #' }
 #'

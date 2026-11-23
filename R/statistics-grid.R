@@ -23,7 +23,7 @@
 #'   `cr_experiment`, in which case the design is joined onto the
 #'   cells first.
 #' @param value Name of the numeric response column, for example a
-#'   standardized log2 fold change or a raw channel.
+#'   standardised log2 fold change or a raw channel.
 #' @param group_var Name of the column holding the compared groups.
 #' @param reference_level Level of `group_var` used as the reference
 #'   arm of every contrast.

@@ -30,7 +30,7 @@ cr_report_profile(
 A \code{cr_report_profile} object.
 }
 \description{
-A profile stores organization-wide branding and display policy separately
+A profile stores organisation-wide branding and display policy separately
 from examination-specific scientific configuration.
 }
 \examples{

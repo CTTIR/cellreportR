@@ -24,7 +24,7 @@ A \code{shiny.appobj}, suitable for \code{shiny::runApp()}.
 }
 \description{
 Creates an application object without starting a listener. The report is
-detached from the caller by serialization; previews and downloads validate
+detached from the caller by serialisation; previews and downloads validate
 its captured state and bound source files before and after each operation.
 Claim values, source metadata, limitations and report status are visible.
 Source details expand using keyboard-accessible disclosures on narrow screens.
@@ -35,13 +35,13 @@ require the render dependencies of \code{\link[=cr_render_lab_report]{cr_render_
 \code{rmarkdown}, Pandoc and a suitable LaTeX installation for PDF.
 
 Only declared PNG/PDF figures are downloadable. Filename extensions and
-byte signatures must agree; this is not full decoding or content sanitization.
+byte signatures must agree; this is not full decoding or content sanitisation.
 Source tables are shown as metadata and are never registered as a static
 directory. Staged downloads are removed after failure or completion.
 
-This application is not a sandbox, authentication service or authorization
+This application is not a sandbox, authentication service or authorisation
 system. Source identity does not establish scientific validity or release
-authorization. Pre/post checks do not provide filesystem snapshot isolation.
+authorisation. Pre/post checks do not provide filesystem snapshot isolation.
 The function starts no server and changes no global listener configuration.
 For local review, explicitly use \code{shiny::runApp(app, host = "127.0.0.1")}.
 Claims and figures may be empty; bound evidence requires source tables.

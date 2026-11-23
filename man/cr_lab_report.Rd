@@ -32,7 +32,7 @@ cr_lab_report(
 report figures. Legacy \code{cr_plot_style} objects are converted.}
 
 \item{profile}{Optional \code{\link[=cr_report_profile]{cr_report_profile()}} containing laboratory defaults,
-labels, required fields, and organization-wide visual settings.}
+labels, required fields, and organisation-wide visual settings.}
 }
 \value{
 A \code{cr_lab_report} object holding the validated specification, the QC table, the report style and audit events. No analytical values are recalculated.

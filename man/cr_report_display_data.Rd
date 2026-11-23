@@ -10,7 +10,7 @@ cr_report_display_data(report)
 \item{report}{A \code{cr_lab_report}.}
 }
 \value{
-A plain nested list suitable for inspection, serialization, and
+A plain nested list suitable for inspection, serialisation, and
 deterministic rendering.
 }
 \description{

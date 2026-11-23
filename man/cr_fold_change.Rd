@@ -26,7 +26,7 @@ to aggregate within a unit before taking log2 ratios.}
 
 \item{eps}{Additive offset applied to numerator and denominator
 before the ratio is taken, i.e. \code{log2((value + eps) / (ref + eps))}.
-The default \code{0} keeps the historical behavior, which floors the
+The default \code{0} keeps the historical behaviour, which floors the
 numerator at a small positive value instead. An additive offset is
 the better choice for counts and for signals that legitimately
 reach zero, because flooring turns every zero into the same
@@ -50,7 +50,7 @@ one pooled reference computed from the control group.
 \details{
 The reference is pooled across the whole experiment. When controls
 differ systematically between plates, runs or acquisition days,
-standardize each cell against the control of its own batch instead —
+standardise each cell against the control of its own batch instead —
 a pooled reference silently mixes those batches together.
 }
 \examples{

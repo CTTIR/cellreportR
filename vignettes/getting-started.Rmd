@@ -71,7 +71,7 @@ cr_n_cells(exp, by = "treatment")
 ```
 
 A batch here is the combination of two columns, which is what later
-standardization references:
+standardisation references:
 
 ```{r batch}
 exp$batch_vars
@@ -112,7 +112,7 @@ attr(res, "summary")[, c("treatment", "log2_fc", "p_value", "p_BH",
 That is the defensible default; `vignette("statistical-analysis")` shows what
 the cell-level alternative costs.
 
-## 5. Visualize
+## 5. Visualise
 
 ```{r plots}
 cr_plot_intensity(exp_qc, "marker_1")
@@ -141,7 +141,7 @@ cr_plot_roc(logit)
 ## 7. Next steps
 
 * `vignette("end-to-end")` — ingest, units, the quality-control gate,
-  per-batch standardization, effect sizes at two levels, sample size and the
+  per-batch standardisation, effect sizes at two levels, sample size and the
   report.
 * `vignette("statistical-analysis")` — cell-level versus replicate-level
   inference.
