@@ -1,5 +1,8 @@
 # cellreportR ![cellreportR logo](reference/figures/logo-with-name.png)
 
+Zenodo DOI reserved for the release: `10.5281/zenodo.21889928` (not yet
+published).
+
 ## Laboratory-style reporting
 
 cellreportR can construct a versioned report specification containing
